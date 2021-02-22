@@ -1,12 +1,20 @@
 #include "pch.h"
-#include "ShieldImp.h"
+#include "Witch.h"
 #include "Image.h"
 #include "Animation.h"
 #include "Camera.h"
 
-void ShieldImp::Init()
+void Witch::Init()
 {
-	IMAGEMANAGER->LoadFromFile(L"ShieldImp", Resources(L"ShieldImp"), 256, 256, 8, 8, true);
+	IMAGEMANAGER->LoadFromFile(L"Witchcatch", Resources(L"Enemy/Witchcatch"), 490, 192, 5, 2, true);
+	IMAGEMANAGER->LoadFromFile(L"Witchcatch", Resources(L"Enemy/Witchdeath"), 528, 128, 8, 2, true);
+	IMAGEMANAGER->LoadFromFile(L"Witchcatch", Resources(L"Enemy/Witchdeath2"), 528, 128, 8, 2, true);
+	IMAGEMANAGER->LoadFromFile(L"Witchcatch", Resources(L"Enemy/Witchhurt"), 66, 128, 1, 2, true);
+	IMAGEMANAGER->LoadFromFile(L"Witchcatch", Resources(L"Enemy/Witchhurt2"), 66, 128, 1, 2, true);
+	IMAGEMANAGER->LoadFromFile(L"Witchcatch", Resources(L"Enemy/Witchidle"), 330, 128, 5, 2, true);
+	IMAGEMANAGER->LoadFromFile(L"Witchcatch", Resources(L"Enemy/Witchidle2"), 330, 128, 5, 2, true);
+	IMAGEMANAGER->LoadFromFile(L"Witchcatch", Resources(L"Enemy/Witchthrow"), 594, 128, 9, 2, true);
+
 	mImage = IMAGEMANAGER->FindImage(L"ShieldImp");
 
 	mStart.x = WINSIZEX / 2;
@@ -65,13 +73,13 @@ void ShieldImp::Init()
 	mCurrentAnimation = mLeftIdle;
 }
 
-void ShieldImp::Release()
+void Witch::Release()
 {
 
 
 }
 
-void ShieldImp::Update()
+void Witch::Update()
 {
 	mAttackSpeed += TIME->DeltaTime();
 
@@ -92,12 +100,12 @@ void ShieldImp::Update()
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 }
 
-void ShieldImp::Render(HDC hdc)
+void Witch::Render(HDC hdc)
 {
 	CAMERAMANAGER->GetMainCamera()->FrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY());
 }
 
-void ShieldImp::SearchPlayer()
+void Witch::SearchPlayer()
 {
 	//플레이어가 searchzone 에 들어오면
 	//방향설정
