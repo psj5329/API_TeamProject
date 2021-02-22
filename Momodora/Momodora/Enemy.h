@@ -11,7 +11,6 @@ enum class EnemyState
 {
 	Idle,
 	Move,
-	Patrol,
 	Attack,
 	Hurt,
 	Death
@@ -43,20 +42,20 @@ protected:
 
 	bool mFoundPlayer;	//플레이어를 만났나? 만났으면 전투상태로
 	
+public:
 	virtual void Init() override;
 	virtual void Release()override;
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
-public:
 	inline RECT GetHitBox() { return mHitBox; }
 	inline int GetAtk() { return mAtk; }
 	inline int GetDef() { return mDef; }
 	inline int GetHP() { return mHp; }
 	inline void SetHp(int hp) { mHp = hp; }
+	void SetPosition(int startX, int startY);
 
 	void Stun();
 	void CalculateHp(int attack) { mHp -= attack - mDef; }
-
 };
 

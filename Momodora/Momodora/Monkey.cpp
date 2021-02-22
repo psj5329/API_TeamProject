@@ -19,7 +19,7 @@ void Monkey::Init()
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mSearchZone = RectMakeCenter(mX - 150, mY - 150, 300, 300);
 
-	mSpeed = 50;
+	mSpeed = 100;
 	mAttackSpeed = 100;
 	mAtk = 5;
 	mDef = 5;
@@ -28,7 +28,7 @@ void Monkey::Init()
 
 	mFoundPlayer = false;
 	mDirection = Direction::Left;
-	mEnemyState = EnemyState::Patrol;
+	mEnemyState = EnemyState::Move;
 }
 
 void Monkey::Release()
@@ -49,7 +49,7 @@ void Monkey::Update()
 	}
 	else
 	{
-		if (mEnemyState == EnemyState::Patrol)
+		if (mEnemyState == EnemyState::Move)
 		{
 			Patrol();
 		}
@@ -67,19 +67,14 @@ void Monkey::Update()
 
 void Monkey::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->Render(hdc, mImage, mRect.left, mRect.top); // 바뀐 코드
 
-
-}
-
-void Monkey::AddMonkey(int startX, int startY)
-{
-
+	//에니메이션 추가해야함
+	CAMERAMANAGER->GetMainCamera()->FrameRender(hdc, mImage, mRect.left, mRect.top, 0, 0);
 }
 
 void Monkey::Patrol()
 {
-	mX = mSpeed * TIME->DeltaTime();
+	mX += mSpeed * TIME->DeltaTime();
 	if (mSpeed < 0) {
 		mDirection = Direction::Left;
 	}
