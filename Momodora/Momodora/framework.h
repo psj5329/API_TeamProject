@@ -43,6 +43,7 @@ using namespace std;
 #include "Vector2.h"
 
 #include "CameraManager.h"
+#include "CollisionManager.h"
 #include "ImageManager.h"
 #include "ObjectManager.h"
 #include "SceneManager.h"

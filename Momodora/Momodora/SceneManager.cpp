@@ -57,3 +57,15 @@ void SceneManager::LoadScene(const wstring& sceneName)
 
 	mCurrentScene = targetScene;
 }
+
+wstring SceneManager::GetCurrentSceneName()
+{
+	wstring result = L"";
+
+	SceneIter iter = mSceneList.begin();
+	for (; iter != mSceneList.end(); ++iter)
+		if (mCurrentScene == iter->second)
+			result = iter->first;
+
+	return result;
+}

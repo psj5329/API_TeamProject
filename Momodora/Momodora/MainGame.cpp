@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "MainGame.h"
 
-//#include "SceneManager.h"
 #include "Image.h"
 #include "Camera.h"
 
 #include "Scene01.h"
 #include "Scene02.h"
 #include "Scene03.h"
+#include "SceneTest.h"
 
 void MainGame::Init()
 {
@@ -21,6 +21,8 @@ void MainGame::Init()
 	SCENEMANAGER->AddScene(L"Scene01", new Scene01());
 	SCENEMANAGER->AddScene(L"Scene02", new Scene02());
 	SCENEMANAGER->AddScene(L"Scene03", new Scene03());
+	SCENEMANAGER->AddScene(L"SceneTest", new SceneTest());
+
 	SCENEMANAGER->LoadScene(L"Scene01");
 
 	IMAGEMANAGER->LoadFromFile(L"Background", Resources(L"temp"), 1501, 1000, false);
@@ -51,6 +53,7 @@ void MainGame::Release()
 	SceneManager::ReleaseInstance();
 	ObjectManager::ReleaseInstance();
 	ImageManager::ReleaseInstance();
+	CollisionManager::ReleaseInstance();
 
 	Camera* camera = CAMERAMANAGER->GetMainCamera();
 	SafeDelete(camera);
@@ -59,14 +62,34 @@ void MainGame::Release()
 	Input::ReleaseInstance();
 	Random::ReleaseInstance();
 	Time::ReleaseInstance();
-
-	//SceneManager::ReleaseInstance();
 }
 
 void MainGame::Update()
 {
-	//SceneManager::GetInstance()->Update();
+	SCENEMANAGER->Update();
+
 	CAMERAMANAGER->Update();
+
+	if (INPUT->GetKeyDown('1'))
+	{
+		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene01")
+			SCENEMANAGER->LoadScene(L"Scene01");
+	}
+	else if (INPUT->GetKeyDown('2'))
+	{
+		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene02")
+			SCENEMANAGER->LoadScene(L"Scene02");
+	}
+	else if (INPUT->GetKeyDown('3'))
+	{
+		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene03")
+			SCENEMANAGER->LoadScene(L"Scene03");
+	}
+	else if (INPUT->GetKeyDown('0')) // 테스트 끝나면 지우기
+	{
+		if (SCENEMANAGER->GetCurrentSceneName() != L"SceneTest")
+			SCENEMANAGER->LoadScene(L"SceneTest");
+	}
 }
 
 void MainGame::Render(HDC hdc)
@@ -83,9 +106,22 @@ void MainGame::Render(HDC hdc)
 	//mBackground->Render(backDC, 0, 0); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
 	CAMERAMANAGER->GetMainCamera()->Render(backDC, mBackground, 0, 0);
 	//CAMERAMANAGER->GetMainCamera()->Render(hdc, mBackground, 0, 0);
-
 	//mTempPlayer
 
+	//SceneManager::GetInstance()->Render(backDC);
+
+	SCENEMANAGER->Render(backDC);
+
+	RenderTimeText(backDC);
+
+	// 그리기 끝 }
+
+	mBackBuffer->Render(hdc, 0, 0);
+	//D2DRENDERER->EndRender();
+}
+
+void MainGame::RenderTimeText(HDC hdc)
+{
 	// 타임 복붙 시작
 	float worldTime = TIME->GetWorldTime();
 	float deltaTime = TIME->DeltaTime();
@@ -94,15 +130,8 @@ void MainGame::Render(HDC hdc)
 	wstring strDeltaTime = L"DeltaTime : " + to_wstring(deltaTime);
 	wstring strFPS = L"FPS : " + to_wstring(fps);
 
-	TextOut(backDC, 10, 10, strWorldTime.c_str(), (int)strWorldTime.length());
-	TextOut(backDC, 10, 25, strDeltaTime.c_str(), (int)strDeltaTime.length());
-	TextOut(backDC, 10, 40, strFPS.c_str(), (int)strFPS.length());
+	TextOut(hdc, 10, 10, strWorldTime.c_str(), (int)strWorldTime.length());
+	TextOut(hdc, 10, 25, strDeltaTime.c_str(), (int)strDeltaTime.length());
+	TextOut(hdc, 10, 40, strFPS.c_str(), (int)strFPS.length());
 	// 타임 복붙 끝
-
-	//SceneManager::GetInstance()->Render(backDC);
-
-	// 그리기 끝 }
-
-	mBackBuffer->Render(hdc, 0, 0);
-	//D2DRENDERER->EndRender();
 }
