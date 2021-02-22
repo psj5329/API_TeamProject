@@ -110,3 +110,12 @@ vector<GameObject*> ObjectManager::FindObjects(ObjectLayer layer, const string& 
 
 	return result;
 }
+
+void ObjectManager::RemoveObjects(ObjectLayer layer)
+{
+}
+
+void ObjectManager::RemoveObjectsInScene()
+{
+	//여기에 씬에서 지울 레이어를 강제로 넣어놓고 씬의 release 마다 호출할 수 있도록!
+}

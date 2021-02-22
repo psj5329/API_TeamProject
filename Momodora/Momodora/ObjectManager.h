@@ -34,6 +34,9 @@ public:
 	vector<GameObject*> FindObjects(const string& name);
 	vector<GameObject*> FindObjects(ObjectLayer layer, const string& name);
 
+	void RemoveObjects(ObjectLayer layer);
+	void RemoveObjectsInScene();
+
 	vector<GameObject*> GetObjectList(ObjectLayer layer) { return mObjectList[layer]; }
 };
 
