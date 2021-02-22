@@ -2,7 +2,7 @@
 #include "Monkey.h"
 #include "Image.h"
 #include "Camera.h"
-#include "Animation.h"
+//#include "Animation.h"
 //#include "Player.h"
 
 void Monkey::Init()
@@ -19,7 +19,7 @@ void Monkey::Init()
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mSearchZone = RectMakeCenter(mX - 150, mY - 150, 300, 300);
 
-	mSpeed = 70;
+	mSpeed = 100;
 	mAttackSpeed = 100;
 	mAtk = 5;
 	mDef = 5;
@@ -29,40 +29,6 @@ void Monkey::Init()
 	mFoundPlayer = false;
 	mDirection = Direction::Left;
 	mEnemyState = EnemyState::Move;
-
-	//애니메이션
-	mRightMove = new Animation();
-	mRightMove->InitFrameByStartEnd(0, 0, 5, 0, false);
-	mRightMove->SetIsLoop(true);
-	mRightMove->SetFrameUpdateTime(0.2f);
-
-	mLeftMove = new Animation();
-	mLeftMove->InitFrameByStartEnd(0, 1, 5, 1, false);
-	mLeftMove->SetIsLoop(true);
-	mLeftMove->SetFrameUpdateTime(0.2f);
-
-	mRightAtk = new Animation();
-	mRightAtk->InitFrameByStartEnd(0, 2, 8, 2, false);
-	mRightAtk->SetIsLoop(false);
-	mRightAtk->SetFrameUpdateTime(0.2f);
-
-	mLeftAtk = new Animation();
-	mLeftAtk->InitFrameByStartEnd(0, 3, 8, 3, false);
-	mLeftAtk->SetIsLoop(false);
-	mLeftAtk->SetFrameUpdateTime(0.2f);
-
-	mRightHurt = new Animation();
-	mRightHurt->InitFrameByStartEnd(0, 4, 0, 4, false);
-	mRightHurt->SetIsLoop(false);
-	mRightHurt->SetFrameUpdateTime(0.2f);
-
-	mLeftHurt = new Animation();
-	mLeftHurt->InitFrameByStartEnd(0, 5, 0, 5, false);
-	mLeftHurt->SetIsLoop(false);
-	mLeftHurt->SetFrameUpdateTime(0.2f);
-	
-	mCurrentAnimation = mRightMove;
-	mCurrentAnimation->Play();
 }
 
 void Monkey::Release()
@@ -92,13 +58,7 @@ void Monkey::Update()
 
 	}
 	
-	//얻어맞았으면 
-	if (true)
-	{
 
-	}
-
-	mCurrentAnimation->Update();
 
 
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
@@ -109,7 +69,7 @@ void Monkey::Render(HDC hdc)
 {
 
 	//에니메이션 추가해야함
-	CAMERAMANAGER->GetMainCamera()->FrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(),mCurrentAnimation->GetNowFrameY());
+	CAMERAMANAGER->GetMainCamera()->FrameRender(hdc, mImage, mRect.left, mRect.top, 0, 0);
 }
 
 void Monkey::Patrol()
@@ -125,16 +85,10 @@ void Monkey::Patrol()
 	if (mX < mStart.x - mRange)
 	{
 		mSpeed *= -1;
-		mCurrentAnimation->Stop();
-		mCurrentAnimation = mRightMove;
-		mCurrentAnimation->Play();
 	}
 	if (mX > mStart.x + mRange)
 	{
 		mSpeed *= -1;
-		mCurrentAnimation->Stop();
-		mCurrentAnimation = mLeftMove;
-		mCurrentAnimation->Play();
 	}
 }
 
