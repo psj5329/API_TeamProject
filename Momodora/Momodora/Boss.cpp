@@ -19,6 +19,11 @@ void Boss::Init()
 
 	mFrameX = 0;
 	mFrameTime = 0.f;
+
+	mIsHit = false;
+	mIsInvincibility = false;
+	mHitMoveCount = 0;
+	mHitFrameTime = 0.f;
 }
 
 void Boss::Release()
@@ -27,6 +32,12 @@ void Boss::Release()
 
 void Boss::Update()
 {
+	if (INPUT->GetKeyDown(VK_SPACE))
+	{
+		if(!mIsInvincibility)
+			mIsHit = true;
+	}
+
 	MotionFrame();
 
 	mFrameTime += TIME->DeltaTime();
@@ -81,7 +92,7 @@ void Boss::ImageSetting()
 	// 뒷머리
 	mBackHair.image = IMAGEMANAGER->FindImage(L"Boss_BackHair");
 	mBackHair.x = 7 * 2;
-	mBackHair.y = 69 * 2;
+	mBackHair.y = 60 * 2;
 	mBackHair.sizeX = mBackHair.image->GetWidth() * 2;
 	mBackHair.sizeY = mBackHair.image->GetHeight() * 2;
 	mBackHair.rc = RectMakeCenter(mX - mSizeX / 2 + mBackHair.x + mBackHair.sizeX / 2, mY - mSizeY / 2 + mBackHair.y + mBackHair.sizeY / 2, mBackHair.sizeX, mBackHair.sizeY);
@@ -92,7 +103,7 @@ void Boss::ImageSetting()
 	// 머리
 	mHead.image = IMAGEMANAGER->FindImage(L"Boss_Head");
 	mHead.x = 5 * 2;
-	mHead.y = 4 * 2;
+	mHead.y = 5 * 2;
 	mHead.sizeX = mHead.image->GetWidth() * 2 / 5;
 	mHead.sizeY = mHead.image->GetHeight() * 2;
 	mHead.rc = RectMakeCenter(mX - mSizeX / 2 + mHead.x + mHead.sizeX / 2, mY - mSizeY / 2 + mHead.y + mHead.sizeY / 2, mHead.sizeX, mHead.sizeY);
@@ -158,20 +169,29 @@ void Boss::ImageSetting()
 
 void Boss::MotionFrame()
 {
-	// 머리
+	// 머리, 눈
 	if (mHead.move)		// true일 때 내려오는 모션
 	{
 		mHead.moveTime += TIME->DeltaTime();
 
-		if (mHead.moveTime >= 0.3f)
+		if (mHead.moveCount < 3)
 		{
-			mHead.y -= 1;
-			mHead.moveTime = 0.f;
-			mHead.moveCount++;
-
-			if (mHead.moveCount >= 2)
+			if (mHead.moveTime >= 0.3f)
+			{
+				mHead.y -= 1;
+				mBackHair.y -= 1;
+				mEyes.y -= 1;
+				mPupil.y -= 1;
+				mHead.moveTime = 0.f;
+				mHead.moveCount++;
+			}
+		}
+		else
+		{
+			if (mHead.moveTime >= 0.5f)
 			{
 				mHead.move = false;
+				mHead.moveTime = 0.f;
 				mHead.moveCount = 0;
 			}
 		}
@@ -180,15 +200,24 @@ void Boss::MotionFrame()
 	{
 		mHead.moveTime += TIME->DeltaTime();
 
-		if (mHead.moveTime >= 0.3f)
+		if (mHead.moveCount < 3)
 		{
-			mHead.y += 1;
-			mHead.moveTime = 0.f;
-			mHead.moveCount++;
-
-			if (mHead.moveCount >= 2)
+			if (mHead.moveTime >= 0.3f)
+			{
+				mHead.y += 1;
+				mBackHair.y += 1;
+				mEyes.y += 1;
+				mPupil.y += 1;
+				mHead.moveTime = 0.f;
+				mHead.moveCount++;
+			}
+		}
+		else
+		{
+			if (mHead.moveTime >= 0.5f)
 			{
 				mHead.move = true;
+				mHead.moveTime = 0.f;
 				mHead.moveCount = 0;
 			}
 		}
@@ -196,60 +225,33 @@ void Boss::MotionFrame()
 
 	mHead.rc = RectMakeCenter(mX - mSizeX / 2 + mHead.x + mHead.sizeX / 2
 		, mY - mSizeY / 2 + mHead.y + mHead.sizeY / 2, mHead.sizeX, mHead.sizeY);
-
-	// 머리
-	if (mBackHair.move)		// true일 때 내려오는 모션
-	{
-		mBackHair.moveTime += TIME->DeltaTime();
-
-		if (mBackHair.moveTime >= 0.3f)
-		{
-			mBackHair.y -= 1;
-			mBackHair.moveTime = 0.f;
-			mBackHair.moveCount++;
-
-			if (mBackHair.moveCount >= 2)
-			{
-				mBackHair.move = false;
-				mBackHair.moveCount = 0;
-			}
-		}
-	}
-	else
-	{
-		mBackHair.moveTime += TIME->DeltaTime();
-
-		if (mBackHair.moveTime >= 0.3f)
-		{
-			mBackHair.y += 1;
-			mBackHair.moveTime = 0.f;
-			mBackHair.moveCount++;
-
-			if (mBackHair.moveCount >= 2)
-			{
-				mBackHair.move = true;
-				mBackHair.moveCount = 0;
-			}
-		}
-	}
-
 	mBackHair.rc = RectMakeCenter(mX - mSizeX / 2 + mBackHair.x + mBackHair.sizeX / 2
 		, mY - mSizeY / 2 + mBackHair.y + mBackHair.sizeY / 2, mBackHair.sizeX, mBackHair.sizeY);
+	mEyes.rc = RectMakeCenter(mX - mSizeX / 2 + mEyes.x + mEyes.sizeX / 2
+		, mY - mSizeY / 2 + mEyes.y + mEyes.sizeY / 2, mEyes.sizeX, mEyes.sizeY);
+	mPupil.rc = RectMakeCenter(mX - mSizeX / 2 + mPupil.x + mPupil.sizeX / 2
+		, mY - mSizeY / 2 + mPupil.y + mPupil.sizeY / 2, mPupil.sizeX, mPupil.sizeY);
 
 	// 가슴
 	if (mChest.move)		// true일 때 내려오는 모션
 	{
 		mChest.moveTime += TIME->DeltaTime();
 
-		if (mChest.moveTime >= 0.3f)
+		if (mChest.moveCount < 2)
 		{
-			mChest.y -= 2;
-			mChest.moveTime = 0.f;
-			mChest.moveCount++;
-
-			if (mChest.moveCount >= 2)
+			if (mChest.moveTime >= 0.3f)
+			{
+				mChest.y -= 2;
+				mChest.moveTime = 0.f;
+				mChest.moveCount++;
+			}
+		}
+		else
+		{
+			if (mChest.moveTime >= 0.5f)
 			{
 				mChest.move = false;
+				mChest.moveTime = 0.f;
 				mChest.moveCount = 0;
 			}
 		}
@@ -258,16 +260,47 @@ void Boss::MotionFrame()
 	{
 		mChest.moveTime += TIME->DeltaTime();
 
-		if (mChest.moveTime >= 0.3f)
+		if (mChest.moveCount < 2)
 		{
-			mChest.y += 2;
-			mChest.moveTime = 0.f;
-			mChest.moveCount++;
-
-			if (mChest.moveCount >= 2)
+			if (mChest.moveTime >= 0.3f)
+			{
+				mChest.y += 2;
+				mChest.moveTime = 0.f;
+				mChest.moveCount++;
+			}
+		}
+		else
+		{
+			if (mChest.moveTime >= 1.1f)
 			{
 				mChest.move = true;
+				mChest.moveTime = 0.f;
 				mChest.moveCount = 0;
+			}
+		}
+	}
+
+	if (mIsHit)		// 피격 순간
+	{
+		mChest.y -= 4;
+		mIsHit = false;
+		mIsInvincibility = true;
+	}
+	
+	if (mIsInvincibility)	// 피격 후 무적 시간
+	{
+		mHitFrameTime += TIME->DeltaTime();
+
+		if (mHitFrameTime >= 0.3f)
+		{
+			mHitMoveCount++;
+			mHitFrameTime = 0.f;
+			mChest.y += 2;
+
+			if (mHitMoveCount >= 2)
+			{
+				mIsInvincibility = false;
+				mHitMoveCount = 0;
 			}
 		}
 	}
@@ -280,16 +313,22 @@ void Boss::MotionFrame()
 	{
 		mLeftArm.moveTime += TIME->DeltaTime();
 
-		if (mLeftArm.moveTime >= 0.3f)
+		if (mLeftArm.moveCount < 2)
 		{
-			mLeftArm.y -= 2;
-			mRightArm.y -= 2;
-			mLeftArm.moveTime = 0.f;
-			mLeftArm.moveCount++;
-
-			if (mLeftArm.moveCount >= 2)
+			if (mLeftArm.moveTime >= 0.3f)
+			{
+				mLeftArm.y -= 2;
+				mRightArm.y -= 2;
+				mLeftArm.moveTime = 0.f;
+				mLeftArm.moveCount++;
+			}
+		}
+		else
+		{
+			if (mLeftArm.moveTime >= 0.5f)
 			{
 				mLeftArm.move = false;
+				mLeftArm.moveTime = 0.f;
 				mLeftArm.moveCount = 0;
 			}
 		}
@@ -298,16 +337,22 @@ void Boss::MotionFrame()
 	{
 		mLeftArm.moveTime += TIME->DeltaTime();
 
-		if (mLeftArm.moveTime >= 0.3f)
+		if (mLeftArm.moveCount < 2)
 		{
-			mLeftArm.y += 2;
-			mRightArm.y += 2;
-			mLeftArm.moveTime = 0.f;
-			mLeftArm.moveCount++;
-
-			if (mLeftArm.moveCount >= 2)
+			if (mLeftArm.moveTime >= 0.3f)
+			{
+				mLeftArm.y += 2;
+				mRightArm.y += 2;
+				mLeftArm.moveTime = 0.f;
+				mLeftArm.moveCount++;
+			}
+		}
+		else
+		{
+			if (mLeftArm.moveTime >= 1.f)
 			{
 				mLeftArm.move = true;
+				mLeftArm.moveTime = 0.f;
 				mLeftArm.moveCount = 0;
 			}
 		}
@@ -317,47 +362,4 @@ void Boss::MotionFrame()
 		, mY - mSizeY / 2 + mLeftArm.y + mLeftArm.sizeY / 2, mLeftArm.sizeX, mLeftArm.sizeY);
 	mRightArm.rc = RectMakeCenter(mX - mSizeX / 2 + mRightArm.x + mRightArm.sizeX / 2
 		, mY - mSizeY / 2 + mRightArm.y + mRightArm.sizeY / 2, mRightArm.sizeX, mRightArm.sizeY);
-
-	// 눈알, 눈동자
-	if (mEyes.move)		// true일 때 내려오는 모션
-	{
-		mEyes.moveTime += TIME->DeltaTime();
-
-		if (mEyes.moveTime >= 0.3f)
-		{
-			mEyes.y -= 1;
-			mPupil.y -= 1;
-			mEyes.moveTime = 0.f;
-			mEyes.moveCount++;
-
-			if (mEyes.moveCount >= 2)
-			{
-				mEyes.move = false;
-				mEyes.moveCount = 0;
-			}
-		}
-	}
-	else
-	{
-		mEyes.moveTime += TIME->DeltaTime();
-
-		if (mEyes.moveTime >= 0.3f)
-		{
-			mEyes.y += 1;
-			mPupil.y += 1;
-			mEyes.moveTime = 0.f;
-			mEyes.moveCount++;
-
-			if (mEyes.moveCount >= 2)
-			{
-				mEyes.move = true;
-				mEyes.moveCount = 0;
-			}
-		}
-	}
-
-	mEyes.rc = RectMakeCenter(mX - mSizeX / 2 + mEyes.x + mEyes.sizeX / 2
-		, mY - mSizeY / 2 + mEyes.y + mEyes.sizeY / 2, mEyes.sizeX, mEyes.sizeY);
-	mPupil.rc = RectMakeCenter(mX - mSizeX / 2 + mPupil.x + mPupil.sizeX / 2
-		, mY - mSizeY / 2 + mPupil.y + mPupil.sizeY / 2, mPupil.sizeX, mPupil.sizeY);
 }
