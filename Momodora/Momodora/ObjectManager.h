@@ -6,6 +6,8 @@ enum class ObjectLayer : int
 	Platform,
 	Player,
 	Enemy,
+	PlayerProjectile, // 플레이어 투사체
+	EnemyProjectile, // 적 투사체, 중보 번개
 	UI,
 	End
 };

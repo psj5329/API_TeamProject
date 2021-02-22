@@ -113,9 +113,28 @@ vector<GameObject*> ObjectManager::FindObjects(ObjectLayer layer, const string& 
 
 void ObjectManager::RemoveObjects(ObjectLayer layer)
 {
+	ObjectIter iter = mObjectList.find(layer);
+	for (int i = 0; i < iter->second.size();)
+	{
+		iter->second[i]->Release();
+		SafeDelete(iter->second[i]);
+		(iter->second).erase(iter->second.begin() + i);
+	}
 }
 
 void ObjectManager::RemoveObjectsInScene()
 {
-	//여기에 씬에서 지울 레이어를 강제로 넣어놓고 씬의 release 마다 호출할 수 있도록!
+	ObjectIter iter = mObjectList.begin();
+	for (; iter != mObjectList.end(); ++iter)
+	{
+		if ((iter->first == ObjectLayer::Player) || (iter->first == ObjectLayer::UI))
+			continue;
+
+		for (int i = 0; i < iter->second.size();)
+		{
+			iter->second[i]->Release();
+			SafeDelete(iter->second[i]);
+			(iter->second).erase(iter->second.begin() + i); // 전부 erase 하면서 앞으로 당겨지기 때문에 ++i 안했음
+		}
+	}
 }
