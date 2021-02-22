@@ -82,6 +82,9 @@
     <Filter Include="Framework\CollisionManager">
       <UniqueIdentifier>{b06206ea-03fb-4ab0-b356-8f62e741303b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Enemy\Boss">
+      <UniqueIdentifier>{e2a7091c-0ec5-4c47-bb83-e32f48aeb993}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -171,6 +174,9 @@
     <ClInclude Include="Platform.h">
       <Filter>MainGame\Object\Platform</Filter>
     </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>MainGame\Object\Enemy\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Momodora.cpp">
@@ -247,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="Platform.cpp">
       <Filter>MainGame\Object\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>MainGame\Object\Enemy\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
