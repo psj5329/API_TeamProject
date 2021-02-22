@@ -61,6 +61,27 @@
     <Filter Include="MainGame\Scene">
       <UniqueIdentifier>{78cec29b-3a90-41dd-8fdd-8bb1a9ceddaf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Scene\yuchan_scenetest">
+      <UniqueIdentifier>{1d1193ff-dbb8-4d58-b6dc-73bca604e4d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object">
+      <UniqueIdentifier>{889a032b-d4c3-4455-8dc7-dd80607c30ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Enemy">
+      <UniqueIdentifier>{203f2b4a-09ea-488f-ad5e-37cc03af473e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Player">
+      <UniqueIdentifier>{11709a0e-c5f2-46ea-8b45-b1315fd28dbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\UI">
+      <UniqueIdentifier>{ec156191-34e6-4c5a-9d33-36defa517932}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\Platform">
+      <UniqueIdentifier>{64245500-9b0b-45eb-a169-8f7b34d68745}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\CollisionManager">
+      <UniqueIdentifier>{b06206ea-03fb-4ab0-b356-8f62e741303b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -141,6 +162,26 @@
     <ClInclude Include="Scene03.h">
       <Filter>MainGame\Scene</Filter>
     </ClInclude>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <ClInclude Include="Boss.h">
+      <Filter>MainGame</Filter>
+=======
+=======
+>>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
+    <ClInclude Include="SceneTest.h">
+      <Filter>MainGame\Scene\yuchan_scenetest</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Framework\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform.h">
+      <Filter>MainGame\Object\Platform</Filter>
+<<<<<<< HEAD
+>>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
+=======
+>>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Momodora.cpp">
@@ -208,6 +249,26 @@
     </ClCompile>
     <ClCompile Include="Scene03.cpp">
       <Filter>MainGame\Scene</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <ClCompile Include="Boss.cpp">
+      <Filter>MainGame</Filter>
+=======
+=======
+>>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
+    <ClCompile Include="SceneTest.cpp">
+      <Filter>MainGame\Scene\yuchan_scenetest</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Framework\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform.cpp">
+      <Filter>MainGame\Object\Platform</Filter>
+<<<<<<< HEAD
+>>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
+=======
+>>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Scene02.h"
+#include "Camera.h"
 
 void Scene02::Init()
 {

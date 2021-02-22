@@ -3,6 +3,7 @@
 enum class ObjectLayer : int
 {
 	Background = 0,
+	Platform,
 	Player,
 	Enemy,
 	UI,
