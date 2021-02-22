@@ -40,9 +40,13 @@ public:
 	//inline float GetSizeY()const { return mSize.GetY(); }
 	//inline void SetSizeY(float sizeY) { mSize.SetY(sizeY); }
 	inline RECT GetRect()const { return mRect; }
+	inline void SetRect(RECT rect) { mRect = rect; }
 
 	inline bool GetIsActive()const { return mIsActive; }
 	inline void SetIsActive(bool isActive) { mIsActive = isActive; }
 	inline bool GetIsDestroy()const { return mIsDestroy; }
 	inline void SetIsDestroy(bool isDestroy) { mIsDestroy = isDestroy; }
+
+	inline void SetObject(bool isActive = true, bool isDestroy = false) { mIsActive = isActive; mIsDestroy = isDestroy; }
+	inline void SetObject(const string& name, bool isActive = true, bool isDestroy = false) { mName = name; mIsActive = isActive; mIsDestroy = isDestroy; }
 };

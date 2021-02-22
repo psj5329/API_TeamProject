@@ -17,5 +17,9 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
+public:
+	void RenderTimeText(HDC hdc);
+
+public:
 	LRESULT MainProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 };

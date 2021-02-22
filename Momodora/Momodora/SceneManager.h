@@ -20,6 +20,9 @@ public:
 
 	void AddScene(const wstring& sceneName, Scene* scene);
 	void LoadScene(const wstring& sceneName);
+
+	Scene* GetCurrentScene()const { return mCurrentScene; }
+	wstring GetCurrentSceneName();
 };
 
 #define SCENEMANAGER SceneManager::GetInstance()
