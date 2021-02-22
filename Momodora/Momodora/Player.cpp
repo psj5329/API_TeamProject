@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "Player.h"
 #include "Image.h"
-
+#include "Animation.h"
+#include "Camera.h"
 
 void Player::Init()
 {

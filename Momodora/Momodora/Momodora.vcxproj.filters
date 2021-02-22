@@ -85,6 +85,9 @@
     <Filter Include="MainGame\Object\Enemy\Boss">
       <UniqueIdentifier>{e2a7091c-0ec5-4c47-bb83-e32f48aeb993}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Animation">
+      <UniqueIdentifier>{c4537d52-47a0-4634-ae57-08d7dc53c57a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -180,6 +183,24 @@
     <ClInclude Include="Player.h">
       <Filter>MainGame\Object\Player</Filter>
     </ClInclude>
+    <ClInclude Include="BombImp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DaggerImp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Monkey.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ShieldImp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Framework\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Momodora.cpp">
@@ -262,6 +283,24 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>MainGame\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="BombImp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DaggerImp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Monkey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ShieldImp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Framework\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

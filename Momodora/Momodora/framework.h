@@ -34,6 +34,8 @@ using namespace std;
 #include <dwrite.h>
 #include <wincodec.h>
 
+#include <functional>
+
 #include "DefineHeader.h"
 #include "Figure.h"
 #include "Input.h"
