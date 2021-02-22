@@ -3,13 +3,14 @@
 #include "Camera.h"
 #include "Enemy.h"
 #include "Monkey.h"
+//<<<<<<< PNH1.0
 #include "DaggerImp.h"
 #include "Platform.h"
 #include "BombImp.h"
 #include "ShieldImp.h"
 void Scene02::Init()
 {
-	//¸ùÅ°»ý¼º
+	//Â¸Ã¹Ã…Â°Â»Ã½Â¼Âº
 	//Monkey* monkey1 = new Monkey();
 	//monkey1->Init();
 	//monkey1->SetObject();
@@ -34,18 +35,23 @@ void Scene02::Init()
 	ShieldImp1->SetObject();
 	ShieldImp1->SetPosition(WINSIZEX / 2 - 300, 550);
 	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, ShieldImp1);
+//=======
+//
+//void Scene02::Init()
+//{
+//	Monkey* monkey1 = new Monkey();
+//	monkey1->Init();
+//	monkey1->SetObject();
+//	monkey1->SetPosition(WINSIZEX / 2, 500);
+//	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, monkey1);
+//>>>>>>> master
 
 	IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"Map/map2"), 1200, 900, false);
 	mMap = IMAGEMANAGER->FindImage(L"MapTest");
-
-	mPlatform01 = new Platform();
-	RECT rect01 = { 0, 602, 600, 650 };
-	mPlatform01->SetRect(rect01);
-	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)mPlatform01);
 }
 void Scene02::Release()
 {
-	//Àû ¼¼ÀÌÇÁµô¸®Æ®
+	//Ã€Ã» Â¼Â¼Ã€ÃŒÃ‡ÃÂµÃ´Â¸Â®Ã†Â®
 
 }
 
@@ -56,14 +62,12 @@ void Scene02::Update()
 
 void Scene02::Render(HDC hdc)
 {
-	wstring str = L"¾À2 ÆäÀÌÁö";
+	wstring str = L"Â¾Ã€2 Ã†Ã¤Ã€ÃŒÃÃ¶";
 	TextOut(hdc, 100, 200, str.c_str(), (int)str.length());
 	
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mPlatform01->GetRect());
 
 	CAMERAMANAGER->GetMainCamera()->Render(hdc, mMap, 0, 0);
 	OBJECTMANAGER->Render(hdc);
-
 
 	wstring str3 = L"MouseX:" + to_wstring(_mousePosition.x);
 	TextOut(hdc, _mousePosition.x+10, _mousePosition.y + 10, str3.c_str(), str3.length());

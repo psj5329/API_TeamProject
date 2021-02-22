@@ -69,7 +69,7 @@ void Animation::InitFrameByVector(const vector<pair<int, int>>& frameList)
 
 void Animation::InitFrameByStartEnd(int startX, int startY, int endX, int endY, bool isReverse)
 {
-	if (!isReverse) 
+	if (!isReverse)
 	{
 		for (int y = startY; y <= endY; ++y)
 		{

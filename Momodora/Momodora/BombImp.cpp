@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "BombImp.h"
 #include "Image.h"
-#include "Animation.h"
-#include "Camera.h"
 
 void BombImp::Init()
 {
@@ -17,6 +15,7 @@ void BombImp::Init()
 	mSizeY = mImage->GetFrameHeight();
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
+//<<<<<<< PNH1.0
 	mAttackSpeed = 0;
 
 	mRightIdle = new Animation();
@@ -53,6 +52,8 @@ void BombImp::Init()
 	mEnemyState = EnemyState::Idle;
 	mDirection = Direction::Left;
 	mCurrentAnimation = mLeftIdle;
+//=======
+//>>>>>>> master
 }
 
 void BombImp::Release()
@@ -63,6 +64,7 @@ void BombImp::Release()
 
 void BombImp::Update()
 {
+//<<<<<<< PNH1.0
 	mAttackSpeed += TIME->DeltaTime();
 
 	if (mAttackSpeed > 5)
@@ -73,10 +75,12 @@ void BombImp::Update()
 		ThrowBomb();
 	}
 
-	//if(mCurr == ÇØ´ç¸ð¼Ç && mCurr->getisplay() == false)
+	//if(mCurr == ï¿½Ø´ï¿½ï¿½ï¿½ && mCurr->getisplay() == false)
 	//{EndThrow();}
 	
 	mCurrentAnimation->Update();
+//=======
+//>>>>>>> master
 
 	SearchPlayer();
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
@@ -84,13 +88,14 @@ void BombImp::Update()
 
 void BombImp::Render(HDC hdc)
 {
+//<<<<<<< PNH1.0
 	CAMERAMANAGER->GetMainCamera()->FrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY());
 }
 
 void BombImp::SearchPlayer()
 {
-	//ÇÃ·¹ÀÌ¾î°¡ searchzone ¿¡ µé¾î¿À¸é
-	//¹æÇâ¼³Á¤
+	//ï¿½Ã·ï¿½ï¿½Ì¾î°¡ searchzone ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ï¿½ï¿½ï¿½â¼³ï¿½
 
 }
 
@@ -104,4 +109,6 @@ void BombImp::EndThrow()
 {
 	mEnemyState = EnemyState::Idle;
 	SetAnimation();
+//=======
+//>>>>>>> master
 }
