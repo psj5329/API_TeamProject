@@ -183,26 +183,26 @@
     <ClInclude Include="Player.h">
       <Filter>MainGame\Object\Player</Filter>
     </ClInclude>
-    <ClInclude Include="BombImp.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DaggerImp.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Monkey.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ShieldImp.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Framework\Animation</Filter>
     </ClInclude>
     <ClInclude Include="Witch.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ShieldImp.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Monkey.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BombImp.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="DaggerImp.h">
+      <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -287,26 +287,26 @@
     <ClCompile Include="Player.cpp">
       <Filter>MainGame\Object\Player</Filter>
     </ClCompile>
-    <ClCompile Include="BombImp.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DaggerImp.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Monkey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ShieldImp.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Framework\Animation</Filter>
     </ClCompile>
     <ClCompile Include="Witch.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ShieldImp.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Monkey.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BombImp.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="DaggerImp.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
