@@ -2,38 +2,57 @@
 
 #include "GameObject.h"
 
-enum class State : int
+enum class State : int	//추가
 {
 	Left,
 	Right
 };
 
+class Image;
+class Animation;
+
 class Player : public GameObject
 {
-	State mState = State::Right;
-	float mSpeed = 200.f;
+	State mState;
+	float mSpeed;
+	float mJumpPower;
+	float mGravity;
 
-	class Image* mIdleImage;
-	class Image* mRunImage;
-	class Image* mJumpImage;
+	Image* mIdleImage;
+	Image* mRunImage;
+	Image* mJumpImage;
+	Image* mFallImage;
+	Image* mCrouchImage;
+	Image* mRiseImage;
 
-	class Animation* mLeftIdleAnimation;
-	class Animation* mLeftRunAnimation;
-	class Animation* mLeftJumpAnimation;
-	class Animation* mLeftFallAnimation;
+	Image* mCurrentImage;
 
-	class Animation* mRightIdleAnimation;
-	class Animation* mRightRunAnimation;
-	class Animation* mRightJumpAnimation;
-	class Animation* mRightFallAnimation;
+	Animation* mLeftIdleAnimation;
+	Animation* mLeftRunStartAnimation;
+	Animation* mLeftRunAnimation;
+	Animation* mLeftJumpAnimation;
+	Animation* mLeftFallAnimation;
+	Animation* mLeftCrouchAnimation;
+	Animation* mLeftRiseAnimation;
 
-	class Animation* mCurrentAnimation;	//현재 애니메이션
+	Animation* mRightIdleAnimation;
+	Animation* mRightRunAnimation;
+	Animation* mRightJumpAnimation;
+	Animation* mRightFallAnimation;
+	Animation* mRightCrouchAnimation;
+	Animation* mRightRiseAnimation;
+
+	Animation* mCurrentAnimation;	//현재 애니메이션
+
 
 public:
 
 	void Init()override;
+	void Release()override;
 	void Update()override;
 	void Render(HDC hdc)override;
 	RECT GetRect() { return mRect; }
 };
+
+
 
