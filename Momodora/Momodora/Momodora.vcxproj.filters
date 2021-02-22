@@ -177,6 +177,9 @@
     <ClInclude Include="Boss.h">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>MainGame\Object\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Momodora.cpp">
@@ -256,6 +259,9 @@
     </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>MainGame\Object\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
