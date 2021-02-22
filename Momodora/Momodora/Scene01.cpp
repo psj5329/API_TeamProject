@@ -9,21 +9,22 @@ void Scene01::Init()
 {
 	Player* player = new Player;
 	player->Init();
-	player->SetName("PLAYER");
+	player->SetObject();
 
 	ObjectManager::GetInstance()->AddObject(ObjectLayer::Player, player);
-	
 }
 
 void Scene01::Release()
 {
-	ObjectManager::GetInstance()->Release();
+	//ObjectManager::GetInstance()->Release();
 }
 
 void Scene01::Update()
 {
-	Player* player = (Player*)(OBJECTMANAGER->FindObject("PLAYER"));
-	player->Update();
+	OBJECTMANAGER->Update();
+
+	//Player* player = (Player*)(OBJECTMANAGER->FindObject("PLAYER"));
+	//player->Update();
 }
 
 void Scene01::Render(HDC hdc)
@@ -31,7 +32,8 @@ void Scene01::Render(HDC hdc)
 	wstring str = L"¾À1 ÆäÀÌÁö";
 	TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2, str.c_str(), (int)str.length());
 
+	OBJECTMANAGER->Render(hdc);
 
-	Player* player = (Player*)(OBJECTMANAGER->FindObject("PLAYER"));
-	player->Render(hdc);
+	//Player* player = (Player*)(OBJECTMANAGER->FindObject("PLAYER"));
+	//player->Render(hdc);
 }

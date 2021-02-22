@@ -13,6 +13,8 @@ enum class EnemyState
 	Move,
 	Attack,
 	Hurt,
+	Jump,
+	Fall,
 	Death
 };
 
@@ -42,6 +44,20 @@ protected:
 
 	bool mFoundPlayer;	//플레이어를 만났나? 만났으면 전투상태로
 	
+	Animation* mRightIdle;
+	Animation* mLeftIdle;
+	Animation* mRightMove;
+	Animation* mLeftMove;
+	Animation* mRightAtk;
+	Animation* mLeftAtk;
+	Animation* mRightHurt;
+	Animation* mLeftHurt;
+	Animation* mRightJump;
+	Animation* mLeftJump;
+	Animation* mRightFall;
+	Animation* mLeftFall;
+	Animation* mCurrentAnimation;
+
 public:
 	virtual void Init() override;
 	virtual void Release()override;
@@ -55,7 +71,8 @@ public:
 	inline void SetHp(int hp) { mHp = hp; }
 	void SetPosition(int startX, int startY);
 
-	void Stun();
+	void Stun(); ///
 	void CalculateHp(int attack) { mHp -= attack - mDef; }
+	void SetAnimation();
 };
 

@@ -18,6 +18,7 @@ void SceneTest::Init()
 
 void SceneTest::Release()
 {
+	SafeDelete(mPlatform01);
 }
 
 void SceneTest::Update()
