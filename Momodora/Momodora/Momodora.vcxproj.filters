@@ -162,13 +162,6 @@
     <ClInclude Include="Scene03.h">
       <Filter>MainGame\Scene</Filter>
     </ClInclude>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <ClInclude Include="Boss.h">
-      <Filter>MainGame</Filter>
-=======
-=======
->>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
     <ClInclude Include="SceneTest.h">
       <Filter>MainGame\Scene\yuchan_scenetest</Filter>
     </ClInclude>
@@ -177,10 +170,6 @@
     </ClInclude>
     <ClInclude Include="Platform.h">
       <Filter>MainGame\Object\Platform</Filter>
-<<<<<<< HEAD
->>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
-=======
->>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -250,13 +239,6 @@
     <ClCompile Include="Scene03.cpp">
       <Filter>MainGame\Scene</Filter>
     </ClCompile>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <ClCompile Include="Boss.cpp">
-      <Filter>MainGame</Filter>
-=======
-=======
->>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
     <ClCompile Include="SceneTest.cpp">
       <Filter>MainGame\Scene\yuchan_scenetest</Filter>
     </ClCompile>
@@ -265,10 +247,6 @@
     </ClCompile>
     <ClCompile Include="Platform.cpp">
       <Filter>MainGame\Object\Platform</Filter>
-<<<<<<< HEAD
->>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
-=======
->>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

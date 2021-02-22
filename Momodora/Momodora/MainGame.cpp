@@ -8,11 +8,6 @@
 #include "Scene02.h"
 #include "Scene03.h"
 #include "SceneTest.h"
-<<<<<<< HEAD
-
-#include "Boss.h"
-=======
->>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
 
 void MainGame::Init()
 {
@@ -32,21 +27,6 @@ void MainGame::Init()
 
 	IMAGEMANAGER->LoadFromFile(L"Background", Resources(L"temp"), 1501, 1000, false);
 	IMAGEMANAGER->LoadFromFile(L"TempPlayer", Resources(L"tempPlayer"), 32, 32, true);
-
-	// Boss
-	IMAGEMANAGER->LoadFromFile(L"Boss_Head", Resources(L"Boss/Boss_Head"), 1020, 157, 5, 1, true);
-	IMAGEMANAGER->LoadFromFile(L"Boss_Body", Resources(L"Boss/Boss_Body"), 115, 176, true);
-	IMAGEMANAGER->LoadFromFile(L"Boss_BackHair", Resources(L"Boss/Boss_BackHair"), 200, 221, true);
-	IMAGEMANAGER->LoadFromFile(L"Boss_Chest", Resources(L"Boss/Boss_Chest"), 101, 57, true);
-	IMAGEMANAGER->LoadFromFile(L"Boss_Eyes", Resources(L"Boss/Boss_Eyes"), 61, 21, true);
-	IMAGEMANAGER->LoadFromFile(L"Boss_Pupil", Resources(L"Boss/Boss_Pupil"), 49, 19, true);
-	IMAGEMANAGER->LoadFromFile(L"Boss_LeftArm", Resources(L"Boss/Boss_LeftArm"), 41, 136, true);
-	IMAGEMANAGER->LoadFromFile(L"Boss_RightArm", Resources(L"Boss/Boss_RightArm"), 41, 136, true);
-	IMAGEMANAGER->LoadFromFile(L"Boss_LeftArm_Dead", Resources(L"Boss/Boss_LeftArm_Dead"), 108, 87, true);
-	IMAGEMANAGER->LoadFromFile(L"Boss_LeftShoulder_Dead", Resources(L"Boss/Boss_LeftShoulder_Dead"), 39, 81, true);
-
-	mBoss = new Boss;
-	mBoss->Init();
 
 	mBackground = IMAGEMANAGER->FindImage(L"Background"); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
 
@@ -90,12 +70,6 @@ void MainGame::Update()
 
 	CAMERAMANAGER->Update();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-	mBoss->Update();
-=======
-=======
->>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
 	if (INPUT->GetKeyDown('1'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene01")
@@ -116,10 +90,6 @@ void MainGame::Update()
 		if (SCENEMANAGER->GetCurrentSceneName() != L"SceneTest")
 			SCENEMANAGER->LoadScene(L"SceneTest");
 	}
-<<<<<<< HEAD
->>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
-=======
->>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
 }
 
 void MainGame::Render(HDC hdc)
@@ -137,7 +107,6 @@ void MainGame::Render(HDC hdc)
 	CAMERAMANAGER->GetMainCamera()->Render(backDC, mBackground, 0, 0);
 	//CAMERAMANAGER->GetMainCamera()->Render(hdc, mBackground, 0, 0);
 	//mTempPlayer
-	mBoss->Render(backDC);
 
 	//SceneManager::GetInstance()->Render(backDC);
 
@@ -147,17 +116,6 @@ void MainGame::Render(HDC hdc)
 
 	// 그리기 끝 }
 
-<<<<<<< HEAD
-=======
-	//SceneManager::GetInstance()->Render(backDC);
-
-	SCENEMANAGER->Render(backDC);
-
-	RenderTimeText(backDC);
-
-	// 그리기 끝 }
-
->>>>>>> 320ad2dc4e523d018bf7f83f7a8ba1ba004cf91d
 	mBackBuffer->Render(hdc, 0, 0);
 	//D2DRENDERER->EndRender();
 }
