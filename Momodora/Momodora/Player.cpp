@@ -15,7 +15,7 @@ void Player::Init()
 	IMAGEMANAGER->LoadFromFile(L"Jump", Resources(L"/Player/jump"), 147, 96, 3, 2, true);
 	mJumpImage = IMAGEMANAGER->FindImage(L"Jump");
 
-	IMAGEMANAGER->LoadFromFile(L"Fall", Resources(L"/Player/fall"), 245, 96, 3, 2, true);
+	IMAGEMANAGER->LoadFromFile(L"Fall", Resources(L"/Player/fall"), 245, 96, 5, 2, true);
 	mFallImage = IMAGEMANAGER->FindImage(L"Fall");
 
 	IMAGEMANAGER->LoadFromFile(L"Crouch", Resources(L"/Player/crouch"), 196, 96, 4, 2, true);
@@ -28,26 +28,32 @@ void Player::Init()
 	mLeftIdleAnimation = new Animation();
 	mLeftIdleAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftIdleAnimation->SetIsLoop(true);
-	mLeftIdleAnimation->SetFrameUpdateTime(0.3f);
+	mLeftIdleAnimation->SetFrameUpdateTime(0.2f);
 	mLeftIdleAnimation->Play();
 
 	mRightIdleAnimation = new Animation();
 	mRightIdleAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightIdleAnimation->SetIsLoop(true);
-	mRightIdleAnimation->SetFrameUpdateTime(0.3f);
+	mRightIdleAnimation->SetFrameUpdateTime(0.2f);
 	mRightIdleAnimation->Play();
 
 	//이동 이미지
+	mLeftRunStartAnimation = new Animation();
+	mLeftRunStartAnimation->InitFrameByStartEnd(0, 1, 1, 1, true); //유찬
+	mLeftRunStartAnimation->SetIsLoop(false);
+	mLeftRunStartAnimation->SetFrameUpdateTime(0.1f);
+	mLeftRunStartAnimation->Play();
+
 	mLeftRunAnimation = new Animation();
 	mLeftRunAnimation->InitFrameByStartEnd(0, 1, 9, 1, true);
 	mLeftRunAnimation->SetIsLoop(true);
-	mLeftRunAnimation->SetFrameUpdateTime(0.3f);
+	mLeftRunAnimation->SetFrameUpdateTime(0.1f);
 	mLeftRunAnimation->Play();
 
 	mRightRunAnimation = new Animation();
 	mRightRunAnimation->InitFrameByStartEnd(0, 0, 9, 0, false);
 	mRightRunAnimation->SetIsLoop(true);
-	mRightRunAnimation->SetFrameUpdateTime(0.3f);
+	mRightRunAnimation->SetFrameUpdateTime(0.1f);
 	mRightRunAnimation->Play();
 
 	//점프 이미지
@@ -78,27 +84,27 @@ void Player::Init()
 
 	//앉기 이미지
 	mLeftCrouchAnimation = new Animation();
-	mLeftCrouchAnimation->InitFrameByStartEnd(0, 1, 3, 1, false);
-	mLeftCrouchAnimation->SetIsLoop(true);
+	mLeftCrouchAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
+	mLeftCrouchAnimation->SetIsLoop(false);
 	mLeftCrouchAnimation->SetFrameUpdateTime(0.3f);
 	mLeftCrouchAnimation->Play();
 
 	mRightCrouchAnimation = new Animation();
 	mRightCrouchAnimation->InitFrameByStartEnd(0, 0, 3, 0, false);
-	mRightCrouchAnimation->SetIsLoop(true);
+	mRightCrouchAnimation->SetIsLoop(false);
 	mRightCrouchAnimation->SetFrameUpdateTime(0.3f);
 	mRightCrouchAnimation->Play();
 
 	//일어나기 이미지
 	mLeftRiseAnimation = new Animation();
 	mLeftRiseAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
-	mLeftRiseAnimation->SetIsLoop(true);
+	mLeftRiseAnimation->SetIsLoop(false);
 	mLeftRiseAnimation->SetFrameUpdateTime(0.3f);
 	mLeftRiseAnimation->Play();
 
 	mRightRiseAnimation = new Animation();
 	mRightRiseAnimation->InitFrameByStartEnd(0, 0, 1, 0, false);
-	mRightRiseAnimation->SetIsLoop(true);
+	mRightRiseAnimation->SetIsLoop(false);
 	mRightRiseAnimation->SetFrameUpdateTime(0.3f);
 	mRightRiseAnimation->Play();
 
@@ -106,7 +112,6 @@ void Player::Init()
 	mX = WINSIZEX / 2;
 	mY = WINSIZEY / 2;
 	mSpeed = 200.f;
-	mJumpPower = 8.f;
 	mGravity = 0.2f;
 	mState = State::Right;
 	mCurrentAnimation = mRightIdleAnimation;
@@ -157,30 +162,57 @@ void Player::Update()
 	//점프 프레임
 	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 	{
-		if (mState == State::Right)
+		mJumpPower = 8.f;
+
+		if (mJumpPower > 0)
 		{
-			mCurrentAnimation->Stop();
-			mCurrentAnimation = mRightJumpAnimation;
-			mCurrentAnimation->Play();
-			mCurrentImage = mJumpImage;
+			if (mState == State::Right)
+			{
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mRightJumpAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mJumpImage;
+			}
+			if (mState == State::Left)
+			{
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mLeftJumpAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mJumpImage;
+			}
 		}
-		if (mState == State::Left)
+		if (mJumpPower < 0)
 		{
-			mCurrentAnimation->Stop();
-			mCurrentAnimation = mLeftJumpAnimation;
-			mCurrentAnimation->Play();
-			mCurrentImage = mJumpImage;
+			if (mState == State::Right)
+			{
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mRightFallAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mFallImage;
+			}
+			if (mState == State::Left)
+			{
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mLeftFallAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mFallImage;
+			}
 		}
 	}
-	//하강 프레임
-	//if (mJumpPower <= 0)
-	//{
-	//
-	//}
+	//점프
+	mY -= mJumpPower;
+	mJumpPower -= mGravity;
+	if (mY > WINSIZEY / 2)
+	{
+		mJumpPower = 0;
+		//mCurrentImage = mIdleImage;
+	}
 
 	//앉기 프레임
 	if (Input::GetInstance()->GetKeyDown('C'))
 	{
+		mRect.top += 24;
+
 		if (mState == State::Right)
 		{
 			mCurrentAnimation->Stop();
@@ -199,6 +231,8 @@ void Player::Update()
 	//일어서기 프레임
 	if (Input::GetInstance()->GetKeyUp('C'))
 	{
+		mRect.top -= 24;
+
 		if (mState == State::Right)
 		{
 			mCurrentAnimation->Stop();
@@ -219,18 +253,10 @@ void Player::Update()
 	if (Input::GetInstance()->GetKey(VK_LEFT))
 	{
 		mX -= mSpeed * Time::GetInstance()->DeltaTime();
-		mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	}
 	if (Input::GetInstance()->GetKey(VK_RIGHT))
 	{
 		mX += mSpeed * Time::GetInstance()->DeltaTime();
-		mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
-	}
-	//점프
-	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
-	{
-		mY -= mJumpPower;
-		mJumpPower -= mGravity;
 	}
 	//앉기
 	//if (Input::GetInstance()->GetKeyDown('C'))
@@ -243,6 +269,7 @@ void Player::Update()
 	//	mCurrentImage = mIdleImage;
 	//}
 
+	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 
 	mCurrentAnimation->Update();
 }

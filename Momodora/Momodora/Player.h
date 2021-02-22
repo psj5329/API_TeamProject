@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-enum class State : int
+enum class State : int	//Ãß°¡
 {
 	Left,
 	Right
@@ -28,6 +28,7 @@ class Player : public GameObject
 	Image* mCurrentImage;
 
 	Animation* mLeftIdleAnimation;
+	Animation* mLeftRunStartAnimation;
 	Animation* mLeftRunAnimation;
 	Animation* mLeftJumpAnimation;
 	Animation* mLeftFallAnimation;
