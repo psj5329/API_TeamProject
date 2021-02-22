@@ -5,7 +5,8 @@
 #include "Monkey.h"
 #include "DaggerImp.h"
 #include "Platform.h"
-
+#include "BombImp.h"
+#include "ShieldImp.h"
 void Scene02::Init()
 {
 	//根虐积己
@@ -16,12 +17,23 @@ void Scene02::Init()
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, monkey1);
 
 
-	DaggerImp* DaggerImp1 = new DaggerImp();
-	DaggerImp1->Init();
-	DaggerImp1->SetObject();
-	DaggerImp1->SetPosition(WINSIZEX / 2 - 300, 550);
-	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, DaggerImp1);
+	//DaggerImp* DaggerImp1 = new DaggerImp();
+	//DaggerImp1->Init();
+	//DaggerImp1->SetObject();
+	//DaggerImp1->SetPosition(WINSIZEX / 2 - 300, 550);
+	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, DaggerImp1);
 	
+	//BombImp * BombImp1 = new BombImp();
+	//BombImp1->Init();
+	//BombImp1->SetObject();
+	//BombImp1->SetPosition(WINSIZEX / 2 - 300, 550);
+	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, BombImp1);
+
+	ShieldImp* ShieldImp1 = new ShieldImp();
+	ShieldImp1->Init();
+	ShieldImp1->SetObject();
+	ShieldImp1->SetPosition(WINSIZEX / 2 - 300, 550);
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, ShieldImp1);
 
 	IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"Map/map2"), 1200, 900, false);
 	mMap = IMAGEMANAGER->FindImage(L"MapTest");
@@ -33,6 +45,8 @@ void Scene02::Init()
 }
 void Scene02::Release()
 {
+	//利 技捞橇掉府飘
+
 }
 
 void Scene02::Update()

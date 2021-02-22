@@ -39,7 +39,7 @@ protected:
 	int mAtk;	//공격력
 	int mDef;	//방어력
 	int mSpeed;
-	int mAttackSpeed;	//공격빈도
+	float mAttackSpeed;	//공격빈도
 	int mDistance;		//플레이어와 거리
 
 	bool mFoundPlayer;	//플레이어를 만났나? 만났으면 전투상태로
