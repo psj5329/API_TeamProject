@@ -28,13 +28,11 @@ class Boss : public GameObject
 	int mFrameX;				// 머리 프레임
 	float mFrameTime;
 
-	bool mIsCloseEyes;
-	float mCloseEyesTime;
 
 	bool mIsHit;				// 피격 당했는지
-	bool mIsInvincibility;		// 무적인지
-	int mHitMoveCount;
 	float mHitFrameTime;
+
+	float mInvincibilityTime;	// 무적 시간
 
 public:
 	void Init()override;

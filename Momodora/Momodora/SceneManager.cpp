@@ -53,8 +53,6 @@ void SceneManager::LoadScene(const wstring& sceneName)
 	if (mCurrentScene)
 		mCurrentScene->Release();
 
-	OBJECTMANAGER->RemoveObjectsInScene();
-
 	targetScene->Init();
 
 	mCurrentScene = targetScene;
