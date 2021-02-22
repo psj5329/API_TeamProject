@@ -3,7 +3,11 @@
 class DaggerImp :
 	public Enemy
 {
-	
+	float mJumpPower;
+	float mGravity;
+
+	bool isGround;
+	RECT bottom;
 
 
 public:
@@ -11,5 +15,8 @@ public:
 	void Release()override;
 	void Update() override;
 	void Render(HDC hdc) override;
+
+	void JumpAround();
+
 };
 
