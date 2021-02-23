@@ -11,7 +11,7 @@ void Player::Init()
 
 	IMAGEMANAGER->LoadFromFile(L"Run", Resources(L"Player/run"), 490, 96, 10, 2, true);
 	mRunImage = IMAGEMANAGER->FindImage(L"Run");
-	
+
 	IMAGEMANAGER->LoadFromFile(L"Turn", Resources(L"/Player/turn"), 147, 96, 3, 2, true);
 	mTurnImage = IMAGEMANAGER->FindImage(L"Turn");
 
@@ -28,7 +28,6 @@ void Player::Init()
 	mRiseImage = IMAGEMANAGER->FindImage(L"Rise");
 
 	IMAGEMANAGER->LoadFromFile(L"Roll", Resources(L"/Player/roll"), 392, 96, 8, 2, true);
-<<<<<<< Updated upstream
 	mRollImage = IMAGEMANAGER->FindImage(L"Roll");
 
 	IMAGEMANAGER->LoadFromFile(L"LadderUp", Resources(L"/Player/ladderup"), 204, 48, 6, 1, true);
@@ -37,9 +36,6 @@ void Player::Init()
 	IMAGEMANAGER->LoadFromFile(L"LadderDown", Resources(L"/Player/ladderdown"), 105, 43, 3, 1, true);
 	mLadderDownImage = IMAGEMANAGER->FindImage(L"LadderDown");
 
-=======
-	mRiseImage = IMAGEMANAGER->FindImage(L"Roll");
->>>>>>> Stashed changes
 
 	//스탠드 이미지
 	mLeftIdleAnimation = new Animation();
@@ -157,8 +153,8 @@ void Player::Init()
 	mY = WINSIZEY / 2;
 	mCurrentAnimation = mRightIdleAnimation;
 	mCurrentImage = mIdleImage;
-	mSizeX = (float)(mIdleImage->GetFrameWidth()) *2;
-	mSizeY = (float)(mIdleImage->GetFrameHeight()) *2;
+	mSizeX = (float)(mIdleImage->GetFrameWidth()) * 2;
+	mSizeY = (float)(mIdleImage->GetFrameHeight()) * 2;
 	mRect = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY);
 }
 
@@ -169,7 +165,7 @@ void Player::Release()
 
 void Player::Update()
 {
-	//이동
+	//이동 프레임
 	if (Input::GetInstance()->GetKeyDown(VK_LEFT))
 	{
 		mState = State::LeftRun;
@@ -202,7 +198,6 @@ void Player::Update()
 		mCurrentAnimation->Play();
 		mCurrentImage = mIdleImage;
 	}
-<<<<<<< Updated upstream
 	//이동 구현 및 방향전환
 	if (Input::GetInstance()->GetKey(VK_LEFT))
 	{
@@ -237,17 +232,6 @@ void Player::Update()
 		}
 	}
 
-=======
-	if (Input::GetInstance()->GetKey(VK_LEFT))
-	{
-		mX -= mSpeed * Time::GetInstance()->DeltaTime();
-	}
-	if (Input::GetInstance()->GetKey(VK_RIGHT))
-	{
-		mX += mSpeed * Time::GetInstance()->DeltaTime();
-	}
-	
->>>>>>> Stashed changes
 	//점프
 	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 	{
@@ -340,7 +324,6 @@ void Player::Update()
 		}
 	}
 
-<<<<<<< Updated upstream
 	//구르기
 	if (Input::GetInstance()->GetKeyDown(VK_LSHIFT))
 	{
@@ -372,18 +355,13 @@ void Player::Update()
 	{
 		mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	}
-=======
-
-	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
-
->>>>>>> Stashed changes
 	mCurrentAnimation->Update();
 }
 
 void Player::Render(HDC hdc)
 {
 	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
-	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY , 1.f);
+	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY, 1.f);
 	//RenderRect(hdc, mRect);
 }
 
