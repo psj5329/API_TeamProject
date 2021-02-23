@@ -204,6 +204,9 @@
     <ClInclude Include="DaggerImp.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="LoadingScene.h">
+      <Filter>Framework\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Momodora.cpp">
@@ -307,6 +310,9 @@
     </ClCompile>
     <ClCompile Include="DaggerImp.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingScene.cpp">
+      <Filter>Framework\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

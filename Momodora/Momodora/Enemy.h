@@ -60,6 +60,9 @@ protected:
 	Animation* mCurrentAnimation;
 
 public:
+	Enemy();
+	Enemy(float x, float y);
+
 	virtual void Init() override;
 	virtual void Release()override;
 	virtual void Update() override;

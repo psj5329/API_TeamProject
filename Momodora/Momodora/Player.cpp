@@ -39,19 +39,27 @@ void Player::Init()
 
 	//이동 이미지
 	mLeftRunStartAnimation = new Animation();
-	mLeftRunStartAnimation->InitFrameByStartEnd(0, 1, 1, 1, true); //유찬
-	mLeftRunStartAnimation->SetIsLoop(false);
+	mLeftRunStartAnimation->InitFrameByStartEnd(8, 1, 9, 1, true); //유찬
+	mLeftRunStartAnimation->SetIsLoop(true);
 	mLeftRunStartAnimation->SetFrameUpdateTime(0.1f);
 	mLeftRunStartAnimation->Play();
+	mLeftRunStartAnimation->SetCallbackFunc(bind(&Player::SetStateRun, this));
 
 	mLeftRunAnimation = new Animation();
-	mLeftRunAnimation->InitFrameByStartEnd(0, 1, 9, 1, true);
+	mLeftRunAnimation->InitFrameByStartEnd(0, 1, 7, 1, true);
 	mLeftRunAnimation->SetIsLoop(true);
 	mLeftRunAnimation->SetFrameUpdateTime(0.1f);
 	mLeftRunAnimation->Play();
 
+	mRightRunStartAnimation = new Animation();
+	mRightRunStartAnimation->InitFrameByStartEnd(0, 0, 1, 0, false);
+	mRightRunStartAnimation->SetIsLoop(true);
+	mRightRunStartAnimation->SetFrameUpdateTime(0.1f);
+	mRightRunStartAnimation->Play();
+	mRightRunStartAnimation->SetCallbackFunc(bind(&Player::SetStateRun, this));
+
 	mRightRunAnimation = new Animation();
-	mRightRunAnimation->InitFrameByStartEnd(0, 0, 9, 0, false);
+	mRightRunAnimation->InitFrameByStartEnd(2, 0, 9, 0, false);
 	mRightRunAnimation->SetIsLoop(true);
 	mRightRunAnimation->SetFrameUpdateTime(0.1f);
 	mRightRunAnimation->Play();
@@ -133,7 +141,7 @@ void Player::Update()
 	{
 		mState = State::Left;
 		mCurrentAnimation->Stop();
-		mCurrentAnimation = mLeftRunAnimation;
+		mCurrentAnimation = mLeftRunStartAnimation;
 		mCurrentAnimation->Play();
 		mCurrentImage = mRunImage;
 	}
@@ -148,7 +156,7 @@ void Player::Update()
 	{
 		mState = State::Right;
 		mCurrentAnimation->Stop();
-		mCurrentAnimation = mRightRunAnimation;
+		mCurrentAnimation = mRightRunStartAnimation;
 		mCurrentAnimation->Play();
 		mCurrentImage = mRunImage;
 	}
@@ -277,4 +285,22 @@ void Player::Update()
 void Player::Render(HDC hdc)
 {
 	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX * 2, (int)mSizeY * 2, 1.f);
+}
+
+void Player::SetStateRun()
+{
+	if (mState == State::Left)
+	{
+		mCurrentAnimation->Stop();
+		mCurrentAnimation = mLeftRunAnimation;
+		mCurrentAnimation->Play();
+		mCurrentImage = mRunImage;
+	}
+	else if (mState == State::Right)
+	{
+		mCurrentAnimation->Stop();
+		mCurrentAnimation = mRightRunAnimation;
+		mCurrentAnimation->Play();
+		mCurrentImage = mRunImage;
+	}
 }

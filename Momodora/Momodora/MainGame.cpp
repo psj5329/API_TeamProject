@@ -4,6 +4,7 @@
 #include "Image.h"
 #include "Camera.h"
 
+#include "LoadingScene.h"
 #include "Scene01.h"
 #include "Scene02.h"
 #include "Scene03.h"
@@ -18,15 +19,19 @@ void MainGame::Init()
 	mBackBuffer = new Image();
 	mBackBuffer->CreateEmpty(WINSIZEX, WINSIZEY);
 
+	LoadingScene* loadScene = new LoadingScene();
+	SCENEMANAGER->AddScene(L"LoadingScene", loadScene);
 	SCENEMANAGER->AddScene(L"Scene01", new Scene01());
 	SCENEMANAGER->AddScene(L"Scene02", new Scene02());
 	SCENEMANAGER->AddScene(L"Scene03", new Scene03());
 	SCENEMANAGER->AddScene(L"SceneTest", new SceneTest());
 
-	SCENEMANAGER->LoadScene(L"Scene01");
+	SCENEMANAGER->LoadScene(L"LoadingScene");
 
 	IMAGEMANAGER->LoadFromFile(L"Background", Resources(L"temp"), 1501, 1000, false);
 	IMAGEMANAGER->LoadFromFile(L"TempPlayer", Resources(L"tempPlayer"), 32, 32, true);
+
+	loadScene->AddLoadFunc([]() {IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"Map/map2"), 1200, 900, false); });
 
 	mBackground = IMAGEMANAGER->FindImage(L"Background"); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
 
@@ -111,6 +116,14 @@ void MainGame::Render(HDC hdc)
 	//SceneManager::GetInstance()->Render(backDC);
 
 	SCENEMANAGER->Render(backDC);
+
+
+	wstring str = SCENEMANAGER->GetCurrentSceneName();
+	if (str == L"LoadingScene" && ((LoadingScene*)(SCENEMANAGER->GetCurrentScene()))->GetIsEndLoading())
+	{
+		wstring strLoad = L"로딩 끝";
+		TextOut(backDC, 300, 300, strLoad.c_str(), (int)strLoad.length());
+	}
 
 	RenderTimeText(backDC);
 
