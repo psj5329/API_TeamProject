@@ -13,8 +13,8 @@ void BombImp::Init()
 	mStart.y = WINSIZEY / 2;
 	mX = mStart.x;
 	mY = mStart.y;
-	mSizeX = mImage->GetFrameWidth();
-	mSizeY = mImage->GetFrameHeight();
+	mSizeX = mImage->GetFrameWidth()*2;
+	mSizeY = mImage->GetFrameHeight()*2;
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
@@ -31,14 +31,15 @@ void BombImp::Init()
 
 	mRightAtk = new Animation();
 	mRightAtk->InitFrameByStartEnd(0, 8, 8, 8, false);
-	mRightAtk->SetIsLoop(true);
+	mRightAtk->SetIsLoop(false);
 	mRightAtk->SetFrameUpdateTime(0.2f);
-	//mRightAtk->SetCallbackFunc(*(function<void(void)>)EndThrow);
+	mRightAtk->SetCallbackFunc(bind(&BombImp::EndThrow,this));
 
 	mLeftAtk = new Animation();
 	mLeftAtk->InitFrameByStartEnd(0, 9, 8, 9, false);
-	mLeftAtk->SetIsLoop(true);
+	mLeftAtk->SetIsLoop(false);
 	mLeftAtk->SetFrameUpdateTime(0.2f);
+	mLeftAtk->SetCallbackFunc(bind(&BombImp::EndThrow, this));
 
 	mRightHurt = new Animation();
 	mRightHurt->InitFrameByStartEnd(0, 10, 0, 10, false);
@@ -57,13 +58,18 @@ void BombImp::Init()
 
 void BombImp::Release()
 {
-
-
+	SafeDelete(mRightIdle);
+	SafeDelete(mLeftIdle);
+	SafeDelete(mRightAtk);
+	SafeDelete(mLeftAtk);
+	SafeDelete(mRightHurt);
+	SafeDelete(mLeftHurt);
 }
 
 void BombImp::Update()
 {
 	mAttackSpeed += TIME->DeltaTime();
+	mSearchSpeed += TIME->DeltaTime();
 
 	if (mAttackSpeed > 5)
 	{
@@ -72,26 +78,23 @@ void BombImp::Update()
 		SetAnimation();
 		ThrowBomb();
 	}
+	if (mEnemyState == EnemyState::Idle)
+	{
+		if (mSearchSpeed > 2)
+		{
+			mSearchSpeed = 0;
+			SetDirection();
+		}
+	}
 
-	//if(mCurr == 해당모션 && mCurr->getisplay() == false)
-	//{EndThrow();}
-	
 	mCurrentAnimation->Update();
 
-	SearchPlayer();
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 }
 
 void BombImp::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->FrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY());
-}
-
-void BombImp::SearchPlayer()
-{
-	//플레이어가 searchzone 에 들어오면
-	//방향설정
-
+	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY);
 }
 
 void BombImp::ThrowBomb()

@@ -40,6 +40,7 @@ protected:
 	int mDef;	//방어력
 	int mSpeed;
 	float mAttackSpeed;	//공격빈도
+	float mSearchSpeed; //플레이어 위치 갱신속도
 	int mDistance;		//플레이어와 거리
 
 	bool mFoundPlayer;	//플레이어를 만났나? 만났으면 전투상태로
@@ -72,10 +73,14 @@ public:
 	inline int GetDef() { return mDef; }
 	inline int GetHP() { return mHp; }
 	inline void SetHp(int hp) { mHp = hp; }
+	inline void SetPlayerPtr(Player* player) { mPlayer = player; }
 	void SetPosition(int startX, int startY);
 
-	void Stun(); ///
+	//virtual void Stun(); 
+	virtual void EndAttack();
 	void CalculateHp(int attack) { mHp -= attack - mDef; }
-	void SetAnimation();
+	void SetAnimation();	//상태에따라 애니메이션 설정
+	void SetDirection();	//플레이어위치에따라 좌우설정
+	virtual void Attack();
 };
 
