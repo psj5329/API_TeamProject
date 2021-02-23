@@ -157,7 +157,7 @@ void Player::Init()
 	mRightRollAnimation->SetFrameUpdateTime(0.07f);
 	mRightRollAnimation->Play();
 	mRightRollAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
-	//사다리 애니메이션
+	//사다리 오르내리기 애니메이션
 	mLadderUpAnimation = new Animation();
 	mLadderUpAnimation->InitFrameByStartEnd(0, 0, 5, 0, true);
 	mLadderUpAnimation->SetIsLoop(true);
@@ -175,12 +175,14 @@ void Player::Init()
 	mLeftLadderEnterAnimation->SetIsLoop(true);
 	mLeftLadderEnterAnimation->SetFrameUpdateTime(0.1f);
 	mLeftLadderEnterAnimation->Play();
+	mLeftLadderEnterAnimation->SetCallbackFunc(bind(&Player::SetStateLadderUp, this));
 
 	mRightLadderEnterAnimation = new Animation();
 	mRightLadderEnterAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightLadderEnterAnimation->SetIsLoop(true);
 	mRightLadderEnterAnimation->SetFrameUpdateTime(0.1f);
 	mRightLadderEnterAnimation->Play();
+	mRightLadderEnterAnimation->SetCallbackFunc(bind(&Player::SetStateLadderUp, this));
 	//사다리 퇴장 애니메이션
 	mLeftLadderLeaveAnimation = new Animation();
 	mLeftLadderLeaveAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
@@ -248,6 +250,7 @@ void Player::Update()
 	{
 		if (stopmove == 0)
 		{
+			if(mState != State::LeftRoll)
 			mX -= mSpeed * Time::GetInstance()->DeltaTime();
 
 			if (Input::GetInstance()->GetKeyDown(VK_RIGHT))
@@ -264,6 +267,7 @@ void Player::Update()
 	{
 		if (stopmove == 0)
 		{
+			if (mState != State::RightRoll)
 			mX += mSpeed * Time::GetInstance()->DeltaTime();
 
 			if (Input::GetInstance()->GetKeyDown(VK_LEFT))
@@ -370,7 +374,7 @@ void Player::Update()
 	}
 
 	//구르기
-	if (Input::GetInstance()->GetKeyDown(VK_LSHIFT)) //이동키와 동시 입력시 이동속도+구르기속도
+	if (Input::GetInstance()->GetKeyDown(VK_LSHIFT))
 	{
 		//stopmove = 1;
 
@@ -426,11 +430,19 @@ void Player::Update()
 	{
 		if (mState == State::LeftIdle || mState == State::LeftRun || mState == State::LeftJump)
 		{
-
+			mState = State::LeftEnterLadder;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftLadderEnterAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mLadderEnterImage;
 		}
 		if (mState == State::RightIdle || mState == State::RightRun || mState == State::RightJump)
 		{
-
+			mState = State::RightEnterLadder;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightLadderEnterAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mLadderEnterImage;
 		}
 	}
 

@@ -37,6 +37,7 @@ class Player : public GameObject
 	bool invincibility = 0;
 	int isinvincible = 1;
 	bool stopmove = 0;
+	bool stoproll = 0;
 
 	Image* mIdleImage;
 	Image* mRunImage;
