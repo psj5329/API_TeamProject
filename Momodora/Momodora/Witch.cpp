@@ -116,7 +116,7 @@ void Witch::Update()
 
 	mCurrentAnimation->Update();
 
-	SearchPlayer();
+	//SearchPlayer();
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 }
 

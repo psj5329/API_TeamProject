@@ -154,6 +154,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BombImp.h" />
     <ClInclude Include="Boss.h" />
+    <ClInclude Include="BossBullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="CollisionManager.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BombImp.cpp" />
     <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="BossBullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
