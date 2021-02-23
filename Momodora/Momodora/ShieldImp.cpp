@@ -44,13 +44,13 @@ void ShieldImp::Init()
 	mRightAtk = new Animation();
 	mRightAtk->InitFrameByStartEnd(0, 4, 7, 4, false);
 	mRightAtk->SetIsLoop(true);
-	mRightAtk->SetFrameUpdateTime(0.2f);
+	mRightAtk->SetFrameUpdateTime(0.1f);
 	mRightAtk->SetCallbackFunc(bind(&ShieldImp::EndAttack,this));
 
 	mLeftAtk = new Animation();
 	mLeftAtk->InitFrameByStartEnd(0, 5, 7, 5, false);
 	mLeftAtk->SetIsLoop(true);
-	mLeftAtk->SetFrameUpdateTime(0.2f);
+	mLeftAtk->SetFrameUpdateTime(0.1f);
 	mLeftAtk->SetCallbackFunc(bind(&ShieldImp::EndAttack, this));
 
 	mRightHurt = new Animation();

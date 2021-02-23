@@ -3,7 +3,8 @@
 #include "Image.h"
 #include "Animation.h"
 #include "Camera.h"
-
+#include "Bomb.h"
+#include "Player.h"
 void BombImp::Init()
 {
 	IMAGEMANAGER->LoadFromFile(L"Imp", Resources(L"Imp"), 320, 384, 10, 12, true);
@@ -76,7 +77,7 @@ void BombImp::Update()
 		mAttackSpeed = 0;
 		mEnemyState = EnemyState::Attack;
 		SetAnimation();
-		ThrowBomb();
+		mThrown = false;
 	}
 	if (mEnemyState == EnemyState::Idle)
 	{
@@ -86,6 +87,20 @@ void BombImp::Update()
 			SetDirection();
 		}
 	}
+
+	if (mCurrentAnimation == mRightAtk || mCurrentAnimation == mLeftAtk)
+	{
+		if (!mThrown)
+		{
+			if (mCurrentAnimation->GetNowFrameX() == 4)
+			{
+				ThrowBomb();
+				mThrown = true;
+			}
+
+		}
+	}
+
 
 	mCurrentAnimation->Update();
 
@@ -99,8 +114,40 @@ void BombImp::Render(HDC hdc)
 
 void BombImp::ThrowBomb()
 {
+	float angle;
+	float distance = Math::GetDistance(mPlayer->GetSizeX(), mPlayer->GetY(), mX, mY);
+	//각설정
+	//왼쪽
+	if (mDirection == Direction::Left)
+	{
+		//거리 재서
+		if (distance > 150)
+		{
+			angle = PI  * 3 / 4;
+		}
+		else
+		{
+			angle = PI * 7 /8;
+		}
+	}
+	else
+	{
+		//거리 재서
+		if (distance > 150)
+		{
+			angle = PI / 4;
+		}
+		else
+		{
+			angle = PI * 3 / 8;
+		}
+	}
 
-
+	//폭탄생성
+	Bomb* Bomb1 = new Bomb();
+	Bomb1->Init(mX, mY, angle, mPlayer->GetX(),mPlayer->GetY());
+	Bomb1->SetObject();
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyProjectile, Bomb1);
 }
 
 void BombImp::EndThrow()

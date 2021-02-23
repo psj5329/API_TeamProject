@@ -1,6 +1,7 @@
 #pragma once
 #include "Enemy.h"
 
+class Staff;
 class Animation;
 class Witch :
 	public Enemy
@@ -10,8 +11,10 @@ class Witch :
 	Animation* mRightCatch;
 	Animation* mLeftCatch;
 
-	bool mHoldStaff;
+	Staff* mStaff;
 
+	bool mHoldStaff;
+	bool mThrown;
 public:
 	void Init() override;
 	void Release()override;
@@ -20,5 +23,7 @@ public:
 
 	void SearchPlayer();
 	void EndAttack()override;
+	void EndCatch();
+	void Attack()override;
 };
 
