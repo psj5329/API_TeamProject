@@ -18,7 +18,7 @@ public:
 	void Update() override;
 	void Render(HDC hdc) override;
 
-	//void SearchPlayer();
+	void SearchPlayer();
 	void EndAttack()override;
 };
 

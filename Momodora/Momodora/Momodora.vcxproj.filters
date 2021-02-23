@@ -88,6 +88,12 @@
     <Filter Include="Framework\Animation">
       <UniqueIdentifier>{c4537d52-47a0-4634-ae57-08d7dc53c57a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\EnemyProjectile">
+      <UniqueIdentifier>{4666d05e-edec-4413-9ff1-d391d31e4d70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\PlayerProjectile">
+      <UniqueIdentifier>{9f8a5d1d-5b72-494e-a52a-036aed944aab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -207,13 +213,14 @@
     <ClInclude Include="LoadingScene.h">
       <Filter>Framework\Scene</Filter>
     </ClInclude>
-//    <ClInclude Include="Bomb.h">
-//      <Filter>헤더 파일</Filter>
-//    </ClInclude>
-//    <ClInclude Include="Dagger.h">
-//      <Filter>헤더 파일</Filter>
     <ClInclude Include="BossBullet.h">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Dagger.h">
+      <Filter>MainGame\Object\EnemyProjectile</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>MainGame\Object\EnemyProjectile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -322,13 +329,14 @@
     <ClCompile Include="LoadingScene.cpp">
       <Filter>Framework\Scene</Filter>
     </ClCompile>
-//    <ClCompile Include="Bomb.cpp">
-//      <Filter>소스 파일</Filter>
-//    </ClCompile>
-//    <ClCompile Include="Dagger.cpp">
-//      <Filter>소스 파일</Filter>
     <ClCompile Include="BossBullet.cpp">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Dagger.cpp">
+      <Filter>MainGame\Object\EnemyProjectile</Filter>
+    </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>MainGame\Object\EnemyProjectile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
