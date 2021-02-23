@@ -1,5 +1,6 @@
 #pragma once
 #define KEYMAX 256
+//#include <bitset>
 
 class Input
 {
@@ -8,6 +9,8 @@ class Input
 private:
 	bool mKeyDownList[KEYMAX];
 	bool mKeyUpList[KEYMAX];
+	//bitset<KEYMAX> mPrevKey;
+	//bitset<KEYMAX> mCurrentKey;
 
 public:
 	Input();
