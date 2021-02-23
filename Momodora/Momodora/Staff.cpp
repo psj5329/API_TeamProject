@@ -5,7 +5,6 @@
 #include "Camera.h"
 void Staff::Init()
 {
-	IMAGEMANAGER->LoadFromFile(L"Staff", Resources(L"Enemy/Witchstaff"), 256, 64, 4, 1, true);
 	mImage = IMAGEMANAGER->FindImage(L"Staff");
 
 	mReturn = false;

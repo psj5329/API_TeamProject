@@ -7,7 +7,6 @@
 
 void Monkey::Init()
 {
-	IMAGEMANAGER->LoadFromFile(L"Monkey", Resources(L"Monkey"), 720, 288, 9, 6, true);
 	mImage = IMAGEMANAGER->FindImage(L"Monkey");
 	mStart.x = WINSIZEX / 2;
 	mStart.y = WINSIZEY / 2;

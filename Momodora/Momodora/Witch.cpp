@@ -8,15 +8,6 @@
 
 void Witch::Init()
 {
-	IMAGEMANAGER->LoadFromFile(L"Witchcatch", Resources(L"Enemy/Witchcatch"), 490, 192, 5, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Witchdeath", Resources(L"Enemy/Witchdeath"), 528, 128, 8, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Witchdeath2", Resources(L"Enemy/Witchdeath2"), 528, 128, 8, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Witchhurt", Resources(L"Enemy/Witchhurt"), 66, 128, 1, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Witchhurt2", Resources(L"Enemy/Witchhurt2"), 66, 128, 1, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Witchidle", Resources(L"Enemy/Witchidle"), 330, 128, 5, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Witchidle2", Resources(L"Enemy/Witchidle2"), 330, 128, 5, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Witchthrow", Resources(L"Enemy/Witchthrow"), 594, 128, 9, 2, true);
-
 	mImage = IMAGEMANAGER->FindImage(L"Witchidle");
 
 	mStart.x = WINSIZEX / 2;

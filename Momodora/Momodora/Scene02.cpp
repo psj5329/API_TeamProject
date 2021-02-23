@@ -8,6 +8,7 @@
 #include "BombImp.h"
 #include "ShieldImp.h"
 #include "Witch.h"
+
 void Scene02::Init()
 {
 	//¸ùÅ°»ý¼º
@@ -56,7 +57,6 @@ void Scene02::Init()
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Witch1);
 
 
-	IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"Map/map2"), 1200, 900, false);
 	mMap = IMAGEMANAGER->FindImage(L"MapTest");
 
 	mPlatform01 = new Platform();
@@ -90,5 +90,4 @@ void Scene02::Render(HDC hdc)
 	TextOut(hdc, _mousePosition.x+10, _mousePosition.y + 10, str3.c_str(), str3.length());
 	wstring str4 = L"MouseY:" + to_wstring(_mousePosition.y);
 	TextOut(hdc, _mousePosition.x+10, _mousePosition.y + 30, str4.c_str(), str4.length());
-
 }

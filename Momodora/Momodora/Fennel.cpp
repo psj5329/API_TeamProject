@@ -8,25 +8,6 @@
 
 void Fennel::Init()
 {
-	IMAGEMANAGER->LoadFromFile(L"Fennelatk1", Resources(L"Fennel/Fennelatk1"), 2714, 156, 23, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Fennelatk2", Resources(L"Fennel/Fennelatk2"), 1416, 156, 12, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Fennelbackflip", Resources(L"Fennel/Fennelbackflip"), 1534, 156, 13, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Fennelbuff", Resources(L"Fennel/Fennelbuff"), 1770, 156, 15, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Fenneldash", Resources(L"Fennel/Fenneldash"), 118, 156, 1, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Fenneldeath", Resources(L"Fennel/Fenneldeath"), 1652, 156, 14, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Fennelhurt", Resources(L"Fennel/Fennelhurt"), 236, 156, 2, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Fennelidle", Resources(L"Fennel/Fennelidle"), 590, 156, 5, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Fennelimpact", Resources(L"Fennel/Fennelimpact"), 2064, 255, 8, 1, true);
-	IMAGEMANAGER->LoadFromFile(L"Fennelintro1", Resources(L"Fennel/Fennelintro1"), 2280, 78, 19, 1, true);
-	IMAGEMANAGER->LoadFromFile(L"Fennelintro2", Resources(L"Fennel/Fennelintro2"), 960, 78, 8, 1, true);
-	IMAGEMANAGER->LoadFromFile(L"Fennelintro3", Resources(L"Fennel/Fennelintro3"), 1680, 78, 14, 1, true);
-	IMAGEMANAGER->LoadFromFile(L"Fennelintro4", Resources(L"Fennel/Fennelintro4"), 360, 78, 3, 1, true);
-	IMAGEMANAGER->LoadFromFile(L"Fenneljump", Resources(L"Fennel/Fenneljump"), 826, 156, 7, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Fenneljumpready", Resources(L"Fennel/Fenneljumpready"), 590, 156, 5, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Fennelplunge", Resources(L"Fennel/Fennelplunge"), 1534, 156, 13, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Fennelthunder", Resources(L"Fennel/Fennelthunder"), 2596, 156, 22, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Thunder", Resources(L"Fennel/thunder"), 210, 175, 3, 1, true);
-
 	mImage = IMAGEMANAGER->FindImage(L"Fennelidle");
 
 	mStart.x = WINSIZEX / 2;

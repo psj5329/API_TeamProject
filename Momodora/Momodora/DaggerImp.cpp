@@ -8,7 +8,6 @@
 
 void DaggerImp::Init()
 {
-	IMAGEMANAGER->LoadFromFile(L"Imp", Resources(L"Imp"), 320, 384, 10, 12, true);
 	mImage = IMAGEMANAGER->FindImage(L"Imp");
 
 	mStart.x = WINSIZEX / 2;

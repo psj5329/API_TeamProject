@@ -12,8 +12,6 @@ void Bomb::Init()
 
 void Bomb::Init(int x, int y, float angle, float targetX, float targetY)
 {
-	IMAGEMANAGER->LoadFromFile(L"Bomb", Resources(L"Bomb"), 64, 32, 4, 2, true);
-	IMAGEMANAGER->LoadFromFile(L"Fire", Resources(L"Explosion"), 560, 62, 8, 1, true);
 	mImage = IMAGEMANAGER->FindImage(L"Bomb");
 	
 

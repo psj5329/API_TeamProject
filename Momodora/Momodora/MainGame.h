@@ -1,6 +1,7 @@
 #pragma once
 
 class Image;
+class LoadingScene;
 class Boss;
 
 class MainGame
@@ -22,6 +23,9 @@ public:
 
 public:
 	void RenderTimeText(HDC hdc);
+
+	void MakeScene();
+	void LoadImageResource(LoadingScene* scene);
 
 public:
 	LRESULT MainProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

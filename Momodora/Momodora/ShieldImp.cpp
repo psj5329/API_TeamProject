@@ -7,7 +7,6 @@
 
 void ShieldImp::Init()
 {
-	IMAGEMANAGER->LoadFromFile(L"ShieldImp", Resources(L"ShieldImp"), 256, 256, 8, 8, true);
 	mImage = IMAGEMANAGER->FindImage(L"ShieldImp");
 
 	mStart.x = WINSIZEX / 2;
