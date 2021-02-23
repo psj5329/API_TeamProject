@@ -3,6 +3,8 @@
 enum class ObjectLayer : int
 {
 	Background = 0,
+	Boss,
+	Frontground, // 보스를 가릴 수 있는 오브젝트
 	Platform,
 	Player,
 	Enemy,
@@ -13,6 +15,7 @@ enum class ObjectLayer : int
 };
 
 class GameObject;
+class Player;
 
 class ObjectManager
 {
@@ -40,6 +43,7 @@ public:
 	void RemoveObjectsInScene();
 
 	vector<GameObject*> GetObjectList(ObjectLayer layer) { return mObjectList[layer]; }
+	Player* GetPlayer();
 };
 
 #define OBJECTMANAGER ObjectManager::GetInstance()
