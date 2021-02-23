@@ -12,7 +12,11 @@ class Bomb :
 	RECT mPrevRect;
 	float mTargetX;
 	float mTargetY;
+	float mStartX;
+	float mStartY;
 	float mGravity;
+
+	float mFrameCount;
 
 	Image* mImage;
 	Image* mFireImage;
@@ -26,5 +30,6 @@ public:
 	void Update()override;
 	void Render(HDC hdc)override;
 	void Init(int x, int y, float angle,float targetX,float targetY);
+	void Explode();
 };
 

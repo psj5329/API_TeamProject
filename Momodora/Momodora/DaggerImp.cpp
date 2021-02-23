@@ -15,8 +15,8 @@ void DaggerImp::Init()
 	mStart.y = WINSIZEY / 2;
 	mX = mStart.x;
 	mY = mStart.y;
-	mSizeX = mImage->GetFrameWidth();
-	mSizeY = mImage->GetFrameHeight();
+	mSizeX = mImage->GetFrameWidth()*2;
+	mSizeY = mImage->GetFrameHeight()*2;
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	isGround = true;
@@ -25,6 +25,8 @@ void DaggerImp::Init()
 	mSpeed = 25;
 	mJumpPower = 20;
 	mGravity = 2;
+	mThrown = false;
+	mSearchSpeed = 0;
 
 	bottom = { 0, 602, 600, 650 };
 
@@ -61,12 +63,14 @@ void DaggerImp::Init()
 	mRightAtk = new Animation();	
 	mRightAtk->InitFrameByStartEnd(0, 6, 9, 6, false);
 	mRightAtk->SetIsLoop(false);
-	mRightAtk->SetFrameUpdateTime(0.2f);
+	mRightAtk->SetFrameUpdateTime(0.1f);
+	mRightAtk->SetCallbackFunc(bind(&DaggerImp::EndAttack, this));
 
 	mLeftAtk = new Animation();
 	mLeftAtk->InitFrameByStartEnd(0, 7, 9, 7, false);
 	mLeftAtk->SetIsLoop(false);
 	mLeftAtk->SetFrameUpdateTime(0.2f);
+	mLeftAtk->SetCallbackFunc(bind(&DaggerImp::EndAttack, this));
 
 	mRightHurt = new Animation();
 	mRightHurt->InitFrameByStartEnd(0, 10, 0, 10, false);
@@ -84,12 +88,22 @@ void DaggerImp::Init()
 
 void DaggerImp::Release()
 {
-
+	SafeDelete(mRightIdle);
+	SafeDelete(mLeftIdle);
+	SafeDelete(mRightJump);
+	SafeDelete(mLeftJump);
+	SafeDelete(mRightFall);
+	SafeDelete(mLeftFall);
+	SafeDelete(mRightAtk);
+	SafeDelete(mLeftAtk);
+	SafeDelete(mRightHurt);
+	SafeDelete(mLeftHurt);
 
 }
 
 void DaggerImp::Update()
 {
+	mSearchSpeed++;
 
 	//점프
 	if (mEnemyState == EnemyState::Jump || mEnemyState==EnemyState::Fall)
@@ -102,11 +116,13 @@ void DaggerImp::Update()
 	//땅에 닿으면
 	if (mEnemyState == EnemyState::Idle)
 	{
-		//4분의1확률로 공격
-		if (RANDOM->RandomInt(4) == 1)
+		//4분의1확률로 공격RANDOM->RandomInt(4) == 1
+		if (RANDOM->RandomInt(3) == 1)
 		{
 			//공격
+			mEnemyState = EnemyState::Attack;
 			SetAnimation();
+			mThrown = false;
 		}
 		else
 		{
@@ -118,11 +134,37 @@ void DaggerImp::Update()
 		if (RANDOM->RandomInt(4) == 1)
 		{
 			mSpeed *= -1;
-			SetAnimation();
 		}
 	}
 
-	
+	if (mCurrentAnimation == mRightAtk || mCurrentAnimation == mLeftAtk)
+	{
+		if (!mThrown)
+		{
+			if (mCurrentAnimation->GetNowFrameX() == 4)
+			{
+				ThrowDagger();
+				mThrown = true;
+			}
+
+		}
+	}
+
+	//맞으면
+	if (true)
+	{
+
+	}
+
+	//플레이어 찾고 방향세팅
+	if (mEnemyState == EnemyState::Idle || mEnemyState == EnemyState::Jump)
+	{
+		if (mSearchSpeed > 2)
+		{
+			mSearchSpeed = 0;
+			SetDirection();
+		}
+	}
 
 	mCurrentAnimation->Update();
 
@@ -131,7 +173,7 @@ void DaggerImp::Update()
 
 void DaggerImp::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->FrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY());
+	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY);
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
 }
 
@@ -163,7 +205,6 @@ void DaggerImp::JumpAround()
 	//	mY = mRect.top + mSizeY/2;
 	//	mEnemyState = EnemyState::Idle;
 	//}
-	
 }
 
 void DaggerImp::ThrowDagger()
@@ -181,4 +222,10 @@ void DaggerImp::ThrowDagger()
 	Dagger1->Init(mX, mY, angle);
 	Dagger1->SetObject();
 	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyProjectile, Dagger1);
+}
+
+void DaggerImp::EndAttack()
+{
+	mEnemyState = EnemyState::Idle;
+	SetAnimation();
 }

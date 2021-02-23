@@ -3,7 +3,7 @@
 class BombImp :
 	public Enemy
 {
-
+	bool mThrown;
 
 public:
 	void Init() override;

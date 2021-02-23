@@ -20,13 +20,13 @@ void Scene02::Init()
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, monkey1);
 
 	//漠电局
-	//DaggerImp* DaggerImp1 = new DaggerImp();
-	//DaggerImp1->Init();
-	//DaggerImp1->SetObject();
-	//DaggerImp1->SetPosition(WINSIZEX / 2 - 300, 550);
-	//vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
-	//DaggerImp1->SetPlayerPtr((Player*)player[0]);
-	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, DaggerImp1);
+	DaggerImp* DaggerImp1 = new DaggerImp();
+	DaggerImp1->Init();
+	DaggerImp1->SetObject();
+	DaggerImp1->SetPosition(WINSIZEX / 2 - 300, 550);
+	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
+	DaggerImp1->SetPlayerPtr((Player*)player[0]);
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, DaggerImp1);
 	
 	//气藕
 	//BombImp * BombImp1 = new BombImp();
@@ -38,13 +38,13 @@ void Scene02::Init()
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, BombImp1);
 
 	//规菩
-	ShieldImp* ShieldImp1 = new ShieldImp();
-	ShieldImp1->Init();
-	ShieldImp1->SetObject();
-	ShieldImp1->SetPosition(WINSIZEX / 2 - 300, 550);
-	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
-	ShieldImp1->SetPlayerPtr((Player*)player[0]);
-	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, ShieldImp1);
+	//ShieldImp* ShieldImp1 = new ShieldImp();
+	//ShieldImp1->Init();
+	//ShieldImp1->SetObject();
+	//ShieldImp1->SetPosition(WINSIZEX / 2 - 300, 550);
+	//vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
+	//ShieldImp1->SetPlayerPtr((Player*)player[0]);
+	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, ShieldImp1);
 
 	//付赤
 	//Witch* Witch1 = new Witch();
@@ -54,6 +54,7 @@ void Scene02::Init()
 	//vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
 	//Witch1->SetPlayerPtr((Player*)player[0]);
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Witch1);
+
 
 	IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"Map/map2"), 1200, 900, false);
 	mMap = IMAGEMANAGER->FindImage(L"MapTest");

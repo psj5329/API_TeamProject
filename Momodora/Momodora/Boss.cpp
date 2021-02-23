@@ -6,9 +6,11 @@
 #include "Animation.h"
 #include "ObjectManager.h"
 #include "BossBullet.h"
+#include "Player.h"
 
 void Boss::Init()
 {
+	srand(unsigned int((NULL)));
 	// 보스의 위치는 Body가 기준이지만 Rect는 가슴으로 정한다
 	mName = "Boss";
 	mX = WINSIZEX / 2;
@@ -21,6 +23,9 @@ void Boss::Init()
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mHitBox = mChest.rc;
 
+	mIsCloseEyes = false;
+	mCloseEyesTime = 0.f;
+
 	mIsHit = false;
 	mIsInvincibility = false;
 	mHitMoveCount = 0;
@@ -31,13 +36,25 @@ void Boss::Init()
 	mLeftIdle->SetIsLoop(true);
 	mLeftIdle->SetFrameUpdateTime(0.2f);
 
-	// enemy 상속받아서 둠
+	// enemy 상속
+	mHp = 500;
+	mAtk = 10;
+	mDef = 50;
+
+	// 얘네는 머리 애니메이션때문에
 	mEnemyState = EnemyState::Idle;
 	mDirection = Direction::Left;
 	mCurrentAnimation = mLeftIdle;
 
+	// 공격 패턴 및 총알 생성
 	mPattern = AttackPattern::PatternIdle;		// 아무것도 안하는 상태
 	mAttackTime = 0.f;
+	mAttackCount = 0;
+	mBulletCreateCount = 0;
+	mBulletCreateTime = 0.f;
+
+	mIsDown = false;
+	mJumpPower = 15.f;
 }
 
 void Boss::Release()
@@ -52,17 +69,55 @@ void Boss::Update()
 			mIsHit = true;
 	}
 
-	if (INPUT->GetKeyDown('7'))	// PatternBulletDown 테스트
+	//if (INPUT->GetKeyDown('7'))	// PatternBulletDown 테스트
+	//{
+	//	//Pattern(AttackPattern::PatternBulletDown);
+	//	mPattern = AttackPattern::PatternBulletDown;
+	//}
+	//else if (INPUT->GetKeyDown('8'))	// PatternBulletUp 테스트
+	//{
+	//	//Pattern(AttackPattern::PatternBulletUp);
+	//	mPattern = AttackPattern::PatternBulletUp;
+	//}
+	//else if (INPUT->GetKeyDown('9'))	// PatternBulletTarget 테스트
+	//{
+	//	//Pattern(AttackPattern::PatternBulletTarget);
+	//	mPattern = AttackPattern::PatternBulletTarget;
+	//	mIsDown = true;
+	//}
+
+	if(mPattern == AttackPattern::PatternIdle)
+		mAttackTime += TIME->DeltaTime();
+	
+	if (mAttackTime >= 2.f)		// 테스트용 2초
 	{
-		Pattern(AttackPattern::PatternBulletDown);
+		mAttackCount++;
+		mAttackTime = 0.f;
+		if (mAttackCount != 3)
+		{
+			int num = rand() % 2;
+			if (num == 0)
+				mPattern = AttackPattern::PatternBulletDown;
+			else if (num == 1)
+				mPattern = AttackPattern::PatternBulletUp;
+		}
+		else
+		{
+			mAttackCount = 0;
+			mPattern = AttackPattern::PatternBulletTarget;
+			mIsDown = true;
+		}
 	}
-	else if (INPUT->GetKeyDown('8'))	// PatternBulletUp 테스트
+
+	Pattern();
+
+	mCloseEyesTime += TIME->DeltaTime();
+	if (mCloseEyesTime >= 2.f && mCloseEyesTime < 2.1f)	// 눈 감는 시간 테스트
+		mIsCloseEyes = true;
+	else if (mCloseEyesTime >= 2.1f)
 	{
-		Pattern(AttackPattern::PatternBulletUp);
-	}
-	else if (INPUT->GetKeyDown('9'))	// PatternBulletTarget 테스트
-	{
-		Pattern(AttackPattern::PatternBulletTarget);
+		mCloseEyesTime = 0.f;
+		mIsCloseEyes = false;
 	}
 
 	mCurrentAnimation->Update();		// 머리 애니메이션
@@ -71,7 +126,7 @@ void Boss::Update()
 	vector<BossBullet*>::iterator iter = mVecBullet.begin();
 	for (; iter != mVecBullet.end(); )
 	{
-		if (!((*iter)->GetY() - (*iter)->GetSizeY() <= WINSIZEY && (*iter)->GetY() + (*iter)->GetSizeY() >= 0.f))
+		if (!(*iter)->GetIsActive())
 		{
 			(*iter)->SetIsActive(false);
 			iter = mVecBullet.erase(iter);
@@ -79,7 +134,6 @@ void Boss::Update()
 		else
 			iter++;
 	}
-
 }
 
 void Boss::Render(HDC hdc)
@@ -91,9 +145,12 @@ void Boss::Render(HDC hdc)
 	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mBody.rc);
 	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHead.rc);
 	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mChest.rc);
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mEyes.rc);
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mPupil.rc);
 
+	if (!mIsCloseEyes)
+	{
+		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mEyes.rc);
+		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mPupil.rc);
+	}
 #endif // DEBUG
 
 
@@ -103,8 +160,12 @@ void Boss::Render(HDC hdc)
 	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mBody.image, mBody.rc.left, mBody.rc.top, mBody.sizeX, mBody.sizeY);
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mHead.image, mHead.rc.left, mHead.rc.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mHead.sizeX, mHead.sizeY);
 	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mChest.image, mChest.rc.left, mChest.rc.top, mChest.sizeX, mChest.sizeY);
-	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mEyes.image, mEyes.rc.left, mEyes.rc.top, mEyes.sizeX, mEyes.sizeY);
-	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mPupil.image, mPupil.rc.left, mPupil.rc.top, mPupil.sizeX, mPupil.sizeY);
+
+	if (!mIsCloseEyes)
+	{
+		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mEyes.image, mEyes.rc.left, mEyes.rc.top, mEyes.sizeX, mEyes.sizeY);
+		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mPupil.image, mPupil.rc.left, mPupil.rc.top, mPupil.sizeX, mPupil.sizeY);
+	}
 }
 
 void Boss::ImageSetting()
@@ -200,6 +261,9 @@ void Boss::ImageSetting()
 
 void Boss::MotionFrame()
 {
+	// 몸은 움직이지 않음
+	mBody.rc = RectMakeCenter(mX - mSizeX / 2 + mBody.x, mY - mSizeY / 2 + mBody.y, mBody.sizeX, mBody.sizeY);
+
 	// 머리, 눈
 	if (mHead.move)		// true일 때 내려오는 모션
 	{
@@ -388,66 +452,127 @@ void Boss::MotionFrame()
 	mRightArm.rc = RectMakeCenter(mX - mSizeX / 2 + mRightArm.x, mY - mSizeY / 2 + mRightArm.y, mRightArm.sizeX, mRightArm.sizeY);
 }
 
-void Boss::Pattern(AttackPattern pattern)
+void Boss::Pattern()
 {
-	switch (pattern)
+	switch (mPattern)
 	{
 	case AttackPattern::PatternIdle:
 		break;
 	case AttackPattern::PatternBulletDown:
-		for (int i = 0; i < 4; ++i)
+		mBulletCreateTime += TIME->DeltaTime();
+		if (mBulletCreateTime >= 0.1f)				// 일정 시간마다 bullet 생성
 		{
-			BossBullet* bullet = new BossBullet;
-			bullet->Init();
-			bullet->SetX(WINSIZEX / 5 * (i + 1));
-			bullet->SetY(WINSIZEY / 2);
-			bullet->SetAngle(PI * 1.5f);		// 그냥 아래로 떨어지게
-			bullet->SetPattern(BulletPattern::PatternBulletDown);
-			bullet->SetObject();
-			mVecBullet.push_back(bullet);
-			OBJECTMANAGER->AddObject(ObjectLayer::EnemyProjectile, bullet);
+			for (int i = mBulletCreateCount; i < 4; )
+			{
+				mBulletCreateCount++;
+				mBulletCreateTime = 0.f;
+
+				BossBullet* bullet = new BossBullet;
+				bullet->Init();
+				bullet->SetX(WINSIZEX / 5 * (i + 1));
+				bullet->SetY(200.f);
+				bullet->SetAngle(PI * 1.5f);		// 그냥 아래로 떨어지게
+				bullet->SetPattern(BulletPattern::PatternBulletDown);
+				bullet->SetObject();
+				mVecBullet.push_back(bullet);
+				OBJECTMANAGER->AddObject(ObjectLayer::EnemyProjectile, bullet);
+
+				if (mBulletCreateCount == 4)
+				{
+					mBulletCreateCount = 0;
+					mBulletCreateTime = 0.f;
+					mPattern = AttackPattern::PatternIdle;
+				}
+				break;
+			}
 		}
 		break;
 	case AttackPattern::PatternBulletUp:
-		for (int i = 0; i < 2; ++i)
+		mBulletCreateTime += TIME->DeltaTime();
+		if (mBulletCreateTime >= 0.2f)				// 일정 시간마다 bullet 생성
 		{
-			float angle = rand() % 30 / 10.f;
-			BossBullet* bullet = new BossBullet;
-			bullet->Init();
-			bullet->SetX(OBJECTMANAGER->FindObject("Player")->GetX());
-			bullet->SetY(WINSIZEY);
-			bullet->SetAngle(angle);
-			bullet->SetPattern(BulletPattern::PatternBulletUp);
-			bullet->SetObject();
-			mVecBullet.push_back(bullet);
-			OBJECTMANAGER->AddObject(ObjectLayer::EnemyProjectile, bullet);
+			for (int i = mBulletCreateCount; i < 2; )
+			{
+				mBulletCreateCount++;
+				mBulletCreateTime = 0.f;
+
+				float angle = rand() % 30 / 10.f;
+				BossBullet* bullet = new BossBullet;
+				bullet->Init();
+				bullet->SetX(OBJECTMANAGER->GetPlayer()->GetX());
+				bullet->SetY(WINSIZEY);
+				bullet->SetAngle(angle);
+				bullet->SetPattern(BulletPattern::PatternBulletUp);
+				bullet->SetObject();
+				mVecBullet.push_back(bullet);
+				OBJECTMANAGER->AddObject(ObjectLayer::EnemyProjectile, bullet);
+
+				if (mBulletCreateCount == 2)
+				{
+					mBulletCreateCount = 0;
+					mBulletCreateTime = 0.f;
+					mPattern = AttackPattern::PatternIdle;
+				}
+				break;
+			}
 		}
 		break;
 	case AttackPattern::PatternBulletTarget:
-		for (int i = 0; i < 8; ++i)
+		if (mIsDown)
 		{
-			BossBullet* bullet = new BossBullet;
+			if (mY - mSizeY / 2 < WINSIZEY)
+			{
+				mY -= mJumpPower;
+				mJumpPower -= 1.f;
+			}
+			else
+			{
+				for (int i = mBulletCreateCount; i < 8; ++i)
+				{
+					mBulletCreateCount = 8;
 
-			if (i % 2 == 0)		// 왼쪽서 생성하는 애들
-			{
-				bullet->Init();
-				bullet->SetX(-(bullet->GetSizeX()) * (i / 2 + i / 2));
-				bullet->SetY(WINSIZEY / 3);
-				bullet->SetAngle(0.f);
-				bullet->SetPattern(BulletPattern::PatternBulletTarget);
-				bullet->SetObject();
+					BossBullet* bullet = new BossBullet;
+
+					if (i % 2 == 0)		// 왼쪽서 생성하는 애들
+					{
+						bullet->Init();
+						bullet->SetX(-(bullet->GetSizeX()) * (i / 2 + i / 2));
+						bullet->SetY(100.f);
+						bullet->SetAngle(0.f);
+						bullet->SetPattern(BulletPattern::PatternBulletTarget);
+						bullet->SetObject();
+					}
+					else				// 오른쪽서 생성하는 애들
+					{
+						bullet->Init();
+						bullet->SetX(WINSIZEX + (bullet->GetSizeX()) * (i / 2 + i / 2));
+						bullet->SetY(100.f + bullet->GetSizeY() / 2);
+						bullet->SetAngle(PI);
+						bullet->SetPattern(BulletPattern::PatternBulletTarget);
+						bullet->SetObject();
+					}
+					mVecBullet.push_back(bullet);
+					OBJECTMANAGER->AddObject(ObjectLayer::EnemyProjectile, bullet);
+				}
+
+				if (mVecBullet.size() == 0)
+				{
+					mIsDown = false;
+				}
 			}
-			else				// 오른쪽서 생성하는 애들
+		}
+		else
+		{
+			mY += mJumpPower;
+			mJumpPower += 1.f;
+
+			if (mY <= WINSIZEY / 2)
 			{
-				bullet->Init();
-				bullet->SetX(WINSIZEX + (bullet->GetSizeX()) * (i / 2 + i / 2));
-				bullet->SetY(WINSIZEY / 3 + bullet->GetSizeY() / 2);
-				bullet->SetAngle(PI);
-				bullet->SetPattern(BulletPattern::PatternBulletTarget);
-				bullet->SetObject();
+				mY = WINSIZEY / 2;
+				mJumpPower = 15.f;
+				mBulletCreateCount = 0;
+				mPattern = AttackPattern::PatternIdle;
 			}
-			mVecBullet.push_back(bullet);
-			OBJECTMANAGER->AddObject(ObjectLayer::EnemyProjectile, bullet);
 		}
 		break;
 	}
