@@ -18,9 +18,14 @@ void Scene03::Init()
 	IMAGEMANAGER->LoadFromFile(L"Boss_LeftArm_Dead", Resources(L"Boss/Boss_LeftArm_Dead"), 108, 87, true);
 	IMAGEMANAGER->LoadFromFile(L"Boss_LeftShoulder_Dead", Resources(L"Boss/Boss_LeftShoulder_Dead"), 39, 81, true);
 
-	mBoss = new Boss;
-	mBoss->Init();
+	// Boss Bullet
+	IMAGEMANAGER->LoadFromFile(L"BossBullet1", Resources(L"Boss/BossBullet1"), 32, 32, true);
 
+	Boss* boss = new Boss;
+	boss->Init();
+	boss->SetObject();
+	boss->SetAnimation();
+	OBJECTMANAGER->AddObject(ObjectLayer::Enemy, boss);
 }
 
 void Scene03::Release()
@@ -29,12 +34,13 @@ void Scene03::Release()
 
 void Scene03::Update()
 {
-	mBoss->Update();
+	//mBoss->Update();
+	OBJECTMANAGER->Update();
 }
 
 void Scene03::Render(HDC hdc)
 {
-	mBoss->Render(hdc);
+	OBJECTMANAGER->Render(hdc);
 	//wstring str = L"æ¿3 ∆‰¿Ã¡ˆ";
 	//TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2, str.c_str(), (int)str.length());
 }
