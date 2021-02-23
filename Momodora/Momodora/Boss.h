@@ -7,7 +7,7 @@
 // 2. bullet 2개 플레이어 위치에서 생성 곡선 타고 위로 올라감
 // 3. 루벨라가 아래로 내려가고 양 옆에서 bullet 4개씩 일정 간격 두고 나타나며 일정 시간 후 플레이어 위치로 날아감
 
-enum AttackPattern { PatternIdle, PatternBulletDown, PatternBulletUp, PatternBulletTarget };
+enum class AttackPattern { PatternIdle, PatternBulletDown, PatternBulletUp, PatternBulletTarget };
 
 struct Body {
 	Image* image;
@@ -57,27 +57,5 @@ public:
 	void ImageSetting();
 	void MotionFrame();
 	void Pattern(AttackPattern pattern);
-
-
-	// Bullet
-	class BossBullet : public GameObject
-	{
-		Image* mImage;
-		AttackPattern mPattern;
-		float mAngle;
-		float mSpeed;
-
-		float mShootTime;
-
-	public:
-		void Init()override;
-		void Release()override;
-		void Update()override;
-		void Render(HDC hdc)override;
-
-	public:
-		void SetAngle(float angle) { mAngle = angle; }
-		void SetPattern(AttackPattern pattern) { mPattern = pattern; }
-	};
 };
 
