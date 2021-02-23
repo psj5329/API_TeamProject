@@ -3,6 +3,7 @@
 #include "Image.h"
 #include "Animation.h"
 #include "Camera.h"
+#include "Dagger.h"
 
 void ShieldImp::Init()
 {
@@ -18,6 +19,7 @@ void ShieldImp::Init()
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
+	mThrown = false;
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 0, 0, 0, false);
@@ -89,15 +91,29 @@ void ShieldImp::Update()
 		mAttackSpeed = 0;
 		mEnemyState = EnemyState::Attack;
 		SetAnimation();
-		ThrowDagger();
+		mThrown = false;
 	}
 
+	//플레이어 찾고 방향세팅
 	if (mEnemyState == EnemyState::Idle)
 	{
 		if (mSearchSpeed > 2)
 		{
 			mSearchSpeed = 0;
 			SetDirection();
+		}
+	}
+
+	if (mCurrentAnimation == mRightAtk || mCurrentAnimation == mLeftAtk)
+	{
+		if (!mThrown) 
+		{
+			if (mCurrentAnimation->GetNowFrameX() == 2)
+			{
+				ThrowDagger();
+				mThrown = true;
+			}
+			
 		}
 	}
 
@@ -124,5 +140,17 @@ void ShieldImp::EndAttack()
 
 void ShieldImp::ThrowDagger()
 {
-
+	float angle;
+	if (mDirection == Direction::Left)
+	{
+		angle = PI;
+	}
+	else
+	{
+		angle = 0;
+	}
+	Dagger* Dagger1 = new Dagger();
+	Dagger1->Init(mX, mY, angle);
+	Dagger1->SetObject();
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyProjectile, Dagger1);
 }

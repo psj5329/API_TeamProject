@@ -207,6 +207,11 @@
     <ClInclude Include="LoadingScene.h">
       <Filter>Framework\Scene</Filter>
     </ClInclude>
+//    <ClInclude Include="Bomb.h">
+//      <Filter>헤더 파일</Filter>
+//    </ClInclude>
+//    <ClInclude Include="Dagger.h">
+//      <Filter>헤더 파일</Filter>
     <ClInclude Include="BossBullet.h">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
     </ClInclude>
@@ -317,6 +322,11 @@
     <ClCompile Include="LoadingScene.cpp">
       <Filter>Framework\Scene</Filter>
     </ClCompile>
+//    <ClCompile Include="Bomb.cpp">
+//      <Filter>소스 파일</Filter>
+//    </ClCompile>
+//    <ClCompile Include="Dagger.cpp">
+//      <Filter>소스 파일</Filter>
     <ClCompile Include="BossBullet.cpp">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
     </ClCompile>

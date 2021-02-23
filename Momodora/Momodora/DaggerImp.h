@@ -17,6 +17,7 @@ public:
 	void Render(HDC hdc) override;
 
 	void JumpAround();
+	void ThrowDagger();
 
 };
 
