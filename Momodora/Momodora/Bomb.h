@@ -1,0 +1,35 @@
+#pragma once
+#include "GameObject.h"
+
+class Player;
+class Animation;
+class Bomb :
+	public GameObject
+{
+	Player* mPlayer;
+	float mAngle;
+	float mSpeed;
+	RECT mPrevRect;
+	float mTargetX;
+	float mTargetY;
+	float mStartX;
+	float mStartY;
+	float mGravity;
+
+	float mFrameCount;
+
+	Image* mImage;
+	Image* mFireImage;
+	Animation* mLeftMove;
+	Animation* mRightMove;
+	Animation* mCurrentAnimation;
+
+public:
+	void Init()override;
+	void Release()override;
+	void Update()override;
+	void Render(HDC hdc)override;
+	void Init(int x, int y, float angle,float targetX,float targetY);
+	void Explode();
+};
+

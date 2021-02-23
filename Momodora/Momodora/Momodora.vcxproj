@@ -153,15 +153,19 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Arrow.h" />
+    <ClInclude Include="Bomb.h" />
     <ClInclude Include="BombImp.h" />
     <ClInclude Include="Boss.h" />
+    <ClInclude Include="BossBullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="D2DRenderer.h" />
+    <ClInclude Include="Dagger.h" />
     <ClInclude Include="DaggerImp.h" />
     <ClInclude Include="DefineHeader.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Fennel.h" />
     <ClInclude Include="Figure.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameObject.h" />
@@ -187,6 +191,7 @@
     <ClInclude Include="SceneTest.h" />
     <ClInclude Include="ShieldImp.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="Staff.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Vector2.h" />
@@ -195,14 +200,18 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Arrow.cpp" />
+    <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="BombImp.cpp" />
     <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="BossBullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="D2DRenderer.cpp" />
+    <ClCompile Include="Dagger.cpp" />
     <ClCompile Include="DaggerImp.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Fennel.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="ImageManager.cpp" />
@@ -231,6 +240,7 @@
     <ClCompile Include="SceneTest.cpp" />
     <ClCompile Include="ShieldImp.cpp" />
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="Staff.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Witch.cpp" />

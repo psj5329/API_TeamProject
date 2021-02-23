@@ -3,6 +3,7 @@
 #include "Image.h"
 #include "Animation.h"
 #include "Camera.h"
+#include "Dagger.h"
 
 void ShieldImp::Init()
 {
@@ -18,6 +19,7 @@ void ShieldImp::Init()
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
+	mThrown = false;
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 0, 0, 0, false);
@@ -42,13 +44,13 @@ void ShieldImp::Init()
 	mRightAtk = new Animation();
 	mRightAtk->InitFrameByStartEnd(0, 4, 7, 4, false);
 	mRightAtk->SetIsLoop(true);
-	mRightAtk->SetFrameUpdateTime(0.2f);
+	mRightAtk->SetFrameUpdateTime(0.1f);
 	mRightAtk->SetCallbackFunc(bind(&ShieldImp::EndAttack,this));
 
 	mLeftAtk = new Animation();
 	mLeftAtk->InitFrameByStartEnd(0, 5, 7, 5, false);
 	mLeftAtk->SetIsLoop(true);
-	mLeftAtk->SetFrameUpdateTime(0.2f);
+	mLeftAtk->SetFrameUpdateTime(0.1f);
 	mLeftAtk->SetCallbackFunc(bind(&ShieldImp::EndAttack, this));
 
 	mRightHurt = new Animation();
@@ -89,15 +91,29 @@ void ShieldImp::Update()
 		mAttackSpeed = 0;
 		mEnemyState = EnemyState::Attack;
 		SetAnimation();
-		ThrowDagger();
+		mThrown = false;
 	}
 
+	//플레이어 찾고 방향세팅
 	if (mEnemyState == EnemyState::Idle)
 	{
 		if (mSearchSpeed > 2)
 		{
 			mSearchSpeed = 0;
 			SetDirection();
+		}
+	}
+
+	if (mCurrentAnimation == mRightAtk || mCurrentAnimation == mLeftAtk)
+	{
+		if (!mThrown) 
+		{
+			if (mCurrentAnimation->GetNowFrameX() == 2)
+			{
+				ThrowDagger();
+				mThrown = true;
+			}
+			
 		}
 	}
 
@@ -124,5 +140,17 @@ void ShieldImp::EndAttack()
 
 void ShieldImp::ThrowDagger()
 {
-
+	float angle;
+	if (mDirection == Direction::Left)
+	{
+		angle = PI;
+	}
+	else
+	{
+		angle = 0;
+	}
+	Dagger* Dagger1 = new Dagger();
+	Dagger1->Init(mX, mY, angle);
+	Dagger1->SetObject();
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyProjectile, Dagger1);
 }

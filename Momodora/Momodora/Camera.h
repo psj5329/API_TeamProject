@@ -16,6 +16,11 @@ protected:
 	Mode mMode;
 	GameObject* mTarget;
 	float mMoveSpeed;
+	bool mShakeStart;
+	float mShakeTime;
+	float mShakeX;
+	float mShakeY;
+	float mShakePower;
 
 public:
 	void Init()override;
@@ -46,5 +51,6 @@ public:
 	inline void SetTarget(GameObject* target) { mTarget = target; }
 	inline float GetMoveSpeed() const { return mMoveSpeed; }
 	inline void SetMoveSpeed(float moveSpeed) { mMoveSpeed = moveSpeed; }
+	inline void SetShake(float shakeTime) { mShakeStart = true; mShakeTime = shakeTime; }
+	inline void SetShakePower(float shakePower) { mShakePower = shakePower; }
 };
-

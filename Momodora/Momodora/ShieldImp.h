@@ -3,6 +3,7 @@
 class ShieldImp :
 	public Enemy
 {
+	bool mThrown;
 
 public:
 	void Init() override;

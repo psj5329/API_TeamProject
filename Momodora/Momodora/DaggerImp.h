@@ -7,6 +7,7 @@ class DaggerImp :
 	float mGravity;
 
 	bool isGround;
+	bool mThrown;
 	RECT bottom;
 
 
@@ -17,6 +18,7 @@ public:
 	void Render(HDC hdc) override;
 
 	void JumpAround();
-
+	void ThrowDagger();
+	void EndAttack()override;
 };
 

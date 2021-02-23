@@ -7,6 +7,7 @@
 
 void Player::Init()
 {
+	mName = "Player";
 	IMAGEMANAGER->LoadFromFile(L"Idle", Resources(L"Player/idle"), 294, 96, 6, 2, true);
 	mIdleImage = IMAGEMANAGER->FindImage(L"Idle");
 
