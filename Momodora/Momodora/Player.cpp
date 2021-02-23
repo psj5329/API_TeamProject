@@ -3,6 +3,7 @@
 #include "Image.h"
 #include "Animation.h"
 #include "Camera.h"
+#include "Arrow.h"
 
 void Player::Init()
 {
@@ -43,6 +44,16 @@ void Player::Init()
 	IMAGEMANAGER->LoadFromFile(L"LadderLeave", Resources(L"/Player/ladderleave"), 294, 160, 6, 2, true);
 	mLadderLeaveImage = IMAGEMANAGER->FindImage(L"LadderLeave");
 
+	IMAGEMANAGER->LoadFromFile(L"Bow", Resources(L"/Player/bow"), 294, 96, 6, 2, true);
+	mBowImage = IMAGEMANAGER->FindImage(L"Bow");
+
+	IMAGEMANAGER->LoadFromFile(L"AirBow", Resources(L"/Player/airbow"), 294, 96, 6, 2, true);
+	mAirBowImage = IMAGEMANAGER->FindImage(L"AirBow");
+
+	IMAGEMANAGER->LoadFromFile(L"CrouchBow", Resources(L"/Player/crouchbow"), 294, 104, 6, 2, true);
+	mCrouchBowImage = IMAGEMANAGER->FindImage(L"CrouchBow");
+
+	IMAGEMANAGER->LoadFromFile(L"Arrow", Resources(L"/Player/arrow"), 32, 64, 1, 2, true);
 
 	//스탠드 애니메이션
 	mLeftIdleAnimation = new Animation();
@@ -138,12 +149,14 @@ void Player::Init()
 	mLeftRiseAnimation->SetIsLoop(false);
 	mLeftRiseAnimation->SetFrameUpdateTime(0.1f);
 	mLeftRiseAnimation->Play();
+	mLeftRiseAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
 	mRightRiseAnimation = new Animation();
 	mRightRiseAnimation->InitFrameByStartEnd(0, 0, 1, 0, false);
 	mRightRiseAnimation->SetIsLoop(false);
 	mRightRiseAnimation->SetFrameUpdateTime(0.1f);
 	mRightRiseAnimation->Play();
+	mRightRiseAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 	//구르기 애니메이션
 	mLeftRollAnimation = new Animation();
 	mLeftRollAnimation->InitFrameByStartEnd(0, 1, 7, 1, true);
@@ -158,7 +171,7 @@ void Player::Init()
 	mRightRollAnimation->SetFrameUpdateTime(0.07f);
 	mRightRollAnimation->Play();
 	mRightRollAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
-	//사다리 애니메이션
+	//사다리 오르내리기 애니메이션
 	mLadderUpAnimation = new Animation();
 	mLadderUpAnimation->InitFrameByStartEnd(0, 0, 5, 0, true);
 	mLadderUpAnimation->SetIsLoop(true);
@@ -176,12 +189,14 @@ void Player::Init()
 	mLeftLadderEnterAnimation->SetIsLoop(true);
 	mLeftLadderEnterAnimation->SetFrameUpdateTime(0.1f);
 	mLeftLadderEnterAnimation->Play();
+	mLeftLadderEnterAnimation->SetCallbackFunc(bind(&Player::SetStateLadderUp, this));
 
 	mRightLadderEnterAnimation = new Animation();
 	mRightLadderEnterAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightLadderEnterAnimation->SetIsLoop(true);
 	mRightLadderEnterAnimation->SetFrameUpdateTime(0.1f);
 	mRightLadderEnterAnimation->Play();
+	mRightLadderEnterAnimation->SetCallbackFunc(bind(&Player::SetStateLadderUp, this));
 	//사다리 퇴장 애니메이션
 	mLeftLadderLeaveAnimation = new Animation();
 	mLeftLadderLeaveAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
@@ -193,6 +208,43 @@ void Player::Init()
 	mRightLadderLeaveAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightLadderLeaveAnimation->SetIsLoop(true);
 	mRightLadderLeaveAnimation->SetFrameUpdateTime(0.1f);
+	mRightLadderLeaveAnimation->Play();
+	//활 애니메이션
+	mLeftBowAnimation = new Animation();
+	mLeftBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
+	mLeftBowAnimation->SetIsLoop(true);
+	mLeftBowAnimation->SetFrameUpdateTime(0.1f);
+	mLeftBowAnimation->Play();
+
+	mRightBowAnimation = new Animation();
+	mRightBowAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
+	mRightBowAnimation->SetIsLoop(true);
+	mRightBowAnimation->SetFrameUpdateTime(0.1f);
+	mRightBowAnimation->Play();
+	//공중 활 애니메이션
+	mLeftAirBowAnimation = new Animation();
+	mLeftAirBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
+	mLeftAirBowAnimation->SetIsLoop(true);
+	mLeftAirBowAnimation->SetFrameUpdateTime(0.1f);
+	mLeftAirBowAnimation->Play();
+
+	mRightAirBowAnimation = new Animation();
+	mRightAirBowAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
+	mRightAirBowAnimation->SetIsLoop(true);
+	mRightAirBowAnimation->SetFrameUpdateTime(0.1f);
+	mRightAirBowAnimation->Play();
+	//앉아 활 애니메이션
+	mLeftCrouchBowAnimation = new Animation();
+	mLeftCrouchBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
+	mLeftCrouchBowAnimation->SetIsLoop(true);
+	mLeftCrouchBowAnimation->SetFrameUpdateTime(0.1f);
+	mLeftCrouchBowAnimation->Play();
+
+	mRightCrouchBowAnimation = new Animation();
+	mRightCrouchBowAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
+	mRightCrouchBowAnimation->SetIsLoop(true);
+	mRightCrouchBowAnimation->SetFrameUpdateTime(0.1f);
+	mRightCrouchBowAnimation->Play();
 
 	//값 설정
 	mX = WINSIZEX / 2;
@@ -249,6 +301,7 @@ void Player::Update()
 	{
 		if (stopmove == 0)
 		{
+			if(mState != State::LeftRoll)
 			mX -= mSpeed * Time::GetInstance()->DeltaTime();
 
 			if (Input::GetInstance()->GetKeyDown(VK_RIGHT))
@@ -265,6 +318,7 @@ void Player::Update()
 	{
 		if (stopmove == 0)
 		{
+			if (mState != State::RightRoll)
 			mX += mSpeed * Time::GetInstance()->DeltaTime();
 
 			if (Input::GetInstance()->GetKeyDown(VK_LEFT))
@@ -356,6 +410,7 @@ void Player::Update()
 
 		if (mState == State::LeftCrouch)
 		{
+			mState = State::LeftRise;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftRiseAnimation;
 			mCurrentAnimation->Play();
@@ -363,6 +418,7 @@ void Player::Update()
 		}
 		if (mState == State::RightCrouch)
 		{
+			mState = State::RightRise;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightRiseAnimation;
 			mCurrentAnimation->Play();
@@ -371,7 +427,7 @@ void Player::Update()
 	}
 
 	//구르기
-	if (Input::GetInstance()->GetKeyDown(VK_LSHIFT)) //이동키와 동시 입력시 이동속도+구르기속도
+	if (Input::GetInstance()->GetKeyDown(VK_LSHIFT))
 	{
 		//stopmove = 1;
 
@@ -427,12 +483,93 @@ void Player::Update()
 	{
 		if (mState == State::LeftIdle || mState == State::LeftRun || mState == State::LeftJump)
 		{
-
+			mState = State::LeftEnterLadder;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftLadderEnterAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mLadderEnterImage;
 		}
 		if (mState == State::RightIdle || mState == State::RightRun || mState == State::RightJump)
 		{
-
+			mState = State::RightEnterLadder;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightLadderEnterAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mLadderEnterImage;
 		}
+	}
+	
+	//활 공격
+	if (Input::GetInstance()->GetKeyDown('X'))
+	{
+		Arrow* arrow = new Arrow;
+		mArrowImage = IMAGEMANAGER->FindImage(L"Arrow");
+
+		if (mState == State::LeftIdle || mState == State::LeftRun)
+		{
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftBowAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mBowImage;
+			arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, PI);
+			arrow->SetArrowIndexY(1);
+			mArrow.push_back(arrow);
+		}
+		if (mState == State::RightIdle || mState == State::RightRun)
+		{
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightBowAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mBowImage;
+			arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, 0);
+			arrow->SetArrowIndexY(0);
+			mArrow.push_back(arrow);
+		}
+		if (mState == State::LeftJump)
+		{
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftAirBowAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mAirBowImage;
+			arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, PI);
+			arrow->SetArrowIndexY(1);
+			mArrow.push_back(arrow);
+		}
+		if (mState == State::RightJump)
+		{
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightAirBowAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mAirBowImage;
+			arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, 0);
+			arrow->SetArrowIndexY(0);
+			mArrow.push_back(arrow);
+		}
+		if (mState == State::LeftCrouch)
+		{
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftCrouchBowAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mCrouchBowImage;
+			arrow->Fire(mArrowImage, mX - 20, mY + 18, mArrowSpeed, PI);
+			arrow->SetArrowIndexY(1);
+			mArrow.push_back(arrow);
+		}
+		if (mState == State::RightCrouch)
+		{
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightCrouchBowAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mCrouchBowImage;
+			arrow->Fire(mArrowImage, mX + 20, mY + 18, mArrowSpeed, 0);
+			arrow->SetArrowIndexY(0);
+			mArrow.push_back(arrow);
+		}
+	}
+	for (int i = 0; i < mArrow.size(); ++i)
+	{
+		mArrow[i]->Update();
+
 	}
 
 
@@ -448,6 +585,11 @@ void Player::Render(HDC hdc)
 {
 	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
 	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY , 1.f);
+
+	for (int i = 0; i < mArrow.size(); ++i)
+	{
+		mArrow[i]->Render(hdc);
+	}
 }
 
 void Player::SetStateRun()
@@ -470,7 +612,7 @@ void Player::SetStateRun()
 
 void Player::SetStateIdle()
 {
-	if (mState == State::LeftRoll)
+	if (mState == State::LeftRoll || mState == State::LeftRise)
 	{
 		mState = State::LeftIdle;
 		mCurrentAnimation->Stop();
@@ -478,7 +620,7 @@ void Player::SetStateIdle()
 		mCurrentAnimation->Play();
 		mCurrentImage = mIdleImage;
 	}
-	else if (mState == State::RightRoll)
+	else if (mState == State::RightRoll || mState == State::RightRise)
 	{
 		mState = State::RightIdle;
 		mCurrentAnimation->Stop();

@@ -213,6 +213,8 @@
     <ClInclude Include="LoadingScene.h">
       <Filter>Framework\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Arrow.h">
+      <Filter>MainGame\Object\Player</Filter>
     <ClInclude Include="BossBullet.h">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
     </ClInclude>
@@ -335,6 +337,8 @@
     <ClCompile Include="LoadingScene.cpp">
       <Filter>Framework\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Arrow.cpp">
+      <Filter>MainGame\Object\Player</Filter>
     <ClCompile Include="BossBullet.cpp">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
     </ClCompile>
