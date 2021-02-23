@@ -20,13 +20,13 @@ void Scene02::Init()
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, monkey1);
 
 	//Ä®µç¾Ö
-	//DaggerImp* DaggerImp1 = new DaggerImp();
-	//DaggerImp1->Init();
-	//DaggerImp1->SetObject();
-	//DaggerImp1->SetPosition(WINSIZEX / 2 - 300, 550);
-	//vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
-	//DaggerImp1->SetPlayerPtr((Player*)player[0]);
-	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, DaggerImp1);
+	DaggerImp* DaggerImp1 = new DaggerImp();
+	DaggerImp1->Init();
+	DaggerImp1->SetObject();
+	DaggerImp1->SetPosition(WINSIZEX / 2 - 300, 550);
+	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
+	DaggerImp1->SetPlayerPtr((Player*)player[0]);
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, DaggerImp1);
 	
 	//ÆøÅº
 	//BombImp * BombImp1 = new BombImp();
@@ -47,13 +47,13 @@ void Scene02::Init()
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, ShieldImp1);
 
 	//¸¶³à
-	Witch* Witch1 = new Witch();
-	Witch1->Init();
-	Witch1->SetObject();
-	Witch1->SetPosition(WINSIZEX / 2 + 100, 550);
-	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
-	Witch1->SetPlayerPtr((Player*)player[0]);
-	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Witch1);
+	//Witch* Witch1 = new Witch();
+	//Witch1->Init();
+	//Witch1->SetObject();
+	//Witch1->SetPosition(WINSIZEX / 2 + 100, 550);
+	//vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
+	//Witch1->SetPlayerPtr((Player*)player[0]);
+	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Witch1);
 
 
 	IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"Map/map2"), 1200, 900, false);
