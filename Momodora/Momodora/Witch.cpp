@@ -125,11 +125,13 @@ void Witch::Render(HDC hdc)
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY);
 }
 
+void Witch::SearchPlayer()
+{
+}
+
 void Witch::EndAttack()
 {
 	mEnemyState = EnemyState::Idle;
 	mImage = IMAGEMANAGER->FindImage(L"Witchidle2");
 	SetAnimation();
 }
-
-
