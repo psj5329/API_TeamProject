@@ -13,6 +13,7 @@ class BossBullet : public GameObject
 
 	float mShootTime;
 	bool mIsShoot;
+	bool mIsShow;
 
 public:
 	void Init()override;
