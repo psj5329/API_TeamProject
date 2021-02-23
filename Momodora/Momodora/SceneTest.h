@@ -7,7 +7,6 @@ class Platform;
 class SceneTest final : public Scene
 {
 	Image* mMapTest;
-	Platform* mPlatform01;
 
 public:
 	void Init()override;
