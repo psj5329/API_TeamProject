@@ -42,8 +42,13 @@ class Boss : public Enemy
 	int mHitMoveCount;
 	float mHitFrameTime;
 
-	AttackPattern mPattern;
+	AttackPattern mPattern;		// 공격 패턴
 	float mAttackTime;			// 한 패턴이 끝나고 5초마다 패턴이 나온다
+	int mAttackCount;			// 두번 패턴 끝나고 타겟패턴
+	int mBulletCreateCount;
+	float mBulletCreateTime;
+	bool mIsDown;
+	float mJumpPower;
 
 	vector<BossBullet*> mVecBullet;
 
@@ -56,6 +61,6 @@ public:
 public:
 	void ImageSetting();
 	void MotionFrame();
-	void Pattern(AttackPattern pattern);
+	void Pattern();
 };
 
