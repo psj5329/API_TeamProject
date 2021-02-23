@@ -16,11 +16,15 @@ protected:
 	bool mIsDestroy;
 
 public:
+	GameObject();
+	GameObject(float x, float y);
+
 	virtual void Init() = 0;
 	virtual void Release() = 0;
 	virtual void Update() = 0;
 	virtual void Render(HDC hdc) = 0;
 
+public:
 	inline string GetName()const { return mName; }
 	inline void SetName(const string& name) { mName = name; }
 	inline float GetX()const { return mX; }

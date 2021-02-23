@@ -68,7 +68,7 @@ class Player : public GameObject
 	Animation* mLadderUpAnimation;
 	Animation* mLadderDownAnimation;
 
-	Animation* mCurrentAnimation;	//���� �ִϸ��̼�
+	Animation* mCurrentAnimation;	//ÇöÀç ¾Ö´Ï¸ÞÀÌ¼Ç
 
 
 public:
@@ -78,7 +78,7 @@ public:
 	void Update()override;
 	void Render(HDC hdc)override;
 	RECT GetRect() { return mRect; }
-
+  
 	void SetStateRun();
 };
 

@@ -37,7 +37,7 @@ void Player::Init()
 	mLadderDownImage = IMAGEMANAGER->FindImage(L"LadderDown");
 
 
-	//½ºÅÄµå ÀÌ¹ÌÁö
+	//ìŠ¤íƒ ë“œ ì´ë¯¸ì§€
 	mLeftIdleAnimation = new Animation();
 	mLeftIdleAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftIdleAnimation->SetIsLoop(true);
@@ -49,7 +49,7 @@ void Player::Init()
 	mRightIdleAnimation->SetIsLoop(true);
 	mRightIdleAnimation->SetFrameUpdateTime(0.2f);
 	mRightIdleAnimation->Play();
-	//ÀÌµ¿ ÀÌ¹ÌÁö
+	//ì´ë™ ì´ë¯¸ì§€
 	mLeftRunStartAnimation = new Animation();
 	mLeftRunStartAnimation->InitFrameByStartEnd(8, 1, 9, 1, true);
 	mLeftRunStartAnimation->SetIsLoop(false);
@@ -75,7 +75,7 @@ void Player::Init()
 	mRightRunAnimation->SetIsLoop(true);
 	mRightRunAnimation->SetFrameUpdateTime(0.1f);
 	mRightRunAnimation->Play();
-	//¹æÇâÀüÈ¯ ÀÌ¹ÌÁö
+	//ë°©í–¥ì „í™˜ ì´ë¯¸ì§€
 	mLeftTurnAnimation = new Animation();
 	mLeftTurnAnimation->InitFrameByStartEnd(0, 1, 2, 1, true);
 	mLeftTurnAnimation->SetIsLoop(false);
@@ -87,7 +87,7 @@ void Player::Init()
 	mRightTurnAnimation->SetIsLoop(false);
 	mRightTurnAnimation->SetFrameUpdateTime(0.3f);
 	mRightTurnAnimation->Play();
-	//Á¡ÇÁ ÀÌ¹ÌÁö
+	//ì í”„ ì´ë¯¸ì§€
 	mLeftJumpAnimation = new Animation();
 	mLeftJumpAnimation->InitFrameByStartEnd(0, 1, 2, 1, true);
 	mLeftJumpAnimation->SetIsLoop(true);
@@ -99,7 +99,7 @@ void Player::Init()
 	mRightJumpAnimation->SetIsLoop(true);
 	mRightJumpAnimation->SetFrameUpdateTime(0.3f);
 	mRightJumpAnimation->Play();
-	//Á¡ÇÁ ÇÏ°­ ÀÌ¹ÌÁö
+	//ì í”„ í•˜ê°• ì´ë¯¸ì§€
 	mLeftFallAnimation = new Animation();
 	mLeftFallAnimation->InitFrameByStartEnd(0, 1, 4, 1, true);
 	mLeftFallAnimation->SetIsLoop(true);
@@ -111,7 +111,7 @@ void Player::Init()
 	mRightFallAnimation->SetIsLoop(true);
 	mRightFallAnimation->SetFrameUpdateTime(0.3f);
 	mRightFallAnimation->Play();
-	//¾É±â ÀÌ¹ÌÁö
+	//ì•‰ê¸° ì´ë¯¸ì§€
 	mLeftCrouchAnimation = new Animation();
 	mLeftCrouchAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
 	mLeftCrouchAnimation->SetIsLoop(false);
@@ -123,7 +123,7 @@ void Player::Init()
 	mRightCrouchAnimation->SetIsLoop(false);
 	mRightCrouchAnimation->SetFrameUpdateTime(0.1f);
 	mRightCrouchAnimation->Play();
-	//ÀÏ¾î³ª±â ÀÌ¹ÌÁö
+	//ì¼ì–´ë‚˜ê¸° ì´ë¯¸ì§€
 	mLeftRiseAnimation = new Animation();
 	mLeftRiseAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
 	mLeftRiseAnimation->SetIsLoop(false);
@@ -135,7 +135,7 @@ void Player::Init()
 	mRightRiseAnimation->SetIsLoop(false);
 	mRightRiseAnimation->SetFrameUpdateTime(0.1f);
 	mRightRiseAnimation->Play();
-	//±¸¸£±â ÀÌ¹ÌÁö
+	//êµ¬ë¥´ê¸° ì´ë¯¸ì§€
 	mLeftRollAnimation = new Animation();
 	mLeftRollAnimation->InitFrameByStartEnd(0, 1, 7, 1, true);
 	mLeftRollAnimation->SetIsLoop(false);
@@ -148,7 +148,7 @@ void Player::Init()
 	mRightRollAnimation->SetFrameUpdateTime(0.1f);
 	mRightRollAnimation->Play();
 
-	//°ª ¼³Á¤
+	//ê°’ ì„¤ì •
 	mX = WINSIZEX / 2;
 	mY = WINSIZEY / 2;
 	mCurrentAnimation = mRightIdleAnimation;
@@ -165,7 +165,7 @@ void Player::Release()
 
 void Player::Update()
 {
-	//ÀÌµ¿ ÇÁ·¹ÀÓ
+	//ì´ë™ í”„ë ˆìž„
 	if (Input::GetInstance()->GetKeyDown(VK_LEFT))
 	{
 		mState = State::LeftRun;
@@ -198,7 +198,7 @@ void Player::Update()
 		mCurrentAnimation->Play();
 		mCurrentImage = mIdleImage;
 	}
-	//ÀÌµ¿ ±¸Çö ¹× ¹æÇâÀüÈ¯
+	//ì´ë™ êµ¬í˜„ ë° ë°©í–¥ì „í™˜
 	if (Input::GetInstance()->GetKey(VK_LEFT))
 	{
 		if (stopmove == 0)
@@ -232,7 +232,7 @@ void Player::Update()
 		}
 	}
 
-	//Á¡ÇÁ
+	//ì í”„
 	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 	{
 		mJumpPower = 8.f;
@@ -281,7 +281,7 @@ void Player::Update()
 		mJumpPower = 0;
 	}
 
-	//¾É±â
+	//ì•‰ê¸°
 	if (Input::GetInstance()->GetKeyDown('C'))
 	{
 		stopmove = 1;
@@ -303,7 +303,7 @@ void Player::Update()
 			mCurrentImage = mCrouchImage;
 		}
 	}
-	//ÀÏ¾î¼­±â
+	//ì¼ì–´ì„œê¸°
 	if (Input::GetInstance()->GetKeyUp('C'))
 	{
 		stopmove = 0;
@@ -324,7 +324,7 @@ void Player::Update()
 		}
 	}
 
-	//±¸¸£±â
+	//êµ¬ë¥´ê¸°
 	if (Input::GetInstance()->GetKeyDown(VK_LSHIFT))
 	{
 		if (mState == State::LeftIdle || mState == State::LeftRun)

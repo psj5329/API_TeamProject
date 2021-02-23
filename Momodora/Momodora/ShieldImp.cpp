@@ -13,8 +13,8 @@ void ShieldImp::Init()
 	mStart.y = WINSIZEY / 2;
 	mX = mStart.x;
 	mY = mStart.y;
-	mSizeX = mImage->GetFrameWidth();
-	mSizeY = mImage->GetFrameHeight();
+	mSizeX = mImage->GetFrameWidth()*2;
+	mSizeY = mImage->GetFrameHeight()*2;
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
@@ -43,12 +43,13 @@ void ShieldImp::Init()
 	mRightAtk->InitFrameByStartEnd(0, 4, 7, 4, false);
 	mRightAtk->SetIsLoop(true);
 	mRightAtk->SetFrameUpdateTime(0.2f);
-	//mRightAtk->SetCallbackFunc(*(function<void(void)>)EndThrow);
+	mRightAtk->SetCallbackFunc(bind(&ShieldImp::EndAttack,this));
 
 	mLeftAtk = new Animation();
 	mLeftAtk->InitFrameByStartEnd(0, 5, 7, 5, false);
 	mLeftAtk->SetIsLoop(true);
 	mLeftAtk->SetFrameUpdateTime(0.2f);
+	mLeftAtk->SetCallbackFunc(bind(&ShieldImp::EndAttack, this));
 
 	mRightHurt = new Animation();
 	mRightHurt->InitFrameByStartEnd(0, 6, 0, 6, false);
@@ -67,41 +68,61 @@ void ShieldImp::Init()
 
 void ShieldImp::Release()
 {
-
-
+	SafeDelete(mRightIdle);
+	SafeDelete(mLeftIdle);
+	SafeDelete(mRightMove);
+	SafeDelete(mLeftMove);
+	SafeDelete(mRightAtk);
+	SafeDelete(mLeftAtk);
+	SafeDelete(mRightHurt);
+	SafeDelete(mLeftHurt);
 }
 
 void ShieldImp::Update()
 {
 	mAttackSpeed += TIME->DeltaTime();
+	mSearchSpeed += TIME->DeltaTime();
 
+	//공격
 	if (mAttackSpeed > 5)
 	{
 		mAttackSpeed = 0;
 		mEnemyState = EnemyState::Attack;
 		SetAnimation();
+		ThrowDagger();
+	}
+
+	if (mEnemyState == EnemyState::Idle)
+	{
+		if (mSearchSpeed > 2)
+		{
+			mSearchSpeed = 0;
+			SetDirection();
+		}
+	}
+
+	//맞으면
+	if (true)
+	{
 
 	}
 
-	//if(mCurr == 해당모션 && mCurr->getisplay() == false)
-	//{EndThrow();}
-
 	mCurrentAnimation->Update();
-
-	SearchPlayer();
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 }
 
 void ShieldImp::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->FrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY());
+	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY);
 }
 
-void ShieldImp::SearchPlayer()
+void ShieldImp::EndAttack()
 {
-	//플레이어가 searchzone 에 들어오면
-	//방향설정
-
+	mEnemyState = EnemyState::Idle;
+	SetAnimation();
 }
 
+void ShieldImp::ThrowDagger()
+{
 
+}
