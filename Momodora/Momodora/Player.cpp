@@ -5,55 +5,30 @@
 #include "Camera.h"
 #include "Arrow.h"
 
+Player::Player()
+	: GameObject()
+{
+}
+
 void Player::Init()
 {
 	mName = "Player";
-	IMAGEMANAGER->LoadFromFile(L"Idle", Resources(L"Player/idle"), 294, 96, 6, 2, true);
+
 	mIdleImage = IMAGEMANAGER->FindImage(L"Idle");
-
-	IMAGEMANAGER->LoadFromFile(L"Run", Resources(L"Player/run"), 490, 96, 10, 2, true);
 	mRunImage = IMAGEMANAGER->FindImage(L"Run");
-	
-	IMAGEMANAGER->LoadFromFile(L"Turn", Resources(L"/Player/turn"), 147, 96, 3, 2, true);
 	mTurnImage = IMAGEMANAGER->FindImage(L"Turn");
-
-	IMAGEMANAGER->LoadFromFile(L"Jump", Resources(L"/Player/jump"), 147, 96, 3, 2, true);
 	mJumpImage = IMAGEMANAGER->FindImage(L"Jump");
-
-	IMAGEMANAGER->LoadFromFile(L"Fall", Resources(L"/Player/fall"), 245, 96, 5, 2, true);
 	mFallImage = IMAGEMANAGER->FindImage(L"Fall");
-
-	IMAGEMANAGER->LoadFromFile(L"Crouch", Resources(L"/Player/crouch"), 196, 96, 4, 2, true);
 	mCrouchImage = IMAGEMANAGER->FindImage(L"Crouch");
-
-	IMAGEMANAGER->LoadFromFile(L"Rise", Resources(L"/Player/rise"), 98, 96, 2, 2, true);
 	mRiseImage = IMAGEMANAGER->FindImage(L"Rise");
-
-	IMAGEMANAGER->LoadFromFile(L"Roll", Resources(L"/Player/roll"), 392, 96, 8, 2, true);
 	mRollImage = IMAGEMANAGER->FindImage(L"Roll");
-
-	IMAGEMANAGER->LoadFromFile(L"LadderUp", Resources(L"/Player/ladderup"), 204, 48, 6, 1, true);
 	mLadderUpImage = IMAGEMANAGER->FindImage(L"LadderUp");
-
-	IMAGEMANAGER->LoadFromFile(L"LadderDown", Resources(L"/Player/ladderdown"), 105, 43, 3, 1, true);
 	mLadderDownImage = IMAGEMANAGER->FindImage(L"LadderDown");
-
-	IMAGEMANAGER->LoadFromFile(L"LadderEnter", Resources(L"/Player/ladderenter"), 390, 128, 6, 2, true);
 	mLadderEnterImage = IMAGEMANAGER->FindImage(L"LadderEnter");
-
-	IMAGEMANAGER->LoadFromFile(L"LadderLeave", Resources(L"/Player/ladderleave"), 294, 160, 6, 2, true);
 	mLadderLeaveImage = IMAGEMANAGER->FindImage(L"LadderLeave");
-
-	IMAGEMANAGER->LoadFromFile(L"Bow", Resources(L"/Player/bow"), 294, 96, 6, 2, true);
 	mBowImage = IMAGEMANAGER->FindImage(L"Bow");
-
-	IMAGEMANAGER->LoadFromFile(L"AirBow", Resources(L"/Player/airbow"), 294, 96, 6, 2, true);
 	mAirBowImage = IMAGEMANAGER->FindImage(L"AirBow");
-
-	IMAGEMANAGER->LoadFromFile(L"CrouchBow", Resources(L"/Player/crouchbow"), 294, 104, 6, 2, true);
 	mCrouchBowImage = IMAGEMANAGER->FindImage(L"CrouchBow");
-
-	IMAGEMANAGER->LoadFromFile(L"Arrow", Resources(L"/Player/arrow"), 32, 64, 1, 2, true);
 
 	//스탠드 애니메이션
 	mLeftIdleAnimation = new Animation();
@@ -258,7 +233,6 @@ void Player::Init()
 
 void Player::Release()
 {
-
 }
 
 void Player::Update()

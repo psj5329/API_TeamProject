@@ -1,5 +1,4 @@
 #pragma once
-
 #include "GameObject.h"
 
 enum class State : int
@@ -100,6 +99,7 @@ class Player : public GameObject
 
 
 public:
+	Player();
 
 	void Init()override;
 	void Release()override;
@@ -113,6 +113,3 @@ public:
 	void SetStateLadderUp();
 	void SetStateLadderDown();
 };
-
-
-

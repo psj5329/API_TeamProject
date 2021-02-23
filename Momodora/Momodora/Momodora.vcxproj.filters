@@ -216,8 +216,6 @@
     <ClInclude Include="LoadingScene.h">
       <Filter>Framework\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Arrow.h">
-      <Filter>MainGame\Object\Player</Filter>
     <ClInclude Include="BossBullet.h">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
     </ClInclude>
@@ -229,11 +227,15 @@
     </ClInclude>
     <ClInclude Include="Ladder.h">
       <Filter>MainGame\Object\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="Arrow.h">
+      <Filter>MainGame\Object\PlayerProjectile</Filter>
+    </ClInclude>
     <ClInclude Include="Staff.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MainGame\Object\EnemyProjectile</Filter>
     </ClInclude>
     <ClInclude Include="Fennel.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -342,8 +344,6 @@
     <ClCompile Include="LoadingScene.cpp">
       <Filter>Framework\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Arrow.cpp">
-      <Filter>MainGame\Object\Player</Filter>
     <ClCompile Include="BossBullet.cpp">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
     </ClCompile>
@@ -355,11 +355,15 @@
     </ClCompile>
     <ClCompile Include="Ladder.cpp">
       <Filter>MainGame\Object\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="Arrow.cpp">
+      <Filter>MainGame\Object\PlayerProjectile</Filter>
+    </ClCompile>
     <ClCompile Include="Staff.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MainGame\Object\EnemyProjectile</Filter>
     </ClCompile>
     <ClCompile Include="Fennel.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "LoadingScene.h"
+#include "Player.h"
 
 void LoadingScene::AddLoadFunc(const function<void(void)>& func)
 {
@@ -21,6 +22,18 @@ void LoadingScene::Update()
 	if (mLoadIndex >= mLoadList.size())
 	{
 		mIsEndLoading = true;
+
+		if (mIsEndLoading)
+		{
+			vector<GameObject*> playerLayer = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
+			if (playerLayer.size() == 0)
+			{
+				Player* player = new Player();
+				player->Init();
+				OBJECTMANAGER->AddObject(ObjectLayer::Player, player);
+			}
+		}
+
 		return;
 	}
 

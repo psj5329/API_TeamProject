@@ -10,7 +10,6 @@ void Dagger::Init()
 }
 void Dagger::Init(int x,int y, float angle)
 {
-	IMAGEMANAGER->LoadFromFile(L"Dagger", Resources(L"Dagger"), 16, 32, 1, 2, true);
 	mImage = IMAGEMANAGER->FindImage(L"Dagger");
 
 	mX = x;
