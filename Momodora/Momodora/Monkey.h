@@ -16,5 +16,7 @@ public:
 
 	void Patrol();
 	void SearchPlayer();
+	void Attack()override;
+	void EndAttack()override;
 };
 

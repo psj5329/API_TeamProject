@@ -7,6 +7,7 @@
 #include "Platform.h"
 #include "BombImp.h"
 #include "ShieldImp.h"
+#include "Witch.h"
 void Scene02::Init()
 {
 	//根虐积己
@@ -14,26 +15,45 @@ void Scene02::Init()
 	//monkey1->Init();
 	//monkey1->SetObject();
 	//monkey1->SetPosition(WINSIZEX / 2, 500);
+	//vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
+	//monkey1->SetPlayerPtr((Player*)player[0]);
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, monkey1);
 
-
+	//漠电局
 	//DaggerImp* DaggerImp1 = new DaggerImp();
 	//DaggerImp1->Init();
 	//DaggerImp1->SetObject();
 	//DaggerImp1->SetPosition(WINSIZEX / 2 - 300, 550);
+	//vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
+	//DaggerImp1->SetPlayerPtr((Player*)player[0]);
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, DaggerImp1);
 	
+	//气藕
 	//BombImp * BombImp1 = new BombImp();
 	//BombImp1->Init();
 	//BombImp1->SetObject();
-	//BombImp1->SetPosition(WINSIZEX / 2 - 300, 550);
+	//BombImp1->SetPosition(WINSIZEX / 2 , 550);
+	//vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
+	//BombImp1->SetPlayerPtr((Player*)player[0]);
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, BombImp1);
 
-	ShieldImp* ShieldImp1 = new ShieldImp();
-	ShieldImp1->Init();
-	ShieldImp1->SetObject();
-	ShieldImp1->SetPosition(WINSIZEX / 2 - 300, 550);
-	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, ShieldImp1);
+	//规菩
+	//ShieldImp* ShieldImp1 = new ShieldImp();
+	//ShieldImp1->Init();
+	//ShieldImp1->SetObject();
+	//ShieldImp1->SetPosition(WINSIZEX / 2 - 300, 550);
+	//vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
+	//ShieldImp1->SetPlayerPtr((Player*)player[0]);
+	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, ShieldImp1);
+
+	//付赤
+	Witch* Witch1 = new Witch();
+	Witch1->Init();
+	Witch1->SetObject();
+	Witch1->SetPosition(WINSIZEX / 2 + 100, 550);
+	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
+	Witch1->SetPlayerPtr((Player*)player[0]);
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Witch1);
 
 	IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"Map/map2"), 1200, 900, false);
 	mMap = IMAGEMANAGER->FindImage(L"MapTest");

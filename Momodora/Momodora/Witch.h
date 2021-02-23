@@ -1,8 +1,16 @@
 #pragma once
 #include "Enemy.h"
+
+class Animation;
 class Witch :
 	public Enemy
 {
+	Animation* mRightDeath;
+	Animation* mLeftDeath;
+	Animation* mRightCatch;
+	Animation* mLeftCatch;
+
+	bool mHoldStaff;
 
 public:
 	void Init() override;
@@ -11,6 +19,6 @@ public:
 	void Render(HDC hdc) override;
 
 	void SearchPlayer();
-
+	void EndAttack()override;
 };
 

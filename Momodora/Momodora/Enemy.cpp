@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Enemy.h"
 #include "Animation.h"
+#include "Player.h"
 void Enemy::Init()
 {
 
@@ -33,6 +34,12 @@ void Enemy::SetAnimation()
 {
 	if (mDirection == Direction::Left)
 	{
+		if (mEnemyState == EnemyState::Move)
+		{
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftMove;
+			mCurrentAnimation->Play();
+		}
 		if (mEnemyState == EnemyState::Jump)
 		{
 			mCurrentAnimation->Stop();
@@ -66,6 +73,13 @@ void Enemy::SetAnimation()
 	}
 	if (mDirection == Direction::Right)
 	{
+		if (mEnemyState == EnemyState::Move)
+		{
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightMove;
+			mCurrentAnimation->Play();
+		}
+
 		if (mEnemyState == EnemyState::Jump)
 		{
 			mCurrentAnimation->Stop();
@@ -97,4 +111,31 @@ void Enemy::SetAnimation()
 			mCurrentAnimation->Play();
 		}
 	}
+}
+
+
+void Enemy::EndAttack()
+{
+
+}
+
+
+void Enemy::SetDirection()
+{
+	if (mPlayer->GetX() > mX)
+	{
+		mDirection = Direction::Right;
+		SetAnimation();
+	}
+	else if (mPlayer->GetX() < mX)
+	{
+		mDirection = Direction::Left;
+		SetAnimation();
+	}
+
+}
+
+void Enemy::Attack()
+{
+
 }

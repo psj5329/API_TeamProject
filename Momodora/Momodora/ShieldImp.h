@@ -10,7 +10,7 @@ public:
 	void Update() override;
 	void Render(HDC hdc) override;
 
-	void SearchPlayer();
 	void ThrowDagger();
+	void EndAttack() override;
 };
 
