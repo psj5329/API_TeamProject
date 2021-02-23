@@ -1,5 +1,13 @@
 #pragma once
-#include "GameObject.h"
+#include "Enemy.h"
+
+// 보스 패턴 5초에 한 번씩 나온다
+// 패턴은
+// 1. bullet 4개 일정 간격 두고 1234 순서대로 생기고 순서대로 떨어짐
+// 2. bullet 2개 플레이어 위치에서 생성 곡선 타고 위로 올라감
+// 3. 루벨라가 아래로 내려가고 양 옆에서 bullet 4개씩 일정 간격 두고 나타나며 일정 시간 후 플레이어 위치로 날아감
+
+enum AttackPattern { PatternIdle, PatternBulletDown, PatternBulletUp, PatternBulletTarget };
 
 struct Body {
 	Image* image;
@@ -14,7 +22,8 @@ struct Body {
 };
 
 class Image;
-class Boss : public GameObject
+class BossBullet;
+class Boss : public Enemy
 {
 	Body mBody;					// 몸통이 될 녀석
 	Body mBackHair;				// 뒷머리
@@ -25,9 +34,6 @@ class Boss : public GameObject
 	Body mLeftArm;				// 왼팔
 	Body mRightArm;				// 오른팔
 
-	int mFrameX;				// 머리 프레임
-	float mFrameTime;
-
 	bool mIsCloseEyes;
 	float mCloseEyesTime;
 
@@ -35,6 +41,11 @@ class Boss : public GameObject
 	bool mIsInvincibility;		// 무적인지
 	int mHitMoveCount;
 	float mHitFrameTime;
+
+	AttackPattern mPattern;
+	float mAttackTime;			// 한 패턴이 끝나고 5초마다 패턴이 나온다
+
+	vector<BossBullet*> mVecBullet;
 
 public:
 	void Init()override;
@@ -45,5 +56,28 @@ public:
 public:
 	void ImageSetting();
 	void MotionFrame();
+	void Pattern(AttackPattern pattern);
+
+
+	// Bullet
+	class BossBullet : public GameObject
+	{
+		Image* mImage;
+		AttackPattern mPattern;
+		float mAngle;
+		float mSpeed;
+
+		float mShootTime;
+
+	public:
+		void Init()override;
+		void Release()override;
+		void Update()override;
+		void Render(HDC hdc)override;
+
+	public:
+		void SetAngle(float angle) { mAngle = angle; }
+		void SetPattern(AttackPattern pattern) { mPattern = pattern; }
+	};
 };
 
