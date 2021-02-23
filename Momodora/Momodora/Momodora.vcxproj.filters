@@ -222,6 +222,9 @@
     <ClInclude Include="Bomb.h">
       <Filter>MainGame\Object\EnemyProjectile</Filter>
     </ClInclude>
+    <ClInclude Include="Staff.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Momodora.cpp">
@@ -337,6 +340,9 @@
     </ClCompile>
     <ClCompile Include="Bomb.cpp">
       <Filter>MainGame\Object\EnemyProjectile</Filter>
+    </ClCompile>
+    <ClCompile Include="Staff.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
