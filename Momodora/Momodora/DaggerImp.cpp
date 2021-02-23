@@ -4,6 +4,7 @@
 #include "Animation.h"
 #include "Camera.h"
 #include "Enemy.h"
+#include "Dagger.h"
 
 void DaggerImp::Init()
 {
@@ -163,4 +164,21 @@ void DaggerImp::JumpAround()
 	//	mEnemyState = EnemyState::Idle;
 	//}
 	
+}
+
+void DaggerImp::ThrowDagger()
+{
+	float angle;
+	if (mDirection == Direction::Left)
+	{
+		angle = PI;
+	}
+	else
+	{
+		angle = 0;
+	}
+	Dagger* Dagger1 = new Dagger();
+	Dagger1->Init(mX, mY, angle);
+	Dagger1->SetObject();
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyProjectile, Dagger1);
 }
