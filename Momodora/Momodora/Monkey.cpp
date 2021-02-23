@@ -226,7 +226,8 @@ void Monkey::SearchPlayer()
 	//플레이어가 searchzone 에 들어오면
 	//mFoundPlayer = true;
 	RECT temp;
-	if (IntersectRect(&temp, &mPlayer->GetRect(), &mSearchZone))
+	RECT player = mPlayer->GetRect();
+	if (IntersectRect(&temp, &player, &mSearchZone))
 	{
 		mFoundPlayer = true;
 	}

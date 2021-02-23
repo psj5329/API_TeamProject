@@ -9,6 +9,7 @@ enum class State : int
 	LeftJump,
 	LeftFall,
 	LeftCrouch,
+	LeftRise,
 	LeftRoll,
 	LeftEnterLadder,
 
@@ -17,6 +18,7 @@ enum class State : int
 	RightJump,
 	RightFall,
 	RightCrouch,
+	RightRise,
 	RightRoll,
 	RightEnterLadder,
 
@@ -29,6 +31,10 @@ class Animation;
 
 class Player : public GameObject
 {
+	vector<class Arrow*> mArrow;
+	float mArrowSpeed = 600.f;
+	Image* mArrowImage;
+
 	State mState = State::RightIdle;
 	float mSpeed = 400.f;
 	float mJumpPower;
@@ -51,6 +57,9 @@ class Player : public GameObject
 	Image* mLadderDownImage;
 	Image* mLadderEnterImage;
 	Image* mLadderLeaveImage;
+	Image* mBowImage;
+	Image* mAirBowImage;
+	Image* mCrouchBowImage;
 
 	Image* mCurrentImage; //현재 이미지
 
@@ -65,6 +74,9 @@ class Player : public GameObject
 	Animation* mLeftRollAnimation;
 	Animation* mLeftLadderEnterAnimation;
 	Animation* mLeftLadderLeaveAnimation;
+	Animation* mLeftBowAnimation;
+	Animation* mLeftAirBowAnimation;
+	Animation* mLeftCrouchBowAnimation;
 
 	Animation* mRightIdleAnimation;
 	Animation* mRightRunStartAnimation;
@@ -77,6 +89,9 @@ class Player : public GameObject
 	Animation* mRightRollAnimation;
 	Animation* mRightLadderEnterAnimation;
 	Animation* mRightLadderLeaveAnimation;
+	Animation* mRightBowAnimation;
+	Animation* mRightAirBowAnimation;
+	Animation* mRightCrouchBowAnimation;
 
 	Animation* mLadderUpAnimation;
 	Animation* mLadderDownAnimation;
