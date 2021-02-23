@@ -7,15 +7,21 @@ enum class State : int
 	LeftIdle,
 	LeftRun,
 	LeftJump,
+	LeftFall,
 	LeftCrouch,
+	LeftRoll,
+	LeftEnterLadder,
 
 	RightIdle,
 	RightRun,
 	RightJump,
+	RightFall,
 	RightCrouch,
+	RightRoll,
+	RightEnterLadder,
 
-	Roll,
-	Ladder
+	LadderUp,
+	LadderDown
 };
 
 class Image;
@@ -24,7 +30,7 @@ class Animation;
 class Player : public GameObject
 {
 	State mState = State::RightIdle;
-	float mSpeed = 250.f;
+	float mSpeed = 400.f;
 	float mJumpPower;
 	float mGravity = 0.2f;
 
@@ -42,8 +48,10 @@ class Player : public GameObject
 	Image* mRollImage;
 	Image* mLadderUpImage;
 	Image* mLadderDownImage;
+	Image* mLadderEnterImage;
+	Image* mLadderLeaveImage;
 
-	Image* mCurrentImage;
+	Image* mCurrentImage; //현재 이미지
 
 	Animation* mLeftIdleAnimation;
 	Animation* mLeftRunStartAnimation;
@@ -54,6 +62,8 @@ class Player : public GameObject
 	Animation* mLeftCrouchAnimation;
 	Animation* mLeftRiseAnimation;
 	Animation* mLeftRollAnimation;
+	Animation* mLeftLadderEnterAnimation;
+	Animation* mLeftLadderLeaveAnimation;
 
 	Animation* mRightIdleAnimation;
 	Animation* mRightRunStartAnimation;
@@ -64,11 +74,13 @@ class Player : public GameObject
 	Animation* mRightCrouchAnimation;
 	Animation* mRightRiseAnimation;
 	Animation* mRightRollAnimation;
+	Animation* mRightLadderEnterAnimation;
+	Animation* mRightLadderLeaveAnimation;
 
 	Animation* mLadderUpAnimation;
 	Animation* mLadderDownAnimation;
 
-	Animation* mCurrentAnimation;	//ÇöÀç ¾Ö´Ï¸ÞÀÌ¼Ç
+	Animation* mCurrentAnimation;	//현재 애니메이션
 
 
 public:
@@ -80,6 +92,10 @@ public:
 	RECT GetRect() { return mRect; }
   
 	void SetStateRun();
+	void SetStateIdle();
+	void SetStateFall();
+	void SetStateLadderUp();
+	void SetStateLadderDown();
 };
 
 
