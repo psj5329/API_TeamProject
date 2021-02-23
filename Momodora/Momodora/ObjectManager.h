@@ -6,10 +6,11 @@ enum class ObjectLayer : int
 	Boss,
 	Frontground, // 보스를 가릴 수 있는 오브젝트
 	Platform,
+	Ladder,
 	Player,
 	Enemy,
 	PlayerProjectile, // 플레이어 투사체
-	EnemyProjectile, // 적 투사체, 중보 번개
+	EnemyProjectile, // 적 투사체, 지팡이, 중보 번개
 	Effect,
 	UI,
 	End

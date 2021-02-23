@@ -45,6 +45,7 @@ public:
 	//inline void SetSizeY(float sizeY) { mSize.SetY(sizeY); }
 	inline RECT GetRect()const { return mRect; }
 	inline void SetRect(RECT rect) { mRect = rect; }
+	inline void SetRect(int left, int top, int right, int bottom) { mRect.left = left; mRect.top = top; mRect.right = right; mRect.bottom = bottom; }
 
 	inline bool GetIsActive()const { return mIsActive; }
 	inline void SetIsActive(bool isActive) { mIsActive = isActive; }
