@@ -36,6 +36,7 @@ class Player : public GameObject
 	Animation* mLeftRiseAnimation;
 
 	Animation* mRightIdleAnimation;
+	Animation* mRightRunStartAnimation;
 	Animation* mRightRunAnimation;
 	Animation* mRightJumpAnimation;
 	Animation* mRightFallAnimation;
@@ -52,6 +53,9 @@ public:
 	void Update()override;
 	void Render(HDC hdc)override;
 	RECT GetRect() { return mRect; }
+
+
+	void SetStateRun();
 };
 
 

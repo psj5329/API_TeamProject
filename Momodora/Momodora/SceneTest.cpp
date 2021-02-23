@@ -5,7 +5,7 @@
 
 void SceneTest::Init()
 {
-	IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"Map/map2"), 1200, 900, false);
+	//IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"Map/map2"), 1200, 900, false); // 메인으로 옮겨감
 	//IMAGEMANAGER->LoadFromFile(L"TempPlayer", Resources(L"tempPlayer"), 32, 32, true);
 
 	mMapTest = IMAGEMANAGER->FindImage(L"MapTest"); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
@@ -18,7 +18,7 @@ void SceneTest::Init()
 
 void SceneTest::Release()
 {
-	SafeDelete(mPlatform01);
+	//SafeDelete(mPlatform01);
 }
 
 void SceneTest::Update()

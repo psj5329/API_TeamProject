@@ -1,6 +1,17 @@
 #include "pch.h"
 #include "Enemy.h"
 #include "Animation.h"
+
+Enemy::Enemy()
+	: GameObject()
+{
+}
+
+Enemy::Enemy(float x, float y)
+	: GameObject(x, y)
+{
+}
+
 void Enemy::Init()
 {
 
