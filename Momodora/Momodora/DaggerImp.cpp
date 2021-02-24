@@ -68,7 +68,7 @@ void DaggerImp::Init()
 	mLeftAtk = new Animation();
 	mLeftAtk->InitFrameByStartEnd(0, 7, 9, 7, false);
 	mLeftAtk->SetIsLoop(false);
-	mLeftAtk->SetFrameUpdateTime(0.2f);
+	mLeftAtk->SetFrameUpdateTime(0.1f);
 	mLeftAtk->SetCallbackFunc(bind(&DaggerImp::EndAttack, this));
 
 	mRightHurt = new Animation();
