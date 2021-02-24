@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-enum class State : int
+enum class State : int	//왼쪽 오른쪽 상태 추가
 {
 	LeftIdle,
 	LeftRun,
@@ -18,6 +18,7 @@ enum class State : int
 	LeftAttack2,
 	LeftAttack3,
 	LeftAirAttack,
+	LeftHurt,
 
 	RightIdle,
 	RightRun,
@@ -34,9 +35,11 @@ enum class State : int
 	RightAttack2,
 	RightAttack3,
 	RightAirAttack,
+	RightHurt,
 
 	LadderUp,
-	LadderDown
+	LadderDown,
+	Death
 };
 
 class Image;
@@ -53,10 +56,12 @@ class Player : public GameObject
 	float mJumpPower = 0;
 	float mGravity = 0;
 
+	int mHp = 100;
+	int mAttackDamage = 0;
+
 	bool invincibility = 0;
 	bool stopmove = 0;
 	bool stoproll = 0; //불값 추가 질문
-	bool onground = 0;
 
 	RECT mPrevRect;
 
@@ -81,6 +86,8 @@ class Player : public GameObject
 	Image* mAttack2Image;
 	Image* mAttack3Image;
 	Image* mAirAttackImage;
+	Image* mHurtImage;
+	Image* mDeathImage;
 
 	Image* mCurrentImage; //현재 이미지
 
@@ -104,6 +111,8 @@ class Player : public GameObject
 	Animation* mLeftAttack2Animation;
 	Animation* mLeftAttack3Animation;
 	Animation* mLeftAirAttackAnimation;
+	Animation* mLeftHurtAnimation;
+	Animation* mLeftDeathAnimation;
 
 	Animation* mRightIdleAnimation;
 	Animation* mRightRunStartAnimation;
@@ -125,6 +134,8 @@ class Player : public GameObject
 	Animation* mRightAttack2Animation;
 	Animation* mRightAttack3Animation;
 	Animation* mRightAirAttackAnimation;
+	Animation* mRightHurtAnimation;
+	Animation* mRightDeathAnimation;
 
 	Animation* mLadderUpAnimation;
 	Animation* mLadderDownAnimation;
@@ -146,4 +157,8 @@ public:
 	void SetStateFall();
 	void SetStateLadderUp();
 	void SetStateLadderDown();
+
+	int GetAttackDamage() { return mAttackDamage; }
+	int GetHp() { return mHp; }
+	void SetHp(int i) { mHp = i; }
 };

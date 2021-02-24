@@ -35,6 +35,8 @@ void Player::Init()
 	mAttack2Image = IMAGEMANAGER->FindImage(L"Attack2");
 	mAttack3Image = IMAGEMANAGER->FindImage(L"Attack3");
 	mAirAttackImage = IMAGEMANAGER->FindImage(L"AirAttack");
+	mHurtImage = IMAGEMANAGER->FindImage(L"Hurt");
+	mDeathImage = IMAGEMANAGER->FindImage(L"Death");
 	
 
 	//스탠드 애니메이션
@@ -303,6 +305,30 @@ void Player::Init()
 	mRightAirAttackAnimation->SetIsLoop(true);
 	mRightAirAttackAnimation->SetFrameUpdateTime(0.1f);
 	mRightAirAttackAnimation->Play();
+	//피격 애니메이션
+	mLeftHurtAnimation = new Animation();
+	mLeftHurtAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
+	mLeftHurtAnimation->SetIsLoop(true);
+	mLeftHurtAnimation->SetFrameUpdateTime(0.3f);
+	mLeftHurtAnimation->Play();
+
+	mRightHurtAnimation = new Animation();
+	mRightHurtAnimation->InitFrameByStartEnd(0, 0, 1, 0, false);
+	mRightHurtAnimation->SetIsLoop(true);
+	mRightHurtAnimation->SetFrameUpdateTime(0.3f);
+	mRightHurtAnimation->Play();
+	//사망 애니메이션
+	mLeftDeathAnimation = new Animation();
+	mLeftDeathAnimation->InitFrameByStartEnd(0, 1, 23, 1, true);
+	mLeftDeathAnimation->SetIsLoop(false);
+	mLeftDeathAnimation->SetFrameUpdateTime(0.2f);
+	mLeftDeathAnimation->Play();
+
+	mRightDeathAnimation = new Animation();
+	mRightDeathAnimation->InitFrameByStartEnd(0, 0, 23, 0, false);
+	mRightDeathAnimation->SetIsLoop(false);
+	mRightDeathAnimation->SetFrameUpdateTime(0.2f);
+	mRightDeathAnimation->Play();
 
 
 
@@ -579,7 +605,7 @@ void Player::Update()
 			arrow->SetArrowIndexY(0);
 			mArrow.push_back(arrow);
 		}
-		if (mState == State::LeftJump)
+		if (mState == State::LeftJump || mState == State::LeftFall)
 		{
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftAirBowAnimation;
@@ -589,7 +615,7 @@ void Player::Update()
 			arrow->SetArrowIndexY(1);
 			mArrow.push_back(arrow);
 		}
-		if (mState == State::RightJump)
+		if (mState == State::RightJump || mState == State::RightFall)
 		{
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightAirBowAnimation;
@@ -663,6 +689,7 @@ void Player::Update()
 				mCurrentAnimation->Play();
 				mCurrentImage = mAirAttackImage;
 			}
+			mAttackDamage = 10;
 		}
 	}
 	//검 공격 2
@@ -692,6 +719,7 @@ void Player::Update()
 					mCurrentImage = mAttack2Image;
 				}
 			}
+			mAttackDamage = 15;
 		}
 	}
 	//검 공격 3
@@ -721,8 +749,31 @@ void Player::Update()
 					mCurrentImage = mAttack3Image;
 				}
 			}
+			mAttackDamage = 20;
 		}
 	}
+	//피격 및 사망
+	if (mHp <= 0)
+	{
+		stopmove = 1;
+		if (mState == State::LeftIdle || mState == State::LeftRun)
+		{
+			mState = State::Death;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftDeathAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mDeathImage;
+		}
+		if (mState == State::RightIdle || mState == State::RightRun)
+		{
+			mState = State::Death;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightDeathAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mDeathImage;
+		}
+	}
+
 
 	//땅에 닿았을때 중력 X
 	RECT PlatformRect;
@@ -753,7 +804,6 @@ void Player::Update()
 	}
 	
 
-	//false 일때만 움직임
 	if (stopmove == 0)
 	{
 		mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
