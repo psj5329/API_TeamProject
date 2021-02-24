@@ -11,6 +11,7 @@ void Arrow::Fire(Image* image, float x, float y, float speed, float angle)
 	mSpeed = speed;
 	mAngle = angle;
 	mRect = RectMakeCenter(mX, mY, mImage->GetFrameWidth(), mImage->GetFrameHeight());
+	mArrowDamage = 2;
 }
 
 void Arrow::Release()

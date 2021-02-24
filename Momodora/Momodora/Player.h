@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-enum class State : int
+enum class State : int	//왼쪽 오른쪽 상태 추가
 {
 	LeftIdle,
 	LeftRun,
@@ -9,6 +9,7 @@ enum class State : int
 	LeftBrake,
 	LeftJump,
 	LeftFall,
+	LeftLandSoft,
 	LeftCrouch,
 	LeftRise,
 	LeftRoll,
@@ -17,6 +18,7 @@ enum class State : int
 	LeftAttack2,
 	LeftAttack3,
 	LeftAirAttack,
+	LeftHurt,
 
 	RightIdle,
 	RightRun,
@@ -24,6 +26,7 @@ enum class State : int
 	RightBrake,
 	RightJump,
 	RightFall,
+	RightLandSoft,
 	RightCrouch,
 	RightRise,
 	RightRoll,
@@ -32,9 +35,11 @@ enum class State : int
 	RightAttack2,
 	RightAttack3,
 	RightAirAttack,
+	RightHurt,
 
 	LadderUp,
-	LadderDown
+	LadderDown,
+	Death
 };
 
 class Image;
@@ -48,8 +53,11 @@ class Player : public GameObject
 
 	State mState = State::RightIdle;
 	float mSpeed = 400.f;
-	float mJumpPower;
-	float mGravity = 0.2f;
+	float mJumpPower = 0;
+	float mGravity = 0;
+
+	int mHp = 100;
+	int mAttackDamage = 0;
 
 	bool invincibility = 0;
 	bool stopmove = 0;
@@ -63,6 +71,7 @@ class Player : public GameObject
 	Image* mTurnImage;
 	Image* mJumpImage;
 	Image* mFallImage;
+	Image* mLandSoftImage;
 	Image* mCrouchImage;
 	Image* mRiseImage;
 	Image* mRollImage;
@@ -77,6 +86,8 @@ class Player : public GameObject
 	Image* mAttack2Image;
 	Image* mAttack3Image;
 	Image* mAirAttackImage;
+	Image* mHurtImage;
+	Image* mDeathImage;
 
 	Image* mCurrentImage; //현재 이미지
 
@@ -87,6 +98,7 @@ class Player : public GameObject
 	Animation* mLeftTurnAnimation;
 	Animation* mLeftJumpAnimation;
 	Animation* mLeftFallAnimation;
+	Animation* mLeftLandSoftAnimation;
 	Animation* mLeftCrouchAnimation;
 	Animation* mLeftRiseAnimation;
 	Animation* mLeftRollAnimation;
@@ -99,6 +111,8 @@ class Player : public GameObject
 	Animation* mLeftAttack2Animation;
 	Animation* mLeftAttack3Animation;
 	Animation* mLeftAirAttackAnimation;
+	Animation* mLeftHurtAnimation;
+	Animation* mLeftDeathAnimation;
 
 	Animation* mRightIdleAnimation;
 	Animation* mRightRunStartAnimation;
@@ -107,6 +121,7 @@ class Player : public GameObject
 	Animation* mRightTurnAnimation;
 	Animation* mRightJumpAnimation;
 	Animation* mRightFallAnimation;
+	Animation* mRightLandSoftAnimation;
 	Animation* mRightCrouchAnimation;
 	Animation* mRightRiseAnimation;
 	Animation* mRightRollAnimation;
@@ -119,6 +134,8 @@ class Player : public GameObject
 	Animation* mRightAttack2Animation;
 	Animation* mRightAttack3Animation;
 	Animation* mRightAirAttackAnimation;
+	Animation* mRightHurtAnimation;
+	Animation* mRightDeathAnimation;
 
 	Animation* mLadderUpAnimation;
 	Animation* mLadderDownAnimation;
@@ -140,4 +157,8 @@ public:
 	void SetStateFall();
 	void SetStateLadderUp();
 	void SetStateLadderDown();
+
+	int GetAttackDamage() { return mAttackDamage; }
+	int GetHp() { return mHp; }
+	void SetHp(int i) { mHp = i; }
 };

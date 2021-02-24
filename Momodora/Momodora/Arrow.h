@@ -8,6 +8,7 @@ class Arrow
 	float mAngle;
 	RECT mRect;
 	int mArrowIndexY = 0;
+	int mArrowDamage = 0;
 
 	Image* mImage;
 
@@ -18,4 +19,6 @@ public:
 	void Render(HDC hdc);
 	RECT GetRect() { return mRect; };
 	void SetArrowIndexY(int IndexY) { mArrowIndexY = IndexY; }
+
+	int GetArrowDamage() { return mArrowDamage; }
 };
