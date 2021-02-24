@@ -40,7 +40,7 @@ void Scene03::Init()
 	BossHpUI* ui = new BossHpUI;
 	ui->Init();
 	ui->SetHp(((Enemy*)OBJECTMANAGER->FindObject(ObjectLayer::Boss, "Boss"))->GetHP());
-	OBJECTMANAGER->AddObject(ObjectLayer::UI, ui);
+	OBJECTMANAGER->AddObject(ObjectLayer::BossUI, ui);
 
 	PlayerHpUI* playerui = new PlayerHpUI;
 	playerui->Init();

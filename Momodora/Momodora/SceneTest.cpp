@@ -23,7 +23,7 @@ void SceneTest::Init()
 	ladder01->SetLadder(675, 450, 725, 600);
 	OBJECTMANAGER->AddObject(ObjectLayer::Ladder, (GameObject*)ladder01);
 
-	SOUNDMANAGER->Play(L"Boss", 0.5f);
+	SOUNDMANAGER->Play(L"Boss", 0.5f); // BGM Play 세팅하면 Release에서 Stop도 세팅해야 함
 	//SOUNDMANAGER->Play(L"boss1", 0.3f);
 
 	for (int i = 0; i < 20; ++i)
@@ -42,6 +42,7 @@ void SceneTest::Init()
 
 void SceneTest::Release()
 {
+	SOUNDMANAGER->Stop(L"Boss"); // Bgm 반드시 Stop해야 함, 씬 전환 시에 Release 함수 호출하므로 Release 제일 상단에 기재할 것
 	//SafeDelete(mPlatform01);
 }
 
