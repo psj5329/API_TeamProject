@@ -405,10 +405,10 @@ void Player::Update()
 	}
 	mY -= mJumpPower;
 	mJumpPower -= mGravity;
-	if (mY > WINSIZEY / 2)
-	{
-		mJumpPower = 0;
-	}
+	//if (mY > WINSIZEY / 2)
+	//{
+	//	mJumpPower = 0;
+	//}
 
 	//앉기
 	if (Input::GetInstance()->GetKeyDown('C'))
@@ -699,8 +699,6 @@ void Player::Update()
 		}
 	}
 
-
-
 	//false 일때만 움직임
 	if (stopmove == 0)
 	{
@@ -709,7 +707,10 @@ void Player::Update()
 	mCurrentAnimation->Update();
 
 	mRect = *(COLLISIONMANAGER->CollideWithPlatform(&mRect, &mPrevRect, mSizeX, mSizeY));
+	mX = mRect.left + mSizeX / 2;
+	mY = mRect.top + mSizeY / 2;
 
+	mPrevRect = mRect;
 }
 
 void Player::Render(HDC hdc)
