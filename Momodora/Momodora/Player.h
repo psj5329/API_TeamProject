@@ -5,6 +5,8 @@ enum class State : int
 {
 	LeftIdle,
 	LeftRun,
+	LeftTurn,
+	LeftBrake,
 	LeftJump,
 	LeftFall,
 	LeftCrouch,
@@ -18,6 +20,8 @@ enum class State : int
 
 	RightIdle,
 	RightRun,
+	RightTurn,
+	RightBrake,
 	RightJump,
 	RightFall,
 	RightCrouch,
@@ -51,10 +55,9 @@ class Player : public GameObject
 	bool stopmove = 0;
 	bool stoproll = 0; //불값 추가 질문
 
-	RECT mPrevRect;
-
 	Image* mIdleImage;
 	Image* mRunImage;
+	Image* mBrakeImage;
 	Image* mTurnImage;
 	Image* mJumpImage;
 	Image* mFallImage;
@@ -78,6 +81,7 @@ class Player : public GameObject
 	Animation* mLeftIdleAnimation;
 	Animation* mLeftRunStartAnimation;
 	Animation* mLeftRunAnimation;
+	Animation* mLeftBrakeAnimation;
 	Animation* mLeftTurnAnimation;
 	Animation* mLeftJumpAnimation;
 	Animation* mLeftFallAnimation;
@@ -97,6 +101,7 @@ class Player : public GameObject
 	Animation* mRightIdleAnimation;
 	Animation* mRightRunStartAnimation;
 	Animation* mRightRunAnimation;
+	Animation* mRightBrakeAnimation;
 	Animation* mRightTurnAnimation;
 	Animation* mRightJumpAnimation;
 	Animation* mRightFallAnimation;
