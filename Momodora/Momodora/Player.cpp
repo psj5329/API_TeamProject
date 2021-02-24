@@ -479,7 +479,7 @@ void Player::Update()
 		mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	}
 
-	//사다리
+	//사다리!!!!!!!!!!!!!!!!!!!!!!!!!!
 	RECT LadderRect;
 	vector<GameObject*> LadderList = OBJECTMANAGER->GetObjectList(ObjectLayer::Ladder);
 	vector<GameObject*>::iterator iter = LadderList.begin();
