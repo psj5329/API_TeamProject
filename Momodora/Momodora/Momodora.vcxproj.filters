@@ -73,6 +73,9 @@
     <Filter Include="MainGame\Object\Player">
       <UniqueIdentifier>{11709a0e-c5f2-46ea-8b45-b1315fd28dbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\UI">
+      <UniqueIdentifier>{ec156191-34e6-4c5a-9d33-36defa517932}</UniqueIdentifier>
+    </Filter>
     <Filter Include="MainGame\Object\Platform">
       <UniqueIdentifier>{64245500-9b0b-45eb-a169-8f7b34d68745}</UniqueIdentifier>
     </Filter>
@@ -93,24 +96,6 @@
     </Filter>
     <Filter Include="MainGame\Object\Ladder">
       <UniqueIdentifier>{8ec672d3-deb6-473e-b626-771707ab9ee3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\Object\Item">
-      <UniqueIdentifier>{e7fc6ccc-5dec-4ce3-b75b-8a4ef95f8a57}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\UI">
-      <UniqueIdentifier>{ec156191-34e6-4c5a-9d33-36defa517932}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\UI\BossHp">
-      <UniqueIdentifier>{85fa383d-2024-42de-a140-fdfe6ddc4997}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\UI\PlayerHp">
-      <UniqueIdentifier>{17d336df-5691-46a2-986b-d1be92a1215c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\UI\ActiveItem">
-      <UniqueIdentifier>{76ef6f40-07b4-45cf-bf5d-786ef786fa29}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\UI\StarCount">
-      <UniqueIdentifier>{c6c3bc0e-a150-4d2c-84b7-e1347da5acba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -252,29 +237,6 @@
     <ClInclude Include="Fennel.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
-<<<<<<< Updated upstream
-    <ClInclude Include="StarItem.h">
-      <Filter>MainGame\Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>MainGame\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="BossHpUI.h">
-      <Filter>MainGame\UI\BossHp</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerHpUI.h">
-      <Filter>MainGame\UI\PlayerHp</Filter>
-    </ClInclude>
-    <ClInclude Include="ActiveItemUI.h">
-      <Filter>MainGame\UI\ActiveItem</Filter>
-    </ClInclude>
-    <ClInclude Include="StarCountUI.h">
-      <Filter>MainGame\UI\StarCount</Filter>
-=======
-    <ClInclude Include="Star.h">
-      <Filter>헤더 파일</Filter>
->>>>>>> Stashed changes
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Momodora.cpp">
@@ -402,29 +364,6 @@
     </ClCompile>
     <ClCompile Include="Fennel.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
-    </ClCompile>
-<<<<<<< Updated upstream
-    <ClCompile Include="StarItem.cpp">
-      <Filter>MainGame\Object\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="UI.cpp">
-      <Filter>MainGame\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="BossHpUI.cpp">
-      <Filter>MainGame\UI\BossHp</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerHpUI.cpp">
-      <Filter>MainGame\UI\PlayerHp</Filter>
-    </ClCompile>
-    <ClCompile Include="ActiveItemUI.cpp">
-      <Filter>MainGame\UI\ActiveItem</Filter>
-    </ClCompile>
-    <ClCompile Include="StarCountUI.cpp">
-      <Filter>MainGame\UI\StarCount</Filter>
-=======
-    <ClCompile Include="Star.cpp">
-      <Filter>소스 파일</Filter>
->>>>>>> Stashed changes
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
