@@ -38,6 +38,9 @@ void SceneTest::Init()
 	// 보스 맵 좌우 설치용
 	mFixDia = IMAGEMANAGER->FindImage(L"MapFixDia");
 	mFixRect = IMAGEMANAGER->FindImage(L"MapFixRect");
+
+	mAttacked = IMAGEMANAGER->FindImage(L"Attacked");
+	mAttackedAlpha = 0.f;
 }
 
 void SceneTest::Release()
@@ -66,6 +69,12 @@ void SceneTest::Update()
 		CAMERAMANAGER->GetMainCamera()->SetShake(0.2f);
 	}
 
+	// 피격
+	if (INPUT->GetKeyDown('L'))
+	{
+		mAttackedAlpha = 0.5f;
+	}
+
 	// {{ 보스 맵 좌우 설치용
 	mImageCreateDelay -= TIME->DeltaTime();
 
@@ -82,7 +91,7 @@ void SceneTest::Update()
 
 			mImageY[mOrder * 24 + i] = 50 * (i % 12) + rand() % 31;
 
-			//mImageAlpha[mOrder * 24 + i] = 0.25f;
+			mImageAlpha[mOrder] = 0.25f;
 		}
 
 		++mOrder;
@@ -100,6 +109,15 @@ void SceneTest::Update()
 			mImageAlpha[i] = 0.f;
 	}
 	// 보스 맵 좌우 설치용 }}
+
+	// 피격
+	if (mAttackedAlpha)
+	{
+		mAttackedAlpha -= 4.f * TIME->DeltaTime();
+
+		if (mAttackedAlpha <= 0.f)
+			mAttackedAlpha = 0.f;
+	}
 }
 
 void SceneTest::Render(HDC hdc)
@@ -131,6 +149,11 @@ void SceneTest::Render(HDC hdc)
 		}
 	}
 
+	if (mAttackedAlpha)
+	{
+		CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mAttacked, 0, 0, mAttackedAlpha);
+	}
+
 	wstring str = L"Test씬 페이지";
 	TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2, str.c_str(), (int)str.length());
 	wstring str2 = L"I: shakePower 10, shaketime 2.f";
@@ -139,4 +162,6 @@ void SceneTest::Render(HDC hdc)
 	TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2 + 50, str3.c_str(), (int)str3.length());
 	wstring str4 = L"P: shakePower 3, shaketime 0.2f";
 	TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2 + 75, str4.c_str(), (int)str4.length());
+	wstring str5 = L"L: 피격 효과";
+	TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2 + 100, str5.c_str(), (int)str5.length());
 }
