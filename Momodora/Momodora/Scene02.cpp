@@ -76,6 +76,11 @@ void Scene02::Init()
 	platform01->SetPlatform(0, 600, 800, 650, PlatformType::Normal);
 	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform01);
 	mGround = { 0,600,800,650 };
+
+	Camera* main = CAMERAMANAGER->GetMainCamera();
+	main->SetMode(Camera::Mode::Follow);
+	GameObject* player99 = (GameObject*)(OBJECTMANAGER->GetPlayer());
+	main->SetTarget(player99);
 }
 void Scene02::Release()
 {

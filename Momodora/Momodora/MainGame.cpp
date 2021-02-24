@@ -20,17 +20,13 @@ void MainGame::Init()
 	MakeScene();
 
 	IMAGEMANAGER->LoadFromFile(L"Background", Resources(L"temp"), 1501, 1000, false);
-	IMAGEMANAGER->LoadFromFile(L"TempPlayer", Resources(L"tempPlayer"), 32, 32, true);
 
 	mBackground = IMAGEMANAGER->FindImage(L"Background"); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
-
-	//mTempPlayer // 지금 플레이어가 없어서 프리 카메라로
 
 	Camera* main = new Camera();
 	main->Init();
 	main->SetMoveSpeed(5.f);
-	//main->SetMode(Camera::Mode::Follow); // 지금 플레이어가 없어서 프리 카메라로
-	main->SetMode(Camera::Mode::Free);
+	main->SetMode(Camera::Mode::Free); // 프리 카메라
 
 	CAMERAMANAGER->SetMainCamera(main);
 }
@@ -91,6 +87,19 @@ void MainGame::Update()
 		if (SCENEMANAGER->GetCurrentSceneName() != L"SceneTest")
 			SCENEMANAGER->LoadScene(L"SceneTest");
 	}
+
+	if (INPUT->GetKeyDown('5'))
+	{
+		Camera* main = CAMERAMANAGER->GetMainCamera();
+		if (main->GetMode() == Camera::Mode::Follow)
+			main->SetMode(Camera::Mode::Free);
+		else
+		{
+			main->SetMode(Camera::Mode::Follow);
+			GameObject* player99 = (GameObject*)(OBJECTMANAGER->GetPlayer());
+			main->SetTarget(player99);
+		}
+	}
 }
 
 void MainGame::Render(HDC hdc)
@@ -107,7 +116,6 @@ void MainGame::Render(HDC hdc)
 	//mBackground->Render(backDC, 0, 0); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
 	CAMERAMANAGER->GetMainCamera()->Render(backDC, mBackground, 0, 0);
 	//CAMERAMANAGER->GetMainCamera()->Render(hdc, mBackground, 0, 0);
-	//mTempPlayer
 
 	//SceneManager::GetInstance()->Render(backDC);
 
@@ -122,6 +130,14 @@ void MainGame::Render(HDC hdc)
 	}
 
 	RenderTimeText(backDC);
+
+	Camera* main = CAMERAMANAGER->GetMainCamera();
+	wstring strCam = L"";
+	if (main->GetMode() == Camera::Mode::Follow)
+		strCam = L"팔로우 카메라(모드변경:5)";
+	else
+		strCam = L"프리 카메라(모드변경:5)";
+	TextOut(backDC, 10, 55, strCam.c_str(), (int)strCam.length());
 
 	// 그리기 끝 }
 

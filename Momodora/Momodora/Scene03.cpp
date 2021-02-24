@@ -54,6 +54,11 @@ void Scene03::Init()
 	StarCountUI* starCountui = new StarCountUI;
 	starCountui->Init();
 	OBJECTMANAGER->AddObject(ObjectLayer::UI, starCountui);
+
+	Camera* main = CAMERAMANAGER->GetMainCamera();
+	main->SetMode(Camera::Mode::Follow);
+	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
+	main->SetTarget(player);
 }
 
 void Scene03::Release()

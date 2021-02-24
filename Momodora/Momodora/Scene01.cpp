@@ -22,6 +22,11 @@ void Scene01::Init()
 	ladder01->SetLadder(675, 450, 725, 600);
 	OBJECTMANAGER->AddObject(ObjectLayer::Ladder, (GameObject*)ladder01);
 	// 충돌 체크용 맵 }}
+
+	Camera* main = CAMERAMANAGER->GetMainCamera();
+	main->SetMode(Camera::Mode::Follow);
+	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
+	main->SetTarget(player);
 }
 
 void Scene01::Release()
