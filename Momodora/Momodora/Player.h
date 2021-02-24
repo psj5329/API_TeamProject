@@ -10,7 +10,11 @@ enum class State : int
 	LeftCrouch,
 	LeftRise,
 	LeftRoll,
-	LeftEnterLadder,
+	LeftLadderEnter,
+	LeftAttack1,
+	LeftAttack2,
+	LeftAttack3,
+	LeftAirAttack,
 
 	RightIdle,
 	RightRun,
@@ -19,7 +23,11 @@ enum class State : int
 	RightCrouch,
 	RightRise,
 	RightRoll,
-	RightEnterLadder,
+	RightLadderEnter,
+	RightAttack1,
+	RightAttack2,
+	RightAttack3,
+	RightAirAttack,
 
 	LadderUp,
 	LadderDown
@@ -40,9 +48,10 @@ class Player : public GameObject
 	float mGravity = 0.2f;
 
 	bool invincibility = 0;
-	int isinvincible = 1;
 	bool stopmove = 0;
-	bool stoproll = 0;
+	bool stoproll = 0; //불값 추가 질문
+
+	RECT mPrevRect;
 
 	Image* mIdleImage;
 	Image* mRunImage;
@@ -59,6 +68,10 @@ class Player : public GameObject
 	Image* mBowImage;
 	Image* mAirBowImage;
 	Image* mCrouchBowImage;
+	Image* mAttack1Image;
+	Image* mAttack2Image;
+	Image* mAttack3Image;
+	Image* mAirAttackImage;
 
 	Image* mCurrentImage; //현재 이미지
 
@@ -76,6 +89,10 @@ class Player : public GameObject
 	Animation* mLeftBowAnimation;
 	Animation* mLeftAirBowAnimation;
 	Animation* mLeftCrouchBowAnimation;
+	Animation* mLeftAttack1Animation;
+	Animation* mLeftAttack2Animation;
+	Animation* mLeftAttack3Animation;
+	Animation* mLeftAirAttackAnimation;
 
 	Animation* mRightIdleAnimation;
 	Animation* mRightRunStartAnimation;
@@ -91,6 +108,10 @@ class Player : public GameObject
 	Animation* mRightBowAnimation;
 	Animation* mRightAirBowAnimation;
 	Animation* mRightCrouchBowAnimation;
+	Animation* mRightAttack1Animation;
+	Animation* mRightAttack2Animation;
+	Animation* mRightAttack3Animation;
+	Animation* mRightAirAttackAnimation;
 
 	Animation* mLadderUpAnimation;
 	Animation* mLadderDownAnimation;
