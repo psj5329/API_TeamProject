@@ -26,6 +26,7 @@ public:
 
 	void MakeScene();
 	void LoadImageResource(LoadingScene* scene);
+	void LoadSoundResource(LoadingScene* scene);
 
 public:
 	LRESULT MainProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

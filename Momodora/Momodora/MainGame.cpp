@@ -150,6 +150,7 @@ void MainGame::MakeScene()
 	LoadingScene* loadScene = new LoadingScene();
 
 	LoadImageResource(loadScene);
+	LoadSoundResource(loadScene);
 
 	SCENEMANAGER->AddScene(L"LoadingScene", loadScene);
 	SCENEMANAGER->AddScene(L"Scene01", new Scene01());
@@ -163,6 +164,7 @@ void MainGame::MakeScene()
 void MainGame::LoadImageResource(LoadingScene* scene)
 {
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"Map/map2"), 1200, 900, false); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FF", Resources(L"ffffff"), 16, 16, false); });
 
 	// Player
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Idle", Resources(L"Player/idle"), 294, 96, 6, 2, true); });
@@ -237,4 +239,10 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 
 	// Boss Bullet
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"BossBullet1", Resources(L"Boss/BossBullet1"), 32, 32, true); });
+}
+
+void MainGame::LoadSoundResource(LoadingScene * scene)
+{
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Boss", ResourcesSoundOggx(L"boss"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Boss1", ResourcesSoundMp3(L"boss"), false); });
 }
