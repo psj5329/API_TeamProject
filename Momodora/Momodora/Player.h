@@ -9,6 +9,7 @@ enum class State : int
 	LeftBrake,
 	LeftJump,
 	LeftFall,
+	LeftLandSoft,
 	LeftCrouch,
 	LeftRise,
 	LeftRoll,
@@ -24,6 +25,7 @@ enum class State : int
 	RightBrake,
 	RightJump,
 	RightFall,
+	RightLandSoft,
 	RightCrouch,
 	RightRise,
 	RightRoll,
@@ -48,12 +50,13 @@ class Player : public GameObject
 
 	State mState = State::RightIdle;
 	float mSpeed = 400.f;
-	float mJumpPower;
-	float mGravity = 0.2f;
+	float mJumpPower = 0;
+	float mGravity = 0;
 
 	bool invincibility = 0;
 	bool stopmove = 0;
 	bool stoproll = 0; //불값 추가 질문
+	bool onground = 0;
 
 	RECT mPrevRect;
 
@@ -63,6 +66,7 @@ class Player : public GameObject
 	Image* mTurnImage;
 	Image* mJumpImage;
 	Image* mFallImage;
+	Image* mLandSoftImage;
 	Image* mCrouchImage;
 	Image* mRiseImage;
 	Image* mRollImage;
@@ -87,6 +91,7 @@ class Player : public GameObject
 	Animation* mLeftTurnAnimation;
 	Animation* mLeftJumpAnimation;
 	Animation* mLeftFallAnimation;
+	Animation* mLeftLandSoftAnimation;
 	Animation* mLeftCrouchAnimation;
 	Animation* mLeftRiseAnimation;
 	Animation* mLeftRollAnimation;
@@ -107,6 +112,7 @@ class Player : public GameObject
 	Animation* mRightTurnAnimation;
 	Animation* mRightJumpAnimation;
 	Animation* mRightFallAnimation;
+	Animation* mRightLandSoftAnimation;
 	Animation* mRightCrouchAnimation;
 	Animation* mRightRiseAnimation;
 	Animation* mRightRollAnimation;

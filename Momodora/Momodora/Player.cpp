@@ -20,6 +20,7 @@ void Player::Init()
 	mTurnImage = IMAGEMANAGER->FindImage(L"Turn");
 	mJumpImage = IMAGEMANAGER->FindImage(L"Jump");
 	mFallImage = IMAGEMANAGER->FindImage(L"Fall");
+	mLandSoftImage = IMAGEMANAGER->FindImage(L"LandSoft");
 	mCrouchImage = IMAGEMANAGER->FindImage(L"Crouch");
 	mRiseImage = IMAGEMANAGER->FindImage(L"Rise");
 	mRollImage = IMAGEMANAGER->FindImage(L"Roll");
@@ -126,6 +127,20 @@ void Player::Init()
 	mRightFallAnimation->SetIsLoop(false);
 	mRightFallAnimation->SetFrameUpdateTime(0.2f);
 	mRightFallAnimation->Play();
+	//약한 착지 애니메이션
+	mLeftLandSoftAnimation = new Animation();
+	mLeftLandSoftAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
+	mLeftLandSoftAnimation->SetIsLoop(true);
+	mLeftLandSoftAnimation->SetFrameUpdateTime(0.1f);
+	mLeftLandSoftAnimation->Play();
+	mLeftLandSoftAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
+
+	mRightLandSoftAnimation = new Animation();
+	mRightLandSoftAnimation->InitFrameByStartEnd(0, 0, 3, 0, false);
+	mRightLandSoftAnimation->SetIsLoop(true);
+	mRightLandSoftAnimation->SetFrameUpdateTime(0.1f);
+	mRightLandSoftAnimation->Play();
+	mRightLandSoftAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 	//앉기 애니메이션
 	mLeftCrouchAnimation = new Animation();
 	mLeftCrouchAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
@@ -380,6 +395,7 @@ void Player::Update()
 	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 	{
 		mJumpPower = 8.f;
+		mGravity = 0.2f;
 
 		if (mState == State::LeftIdle || mState == State::LeftRun)
 		{
@@ -398,8 +414,12 @@ void Player::Update()
 			mCurrentImage = mJumpImage;
 		}
 	}
-	mY -= mJumpPower;
-	mJumpPower -= mGravity;
+	if (mState == State::LeftJump || mState == State::LeftFall || mState == State::RightJump || mState == State::RightFall)
+	{
+		mY -= mJumpPower;
+		mJumpPower -= mGravity;
+	}
+
 
 	//앉기
 	if (Input::GetInstance()->GetKeyDown('C'))
@@ -482,10 +502,10 @@ void Player::Update()
 	//사다리!!!!!!!!!!!!!!!!!!!!!!!!!!
 	RECT LadderRect;
 	vector<GameObject*> LadderList = OBJECTMANAGER->GetObjectList(ObjectLayer::Ladder);
-	vector<GameObject*>::iterator iter = LadderList.begin();
-	for (; iter != LadderList.end(); ++iter)
+	vector<GameObject*>::iterator ladderiter = LadderList.begin();
+	for (; ladderiter != LadderList.end(); ++ladderiter)
 	{
-		LadderRect = (*iter)->GetRect();
+		LadderRect = (*ladderiter)->GetRect();
 		if (COLLISIONMANAGER->IsCollision(&mRect, &LadderRect))
 		{
 			if (LadderRect.left + 2 <= mX && mX <= LadderRect.right - 2)
@@ -704,6 +724,35 @@ void Player::Update()
 		}
 	}
 
+	//땅에 닿았을때 중력 X
+	RECT PlatformRect;
+	vector<GameObject*> PlatformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
+	vector<GameObject*>::iterator platformiter = PlatformList.begin();
+	for (; platformiter != PlatformList.end(); ++platformiter)
+	{
+		PlatformRect = (*platformiter)->GetRect();
+		if (mRect.bottom >= PlatformRect.top)
+		{
+			if (mState == State::LeftFall)
+			{
+				mState = State::LeftLandSoft;
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mLeftLandSoftAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mLandSoftImage;
+			}
+			if (mState == State::RightFall)
+			{
+				mState = State::RightLandSoft;
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mRightLandSoftAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mLandSoftImage;
+			}
+		}
+	}
+	
+
 	//false 일때만 움직임
 	if (stopmove == 0)
 	{
@@ -748,7 +797,7 @@ void Player::SetStateRun()
 
 void Player::SetStateIdle()
 {
-	if (mState == State::LeftRoll || mState == State::LeftRise || mState == State::LeftBrake)
+	if (mState == State::LeftRoll || mState == State::LeftRise || mState == State::LeftBrake || mState == State::LeftLandSoft)
 	{
 		mState = State::LeftIdle;
 		mCurrentAnimation->Stop();
@@ -756,7 +805,7 @@ void Player::SetStateIdle()
 		mCurrentAnimation->Play();
 		mCurrentImage = mIdleImage;
 	}
-	else if (mState == State::RightRoll || mState == State::RightRise || mState == State::RightBrake)
+	else if (mState == State::RightRoll || mState == State::RightRise || mState == State::RightBrake || mState == State::RightLandSoft)
 	{
 		mState = State::RightIdle;
 		mCurrentAnimation->Stop();
