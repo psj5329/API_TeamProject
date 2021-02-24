@@ -48,6 +48,9 @@ class Fennel :
 
 	RECT mThunder;
 	Image* mThunderImg;
+	Animation* mThunderAni;
+	Animation* mCurrentThunder;
+	POINT mTarget;
 
 	RECT mSword;
 
@@ -73,6 +76,10 @@ public:
 	void Death();
 	void Dash();
 
+	//칼렉트설정
+	void AttackSword();
+	void Attack2Sword();
+
 	//콜백할친구들
 	void EndAttack()override;
 	void EndAttack2();
@@ -80,5 +87,6 @@ public:
 	void JumpReadytoJump();
 	void JumptoPlunge();
 	void EndPlunge();
+	void EndBuff();
 };
 

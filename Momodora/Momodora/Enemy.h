@@ -44,7 +44,8 @@ protected:
 	int mDistance;		//플레이어와 거리
 
 	bool mFoundPlayer;	//플레이어를 만났나? 만났으면 전투상태로
-	
+	bool isHit;
+
 	Animation* mRightIdle;
 	Animation* mLeftIdle;
 	Animation* mRightMove;
