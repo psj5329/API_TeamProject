@@ -10,9 +10,10 @@ void Fennel::Init()
 {
 	mImage = IMAGEMANAGER->FindImage(L"Fennelidle");
 	mImpactImg = IMAGEMANAGER->FindImage(L"Fennelimpact");
+	mThunderImg = IMAGEMANAGER->FindImage(L"Thunder");
 
-	mStart.x = WINSIZEX / 2;
-	mStart.y = WINSIZEY / 2;
+	mStart.x = 2000;
+	mStart.y = 2000;
 	mX = mStart.x;
 	mY = mStart.y;
 	mSizeX = mImage->GetFrameWidth() * 2;
@@ -21,7 +22,16 @@ void Fennel::Init()
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
 
-	
+	//스탯 ////// 나중에 바꾸기////////////
+	mHp = 100;
+	mAtk = 10;
+
+	///////////////////////////////////
+
+	/////충돌판정할 랙트들//////////////////
+	mImpact = RectMakeCenter(1000, 1000, 1, 1);
+	mThunder = RectMakeCenter(1000, 1000, 1, 1);
+	mSword = RectMakeCenter(1000, 1000, 1, 1);
 	
 
 	mRightIdle = new Animation();
@@ -49,13 +59,13 @@ void Fennel::Init()
 	mRightAtk2 = new Animation();
 	mRightAtk2->InitFrameByStartEnd(0, 1, 11, 1, false);
 	mRightAtk2->SetIsLoop(false);
-	mRightAtk2->SetFrameUpdateTime(0.2f);
+	mRightAtk2->SetFrameUpdateTime(0.06f);
 	mRightAtk2->SetCallbackFunc(bind(&Fennel::EndAttack2, this));
 
 	mLeftAtk2 = new Animation();
 	mLeftAtk2->InitFrameByStartEnd(0, 0, 11, 0, false);
 	mLeftAtk2->SetIsLoop(false);
-	mLeftAtk2->SetFrameUpdateTime(0.2f);
+	mLeftAtk2->SetFrameUpdateTime(0.06f);
 	mLeftAtk2->SetCallbackFunc(bind(&Fennel::EndAttack2, this));
 
 	mRightBackflip = new Animation();
@@ -74,13 +84,13 @@ void Fennel::Init()
 	mRightBuff->InitFrameByStartEnd(0, 1, 14, 1, false);
 	mRightBuff->SetIsLoop(false);
 	mRightBuff->SetFrameUpdateTime(0.2f);
-	mRightBuff->SetCallbackFunc(bind(&Fennel::EndMove, this));
+	mRightBuff->SetCallbackFunc(bind(&Fennel::EndBuff, this));
 
 	mLeftBuff = new Animation();
 	mLeftBuff->InitFrameByStartEnd(0, 0, 14, 0, false);
 	mLeftBuff->SetIsLoop(false);
 	mLeftBuff->SetFrameUpdateTime(0.2f);
-	mLeftBuff->SetCallbackFunc(bind(&Fennel::EndMove, this));
+	mLeftBuff->SetCallbackFunc(bind(&Fennel::EndBuff, this));
 
 	mRightDash = new Animation();
 	mRightDash->InitFrameByStartEnd(0, 1, 0, 1, false);
@@ -152,24 +162,24 @@ void Fennel::Init()
 	mRightPlunge->InitFrameByStartEnd(0, 1, 12, 1, false);
 	mRightPlunge->SetIsLoop(false);
 	mRightPlunge->SetFrameUpdateTime(0.1f);
-	mRightPlunge->SetCallbackFunc(bind(&Fennel::EndMove, this));
+	mRightPlunge->SetCallbackFunc(bind(&Fennel::EndPlunge, this));
 
 	mLeftPlunge = new Animation();
 	mLeftPlunge->InitFrameByStartEnd(0, 0, 12, 0, false);
 	mLeftPlunge->SetIsLoop(false);
 	mLeftPlunge->SetFrameUpdateTime(0.1f);
-	mLeftPlunge->SetCallbackFunc(bind(&Fennel::EndMove, this));
+	mLeftPlunge->SetCallbackFunc(bind(&Fennel::EndPlunge, this));
 
 	mRightThunder = new Animation();
 	mRightThunder->InitFrameByStartEnd(0, 1, 21, 1, false);
 	mRightThunder->SetIsLoop(false);
-	mRightThunder->SetFrameUpdateTime(0.2f);
+	mRightThunder->SetFrameUpdateTime(0.1f);
 	mRightThunder->SetCallbackFunc(bind(&Fennel::EndMove, this));
 
 	mLeftThunder = new Animation();
 	mLeftThunder->InitFrameByStartEnd(0, 0, 21, 0, false);
 	mLeftThunder->SetIsLoop(false);
-	mLeftThunder->SetFrameUpdateTime(0.2f);
+	mLeftThunder->SetFrameUpdateTime(0.1f);
 	mLeftThunder->SetCallbackFunc(bind(&Fennel::EndMove, this));
 
 	mImpactAni = new Animation();
@@ -178,6 +188,14 @@ void Fennel::Init()
 	mImpactAni->SetFrameUpdateTime(0.1f);
 	mCurrentImpact = mImpactAni;
 	//mCurrentImpact->Play();
+
+	mThunderAni = new Animation();
+	mThunderAni->InitFrameByStartEnd(0, 0, 2, 0, false);
+	mThunderAni->SetIsLoop(true);
+	mThunderAni->SetFrameUpdateTime(0.05f);
+	mCurrentThunder = mThunderAni;
+	mCurrentThunder->Play();
+	mCurrentThunder->Pause();
 
 	mEnemyState = EnemyState::Idle;
 	mDirection = Direction::Left;
@@ -209,7 +227,8 @@ void Fennel::Release()
 	SafeDelete(mLeftThunder);
 	SafeDelete(mRightJumpReady);
 	SafeDelete(mLeftJumpReady);
-
+	SafeDelete(mThunderAni);
+	SafeDelete(mImpactAni);
 
 }
 
@@ -222,15 +241,34 @@ void Fennel::Update()
 		if (mAttackSpeed > 2)
 		{
 			//확률
-			int rand = RANDOM->RandomInt(3);
-			if (rand)
+			//int rand = RANDOM->RandomInt(3);
+			//if (rand == 0)
+			//{
+			//	Attack();
+			//}
+			//else if(rand == 1)
+			//{
+			//	Plunge();
+			//}
+			//else
+			//{
+			//	Thunder();
+			//}
+
+			//버프넣기
+			if (mAtk < 20)
 			{
-				Attack();
+				if (mHp < 300)
+				{
+					mAtk = 30;
+					Buff();
+				}
 			}
 			else
 			{
-				Plunge();
+				Attack();
 			}
+
 		}
 	}
 	
@@ -259,6 +297,47 @@ void Fennel::Update()
 				mX += 150 * TIME->DeltaTime();
 		}
 	}
+	//공격2 이동
+	if (mFennelState == FennelState::Attack2)
+	{
+		float angle;
+		//올라가고
+		if (mCurrentAnimation->GetNowFrameX() >= 0 && mCurrentAnimation->GetNowFrameX() < 6)
+		{
+			if (mDirection == Direction::Left)
+			{
+				angle = PI * 15 / 16;
+				mX += cos(angle) * 350 * TIME->DeltaTime();
+				mY -= sin(angle) * 350 * TIME->DeltaTime();
+			}
+			else
+			{
+				angle = PI / 16;
+				mX += cos(angle) * 350 * TIME->DeltaTime();
+				mY -= sin(angle) * 350 * TIME->DeltaTime();
+			}
+				
+		}
+		//내려가고
+		if (mCurrentAnimation->GetNowFrameX() >= 6)
+		{
+			if (mDirection == Direction::Left)
+			{
+				angle = PI * 17 / 16;
+				mX += cos(angle) * 370 * TIME->DeltaTime();
+				mY -= sin(angle) * 370 * TIME->DeltaTime();
+			}
+			else
+			{
+				angle = PI * 31 / 16;
+				mX += cos(angle) * 370 * TIME->DeltaTime();
+				mY -= sin(angle) * 370 * TIME->DeltaTime();
+			}
+		}
+	}
+
+
+
 	//뒷구르기 이동
 	if (mFennelState == FennelState::BackFlip)
 	{
@@ -320,21 +399,61 @@ void Fennel::Update()
 			mCurrentImpact->Play();
 			mY = mStart.y;
 		}
+		if (mCurrentImpact->GetNowFrameX() == 7)
+		{
+			mImpact = RectMakeCenter(1000, 1000, 1, 1);
+		}
 
 	}
+	//번개
+	if (mFennelState == FennelState::Thunder)
+	{
+		
+		//번개떨어질곳 설정
+		if (mCurrentAnimation->GetNowFrameX() == 10)
+		{
+			mTarget.x = mPlayer->GetX();
+			mTarget.y = mPlayer->GetY();
+		}
+		//번개만들기
+		if (mCurrentAnimation->GetNowFrameX() == 14)
+		{
+			mThunder = RectMakeCenter(mTarget.x, 400, mThunderImg->GetFrameWidth() * 2 - 50, 500);
+			mCurrentThunder->Play();
+		}
+		//번개끝
+		if (mCurrentAnimation->GetNowFrameX() == 21)
+		{
+			mThunder = RectMakeCenter(1000, 1000, 1, 1);
+			mCurrentThunder->Pause();
+
+		}
+	}
+
 
 	//맞으면
 
 
 	mCurrentImpact->Update();
 	mCurrentAnimation->Update();
+	mCurrentThunder->Update();
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+	//히트박스
+	if(mDirection == Direction::Left)
+		mHitBox = RectMakeCenter(mX + 10, mY, 50, 100);
+	else
+		mHitBox = RectMakeCenter(mX - 10, mY, 50, 100);
 }
 
 void Fennel::Render(HDC hdc)
 {
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
+
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mSizeX, mSizeY);
 	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImpactImg, mImpact.left, mImpact.top, mCurrentImpact->GetNowFrameX(), mCurrentImpact->GetNowFrameY(), mImpactImg->GetFrameWidth() * 2, mImpactImg->GetFrameHeight() * 2, 0.5f);
+	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mThunderImg, mThunder.left, mThunder.top, mCurrentThunder->GetNowFrameX(), mCurrentThunder->GetNowFrameY(), mThunderImg->GetFrameWidth() * 2 - 50, 500);
+
+
 }
 
 void Fennel::Attack()
@@ -346,7 +465,9 @@ void Fennel::Attack()
 }
 void Fennel::Attack2()
 {
-
+	SetDirection();
+	mFennelState = FennelState::Attack2;
+	SetImageAnimation();
 }
 void Fennel::Backflip()
 {
@@ -355,13 +476,16 @@ void Fennel::Backflip()
 void Fennel::Plunge()
 {
 	SetDirection();
+	//점프레디는 쓰지않는중
 	mFennelState = FennelState::JumpReady;
 	mFennelState = FennelState::Jump;
 	SetImageAnimation();
 }
 void Fennel::Thunder()
 {
-
+	SetDirection();
+	mFennelState = FennelState::Thunder;
+	SetImageAnimation();
 }
 void Fennel::Hurt()
 {
@@ -369,7 +493,9 @@ void Fennel::Hurt()
 }
 void Fennel::Buff()
 {
-
+	SetDirection();
+	mFennelState = FennelState::Buff;
+	SetImageAnimation();
 }
 void Fennel::Death()
 {
@@ -381,7 +507,20 @@ void Fennel::Dash()
 }
 
 
+void Fennel::AttackSword()
+{
+	if (mCurrentAnimation->GetNowFrameX() == 6 && mCurrentAnimation->GetNowFrameX() == 7)
+	{
+		if (mDirection == Direction::Left)
+			mSword = RectMakeCenter(mX +10, mY, 150, 100);
+		else
+			mSword = RectMakeCenter(mX + 10, mY, 150, 100);
+	}
+}
+void Fennel::Attack2Sword()
+{
 
+}
 
 
 
@@ -391,7 +530,6 @@ void Fennel::EndAttack()
 {
 	mFennelState = FennelState::Attack2;
 	SetDirection();
-	mImage = IMAGEMANAGER->FindImage(L"Fennelatk2");
 	SetImageAnimation();
 }
 
@@ -425,14 +563,25 @@ void Fennel::JumptoPlunge()
 {
 	mFennelState = FennelState::Plunge;
 	mImage = IMAGEMANAGER->FindImage(L"Fennelplunge");
+	mCurrentImpact->Stop();
+	mCurrentImpact = mImpactAni;
+	mCurrentImpact->Play();
 	SetImageAnimation();
 }
-//점프후 플런지
+//플런지 후 임팩트 없애고 아이들
 void Fennel::EndPlunge()
 {
 	mFennelState = FennelState::Idle;
 	mImage = IMAGEMANAGER->FindImage(L"Fennelidle");
 	SetImageAnimation();
+}
+//버프하고 공격1에 패턴추가
+void Fennel::EndBuff()
+{
+	mFennelState = FennelState::Idle;
+	SetImageAnimation();
+	mRightAtk->SetCallbackFunc(bind(&Fennel::EndAttack, this));
+	mLeftAtk->SetCallbackFunc(bind(&Fennel::EndAttack, this));
 }
 
 
