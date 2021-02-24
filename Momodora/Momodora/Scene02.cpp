@@ -9,6 +9,7 @@
 #include "ShieldImp.h"
 #include "Witch.h"
 #include "Fennel.h"
+#include "Player.h"
 
 void Scene02::Init()
 {
@@ -71,10 +72,10 @@ void Scene02::Init()
 
 	mMap = IMAGEMANAGER->FindImage(L"MapTest");
 
-	mPlatform01 = new Platform();
-	RECT rect01 = { 0, 602, 600, 650 };
-	mPlatform01->SetRect(rect01);
-	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)mPlatform01);
+	Platform* platform01 = new Platform();
+	platform01->SetPlatform(0, 600, 800, 650, PlatformType::Normal);
+	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform01);
+	mGround = { 0,600,800,650 };
 }
 void Scene02::Release()
 {
@@ -85,6 +86,16 @@ void Scene02::Release()
 void Scene02::Update()
 {
 	OBJECTMANAGER->Update();
+
+	RECT temp;
+	Player* player = OBJECTMANAGER->GetPlayer();
+	RECT playerRect = player->GetRect();
+	GameObject* fennel1 = OBJECTMANAGER->FindObject(ObjectLayer::Enemy, "Fennel");
+	RECT fennel = ((Enemy*)fennel1)->GetHitBox();
+	if (IntersectRect(&temp, &playerRect, &fennel))
+	{
+		((Enemy*)fennel1)->SetIsHit(true);
+	}
 }
 
 void Scene02::Render(HDC hdc)
@@ -92,11 +103,11 @@ void Scene02::Render(HDC hdc)
 	wstring str = L"¾À2 ÆäÀÌÁö";
 	TextOut(hdc, 100, 200, str.c_str(), (int)str.length());
 	
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mPlatform01->GetRect());
 
 	CAMERAMANAGER->GetMainCamera()->Render(hdc, mMap, 0, 0);
 	OBJECTMANAGER->Render(hdc);
 
+	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc,mGround);
 
 	wstring str3 = L"MouseX:" + to_wstring(_mousePosition.x);
 	TextOut(hdc, _mousePosition.x+10, _mousePosition.y + 10, str3.c_str(), str3.length());

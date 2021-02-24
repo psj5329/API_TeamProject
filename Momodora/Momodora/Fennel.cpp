@@ -21,9 +21,11 @@ void Fennel::Init()
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
+	mName = "Fennel";
+	mAlpha = 1;
 
 	//스탯 ////// 나중에 바꾸기////////////
-	mHp = 100;
+	mHp = -1;
 	mAtk = 10;
 
 	///////////////////////////////////
@@ -108,21 +110,25 @@ void Fennel::Init()
 	mRightDeath->InitFrameByStartEnd(0, 1, 0, 1, false);
 	mRightDeath->SetIsLoop(false);
 	mRightDeath->SetFrameUpdateTime(0.2f);
+	mRightDeath->SetCallbackFunc(bind(&Fennel::EndDeath, this));
 
 	mLeftDeath = new Animation();
 	mLeftDeath->InitFrameByStartEnd(0, 0, 13, 0, false);
 	mLeftDeath->SetIsLoop(false);
 	mLeftDeath->SetFrameUpdateTime(0.2f);
+	mLeftDeath->SetCallbackFunc(bind(&Fennel::EndDeath, this));
 
 	mRightHurt = new Animation();
 	mRightHurt->InitFrameByStartEnd(0, 1, 0, 1, false);
 	mRightHurt->SetIsLoop(false);
-	mRightHurt->SetFrameUpdateTime(0.2f);
+	mRightHurt->SetFrameUpdateTime(2.f);
+	mRightHurt->SetCallbackFunc(bind(&Fennel::EndMove, this));
 
 	mLeftHurt = new Animation();
 	mLeftHurt->InitFrameByStartEnd(0, 0, 0, 0, false);
 	mLeftHurt->SetIsLoop(false);
-	mLeftHurt->SetFrameUpdateTime(0.2f);
+	mLeftHurt->SetFrameUpdateTime(2.f);
+	mLeftHurt->SetCallbackFunc(bind(&Fennel::EndMove, this));
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 1, 4, 1, false);
@@ -238,7 +244,7 @@ void Fennel::Update()
 	if (mFennelState == FennelState::Idle)
 	{
 		mAttackSpeed += TIME->DeltaTime();
-		if (mAttackSpeed > 2)
+		if (mAttackSpeed > 1)
 		{
 			//확률
 			//int rand = RANDOM->RandomInt(3);
@@ -275,163 +281,54 @@ void Fennel::Update()
 	//공격떄 이동
 	if (mFennelState == FennelState::Attack)
 	{
-		if (mCurrentAnimation->GetNowFrameX() >= 2 && mCurrentAnimation->GetNowFrameX() < 5)
-		{
-			if(mDirection == Direction::Left)
-				mX -= 75 * TIME->DeltaTime();
-			else
-				mX += 75 * TIME->DeltaTime();
-		}
-		if (mCurrentAnimation->GetNowFrameX() == 6 || mCurrentAnimation->GetNowFrameX() ==14)
-		{
-			if (mDirection == Direction::Left)
-				mX -= 330 * TIME->DeltaTime();
-			else
-				mX += 330 * TIME->DeltaTime();
-		}
-		if (mCurrentAnimation->GetNowFrameX() == 15)
-		{
-			if (mDirection == Direction::Left)
-				mX -= 150 * TIME->DeltaTime();
-			else
-				mX += 150 * TIME->DeltaTime();
-		}
+		AttackRect();
 	}
 	//공격2 이동
 	if (mFennelState == FennelState::Attack2)
 	{
-		float angle;
-		//올라가고
-		if (mCurrentAnimation->GetNowFrameX() >= 0 && mCurrentAnimation->GetNowFrameX() < 6)
-		{
-			if (mDirection == Direction::Left)
-			{
-				angle = PI * 15 / 16;
-				mX += cos(angle) * 350 * TIME->DeltaTime();
-				mY -= sin(angle) * 350 * TIME->DeltaTime();
-			}
-			else
-			{
-				angle = PI / 16;
-				mX += cos(angle) * 350 * TIME->DeltaTime();
-				mY -= sin(angle) * 350 * TIME->DeltaTime();
-			}
-				
-		}
-		//내려가고
-		if (mCurrentAnimation->GetNowFrameX() >= 6)
-		{
-			if (mDirection == Direction::Left)
-			{
-				angle = PI * 17 / 16;
-				mX += cos(angle) * 370 * TIME->DeltaTime();
-				mY -= sin(angle) * 370 * TIME->DeltaTime();
-			}
-			else
-			{
-				angle = PI * 31 / 16;
-				mX += cos(angle) * 370 * TIME->DeltaTime();
-				mY -= sin(angle) * 370 * TIME->DeltaTime();
-			}
-		}
+		Attack2Rect();
 	}
-
-
-
 	//뒷구르기 이동
 	if (mFennelState == FennelState::BackFlip)
 	{
-		if (mCurrentAnimation->GetNowFrameX() >= 3 && mCurrentAnimation->GetNowFrameX() < 9)
-		{
-			if (mDirection == Direction::Left)
-				mX += 120 * TIME->DeltaTime();
-			else
-				mX -= 120 * TIME->DeltaTime();
-		}
+		BackflipRect();
 	}
 	//점프 이동
 	if (mFennelState == FennelState::Jump)
 	{
-		float angle;
-		if (mCurrentAnimation->GetNowFrameX() >= 0 && mCurrentAnimation->GetNowFrameX() < 4)
-		{
-			if (mDirection == Direction::Left)
-			{
-				angle = PI * 5 / 8;
-				mX += cos(angle) * 550 * TIME->DeltaTime();
-				mY -= sin(angle) * 200 * TIME->DeltaTime();
-				
-			}
-			else
-			{
-				angle = PI * 3 / 8;
-				mX += cos(angle) * 550 * TIME->DeltaTime();
-				mY -= sin(angle) * 200 * TIME->DeltaTime();
-			}
-		}
-		else
-		{
-			if (mDirection == Direction::Left)
-			{
-				angle = PI * 5 / 4;
-				mX += cos(angle) * 70 * TIME->DeltaTime();
-				mY -= sin(angle) * 70 * TIME->DeltaTime();
-
-			}
-			else
-			{
-				angle = PI * 7 / 4;
-				mX += cos(angle) * 70 * TIME->DeltaTime();
-				mY -= sin(angle) * 70 * TIME->DeltaTime();
-			}
-		}
+		JumpRect();
 	}
 	//찍기
 	if (mFennelState == FennelState::Plunge)
 	{
-		if (mY < mStart.y)
-		{
-			mY += 700 * TIME->DeltaTime();
-		}
-		if (mY > mStart.y)
-		{
-			mImpact = RectMakeCenter(mX, mY - 200, mImpactImg->GetFrameWidth() * 2, mImpactImg->GetFrameHeight() * 2);
-			mCurrentImpact->Play();
-			mY = mStart.y;
-		}
-		if (mCurrentImpact->GetNowFrameX() == 7)
-		{
-			mImpact = RectMakeCenter(1000, 1000, 1, 1);
-		}
-
+		PlungeRect();
 	}
 	//번개
 	if (mFennelState == FennelState::Thunder)
 	{
-		
-		//번개떨어질곳 설정
-		if (mCurrentAnimation->GetNowFrameX() == 10)
-		{
-			mTarget.x = mPlayer->GetX();
-			mTarget.y = mPlayer->GetY();
-		}
-		//번개만들기
-		if (mCurrentAnimation->GetNowFrameX() == 14)
-		{
-			mThunder = RectMakeCenter(mTarget.x, 400, mThunderImg->GetFrameWidth() * 2 - 50, 500);
-			mCurrentThunder->Play();
-		}
-		//번개끝
-		if (mCurrentAnimation->GetNowFrameX() == 21)
-		{
-			mThunder = RectMakeCenter(1000, 1000, 1, 1);
-			mCurrentThunder->Pause();
-
-		}
+		ThunderRect();
 	}
 
 
 	//맞으면
+	//if (isHit)
+	//{
+	//	SetDirection();
+	//	//mFennelState == FennelState::Hurt;
+	//	SetImageAnimation();
+	//	isHit = false;
+	//}
+
+	//죽어
+	if (mHp < 0 && mFennelState != FennelState::Death)
+	{
+		SetDirection();
+		mFennelState = FennelState::Death;
+		SetImageAnimation();
+	}
+
+	if (mAlpha > 0 && mAlpha < 1)
+		mAlpha -= TIME->DeltaTime();
 
 
 	mCurrentImpact->Update();
@@ -448,11 +345,11 @@ void Fennel::Update()
 void Fennel::Render(HDC hdc)
 {
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
-
-	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mSizeX, mSizeY);
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mSword);
+	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mSizeX, mSizeY,mAlpha);
 	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImpactImg, mImpact.left, mImpact.top, mCurrentImpact->GetNowFrameX(), mCurrentImpact->GetNowFrameY(), mImpactImg->GetFrameWidth() * 2, mImpactImg->GetFrameHeight() * 2, 0.5f);
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mThunderImg, mThunder.left, mThunder.top, mCurrentThunder->GetNowFrameX(), mCurrentThunder->GetNowFrameY(), mThunderImg->GetFrameWidth() * 2 - 50, 500);
-
+	
 
 }
 
@@ -501,27 +398,203 @@ void Fennel::Death()
 {
 
 }
+
 void Fennel::Dash()
 {
-
+	SetDirection();
+	mFennelState = FennelState::Dash;
+	SetImageAnimation();
 }
 
-
+//공격1 칼렉트
 void Fennel::AttackSword()
 {
-	if (mCurrentAnimation->GetNowFrameX() == 6 && mCurrentAnimation->GetNowFrameX() == 7)
+	if (mCurrentAnimation->GetNowFrameX() == 6 || mCurrentAnimation->GetNowFrameX() == 7)
 	{
 		if (mDirection == Direction::Left)
-			mSword = RectMakeCenter(mX +10, mY, 150, 100);
+			mSword = RectMakeCenter(mX - 30, mY, 170, 100);
 		else
-			mSword = RectMakeCenter(mX + 10, mY, 150, 100);
+			mSword = RectMakeCenter(mX + 30, mY, 170, 100);
+	}
+	if (mCurrentAnimation->GetNowFrameX() == 8)
+	{
+		mSword = RectMakeCenter(2000, 2000, 1, 1);
+	}
+	if (mCurrentAnimation->GetNowFrameX() == 15 || mCurrentAnimation->GetNowFrameX() == 16)
+	{
+		if (mDirection == Direction::Left)
+			mSword = RectMakeCenter(mX, mY, 170, 100);
+		else
+			mSword = RectMakeCenter(mX + 10, mY, 170, 100);
 	}
 }
+//공격2 칼렉트
 void Fennel::Attack2Sword()
 {
-
+	if (mCurrentAnimation->GetNowFrameX() >= 1 && mCurrentAnimation->GetNowFrameX() <= 9)
+	{
+		if (mDirection == Direction::Left)
+			mSword = RectMakeCenter(mX + 10, mY, 200, 100);
+		else
+			mSword = RectMakeCenter(mX + 10, mY, 200, 100);
+	}
+	else
+	{
+		mSword = RectMakeCenter(2000, 2000, 1, 1);
+	}
 }
 
+//위치조정 및
+void Fennel::AttackRect() 
+{
+	if (mCurrentAnimation->GetNowFrameX() >= 2 && mCurrentAnimation->GetNowFrameX() < 5)
+	{
+		if (mDirection == Direction::Left)
+			mX -= 75 * TIME->DeltaTime();
+		else
+			mX += 75 * TIME->DeltaTime();
+	}
+	if (mCurrentAnimation->GetNowFrameX() == 6 || mCurrentAnimation->GetNowFrameX() == 14)
+	{
+		if (mDirection == Direction::Left)
+			mX -= 330 * TIME->DeltaTime();
+		else
+			mX += 330 * TIME->DeltaTime();
+	}
+	if (mCurrentAnimation->GetNowFrameX() == 15)
+	{
+		if (mDirection == Direction::Left)
+			mX -= 150 * TIME->DeltaTime();
+		else
+			mX += 150 * TIME->DeltaTime();
+	}
+	AttackSword();
+}
+void Fennel::Attack2Rect() 
+{
+	float angle;
+	//올라가고
+	if (mCurrentAnimation->GetNowFrameX() >= 0 && mCurrentAnimation->GetNowFrameX() < 6)
+	{
+		if (mDirection == Direction::Left)
+		{
+			angle = PI * 15 / 16;
+			mX += cos(angle) * 350 * TIME->DeltaTime();
+			mY -= sin(angle) * 350 * TIME->DeltaTime();
+		}
+		else
+		{
+			angle = PI / 16;
+			mX += cos(angle) * 350 * TIME->DeltaTime();
+			mY -= sin(angle) * 350 * TIME->DeltaTime();
+		}
+
+	}
+	//내려가고
+	if (mCurrentAnimation->GetNowFrameX() >= 6)
+	{
+		if (mDirection == Direction::Left)
+		{
+			angle = PI * 17 / 16;
+			mX += cos(angle) * 370 * TIME->DeltaTime();
+			mY -= sin(angle) * 370 * TIME->DeltaTime();
+		}
+		else
+		{
+			angle = PI * 31 / 16;
+			mX += cos(angle) * 370 * TIME->DeltaTime();
+			mY -= sin(angle) * 370 * TIME->DeltaTime();
+		}
+	}
+	Attack2Sword();
+}
+
+void Fennel::BackflipRect() 
+{
+	if (mCurrentAnimation->GetNowFrameX() >= 3 && mCurrentAnimation->GetNowFrameX() < 9)
+	{
+		if (mDirection == Direction::Left)
+			mX += 120 * TIME->DeltaTime();
+		else
+			mX -= 120 * TIME->DeltaTime();
+	}
+}
+
+void Fennel::JumpRect() 
+{
+	float angle;
+	if (mCurrentAnimation->GetNowFrameX() >= 0 && mCurrentAnimation->GetNowFrameX() < 4)
+	{
+		if (mDirection == Direction::Left)
+		{
+			angle = PI * 5 / 8;
+			mX += cos(angle) * 550 * TIME->DeltaTime();
+			mY -= sin(angle) * 200 * TIME->DeltaTime();
+
+		}
+		else
+		{
+			angle = PI * 3 / 8;
+			mX += cos(angle) * 550 * TIME->DeltaTime();
+			mY -= sin(angle) * 200 * TIME->DeltaTime();
+		}
+	}
+	else
+	{
+		if (mDirection == Direction::Left)
+		{
+			angle = PI * 5 / 4;
+			mX += cos(angle) * 70 * TIME->DeltaTime();
+			mY -= sin(angle) * 70 * TIME->DeltaTime();
+
+		}
+		else
+		{
+			angle = PI * 7 / 4;
+			mX += cos(angle) * 70 * TIME->DeltaTime();
+			mY -= sin(angle) * 70 * TIME->DeltaTime();
+		}
+	}
+}
+void Fennel::PlungeRect() 
+{
+	if (mY < mStart.y)
+	{
+		mY += 700 * TIME->DeltaTime();
+	}
+	if (mY > mStart.y)
+	{
+		mImpact = RectMakeCenter(mX, mY - 200, mImpactImg->GetFrameWidth() * 2, mImpactImg->GetFrameHeight() * 2);
+		mCurrentImpact->Play();
+		mY = mStart.y;
+	}
+	if (mCurrentImpact->GetNowFrameX() == 7)
+	{
+		mImpact = RectMakeCenter(1000, 1000, 1, 1);
+	}
+}
+void Fennel::ThunderRect() 
+{
+	//번개떨어질곳 설정
+	if (mCurrentAnimation->GetNowFrameX() == 10)
+	{
+		mTarget.x = mPlayer->GetX();
+		mTarget.y = mPlayer->GetY();
+	}
+	//번개만들기
+	if (mCurrentAnimation->GetNowFrameX() == 14)
+	{
+		mThunder = RectMakeCenter(mTarget.x, 400, mThunderImg->GetFrameWidth() * 2 - 50, 500);
+		mCurrentThunder->Play();
+	}
+	//번개끝
+	if (mCurrentAnimation->GetNowFrameX() == 21)
+	{
+		mThunder = RectMakeCenter(1000, 1000, 1, 1);
+		mCurrentThunder->Pause();
+
+	}
+}
 
 
 
@@ -583,7 +656,11 @@ void Fennel::EndBuff()
 	mRightAtk->SetCallbackFunc(bind(&Fennel::EndAttack, this));
 	mLeftAtk->SetCallbackFunc(bind(&Fennel::EndAttack, this));
 }
-
+//죽고 알파값 낮추기
+void Fennel::EndDeath()
+{
+	mAlpha -= TIME->DeltaTime();
+}
 
 void Fennel::SetImageAnimation()
 {
