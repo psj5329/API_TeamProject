@@ -21,22 +21,23 @@ void SceneTest::Init()
 
 	Ladder* ladder01 = new Ladder();
 	ladder01->SetLadder(675, 450, 725, 600);
-	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)ladder01);
+	OBJECTMANAGER->AddObject(ObjectLayer::Ladder, (GameObject*)ladder01);
 
 	SOUNDMANAGER->Play(L"Boss", 0.5f);
 	//SOUNDMANAGER->Play(L"boss1", 0.3f);
 
-	for (int i = 0; i < 100; ++i)
+	for (int i = 0; i < 20; ++i)
 	{
-		mRectEff[i] = IMAGEMANAGER->FindImage(L"FF");
-		mAlpha[i] = 0.25f;
-		mA[100] = false;
+		mImageDR[i] = 0;
+		mImageAlpha[i] = 0.25f;
 	}
-	a = 0;
-	createTime = 0.f;
 
-	for (int i = 0; i < 10; ++i)
-		crea.push_back(i);
+	mOrder = 0;
+	mImageCreateDelay = 0.5f;
+
+	// ∫∏Ω∫ ∏  ¡¬øÏ º≥ƒ°øÎ
+	mFixDia = IMAGEMANAGER->FindImage(L"MapFixDia");
+	mFixRect = IMAGEMANAGER->FindImage(L"MapFixRect");
 }
 
 void SceneTest::Release()
@@ -64,71 +65,40 @@ void SceneTest::Update()
 		CAMERAMANAGER->GetMainCamera()->SetShake(0.2f);
 	}
 
-	for (int i = 0; i < 100; ++i)
+	// {{ ∫∏Ω∫ ∏  ¡¬øÏ º≥ƒ°øÎ
+	mImageCreateDelay -= TIME->DeltaTime();
+
+	if (mImageCreateDelay <= 0.f)
 	{
-		if (mA[i])
+		mImageCreateDelay = 0.5f;
+		mImageDR[mOrder] = rand() % 2 + 1; // 1¿Ã∏È ¥Ÿ¿Ãæ∆, 2∏È ∑∫∆Æ
+		for (int i = 0; i < 24; ++i)
 		{
-			if (mAlpha[i] < 0.f)
-				mAlpha[i] = 0.f;
-			mAlpha[i] -= 0.1f * TIME->DeltaTime();
+			if (i / 12 == 0)
+				mImageX[mOrder * 24 + i] = 5 + rand() % 61;
+			else
+				mImageX[mOrder * 24 + i] = WINSIZEX - 45 - rand() % 61;
+
+			mImageY[mOrder * 24 + i] = 50 * (i % 12) + rand() % 31;
+
+			//mImageAlpha[mOrder * 24 + i] = 0.25f;
 		}
+
+		++mOrder;
+
+		if (mOrder >= 20)
+			mOrder = 0;
 	}
 
-	createTime -= TIME->DeltaTime();
-
-	int k = 0;
-	//if (INPUT->GetKeyDown(VK_LBUTTON))
-	if(createTime <= 0.f)
+	for (int i = 0; i < 20; ++i)
 	{
-		createTime = 0.5f;
-		//createTime = 0.05f;
+		if (mImageDR[i])
+			mImageAlpha[i] -= 0.05f * TIME->DeltaTime();
 
-		if (a >= 100)
-			return;
-		//
-		//while (true)
-		//{
-			k = rand() % 10;
-
-			mA[a] = true;
-
-			for(int i = 0; i < 10; ++i)
-			mx[10 * a + i] = 300 + rand() % 40;
-		//	my[10 * a + k] = 200 + 50 * k + rand() % 40;
-		//
-		//	vector<int>::iterator iter = crea.begin();
-		//	for (; iter != crea.end(); ++iter)
-		//		if ((*iter) == k)
-		//		{
-		//			crea.erase(iter);
-		//			return;
-		//		}
-		//
-		//	if (iter == crea.end())
-		//		continue;
-		//
-		//	if (crea.begin() == crea.end())
-		//	{
-		//		++a;
-		//
-		//		for (int i = 0; i < 10; ++i)
-		//			crea.push_back(i);
-		//	}
-		//}
-
-		my[10 * a] = 200 + rand() % 40;
-		my[10 * a + 1] = 250 + rand() % 40;
-		my[10 * a + 2] = 300 + rand() % 40;
-		my[10 * a + 3] = 350 + rand() % 40;
-		my[10 * a + 4] = 400 + rand() % 40;
-		my[10 * a + 5] = 450 + rand() % 40;
-		my[10 * a + 6] = 500 + rand() % 40;
-		my[10 * a + 7] = 550 + rand() % 40;
-		my[10 * a + 8] = 600 + rand() % 40;
-		my[10 * a + 9] = 650 + rand() % 40;
-		++a;
-		return;
+		if (mImageAlpha[i] < 0.f)
+			mImageAlpha[i] = 0.f;
 	}
+	// ∫∏Ω∫ ∏  ¡¬øÏ º≥ƒ°øÎ }}
 }
 
 void SceneTest::Render(HDC hdc)
@@ -145,20 +115,20 @@ void SceneTest::Render(HDC hdc)
 	for (; iter2 != ladderList.end(); ++iter2)
 		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, (*iter2)->GetRect());
 
-	for(int i = 0; i < 100; ++i)
-		if (mA[i])
+	// ∫∏Ω∫ ∏  ¡¬øÏ º≥ƒ°øÎ
+	for (int i = 0; i < 20; ++i)
+	{
+		if (mImageDR[i])
 		{
-			CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mRectEff[i], mx[10 * i], my[10 * i], mAlpha[i]);
-			CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mRectEff[i], mx[10 * i + 1], my[10 * i + 1], mAlpha[i]);
-			CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mRectEff[i], mx[10 * i + 2], my[10 * i + 2], mAlpha[i]);
-			CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mRectEff[i], mx[10 * i + 3], my[10 * i + 3], mAlpha[i]);
-			CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mRectEff[i], mx[10 * i + 4], my[10 * i + 4], mAlpha[i]);
-			CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mRectEff[i], mx[10 * i + 5], my[10 * i + 5], mAlpha[i]);
-			CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mRectEff[i], mx[10 * i + 6], my[10 * i + 6], mAlpha[i]);
-			CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mRectEff[i], mx[10 * i + 7], my[10 * i + 7], mAlpha[i]);
-			CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mRectEff[i], mx[10 * i + 8], my[10 * i + 8], mAlpha[i]);
-			CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mRectEff[i], mx[10 * i + 9], my[10 * i + 9], mAlpha[i]);
+			for (int j = 0; j < 24; ++j)
+			{
+				if (mImageDR[i] == 1)
+					CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mFixDia, mImageX[i * 24 + j], mImageY[i * 24 + j], mImageAlpha[i]);
+				else
+					CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mFixRect, mImageX[i * 24 + j], mImageY[i * 24 + j], mImageAlpha[i]);
+			}
 		}
+	}
 
 	wstring str = L"Testæ¿ ∆‰¿Ã¡ˆ";
 	TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2, str.c_str(), (int)str.length());

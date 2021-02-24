@@ -20,7 +20,7 @@ void Scene01::Init()
 
 	Ladder* ladder01 = new Ladder();
 	ladder01->SetLadder(675, 450, 725, 600);
-	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)ladder01);
+	OBJECTMANAGER->AddObject(ObjectLayer::Ladder, (GameObject*)ladder01);
 	// 충돌 체크용 맵 }}
 }
 

@@ -72,24 +72,24 @@ RECT* CollisionManager::CollideWithPlatform(RECT* rect, RECT* prevRect, float si
 			centerX = ((*rect).left + (*rect).right) / 2.f;
 			centerY = ((*rect).top + (*rect).bottom) / 2.f;
 
-			if (platformRect.top >= (*prevRect).bottom)
+			if (platformRect.top > (*prevRect).bottom)
 			{
-				centerY = platformRect.top - sizeY / 2.f;
+				centerY = platformRect.top - sizeY / 2.f - 1.f;
 				(*rect) = RectMakeCenter((int)centerX, (int)centerY, (int)sizeX, (int)sizeY);
 			}
-			else if (platformRect.left >= (*prevRect).right)
+			else if (platformRect.left > (*prevRect).right)
 			{
-				centerX = platformRect.top - sizeX / 2.f;
+				centerX = platformRect.left - sizeX / 2.f - 1.f;
 				(*rect) = RectMakeCenter((int)centerX, (int)centerY, (int)sizeX, (int)sizeY);
 			}
-			else if (platformRect.right <= (*prevRect).left)
+			else if (platformRect.right < (*prevRect).left)
 			{
-				centerX = platformRect.top + sizeX / 2.f;
+				centerX = platformRect.right + sizeX / 2.f + 1.f;
 				(*rect) = RectMakeCenter((int)centerX, (int)centerY, (int)sizeX, (int)sizeY);
 			}
-			else if (platformRect.bottom <= (*prevRect).top)
+			else if (platformRect.bottom < (*prevRect).top)
 			{
-				centerY = platformRect.bottom + sizeY / 2.f;
+				centerY = platformRect.bottom + sizeY / 2.f + 1.f;
 				(*rect) = RectMakeCenter((int)centerX, (int)centerY, (int)sizeX, (int)sizeY);
 			}
 		}
