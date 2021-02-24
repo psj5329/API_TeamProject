@@ -17,6 +17,9 @@ class SceneTest final : public Scene
 	int mImageY[480]; // 24 * 순번 개수
 	float mImageCreateDelay; // 0.5초마다 24개 동시 생성
 
+	Image* mAttacked;
+	float mAttackedAlpha;
+
 public:
 	void Init()override;
 	void Release()override;

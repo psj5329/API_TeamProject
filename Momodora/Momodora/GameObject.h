@@ -8,9 +8,8 @@ protected:
 	float mY;
 	float mSizeX;
 	float mSizeY;
-	//Vector2 mPosition;
-	//Vector2 mSize;
 	RECT mRect;
+	RECT mHitBox; // 히트박스
 
 	bool mIsActive;
 	bool mIsDestroy;
@@ -46,6 +45,9 @@ public:
 	inline RECT GetRect()const { return mRect; }
 	inline void SetRect(RECT rect) { mRect = rect; }
 	inline void SetRect(int left, int top, int right, int bottom) { mRect.left = left; mRect.top = top; mRect.right = right; mRect.bottom = bottom; }
+	inline RECT GetHitBox()const { return mHitBox; }
+	inline void SetHitBox(RECT rect) { mHitBox = rect; }
+	inline void SetHitBox(int left, int top, int right, int bottom) { mHitBox.left = left; mHitBox.top = top; mHitBox.right = right; mHitBox.bottom = bottom; }
 
 	inline bool GetIsActive()const { return mIsActive; }
 	inline void SetIsActive(bool isActive) { mIsActive = isActive; }
