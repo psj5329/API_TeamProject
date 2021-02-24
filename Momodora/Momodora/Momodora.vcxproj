@@ -196,8 +196,12 @@
     <ClInclude Include="ShieldImp.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Staff.h" />
+<<<<<<< Updated upstream
     <ClInclude Include="StarCountUI.h" />
     <ClInclude Include="StarItem.h" />
+=======
+    <ClInclude Include="Star.h" />
+>>>>>>> Stashed changes
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="UI.h" />
@@ -252,8 +256,12 @@
     <ClCompile Include="ShieldImp.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Staff.cpp" />
+<<<<<<< Updated upstream
     <ClCompile Include="StarCountUI.cpp" />
     <ClCompile Include="StarItem.cpp" />
+=======
+    <ClCompile Include="Star.cpp" />
+>>>>>>> Stashed changes
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Vector2.cpp" />

@@ -252,6 +252,7 @@
     <ClInclude Include="Fennel.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
     <ClInclude Include="StarItem.h">
       <Filter>MainGame\Object\Item</Filter>
     </ClInclude>
@@ -269,6 +270,10 @@
     </ClInclude>
     <ClInclude Include="StarCountUI.h">
       <Filter>MainGame\UI\StarCount</Filter>
+=======
+    <ClInclude Include="Star.h">
+      <Filter>헤더 파일</Filter>
+>>>>>>> Stashed changes
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -398,6 +403,7 @@
     <ClCompile Include="Fennel.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
+<<<<<<< Updated upstream
     <ClCompile Include="StarItem.cpp">
       <Filter>MainGame\Object\Item</Filter>
     </ClCompile>
@@ -415,6 +421,10 @@
     </ClCompile>
     <ClCompile Include="StarCountUI.cpp">
       <Filter>MainGame\UI\StarCount</Filter>
+=======
+    <ClCompile Include="Star.cpp">
+      <Filter>소스 파일</Filter>
+>>>>>>> Stashed changes
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

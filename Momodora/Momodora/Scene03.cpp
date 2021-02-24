@@ -3,6 +3,7 @@
 #include "Camera.h"
 
 #include "Boss.h"
+<<<<<<< Updated upstream
 #include "StarItem.h"
 #include "Player.h"
 
@@ -14,8 +15,13 @@
 #include "ActiveItemUI.h"
 #include "StarCountUI.h"
 
+=======
+#include "Star.h"
+>>>>>>> Stashed changes
 void Scene03::Init()
 {
+	srand(unsigned int(NULL));
+
 	Boss* boss = new Boss;
 	boss->Init();
 	boss->SetObject();
@@ -64,6 +70,7 @@ void Scene03::Update()
 {
 	if (INPUT->GetKeyDown(VK_RETURN))
 	{
+<<<<<<< Updated upstream
 		StarItem* star = new StarItem;
 		star->Init();
 		star->SetX(OBJECTMANAGER->GetPlayer()->GetX());
@@ -83,6 +90,12 @@ void Scene03::Update()
 	{
 		((StarCountUI*)OBJECTMANAGER->FindObject("StarCountUI"))->SetStarCount(
 			((StarCountUI*)OBJECTMANAGER->FindObject("StarCountUI"))->GetStarCount() + 1);
+=======
+		Star* star = new Star;
+		star->Init();
+		star->SetAngle(rand() % 10 / 10.f);
+		OBJECTMANAGER->AddObject(ObjectLayer::, star);
+>>>>>>> Stashed changes
 	}
 
 	//mBoss->Update();

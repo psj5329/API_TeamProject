@@ -251,6 +251,7 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 
 	// Item
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Star", Resources(L"Star"), 22, 22, true); });
+<<<<<<< Updated upstream
 
 	// UI
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Hp", Resources(L"UI/Boss_Hp"), 970, 65, true); });
@@ -273,4 +274,6 @@ void MainGame::LoadSoundResource(LoadingScene * scene)
 {
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Boss", ResourcesSoundOggx(L"boss"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Boss1", ResourcesSoundMp3(L"boss"), false); });
+=======
+>>>>>>> Stashed changes
 }
