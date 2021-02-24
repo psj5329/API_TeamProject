@@ -63,10 +63,13 @@ void Boss::Release()
 
 void Boss::Update()
 {
-	if (INPUT->GetKeyDown(VK_RETURN))
+	if (INPUT->GetKeyDown('O'))
 	{
-		if(!mIsInvincibility)
+		if (!mIsInvincibility)
+		{
 			mIsHit = true;
+			mHp -= 30;
+		}
 	}
 
 	//if (INPUT->GetKeyDown('7'))	// PatternBulletDown Å×½ºÆ®

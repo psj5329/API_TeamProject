@@ -151,12 +151,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ActiveItemUI.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Arrow.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="BombImp.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="BossBullet.h" />
+    <ClInclude Include="BossHpUI.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="CollisionManager.h" />
@@ -182,6 +184,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerHpUI.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
@@ -193,18 +196,23 @@
     <ClInclude Include="ShieldImp.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Staff.h" />
+    <ClInclude Include="StarCountUI.h" />
+    <ClInclude Include="StarItem.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Time.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Witch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ActiveItemUI.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="BombImp.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="BossBullet.cpp" />
+    <ClCompile Include="BossHpUI.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
@@ -233,6 +241,7 @@
     </ClCompile>
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerHpUI.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scene01.cpp" />
@@ -243,7 +252,10 @@
     <ClCompile Include="ShieldImp.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Staff.cpp" />
+    <ClCompile Include="StarCountUI.cpp" />
+    <ClCompile Include="StarItem.cpp" />
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Witch.cpp" />
   </ItemGroup>
