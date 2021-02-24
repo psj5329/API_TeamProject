@@ -251,6 +251,25 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 
 	// Boss Bullet
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"BossBullet1", Resources(L"Boss/BossBullet1"), 32, 32, true); });
+
+	// Item
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Star", Resources(L"Star"), 22, 22, true); });
+
+	// UI
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Hp", Resources(L"UI/Boss_Hp"), 970, 65, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_HpBar", Resources(L"UI/Boss_HpBar"), 960, 45, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_HpLess", Resources(L"UI/Boss_HpLess"), 10, 45, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Player_Hp", Resources(L"UI/Player_Hp"), 290, 40, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Player_HpBar", Resources(L"UI/Player_HpBar"), 275, 30, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Player_HpLess", Resources(L"UI/Player_HpLess"), 10, 30, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Item_UI", Resources(L"UI/Item_UI"), 100, 100, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Flower_UI", Resources(L"UI/Flower_UI"), 78, 78, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Star_UI", Resources(L"UI/Star_UI"), 46, 46, true); });
+	for (int i = 0; i < 10; ++i)
+	{
+		wstring num = L"Number" + to_wstring(i);
+		scene->AddLoadFunc([num]() { IMAGEMANAGER->LoadFromFile(num, Resources(L"Number/" + num), 23, 30, true); });
+	}
 }
 
 void MainGame::LoadSoundResource(LoadingScene * scene)

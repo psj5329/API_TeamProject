@@ -63,10 +63,13 @@ void Boss::Release()
 
 void Boss::Update()
 {
-	if (INPUT->GetKeyDown(VK_RETURN))
+	if (INPUT->GetKeyDown('O'))
 	{
-		if(!mIsInvincibility)
+		if (!mIsInvincibility)
+		{
 			mIsHit = true;
+			mHp -= 30;
+		}
 	}
 
 	//if (INPUT->GetKeyDown('7'))	// PatternBulletDown 테스트
@@ -86,9 +89,9 @@ void Boss::Update()
 	//	mIsDown = true;
 	//}
 
-	if(mPattern == AttackPattern::PatternIdle)
+	if (mPattern == AttackPattern::PatternIdle)
 		mAttackTime += TIME->DeltaTime();
-	
+
 	if (mAttackTime >= 2.f)		// 테스트용 2초
 	{
 		mAttackCount++;
@@ -224,7 +227,7 @@ void Boss::ImageSetting()
 	mEyes.move = true;
 	mEyes.moveTime = 0.f;
 	mEyes.moveCount = 0;
-	
+
 	// 눈동자
 	mPupil.image = IMAGEMANAGER->FindImage(L"Boss_Pupil");
 	mPupil.sizeX = mPupil.image->GetWidth() * 3;
@@ -377,7 +380,7 @@ void Boss::MotionFrame()
 		mIsHit = false;
 		mIsInvincibility = true;
 	}
-	
+
 	if (mIsInvincibility)	// 피격 후 무적 시간
 	{
 		mHitFrameTime += TIME->DeltaTime();
