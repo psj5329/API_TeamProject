@@ -52,3 +52,6 @@ ClassName* ClassName::_instance = NULL;
 //#define Resources01(Path) (wstring(L"../Resources/Scene01/").append(Path).append(L".bmp"))
 //#define Resources02(Path) (wstring(L"../Resources/Scene02/").append(Path).append(L".bmp"))
 //#define ResourcesBoss(Path) (wstring(L"../Resources/SceneBoss/").append(Path).append(L".bmp"))
+
+#define ResourcesSoundMp3(Path) (wstring(L"../Resources/Sound/").append(Path).append(L".mp3"))
+#define ResourcesSoundOggx(Path) (wstring(L"../Resources/Sound/").append(Path).append(L".oggx"))

@@ -16,11 +16,10 @@ protected:
 	Mode mMode;
 	GameObject* mTarget;
 	float mMoveSpeed;
-	bool mShakeStart;
 	float mShakeTime;
-	float mShakeX;
-	float mShakeY;
-	float mShakePower;
+	int mShakeX;
+	int mShakeY;
+	int mShakePower;
 
 public:
 	void Init()override;
@@ -51,6 +50,6 @@ public:
 	inline void SetTarget(GameObject* target) { mTarget = target; }
 	inline float GetMoveSpeed() const { return mMoveSpeed; }
 	inline void SetMoveSpeed(float moveSpeed) { mMoveSpeed = moveSpeed; }
-	inline void SetShake(float shakeTime) { mShakeStart = true; mShakeTime = shakeTime; }
-	inline void SetShakePower(float shakePower) { mShakePower = shakePower; }
+	inline void SetShake(float shakeTime) { mShakeTime = shakeTime; } // 2. 실제로 shaking
+	inline void SetShakePower(int shakePower) { mShakePower = shakePower; } // 1. 떨리는 정도 세팅(누군가 한 번 세팅해놓으면, 바꾸고 싶지 않을 경우 안 써도 되긴 함)
 };

@@ -8,12 +8,7 @@ void Camera::Init()
 	mY = WINSIZEY / 2;
 	mSizeX = WINSIZEX;
 	mSizeY = WINSIZEY;
-	//mPosition.SetX(WINSIZEX / 2);
-	//mPosition.SetY(WINSIZEY / 2);
-	//mSize.SetX(WINSIZEX);
-	//mSize.SetY(WINSIZEY);
 	mRect = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY);
-	//mRect = RectMakeCenter((int)mPosition.GetX(), (int)mPosition.GetY(), (int)mSize.GetX(), (int)mSize.GetY());
 
 	mMode = Mode::Free;
 	mTarget = nullptr;
@@ -33,28 +28,35 @@ void Camera::Update()
 		{
 			mX = mTarget->GetX();
 			mY = mTarget->GetY();
-			//mPosition.SetX(mTarget->GetX());
-			//mPosition.SetY(mTarget->GetY());
 			mRect = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY);
-			//mRect = RectMakeCenter((int)mPosition.GetX(), (int)mPosition.GetY(), (int)mSize.GetX(), (int)mSize.GetY());
 		}
 		break;
 	case Camera::Mode::Free:
 		if (INPUT->GetKey('A'))
 			mX -= mMoveSpeed;
-			//mPosition.SetX(mPosition.GetX() - mMoveSpeed);
 		if (INPUT->GetKey('D'))
 			mX += mMoveSpeed;
-			//mPosition.SetX(mPosition.GetX() + mMoveSpeed);
 		if (INPUT->GetKey('W'))
 			mY -= mMoveSpeed;
-			//mPosition.SetY(mPosition.GetY() - mMoveSpeed);
 		if (INPUT->GetKey('S'))
 			mY += mMoveSpeed;
-			//mPosition.SetY(mPosition.GetY() + mMoveSpeed);
 		mRect = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY);
-		//mRect = RectMakeCenter((int)mPosition.GetX(), (int)mPosition.GetY(), (int)mSize.GetX(), (int)mSize.GetY());
 		break;
+	}
+
+	if (mShakeTime)
+	{
+		mShakeTime -= TIME->DeltaTime();
+
+		mShakeX = rand() % (mShakePower * 2 + 1) - mShakePower;
+		mShakeY = rand() % (mShakePower * 2 + 1) - mShakePower;
+
+		if (mShakeTime <= 0.f)
+		{
+			mShakeTime = 0.f;
+			mShakeX = 0;
+			mShakeY = 0;
+		}
 	}
 }
 
@@ -64,47 +66,47 @@ void Camera::Render(HDC hdc)
 
 void Camera::Render(HDC hdc, Image* image, int x, int y)
 {
-	image->Render(hdc, x - mRect.left, y - mRect.top);
+	image->Render(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY);
 }
 
 void Camera::Render(HDC hdc, Image* image, int x, int y, int tempX, int tempY, int tempWidth, int tempHeight)
 {
-	image->Render(hdc, x - mRect.left, y - mRect.top, tempX, tempY, tempWidth, tempHeight);
+	image->Render(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, tempX, tempY, tempWidth, tempHeight);
 }
 
 void Camera::FrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY)
 {
-	image->FrameRender(hdc, x - mRect.left, y - mRect.top, frameX, frameY);
+	image->FrameRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, frameX, frameY);
 }
 
 void Camera::AlphaRender(HDC hdc, Image* image, int x, int y, float alpha)
 {
-	image->AlphaRender(hdc, x - mRect.left, y - mRect.top, alpha);
+	image->AlphaRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, alpha);
 }
 
 void Camera::AlphaFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, float alpha)
 {
-	image->AlphaFrameRender(hdc, x - mRect.left, y - mRect.top, frameX, frameY, alpha);
+	image->AlphaFrameRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, frameX, frameY, alpha);
 }
 
 void Camera::ScaleRender(HDC hdc, Image* image, int x, int y, int width, int height)
 {
-	image->ScaleRender(hdc, x - mRect.left, y - mRect.top, width, height);
+	image->ScaleRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, width, height);
 }
 
 void Camera::ScaleFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, int width, int height)
 {
-	image->ScaleFrameRender(hdc, x - mRect.left, y - mRect.top, frameX, frameY, width, height);
+	image->ScaleFrameRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, frameX, frameY, width, height);
 }
 
 void Camera::AlphaScaleRender(HDC hdc, Image* image, int x, int y, int width, int height, float alpha)
 {
-	image->AlphaScaleRender(hdc, x - mRect.left, y - mRect.top, width, height, alpha);
+	image->AlphaScaleRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, width, height, alpha);
 }
 
 void Camera::AlphaScaleFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, int width, int height, float alpha)
 {
-	image->AlphaScaleFrameRender(hdc, x - mRect.left, y - mRect.top, frameX, frameY, width, height, alpha);
+	image->AlphaScaleFrameRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, frameX, frameY, width, height, alpha);
 }
 
 void Camera::RenderRectInCamera(HDC hdc, RECT rect)
