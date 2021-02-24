@@ -54,6 +54,7 @@ class Fennel :
 
 	RECT mSword;
 
+	float mAlpha;
 
 
 public:
@@ -76,6 +77,15 @@ public:
 	void Death();
 	void Dash();
 
+	//m렉트조정
+	void AttackRect();
+	void Attack2Rect();
+	void BackflipRect();
+	void JumpRect();
+	void PlungeRect();
+	void ThunderRect();
+
+
 	//칼렉트설정
 	void AttackSword();
 	void Attack2Sword();
@@ -88,5 +98,6 @@ public:
 	void JumptoPlunge();
 	void EndPlunge();
 	void EndBuff();
+	void EndDeath();
 };
 
