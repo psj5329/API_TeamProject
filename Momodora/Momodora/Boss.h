@@ -47,6 +47,7 @@ class Boss : public Enemy
 	int mAttackCount;			// 두번 패턴 끝나고 타겟패턴
 	int mBulletCreateCount;
 	float mBulletCreateTime;
+
 	bool mIsDown;
 	float mJumpPower;
 
