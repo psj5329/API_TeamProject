@@ -55,6 +55,8 @@ class Player : public GameObject
 	bool stopmove = 0;
 	bool stoproll = 0; //불값 추가 질문
 
+	RECT mPrevRect;
+
 	Image* mIdleImage;
 	Image* mRunImage;
 	Image* mBrakeImage;

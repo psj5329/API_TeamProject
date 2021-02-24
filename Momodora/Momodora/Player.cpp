@@ -396,7 +396,8 @@ void Player::Update()
 			mCurrentAnimation = mRightJumpAnimation;
 			mCurrentAnimation->Play();
 			mCurrentImage = mJumpImage;
-		}	
+		}
+	}
 	mY -= mJumpPower;
 	mJumpPower -= mGravity;
 
@@ -531,8 +532,6 @@ void Player::Update()
 			}
 		}
 	}
-
-
 
 	//활 공격
 	if (Input::GetInstance()->GetKeyDown('X'))
@@ -711,9 +710,9 @@ void Player::Update()
 		mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	}
 	mCurrentAnimation->Update();
-
+	 
 	//RECT mPrevRect;
-	//mRect = *(COLLISIONMANAGER->CollideWithPlatform(&mRect, &mPrevRect, mSizeX, mSizeY));
+	mRect = *(COLLISIONMANAGER->CollideWithPlatform(&mRect, &mPrevRect, mSizeX, mSizeY));
 
 	mPrevRect = mRect;
 }
@@ -721,7 +720,7 @@ void Player::Update()
 void Player::Render(HDC hdc)
 {
 	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
-	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY , 1.f);
+	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY, 1.f);
 
 	for (int i = 0; i < mArrow.size(); ++i)
 	{
