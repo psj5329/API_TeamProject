@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Staff.h"
 
+
 void Witch::Init()
 {
 	mImage = IMAGEMANAGER->FindImage(L"Witchidle");
@@ -20,7 +21,7 @@ void Witch::Init()
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
 	mHoldStaff = true;
-	mHp = 100;
+	mHp = 0;
 
 	//ÁöÆÎÀÌ
 	mStaff = new Staff();
@@ -164,7 +165,6 @@ void Witch::Update()
 					mCurrentAnimation->Stop();
 					mCurrentAnimation = mRightCatch;
 					mCurrentAnimation->Play();
-
 				}
 			}
 
@@ -206,6 +206,7 @@ void Witch::Update()
 		else
 			mCurrentAnimation = mRightDeath;
 		mCurrentAnimation->Play();
+		DropGold();
 	}
 
 

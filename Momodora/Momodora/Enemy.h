@@ -85,5 +85,7 @@ public:
 	void SetDirection();	//플레이어위치에따라 좌우설정
 	virtual void Attack();
 	virtual void DeathCheck();
+	void DropGold();	//돈랜덤뿌리기
+	void DropGold(int goldNum);	//돈인자만큼뿌리기
 };
 

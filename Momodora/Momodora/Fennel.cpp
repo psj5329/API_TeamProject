@@ -26,15 +26,14 @@ void Fennel::Init()
 	mAlpha = 1;
 
 	//스탯 ////// 나중에 바꾸기////////////
-	mHp = 200;
+	mHp = 500;
 	mAtk = 10;
-
 	///////////////////////////////////
 
 	/////충돌판정할 랙트들//////////////////
 	mImpact = RectMakeCenter(1000, 1000, 1, 1);
 	mThunder = RectMakeCenter(1000, 1000, 1, 1);
-	mSword = RectMakeCenter(1000, 1000, 1, 1);
+	mAttackBox = RectMakeCenter(1000, 1000, 1, 1);
 	
 
 
@@ -253,13 +252,20 @@ void Fennel::Release()
 void Fennel::Update()
 {
 	
+	if (INPUT->GetKeyDown('P'))
+	{
+		mHp -= 50;
+	}
+
+
 	if (mFennelState == FennelState::Idle)
 	{
 		mAttackSpeed += TIME->DeltaTime();
 		if (mAttackSpeed > 1)
 		{
 			//확률= RANDOM->RandomInt(3)
-			int rand =1;
+			//int rand = 0;
+			int rand = RANDOM->RandomInt(3);
 			if (rand == 0)
 			{
 				//if (Math::GetDistance(mPlayer->GetX(), 0, mX, 0) > 300)
@@ -278,18 +284,18 @@ void Fennel::Update()
 			}
 
 			//버프넣기
-			//if (mAtk < 20)
-			//{
-			//	if (mHp < 300)
-			//	{
-			//		mAtk = 30;
-			//		Buff();
-			//	}
-			//}
-			//else
-			//{
-			//	Attack();
-			//}
+			if (mAtk < 20)
+			{
+				if (mHp < 300)
+				{
+					mAtk = 30;
+					Buff();
+				}
+			}
+			else
+			{
+				Attack();
+			}
 
 		}
 	}
@@ -351,8 +357,10 @@ void Fennel::Update()
 		mAlpha -= TIME->DeltaTime();
 	//알파값이 0이면 삭제
 	if (mAlpha <= 0)
+	{ 
+		DropGold(20);
 		this->SetIsDestroy(true);
-
+	}
 	mCurrentImpact->Update();
 	mCurrentAnimation->Update();
 	mCurrentThunder->Update();
@@ -404,7 +412,7 @@ void Fennel::Update()
 void Fennel::Render(HDC hdc)
 {
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
-	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mSword);
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
 	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mSizeX, mSizeY,mAlpha);
 	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImpactImg, mImpact.left, mImpact.top, mCurrentImpact->GetNowFrameX(), mCurrentImpact->GetNowFrameY(), mImpactImg->GetFrameWidth() * 2, mImpactImg->GetFrameHeight() * 2, 0.5f);
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mThunderImg, mThunder.left, mThunder.top, mCurrentThunder->GetNowFrameX(), mCurrentThunder->GetNowFrameY(), mThunderImg->GetFrameWidth() * 2 - 50, 500);
@@ -474,20 +482,24 @@ void Fennel::AttackSword()
 	if (mCurrentAnimation->GetNowFrameX() == 6 || mCurrentAnimation->GetNowFrameX() == 7)
 	{
 		if (mDirection == Direction::Left)
-			mSword = RectMakeCenter(mX - 30, mY, 170, 100);
+			mAttackBox = RectMakeCenter(mX - 30, mY, 170, 100);
 		else
-			mSword = RectMakeCenter(mX + 30, mY, 170, 100);
+			mAttackBox = RectMakeCenter(mX + 30, mY, 170, 100);
 	}
 	if (mCurrentAnimation->GetNowFrameX() == 8)
 	{
-		mSword = RectMakeCenter(2000, 2000, 1, 1);
+		mAttackBox = RectMakeCenter(2000, 2000, 1, 1);
 	}
 	if (mCurrentAnimation->GetNowFrameX() == 15 || mCurrentAnimation->GetNowFrameX() == 16)
 	{
 		if (mDirection == Direction::Left)
-			mSword = RectMakeCenter(mX, mY, 170, 100);
+			mAttackBox = RectMakeCenter(mX, mY, 170, 100);
 		else
-			mSword = RectMakeCenter(mX + 10, mY, 170, 100);
+			mAttackBox = RectMakeCenter(mX + 10, mY, 170, 100);
+	}
+	if (mCurrentAnimation->GetNowFrameX() ==17)
+	{
+		mAttackBox = RectMakeCenter(2000, 2000, 1, 1);
 	}
 }
 //공격2 칼렉트
@@ -496,13 +508,13 @@ void Fennel::Attack2Sword()
 	if (mCurrentAnimation->GetNowFrameX() >= 1 && mCurrentAnimation->GetNowFrameX() <= 9)
 	{
 		if (mDirection == Direction::Left)
-			mSword = RectMakeCenter(mX + 10, mY, 200, 100);
+			mAttackBox = RectMakeCenter(mX + 10, mY, 200, 100);
 		else
-			mSword = RectMakeCenter(mX + 10, mY, 200, 100);
+			mAttackBox = RectMakeCenter(mX + 10, mY, 200, 100);
 	}
 	else
 	{
-		mSword = RectMakeCenter(2000, 2000, 1, 1);
+		mAttackBox = RectMakeCenter(2000, 2000, 1, 1);
 	}
 }
 

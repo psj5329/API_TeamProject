@@ -180,12 +180,12 @@ void Monkey::Update()
 
 	if (mDirection == Direction::Left) {
 		mSearchZone = RectMakeCenter(mX - 110, mY, 220, 200);
-		mAtkBox = RectMakeCenter(mX-30, mY+20, 30, 50);
+		mAttackBox = RectMakeCenter(mX-30, mY+20, 30, 50);
 
 	}
 	else {
 		mSearchZone = RectMakeCenter(mX + 110, mY, 220, 200);
-		mAtkBox = RectMakeCenter(mX+30, mY+20, 30, 50);
+		mAttackBox = RectMakeCenter(mX+30, mY+20, 30, 50);
 
 	}
 
@@ -194,16 +194,16 @@ void Monkey::Update()
 		if (mCurrentAnimation->GetNowFrameX() == 2 || mCurrentAnimation->GetNowFrameX() == 3)
 		{
 			if (mDirection == Direction::Left)
-				mAtkBox = RectMakeCenter(mX + 30, mY + 20, 50, 50);
+				mAttackBox = RectMakeCenter(mX + 30, mY + 20, 50, 50);
 			else
-				mAtkBox = RectMakeCenter(mX - 30, mY + 20, 50, 50);
+				mAttackBox = RectMakeCenter(mX - 30, mY + 20, 50, 50);
 		}
 		if (mCurrentAnimation->GetNowFrameX() > 3)
 		{
 			if (mDirection == Direction::Left)
-				mAtkBox = RectMakeCenter(mX - 40, mY + 20, 50, 50);
+				mAttackBox = RectMakeCenter(mX - 40, mY + 20, 50, 50);
 			else
-				mAtkBox = RectMakeCenter(mX + 40, mY + 20, 50, 50);
+				mAttackBox = RectMakeCenter(mX + 40, mY + 20, 50, 50);
 		}
 	}
 }
@@ -211,7 +211,7 @@ void Monkey::Update()
 void Monkey::Render(HDC hdc)
 {
 	////¸ùµÕÀÌ
-	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAtkBox);
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
 	////»öÀû
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mSearchZone);
 
@@ -271,7 +271,7 @@ void Monkey::SearchPlayer()
 
 void Monkey::Attack()
 {
-	mAtkBox = RectMake(mRect.left, mRect.right, 50, 50);
+	mAttackBox = RectMake(mRect.left, mRect.right, 50, 50);
 }
 
 void Monkey::EndAttack()

@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "MainGame.h"
 
 #include "Image.h"
@@ -139,7 +139,7 @@ void MainGame::Render(HDC hdc)
 	wstring str = SCENEMANAGER->GetCurrentSceneName();
 	if (str == L"LoadingScene" && ((LoadingScene*)(SCENEMANAGER->GetCurrentScene()))->GetIsEndLoading())
 	{
-		wstring strLoad = L"로딩 끝";
+		wstring strLoad = L"로딩끝";
 		TextOut(backDC, 300, 300, strLoad.c_str(), (int)strLoad.length());
 	}
 
@@ -157,10 +157,8 @@ void MainGame::Render(HDC hdc)
 
 	bool tempRight = CAMERAMANAGER->GetMainCamera()->GetRight();
 	wstring strRight = L"";
-	if (tempRight)
-		strRight = L"오른쪽";
-	else
-		strRight = L"왼쪽";
+	if (tempRight) strRight = L"Right";
+	else strRight = L"Left";
 	TextOut(backDC, 10, 70, strRight.c_str(), (int)strRight.length());
 
 	// 그리기 끝 }
@@ -310,6 +308,7 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	// Item
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Star", Resources(L"Star"), 22, 22, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Potion", Resources(L"Potion"), 36, 18, 2, 1, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Magnet", Resources(L"Magnet"), 128, 128,	1,1, true); });
 
 	// UI
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Hp", Resources(L"UI/Boss_Hp"), 970, 65, true); });
