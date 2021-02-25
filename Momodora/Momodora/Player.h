@@ -47,7 +47,10 @@ enum class State : int
 	LadderDown,
 	Death
 };
-
+//enum class Direction :int
+//{
+//
+//};
 class Image;
 class Animation;
 
@@ -175,4 +178,7 @@ public:
 	bool GetHitAttack() { return mHitAttack; }
 
 	State GetState() { return mState; }
+
+
+	//void SetImageAnimation();
 };

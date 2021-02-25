@@ -56,6 +56,7 @@ void MainGame::Release()
 
 void MainGame::Update()
 {
+	Input::GetInstance()->Update();
 	SCENEMANAGER->Update();
 
 	CAMERAMANAGER->Update();
