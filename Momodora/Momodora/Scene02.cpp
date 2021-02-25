@@ -73,7 +73,7 @@ void Scene02::Init()
 
 	//еш
 	Potion* potion1 = new Potion();
-	potion1->Init(WINSIZEX / 2 + 400, 550,0);
+	potion1->Init(WINSIZEX / 2 + 350, 550,0);
 	potion1->SetObject();
 	ObjectManager::GetInstance()->AddObject(ObjectLayer::Item, potion1);
 
