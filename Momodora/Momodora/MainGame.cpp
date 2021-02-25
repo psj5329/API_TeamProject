@@ -56,6 +56,8 @@ void MainGame::Release()
 
 void MainGame::Update()
 {
+	INPUT->Update();
+
 	SCENEMANAGER->Update();
 
 	CAMERAMANAGER->Update();
@@ -92,6 +94,8 @@ void MainGame::Update()
 	{
 		Camera* main = CAMERAMANAGER->GetMainCamera();
 		if (main->GetMode() == Camera::Mode::Follow)
+			main->SetMode(Camera::Mode::Fix);
+		else if (main->GetMode() == Camera::Mode::Fix)
 			main->SetMode(Camera::Mode::Free);
 		else
 		{
@@ -99,6 +103,16 @@ void MainGame::Update()
 			GameObject* player99 = (GameObject*)(OBJECTMANAGER->GetPlayer());
 			main->SetTarget(player99);
 		}
+	}
+
+	bool tempRight = CAMERAMANAGER->GetMainCamera()->GetRight();
+
+	if (INPUT->GetKeyDown('K'))
+	{
+		if (tempRight)
+			CAMERAMANAGER->GetMainCamera()->SetRight(false);
+		else
+			CAMERAMANAGER->GetMainCamera()->SetRight(true);
 	}
 }
 
@@ -135,9 +149,19 @@ void MainGame::Render(HDC hdc)
 	wstring strCam = L"";
 	if (main->GetMode() == Camera::Mode::Follow)
 		strCam = L"팔로우 카메라(모드변경:5)";
+	else if (main->GetMode() == Camera::Mode::Fix)
+		strCam = L"고정 카메라(모드변경:5)";
 	else
 		strCam = L"프리 카메라(모드변경:5)";
 	TextOut(backDC, 10, 55, strCam.c_str(), (int)strCam.length());
+
+	bool tempRight = CAMERAMANAGER->GetMainCamera()->GetRight();
+	wstring strRight = L"";
+	if (tempRight)
+		strRight = L"오른쪽";
+	else
+		strRight = L"왼쪽";
+	TextOut(backDC, 10, 70, strRight.c_str(), (int)strRight.length());
 
 	// 그리기 끝 }
 

@@ -13,6 +13,11 @@ void Camera::Init()
 	mMode = Mode::Free;
 	mTarget = nullptr;
 	mMoveSpeed = 5.f;
+
+	mMarginX = 0;
+	mMarginY = 0;
+
+	tempRight = true; // 임시
 }
 
 void Camera::Release()
@@ -21,15 +26,38 @@ void Camera::Release()
 
 void Camera::Update()
 {
+	float targetRight = 0.f;
+	float targetLeft = 0.f;
+	float targetY = 0.f;
+
 	switch (mMode)
 	{
 	case Camera::Mode::Follow:
 		if (mTarget)
 		{
-			mX = mTarget->GetX();
-			mY = mTarget->GetY();
+			targetRight = mTarget->GetX() + WINSIZEX / 10.f;
+			targetLeft = mTarget->GetX() - WINSIZEX / 10.f;
+			targetY = mTarget->GetY() + WINSIZEY / 10.f;
+
+			//mX = mTarget->GetX();
+			if (tempRight)      // 고정 인 곳 신사이즈로 조절
+				mX = Math::Lerp(mX, targetRight, 0.4f * mMoveSpeed * TIME->DeltaTime());
+			else
+				if (targetLeft <= WINSIZEX * 6.f / 10.f)
+					mX = Math::Lerp(mX, WINSIZEX / 2.f, 0.4f * mMoveSpeed * TIME->DeltaTime());
+				else
+					mX = Math::Lerp(mX, targetLeft, 0.4f * mMoveSpeed * TIME->DeltaTime());
+
+			// y도 신사이즈로 조절
+			//mY = mTarget->GetY();
+			mY = Math::Lerp(mY, targetY, 2.f * mMoveSpeed * TIME->DeltaTime());
 			mRect = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY);
 		}
+		break;
+	case Camera::Mode::Fix:
+		mX = mFixX;
+		mY = mFixY;
+		mRect = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY);
 		break;
 	case Camera::Mode::Free:
 		if (INPUT->GetKey('A'))

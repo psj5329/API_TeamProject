@@ -58,9 +58,11 @@ void Scene03::Init()
 	OBJECTMANAGER->AddObject(ObjectLayer::UI, starCountui);
 
 	Camera* main = CAMERAMANAGER->GetMainCamera();
-	main->SetMode(Camera::Mode::Follow);
-	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
-	main->SetTarget(player);
+	//main->SetMode(Camera::Mode::Follow);
+	//GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
+	//main->SetTarget(player);
+	main->SetMode(Camera::Mode::Fix);
+	main->SetFix(WINSIZEX / 2, WINSIZEY / 2);
 
 	mIsBossDead = false;
 }

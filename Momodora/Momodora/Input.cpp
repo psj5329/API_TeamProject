@@ -12,6 +12,7 @@ Input::Input()
 
 void Input::Update()
 {
+	mPrevKey = mCurrentKey;
 }
 
 bool Input::GetKeyDown(const int& key)
@@ -55,7 +56,7 @@ bool Input::GetKey(const int& key)
 
 bool Input::GetToggleKey(const int& key)
 {
-	if (GetAsyncKeyState(key) & 0x0001)
+	if (GetKeyState(key) & 0x0001)
 		return true;
 	return false;
 }
