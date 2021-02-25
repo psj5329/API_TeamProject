@@ -64,63 +64,99 @@ void Camera::Render(HDC hdc)
 {
 }
 
-void Camera::Render(HDC hdc, Image* image, int x, int y)
+void Camera::Render(HDC hdc, Image* image, int x, int y, bool ui)
 {
-	image->Render(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY);
+	if(ui)
+		image->Render(hdc, x, y);
+	else
+		image->Render(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY);
 }
 
-void Camera::Render(HDC hdc, Image* image, int x, int y, int tempX, int tempY, int tempWidth, int tempHeight)
+void Camera::Render(HDC hdc, Image* image, int x, int y, int tempX, int tempY, int tempWidth, int tempHeight, bool ui)
 {
-	image->Render(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, tempX, tempY, tempWidth, tempHeight);
+	if (ui)
+		image->Render(hdc, x, y, tempX, tempY, tempWidth, tempHeight);
+	else
+		image->Render(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, tempX, tempY, tempWidth, tempHeight);
 }
 
-void Camera::FrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY)
+void Camera::FrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, bool ui)
 {
-	image->FrameRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, frameX, frameY);
+	if (ui)
+		image->FrameRender(hdc, x, y, frameX, frameY);
+	else
+		image->FrameRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, frameX, frameY);
 }
 
-void Camera::AlphaRender(HDC hdc, Image* image, int x, int y, float alpha)
+void Camera::AlphaRender(HDC hdc, Image* image, int x, int y, float alpha, bool ui)
 {
-	image->AlphaRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, alpha);
+	if (ui)
+		image->AlphaRender(hdc, x, y, alpha);
+	else
+		image->AlphaRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, alpha);
 }
 
-void Camera::AlphaFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, float alpha)
+void Camera::AlphaFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, float alpha, bool ui)
 {
-	image->AlphaFrameRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, frameX, frameY, alpha);
+	if (ui)
+		image->AlphaFrameRender(hdc, x, y, frameX, frameY, alpha);
+	else
+		image->AlphaFrameRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, frameX, frameY, alpha);
 }
 
-void Camera::ScaleRender(HDC hdc, Image* image, int x, int y, int width, int height)
+void Camera::ScaleRender(HDC hdc, Image* image, int x, int y, int width, int height, bool ui)
 {
-	image->ScaleRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, width, height);
+	if (ui)
+		image->ScaleRender(hdc, x, y, width, height);
+	else
+		image->ScaleRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, width, height);
 }
 
-void Camera::ScaleFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, int width, int height)
+void Camera::ScaleFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, int width, int height, bool ui)
 {
-	image->ScaleFrameRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, frameX, frameY, width, height);
+	if (ui)
+		image->ScaleFrameRender(hdc, x, y, frameX, frameY, width, height);
+	else
+		image->ScaleFrameRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, frameX, frameY, width, height);
 }
 
-void Camera::AlphaScaleRender(HDC hdc, Image* image, int x, int y, int width, int height, float alpha)
+void Camera::AlphaScaleRender(HDC hdc, Image* image, int x, int y, int width, int height, float alpha, bool ui)
 {
-	image->AlphaScaleRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, width, height, alpha);
+	if (ui)
+		image->AlphaScaleRender(hdc, x, y, width, height, alpha);
+	else
+		image->AlphaScaleRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, width, height, alpha);
 }
 
-void Camera::AlphaScaleFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, int width, int height, float alpha)
+void Camera::AlphaScaleFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, int width, int height, float alpha, bool ui)
 {
-	image->AlphaScaleFrameRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, frameX, frameY, width, height, alpha);
+	if (ui)
+		image->AlphaScaleFrameRender(hdc, x, y, frameX, frameY, width, height, alpha);
+	else
+		image->AlphaScaleFrameRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, frameX, frameY, width, height, alpha);
 }
 
-void Camera::RenderRectInCamera(HDC hdc, RECT rect)
+void Camera::RenderRectInCamera(HDC hdc, RECT rect, bool ui)
 {
-	rect.left -= mRect.left;
-	rect.right -= mRect.left;
-	rect.top -= mRect.top;
-	rect.bottom -= mRect.top;
+	if (ui)
+	{
+	}
+	else
+	{
+		rect.left -= mRect.left;
+		rect.right -= mRect.left;
+		rect.top -= mRect.top;
+		rect.bottom -= mRect.top;
+	}
 	RenderRect(hdc, rect);
 }
 
-void Camera::RenderEllipseInCamera(HDC hdc, float x, float y, float radius)
+void Camera::RenderEllipseInCamera(HDC hdc, float x, float y, float radius, bool ui)
 {
-	RenderEllipse(hdc, (int)x - mRect.left, (int)y - mRect.top, (int)radius);
+	if (ui)
+		RenderEllipse(hdc, (int)x, (int)y, (int)radius);
+	else
+		RenderEllipse(hdc, (int)x - mRect.left, (int)y - mRect.top, (int)radius);
 }
 
 bool Camera::IsInCameraArea(float x, float y, float width, float height)

@@ -28,18 +28,18 @@ public:
 	void Render(HDC hdc)override;
 
 public:
-	void Render(HDC hdc, Image* image, int x, int y);
-	void Render(HDC hdc, Image* image, int x, int y, int tempX, int tempY, int tempWidth, int tempHeight);
-	void FrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY);
-	void AlphaRender(HDC hdc, Image* image, int x, int y, float alpha);
-	void AlphaFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, float alpha);
-	void ScaleRender(HDC hdc, Image* image, int x, int y, int width, int height);
-	void ScaleFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, int width, int height);
-	void AlphaScaleRender(HDC hdc, Image* image, int x, int y, int width, int height, float alpha);
-	void AlphaScaleFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, int width, int height, float alpha);
+	void Render(HDC hdc, Image* image, int x, int y, bool ui = false);
+	void Render(HDC hdc, Image* image, int x, int y, int tempX, int tempY, int tempWidth, int tempHeight, bool ui = false);
+	void FrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, bool ui = false);
+	void AlphaRender(HDC hdc, Image* image, int x, int y, float alpha, bool ui = false);
+	void AlphaFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, float alpha, bool ui = false);
+	void ScaleRender(HDC hdc, Image* image, int x, int y, int width, int height, bool ui = false);
+	void ScaleFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, int width, int height, bool ui = false);
+	void AlphaScaleRender(HDC hdc, Image* image, int x, int y, int width, int height, float alpha, bool ui = false);
+	void AlphaScaleFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, int width, int height, float alpha, bool ui = false);
 
-	void RenderRectInCamera(HDC hdc, RECT rect);
-	void RenderEllipseInCamera(HDC hdc, float x, float y, float radius);
+	void RenderRectInCamera(HDC hdc, RECT rect, bool ui = false);
+	void RenderEllipseInCamera(HDC hdc, float x, float y, float radius, bool ui = false);
 
 public:
 	bool IsInCameraArea(float x, float y, float width, float height);
