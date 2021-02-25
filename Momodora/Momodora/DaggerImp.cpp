@@ -26,8 +26,9 @@ void DaggerImp::Init()
 	mGravity = 2;
 	mThrown = false;
 	mSearchSpeed = 0;
-
+	mHp = 60;
 	bottom = { 0, 602, 600, 650 };
+	mAlpha = 1;
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 0, 0, 0, false);
@@ -149,11 +150,9 @@ void DaggerImp::Update()
 		}
 	}
 
-	//맞으면
-	if (true)
-	{
+	//죽으면
+	DeathCheck();
 
-	}
 
 	//플레이어 찾고 방향세팅
 	if (mEnemyState == EnemyState::Idle || mEnemyState == EnemyState::Jump)
@@ -168,42 +167,45 @@ void DaggerImp::Update()
 	mCurrentAnimation->Update();
 
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+	mHitBox = RectMakeCenter(mX, mY+4, mSizeX-20, mSizeY-20);
+	mPrevRect = mRect;
 }
 
 void DaggerImp::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY);
-	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
+	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY,mAlpha);
 }
 
 void DaggerImp::JumpAround()
 {
 	mY -= mJumpPower * TIME->DeltaTime();
 	mJumpPower -= mGravity;
-	
+
 	if (mJumpPower ==0)
 	{
 		mEnemyState = EnemyState::Fall;
 		SetAnimation();
 	}
+	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 
 	//좌표로 떄려박았음 여기 충돌체크해야햄
-	if (mY > 600 - mSizeY /2)
+	//if (mY > 600 - mSizeY /2)
+	//{
+	//	mEnemyState = EnemyState::Idle;
+	//	mY = 600 - mSizeY /2;
+	//	SetAnimation();
+	//	mJumpPower = 0;
+	//}
+	
+
+
+	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect))
 	{
-		mY = 600 - mSizeY /2;
 		mEnemyState = EnemyState::Idle;
 		SetAnimation();
 		mJumpPower = 0;
 	}
-	
-	//RECT temp;
-	//if (IntersectRect(&temp, &mRect, &bottom)) {
-	//	mRect.bottom = bottom.top;
-	//
-	//	mRect.top = mRect.bottom - mSizeY;
-	//	mY = mRect.top + mSizeY/2;
-	//	mEnemyState = EnemyState::Idle;
-	//}
 }
 
 void DaggerImp::ThrowDagger()

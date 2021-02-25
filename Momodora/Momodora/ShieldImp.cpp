@@ -19,6 +19,8 @@ void ShieldImp::Init()
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
 	mThrown = false;
+	mAlpha = 1;
+	mHp = 60;
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 0, 0, 0, false);
@@ -85,7 +87,7 @@ void ShieldImp::Update()
 	mSearchSpeed += TIME->DeltaTime();
 
 	//°ø°Ý
-	if (mAttackSpeed > 5)
+	if (mAttackSpeed > 5 && mEnemyState==EnemyState::Idle)
 	{
 		mAttackSpeed = 0;
 		mEnemyState = EnemyState::Attack;
@@ -122,13 +124,21 @@ void ShieldImp::Update()
 
 	}
 
+	//Á×À¸¸é
+	DeathCheck();
+
+
 	mCurrentAnimation->Update();
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+	mHitBox = RectMakeCenter(mX, mY + 4, mSizeX - 20, mSizeY - 20);
+
 }
 
 void ShieldImp::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY);
+	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
+
+	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY,mAlpha);
 }
 
 void ShieldImp::EndAttack()

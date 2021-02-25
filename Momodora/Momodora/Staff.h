@@ -11,6 +11,7 @@ class Staff :
 	Animation* mRightMove;
 	Animation* mCurrentAnimation;
 
+	float mAtk;
 	float mAngle;
 	float mSpeed;
 	RECT mPrevRect;

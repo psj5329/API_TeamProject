@@ -15,13 +15,15 @@ class Bomb :
 	float mStartX;
 	float mStartY;
 	float mGravity;
-
+	bool mIsExplode;
 	float mFrameCount;
+	int mAtk;
 
 	Image* mImage;
 	Image* mFireImage;
 	Animation* mLeftMove;
 	Animation* mRightMove;
+	Animation* mExplosion;
 	Animation* mCurrentAnimation;
 
 public:
@@ -31,5 +33,6 @@ public:
 	void Render(HDC hdc)override;
 	void Init(int x, int y, float angle,float targetX,float targetY);
 	void Explode();
+	void EndExplosion();
 };
 

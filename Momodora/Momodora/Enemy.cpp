@@ -75,7 +75,7 @@ void Enemy::SetAnimation()
 			mCurrentAnimation = mLeftAtk;
 			mCurrentAnimation->Play();
 		}
-		if (mEnemyState == EnemyState::Hurt)
+		if (mEnemyState == EnemyState::Hurt || mEnemyState == EnemyState::Death)
 		{
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftHurt;
@@ -115,7 +115,7 @@ void Enemy::SetAnimation()
 			mCurrentAnimation = mRightAtk;
 			mCurrentAnimation->Play();
 		}
-		if (mEnemyState == EnemyState::Hurt)
+		if (mEnemyState == EnemyState::Hurt || mEnemyState == EnemyState::Death)
 		{
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightHurt;
@@ -149,4 +149,21 @@ void Enemy::SetDirection()
 void Enemy::Attack()
 {
 
+}
+
+void Enemy::DeathCheck()
+{
+	if (mHp <= 0 && mEnemyState != EnemyState::Death)
+	{
+		mEnemyState = EnemyState::Death;
+		SetAnimation();
+	}
+	if (mEnemyState == EnemyState::Death)
+	{
+		mAlpha -= TIME->DeltaTime();
+		if (mAlpha < 0)
+		{
+			this->SetIsDestroy(true);
+		}
+	}
 }
