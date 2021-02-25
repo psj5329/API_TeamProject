@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "Animation.h"
 #include "Player.h"
+#include "StarItem.h"
 
 Enemy::Enemy()
 	: GameObject()
@@ -35,7 +36,6 @@ void Enemy::Render(HDC hdc)
 
 void Enemy::SetPosition(float startX, float startY)
 {
-
 	mStart.x = startX;
 	mStart.y = startY - ((mHitBox.bottom - mHitBox.top)) ;
 	mX = mStart.x;
@@ -158,13 +158,40 @@ void Enemy::DeathCheck()
 	{
 		mEnemyState = EnemyState::Death;
 		SetAnimation();
+		DropGold();
 	}
 	if (mEnemyState == EnemyState::Death)
 	{
-		mAlpha -= TIME->DeltaTime();
+		mAlpha -= TIME->DeltaTime() * 2;
 		if (mAlpha < 0)
 		{
 			this->SetIsDestroy(true);
 		}
+	}
+}
+
+void Enemy::DropGold()
+{
+	int numb = RANDOM->RandomInt(4, 10);
+	for (int i = 0; i < numb;i++)
+	{
+		StarItem* star = new StarItem;
+		star->Init();
+		star->SetX(mX);
+		star->SetY(mY);
+		star->SetAngle((rand() % 180) * PI / 180.f);
+		OBJECTMANAGER->AddObject(ObjectLayer::Item, star);
+	}
+}
+void Enemy::DropGold(int goldNum)
+{
+	for (int i = 0; i < goldNum;i++)
+	{
+		StarItem* star = new StarItem;
+		star->Init();
+		star->SetX(mX);
+		star->SetY(mY);
+		star->SetAngle((rand() % 180) * PI / 180.f);
+		OBJECTMANAGER->AddObject(ObjectLayer::Item, star);
 	}
 }

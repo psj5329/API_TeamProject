@@ -46,8 +46,16 @@ void Potion::Update()
 	if (IntersectRect(&temp, &playerRect, &mRect))
 	{
 		//플레이어의 물약숫자 늘려주기
+		if (mType == 0)
+		{
 
-		this->SetIsDestroy(true);
+		}
+		else
+		{
+
+		}
+
+			this->SetIsDestroy(true);
 	}
 
 

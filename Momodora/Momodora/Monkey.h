@@ -4,7 +4,6 @@ class Monkey :
 	public Enemy
 {
 	int mRange;		//패트롤 반경
-	RECT mAtkBox;	//몽둥이반경
 
 public:
 	void Init() override;
@@ -18,6 +17,6 @@ public:
 	void SearchPlayer();
 	void Attack()override;
 	void EndAttack()override;
-	RECT GetAtkBox() { return mAtkBox; }
+	RECT GetAtkBox() { return mAttackBox; }
 };
 
