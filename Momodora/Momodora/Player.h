@@ -14,6 +14,9 @@ enum class State : int	//왼쪽 오른쪽 상태 추가
 	LeftRise,
 	LeftRoll,
 	LeftLadderEnter,
+	LeftBow,
+	LeftAirBow,
+	LeftCrouchBow,
 	LeftAttack1,
 	LeftAttack2,
 	LeftAttack3,
@@ -31,6 +34,9 @@ enum class State : int	//왼쪽 오른쪽 상태 추가
 	RightRise,
 	RightRoll,
 	RightLadderEnter,
+	RightBow,
+	RightAirBow,
+	RightCrouchBow,
 	RightAttack1,
 	RightAttack2,
 	RightAttack3,
@@ -158,11 +164,15 @@ public:
 	void SetStateIdle();
 	void SetStateLadderUp();
 	void SetStateLadderDown();
-	void SetEndAttack1();
 
+	void SetEndAttack();
+	void SetEndAirAttack();
+	void SetEndCrouchAttack();
 
 	int GetAttackDamage() { return mAttackDamage; }
 	int GetHp() { return mHp; }
 	void SetHp(int i) { mHp = i; }
 	bool GetHitAttack() { return mHitAttack; }
+
+	State GetState() { return mState; }
 };
