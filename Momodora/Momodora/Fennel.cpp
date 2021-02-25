@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Player.h"
 #include "Staff.h"
+#include "GameObject.h"
 
 void Fennel::Init()
 {
@@ -338,22 +339,26 @@ void Fennel::Update()
 	//	isHit = false;
 	//}
 
-	//죽어
+	//죽어 알파값도 1보다작게
 	if (mHp < 0 && mFennelState != FennelState::Death)
 	{
 		SetDirection();
 		mFennelState = FennelState::Death;
 		SetImageAnimation();
 	}
-
+	//알파값이 바뀌어있으면 계속 내려가게
 	if (mAlpha > 0 && mAlpha < 1)
 		mAlpha -= TIME->DeltaTime();
+	//알파값이 0이면 삭제
+	if (mAlpha <= 0)
+		this->SetIsDestroy(true);
 
 	mCurrentImpact->Update();
 	mCurrentAnimation->Update();
 	mCurrentThunder->Update();
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 
+	//잔상 알파값조정
 	for (int i = 0;i < 3;i++)
 	{
 		if (mAfterImages[i].cAlpha > 0 && mAfterImages[i].cAlpha < 0.8)
@@ -364,6 +369,7 @@ void Fennel::Update()
 			mAfterImages[i].cRect = RectMakeCenter(2000, 2000, 1, 1);
 		}
 	}
+
 	//잔상실패
 	//mTimer += TIME->DeltaTime();
 	//if (mTimer > 1 && mTimer <= 2)

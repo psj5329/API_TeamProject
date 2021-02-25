@@ -11,6 +11,7 @@ class StarItem : public GameObject
 	float mJumpPower;
 	float mFirstJumpPower;
 	bool mIsJump;
+	bool mIsColl;
 
 public:
 	void Init()override;

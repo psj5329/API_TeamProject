@@ -4,35 +4,41 @@ _Singleton_NULL(Input)
 
 Input::Input()
 {
-	ZeroMemory(mKeyDownList, sizeof(bool) * KEYMAX);
-	ZeroMemory(mKeyUpList, sizeof(bool) * KEYMAX);
+	mPrevKey.reset();
+	mCurrentKey.reset();
+	//ZeroMemory(mKeyDownList, sizeof(bool) * KEYMAX);
+	//ZeroMemory(mKeyUpList, sizeof(bool) * KEYMAX);
 }
 
-bool Input::GetKeyDown(int key)
+void Input::Update()
+{
+}
+
+bool Input::GetKeyDown(const int& key)
 {
 	if (GetAsyncKeyState(key) & 0x8000)
 	{
-		if (mKeyDownList[key] == false)
+		if (!mPrevKey[key])
 		{
-			mKeyDownList[key] = true;
+			mCurrentKey.set(key, true);
 			return true;
 		}
 	}
 	else
-		mKeyDownList[key] = false;
+		mCurrentKey.set(key, false);
 
 	return false;
 }
 
-bool Input::GetKeyUp(int key)
+bool Input::GetKeyUp(const int& key)
 {
 	if (GetAsyncKeyState(key) & 0x8000)
-		mKeyUpList[key] = true;
+		mCurrentKey.set(key, true);
 	else
 	{
-		if (mKeyUpList[key] == true)
+		if (mPrevKey[key])
 		{
-			mKeyUpList[key] = false;
+			mCurrentKey.set(key,false);
 			return true;
 		}
 	}
@@ -40,14 +46,14 @@ bool Input::GetKeyUp(int key)
 	return false;
 }
 
-bool Input::GetKey(int key)
+bool Input::GetKey(const int& key)
 {
 	if (GetAsyncKeyState(key) & 0x8000)
 		return true;
 	return false;
 }
 
-bool Input::GetToggleKey(int key)
+bool Input::GetToggleKey(const int& key)
 {
 	if (GetAsyncKeyState(key) & 0x0001)
 		return true;

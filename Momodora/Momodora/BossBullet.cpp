@@ -87,9 +87,13 @@ void BossBullet::Update()
 	if (mY - mSizeY / 2 >= WINSIZEY || mY + mSizeY / 2 <= 0)
 		mIsActive = false;
 
+	//if (COLLISIONMANAGER->IsCollision(&mRect, ObjectLayer::Player))
+	//{
+	//	OBJECTMANAGER->GetPlayer()->SetHp(OBJECTMANAGER->GetPlayer()->GetHp() - 30);
+	//	// 플레이어 무적되게 셋팅해야함
+	//}
+
 	// 확인 결과 땅에 닿을 때에만 사라진다
-	//if (COLLISIONMANAGER->IsCollision(&mRect, &OBJECTMANAGER->GetPlayer()->GetRect()))
-	//	mIsActive = false;
 	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect))
 		mIsActive = false;
 

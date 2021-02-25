@@ -9,6 +9,7 @@ class DaggerImp :
 	bool isGround;
 	bool mThrown;
 	RECT bottom;
+	RECT mPrevRect;
 
 
 public:

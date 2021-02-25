@@ -52,6 +52,8 @@ class Boss : public Enemy
 
 	vector<BossBullet*> mVecBullet;
 
+	bool mIsEndEvent;
+
 public:
 	void Init()override;
 	void Release()override;
@@ -62,5 +64,12 @@ public:
 	void ImageSetting();
 	void MotionFrame();
 	void Pattern();
+	void Hit();
+
+public:
+	bool GetInvincibility() { return mIsInvincibility; }
+	bool GetEndEvent() { return mIsEndEvent; }
+
+	void SetEndEvent(bool b) { mIsEndEvent = b; }
 };
 

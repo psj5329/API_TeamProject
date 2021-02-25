@@ -13,6 +13,7 @@ class Dagger :
 
 	float mAngle;
 	float mSpeed;
+	int mAtk;
 	RECT mPrevRect;
 	POINT mTarget;
 

@@ -20,10 +20,11 @@ void Monkey::Init()
 
 	mSpeed = 70;
 	mAttackSpeed = 100;
-	mAtk = 5;
+	mAtk = 10;
 	mDef = 5;
 	mHp = 100;
 	mRange = 300;
+	mAlpha = 1;
 
 	mFoundPlayer = false;
 	mDirection = Direction::Left;
@@ -121,8 +122,7 @@ void Monkey::Update()
 
 		//거리가 가까우면
 		//공격!
-		
-		if (Math::GetDistance(mPlayer->GetX(), 0, mX, 0) < 30)
+		if (Math::GetDistance(mPlayer->GetX(), 0, mX, 0) < 30 && mEnemyState != EnemyState::Death)
 		{
 			if (mAttackSpeed > 4)
 			{
@@ -167,6 +167,10 @@ void Monkey::Update()
 
 	}
 
+	//죽으면
+	DeathCheck();
+
+
 	mCurrentAnimation->Update();
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mHitBox = RectMakeCenter(mX, mY, 100, 100);
@@ -182,7 +186,7 @@ void Monkey::Update()
 
 void Monkey::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(),mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY);
+	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(),mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY,mAlpha);
 	
 	////색적
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mSearchZone);

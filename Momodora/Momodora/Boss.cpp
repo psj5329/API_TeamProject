@@ -55,6 +55,8 @@ void Boss::Init()
 
 	mIsDown = false;
 	mJumpPower = 15.f;
+
+	mIsEndEvent = false;
 }
 
 void Boss::Release()
@@ -63,31 +65,12 @@ void Boss::Release()
 
 void Boss::Update()
 {
-	if (INPUT->GetKeyDown('O'))
+	if (mIsEndEvent)
 	{
-		if (!mIsInvincibility)
-		{
-			mIsHit = true;
-			mHp -= 30;
-		}
+		mCurrentAnimation->Update();		// 머리 애니메이션
+		MotionFrame();
+		return;
 	}
-
-	//if (INPUT->GetKeyDown('7'))	// PatternBulletDown 테스트
-	//{
-	//	//Pattern(AttackPattern::PatternBulletDown);
-	//	mPattern = AttackPattern::PatternBulletDown;
-	//}
-	//else if (INPUT->GetKeyDown('8'))	// PatternBulletUp 테스트
-	//{
-	//	//Pattern(AttackPattern::PatternBulletUp);
-	//	mPattern = AttackPattern::PatternBulletUp;
-	//}
-	//else if (INPUT->GetKeyDown('9'))	// PatternBulletTarget 테스트
-	//{
-	//	//Pattern(AttackPattern::PatternBulletTarget);
-	//	mPattern = AttackPattern::PatternBulletTarget;
-	//	mIsDown = true;
-	//}
 
 	if (mPattern == AttackPattern::PatternIdle)
 		mAttackTime += TIME->DeltaTime();
@@ -114,15 +97,6 @@ void Boss::Update()
 
 	Pattern();
 
-	mCloseEyesTime += TIME->DeltaTime();
-	if (mCloseEyesTime >= 2.f && mCloseEyesTime < 2.1f)	// 눈 감는 시간 테스트
-		mIsCloseEyes = true;
-	else if (mCloseEyesTime >= 2.1f)
-	{
-		mCloseEyesTime = 0.f;
-		mIsCloseEyes = false;
-	}
-
 	mCurrentAnimation->Update();		// 머리 애니메이션
 	MotionFrame();
 
@@ -137,6 +111,9 @@ void Boss::Update()
 		else
 			iter++;
 	}
+
+	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+	mHitBox = mChest.rc;
 }
 
 void Boss::Render(HDC hdc)
@@ -319,6 +296,15 @@ void Boss::MotionFrame()
 				mHead.moveCount = 0;
 			}
 		}
+	}
+
+	mCloseEyesTime += TIME->DeltaTime();
+	if (mCloseEyesTime >= 2.f && mCloseEyesTime < 2.1f)	// 눈 감는 시간 테스트
+		mIsCloseEyes = true;
+	else if (mCloseEyesTime >= 2.1f)
+	{
+		mCloseEyesTime = 0.f;
+		mIsCloseEyes = false;
 	}
 
 	mHead.rc = RectMakeCenter(mX - mSizeX / 2 + mHead.x, mY - mSizeY / 2 + mHead.y, mHead.sizeX, mHead.sizeY);
@@ -530,6 +516,14 @@ void Boss::Pattern()
 			}
 			else
 			{
+				int n = rand() % 3;
+				if (n == 0)
+					mX = WINSIZEX / 4;
+				if (n == 1)
+					mX = WINSIZEX / 4 * 2;
+				if (n == 2)
+					mX = WINSIZEX / 4 * 3;
+
 				for (int i = mBulletCreateCount; i < 8; ++i)
 				{
 					mBulletCreateCount = 8;
@@ -578,5 +572,14 @@ void Boss::Pattern()
 			}
 		}
 		break;
+	}
+}
+
+void Boss::Hit()
+{
+	if (!mIsInvincibility)
+	{
+		mIsHit = true;
+		//mHp -= 30;
 	}
 }

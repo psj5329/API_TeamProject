@@ -62,7 +62,6 @@ class Fennel :
 
 	RECT mSword;
 
-	float mAlpha;
 	float mTimer;
 
 	vector <AfterImage> mAfterImages;

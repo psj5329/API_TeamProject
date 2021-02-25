@@ -25,5 +25,6 @@ public:
 	void EndAttack()override;
 	void EndCatch();
 	void Attack()override;
+	void EndDeath();
 };
 
