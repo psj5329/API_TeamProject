@@ -1,80 +1,59 @@
 #pragma once
 #include "GameObject.h"
 
-enum class State : int
+enum class PlayerState : int
 {
-	LeftIdle,
-	LeftRun,
-	LeftTurn,
-	LeftBrake,
-	LeftJump,
-	LeftFall,
-	LeftLandSoft,
-	LeftCrouch,
-	LeftRise,
-	LeftRoll,
-	LeftLadderEnter,
-	LeftBow,
-	LeftAirBow,
-	LeftCrouchBow,
-	LeftAttack1,
-	LeftAttack2,
-	LeftAttack3,
-	LeftAirAttack,
-	LeftHurt,
-
-	RightIdle,
-	RightRun,
-	RightTurn,
-	RightBrake,
-	RightJump,
-	RightFall,
-	RightLandSoft,
-	RightCrouch,
-	RightRise,
-	RightRoll,
-	RightLadderEnter,
-	RightBow,
-	RightAirBow,
-	RightCrouchBow,
-	RightAttack1,
-	RightAttack2,
-	RightAttack3,
-	RightAirAttack,
-	RightHurt,
-
-	LadderUp,
-	LadderDown,
+	Idle,
+	Run,
+	Brake,
+	Turn,
+	Jump,
+	Fall,
+	LandSoft,
+	Crouch,
+	Rise,
+	Roll,
+	LadderEnter,
+	LadderUp, // 좌우없음
+	LadderDown, // 좌우없음
+	//LadderLeave,		// 필요한지 물어보기
+	Bow,				// 없어도 되는지 물어보기
+	AirBow,			// 없어도 되는지 물어보기
+	CrouchBow,		// 없어도 되는지 물어보기
+	Attack1,
+	Attack2,
+	Attack3,
+	AirAttack,
+	Hurt,
 	Death
 };
-//enum class Direction :int
-//{
-//
-//};
+
 class Image;
 class Animation;
 
 class Player : public GameObject
 {
 	vector<class Arrow*> mArrow;
-	float mArrowSpeed = 600.f;
+	float mArrowSpeed;
 	Image* mArrowImage;
 
-	State mState = State::RightIdle;
-	float mSpeed = 400.f;
-	float mJumpPower = 0;
-	float mGravity = 0.2f;
+	PlayerState mState;
+	float mSpeed;
+	float mJumpPower;
+	float mGravity;
 
-	int mHp = 100;
-	int mAttackDamage = 0;
+	int mHp;
+	int mAttackDamage;
 
-	bool invincibility = 0;
-	bool stopmove = 0;
-	bool stoproll = 0;
+	bool invincibility;
+	bool stopmove;
+	bool stoproll;
 
 	bool mHitAttack;
 
 	RECT mPrevRect;
+
+	bool mHaveMagnet;
 
 	Image* mIdleImage;
 	Image* mRunImage;
@@ -153,7 +132,6 @@ class Player : public GameObject
 
 	Animation* mCurrentAnimation;
 
-
 public:
 	Player();
 
@@ -161,8 +139,15 @@ public:
 	void Release()override;
 	void Update()override;
 	void Render(HDC hdc)override;
-	RECT GetRect() { return mRect; }
-  
+
+public:
+	void FindPlayerImage();
+	void ReadyPlayerAnimation();
+	void InitPlayerVar(); // 플레이어가 가진 각종 변수들 초기화 하는 함수
+
+	void SafeDeletePlayerAnimation();
+
+public:
 	void SetStateRun();
 	void SetStateIdle();
 	void SetStateLadderUp();
@@ -172,13 +157,15 @@ public:
 	void SetEndAirAttack();
 	void SetEndCrouchAttack();
 
+public:
 	int GetAttackDamage() { return mAttackDamage; }
 	int GetHp() { return mHp; }
 	void SetHp(int i) { mHp = i; }
 	bool GetHitAttack() { return mHitAttack; }
-
-	State GetState() { return mState; }
-
+	PlayerState GetState() { return mState; }
 
 	//void SetImageAnimation();
+
+	inline bool GetHaveMagnet()const { return mHaveMagnet; }
+	inline void SetHaveMagnet(bool haveMagnet) { mHaveMagnet = haveMagnet; }
 };

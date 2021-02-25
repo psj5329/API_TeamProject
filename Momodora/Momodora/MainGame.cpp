@@ -21,12 +21,12 @@ void MainGame::Init()
 
 	IMAGEMANAGER->LoadFromFile(L"Background", Resources(L"temp"), 1501, 1000, false);
 
-	mBackground = IMAGEMANAGER->FindImage(L"Background"); // ìž„ì‹œë¡œ ë„ì›Œë†“ì€ ê²ƒ // ì”¬ ë§Œë“¤ì–´ì§€ë©´ ì§€ìš¸ ê²ƒ
+	mBackground = IMAGEMANAGER->FindImage(L"Background"); // ÀÓ½Ã·Î ¶ç¿ö³õÀº °Í // ¾À ¸¸µé¾îÁö¸é Áö¿ï °Í
 
 	Camera* main = new Camera();
 	main->Init();
 	main->SetMoveSpeed(5.f);
-	main->SetMode(Camera::Mode::Free); // í”„ë¦¬ ì¹´ë©”ë¼
+	main->SetMode(Camera::Mode::Free); // ÇÁ¸® Ä«¸Þ¶ó
 
 	CAMERAMANAGER->SetMainCamera(main);
 }
@@ -84,7 +84,7 @@ void MainGame::Update()
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene03")
 			SCENEMANAGER->LoadScene(L"Scene03");
 	}
-	else if (INPUT->GetKeyDown('0')) // í…ŒìŠ¤íŠ¸ ëë‚˜ë©´ ì§€ìš°ê¸°
+	else if (INPUT->GetKeyDown('0')) // Å×½ºÆ® ³¡³ª¸é Áö¿ì±â
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"SceneTest")
 			SCENEMANAGER->LoadScene(L"SceneTest");
@@ -120,58 +120,29 @@ void MainGame::Render(HDC hdc)
 {
 	HDC backDC = mBackBuffer->GetHDC();
 	PatBlt(backDC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
-	//D2DRENDERER->BeginRender(D2D1::ColorF::Black);
 
-	// { ê·¸ë¦¬ê¸° ì‹œìž‘
+	// { ±×¸®±â ½ÃÀÛ
 
-	//ID2D1RenderTarget* renderTarget = D2DRENDERER->GetRenderTarget();
-
-	//mBackground->Render(backDC, 0, 0, (mBackground->GetWidth() - WINSIZEX) / 2, (mBackground->GetHeight() - WINSIZEY) / 2, WINSIZEX, WINSIZEY); // ìž„ì‹œë¡œ ë„ì›Œë†“ì€ ê²ƒ // ì”¬ ë§Œë“¤ì–´ì§€ë©´ ì§€ìš¸ ê²ƒ
-	//mBackground->Render(backDC, 0, 0); // ìž„ì‹œë¡œ ë„ì›Œë†“ì€ ê²ƒ // ì”¬ ë§Œë“¤ì–´ì§€ë©´ ì§€ìš¸ ê²ƒ
-	CAMERAMANAGER->GetMainCamera()->Render(backDC, mBackground, 0, 0);
-	//CAMERAMANAGER->GetMainCamera()->Render(hdc, mBackground, 0, 0);
-
-	//SceneManager::GetInstance()->Render(backDC);
+	//CAMERAMANAGER->GetMainCamera()->Render(backDC, mBackground, 0, 0); // ÀÓ½Ã·Î ¶ç¿ö³õÀº °Í // ¾À ¸¸µé¾îÁö¸é Áö¿ï °Í
 
 	SCENEMANAGER->Render(backDC);
-
 
 	wstring str = SCENEMANAGER->GetCurrentSceneName();
 	if (str == L"LoadingScene" && ((LoadingScene*)(SCENEMANAGER->GetCurrentScene()))->GetIsEndLoading())
 	{
-		wstring strLoad = L"ë¡œë”© ë";
-		TextOut(backDC, 300, 300, strLoad.c_str(), (int)strLoad.length());
+		wstring strLoad = L"·Îµù ³¡";
+		TextOut(backDC, 400, 300, strLoad.c_str(), (int)strLoad.length());
 	}
 
-	RenderTimeText(backDC);
+	RenderDebugText(backDC);
 
-	Camera* main = CAMERAMANAGER->GetMainCamera();
-	wstring strCam = L"";
-	if (main->GetMode() == Camera::Mode::Follow)
-		strCam = L"íŒ”ë¡œìš° ì¹´ë©”ë¼(ëª¨ë“œë³€ê²½:5)";
-	else if (main->GetMode() == Camera::Mode::Fix)
-		strCam = L"ê³ ì • ì¹´ë©”ë¼(ëª¨ë“œë³€ê²½:5)";
-	else
-		strCam = L"í”„ë¦¬ ì¹´ë©”ë¼(ëª¨ë“œë³€ê²½:5)";
-	TextOut(backDC, 10, 55, strCam.c_str(), (int)strCam.length());
-
-	bool tempRight = CAMERAMANAGER->GetMainCamera()->GetRight();
-	wstring strRight = L"";
-	if (tempRight)
-		strRight = L"ì˜¤ë¥¸ìª½";
-	else
-		strRight = L"ì™¼ìª½";
-	TextOut(backDC, 10, 70, strRight.c_str(), (int)strRight.length());
-
-	// ê·¸ë¦¬ê¸° ë }
+	// ±×¸®±â ³¡ }
 
 	mBackBuffer->Render(hdc, 0, 0);
-	//D2DRENDERER->EndRender();
 }
 
-void MainGame::RenderTimeText(HDC hdc)
+void MainGame::RenderDebugText(HDC hdc)
 {
-	// íƒ€ìž„ ë³µë¶™ ì‹œìž‘
 	float worldTime = TIME->GetWorldTime();
 	float deltaTime = TIME->DeltaTime();
 	ULONG fps = TIME->GetmFrameRate();
@@ -179,10 +150,27 @@ void MainGame::RenderTimeText(HDC hdc)
 	wstring strDeltaTime = L"DeltaTime : " + to_wstring(deltaTime);
 	wstring strFPS = L"FPS : " + to_wstring(fps);
 
-	TextOut(hdc, 10, 10, strWorldTime.c_str(), (int)strWorldTime.length());
-	TextOut(hdc, 10, 25, strDeltaTime.c_str(), (int)strDeltaTime.length());
-	TextOut(hdc, 10, 40, strFPS.c_str(), (int)strFPS.length());
-	// íƒ€ìž„ ë³µë¶™ ë
+	TextOut(hdc, 700, 10, strWorldTime.c_str(), (int)strWorldTime.length());
+	TextOut(hdc, 700, 25, strDeltaTime.c_str(), (int)strDeltaTime.length());
+	TextOut(hdc, 700, 40, strFPS.c_str(), (int)strFPS.length());
+
+	Camera* main = CAMERAMANAGER->GetMainCamera();
+	wstring strCam = L"";
+	if (main->GetMode() == Camera::Mode::Follow)
+		strCam = L"ÆÈ·Î¿ì Ä«¸Þ¶ó(¸ðµåº¯°æ:5)";
+	else if (main->GetMode() == Camera::Mode::Fix)
+		strCam = L"°íÁ¤ Ä«¸Þ¶ó(¸ðµåº¯°æ:5)";
+	else
+		strCam = L"ÇÁ¸® Ä«¸Þ¶ó(¸ðµåº¯°æ:5)";
+	TextOut(hdc, 700, 55, strCam.c_str(), (int)strCam.length());
+
+	bool tempRight = CAMERAMANAGER->GetMainCamera()->GetRight();
+	wstring strRight = L"";
+	if (tempRight)
+		strRight = L"¿À¸¥ÂÊ";
+	else
+		strRight = L"¿ÞÂÊ";
+	TextOut(hdc, 700, 70, strRight.c_str(), (int)strRight.length());
 }
 
 void MainGame::MakeScene()
@@ -230,7 +218,7 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attack2", Resources(L"/Player/attack2"), 343, 96, 7, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attack3", Resources(L"/Player/attack3"), 539, 96, 11, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"AirAttack", Resources(L"/Player/airattack"), 343, 96, 7, 2, true); });
-	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf1", Resources(L"/Player/leaf1"), 679, 96, 7, 2, true); }); //ì´íŽ™íŠ¸ ì´ë¯¸ì§€ ì•„ì§ ì•ˆì”€
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf1", Resources(L"/Player/leaf1"), 679, 96, 7, 2, true); }); //ÀÌÆåÆ® ÀÌ¹ÌÁö ¾ÆÁ÷ ¾È¾¸
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf2", Resources(L"/Player/leaf2"), 679, 96, 7, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf3", Resources(L"/Player/leaf3"), 1066, 96, 11, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"AirLeaf", Resources(L"/Player/airleaf"), 582, 112, 6, 2, true); });

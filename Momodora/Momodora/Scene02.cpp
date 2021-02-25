@@ -14,7 +14,6 @@
 
 void Scene02::Init()
 {
-
 	Platform* platform01 = new Platform();
 	platform01->SetPlatform(0, 600, 800, 650, PlatformType::Normal);
 	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform01);

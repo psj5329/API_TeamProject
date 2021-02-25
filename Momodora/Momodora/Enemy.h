@@ -2,12 +2,7 @@
 #include "GameObject.h"
 
 //상태들
-enum class Direction
-{
-	Right,
-	Left
-};
-enum class EnemyState
+enum class EnemyState : int
 {
 	Idle,
 	Move,
@@ -30,7 +25,6 @@ protected:
 	Player* mPlayer;
 		
 	RECT mSearchZone;		//색적범위
-	Direction mDirection;	//방향
 	EnemyState mEnemyState;	//상태
 
 	POINT mStart;	//시작점
@@ -86,4 +80,3 @@ public:
 	virtual void Attack();
 	virtual void DeathCheck();
 };
-

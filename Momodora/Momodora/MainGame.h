@@ -20,7 +20,7 @@ public:
 	void Render(HDC hdc);
 
 public:
-	void RenderTimeText(HDC hdc);
+	void RenderDebugText(HDC hdc);
 
 	void MakeScene();
 	void LoadImageResource(LoadingScene* scene);
