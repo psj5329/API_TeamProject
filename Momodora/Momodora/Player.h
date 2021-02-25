@@ -14,6 +14,9 @@ enum class State : int
 	LeftRise,
 	LeftRoll,
 	LeftLadderEnter,
+	LeftBow,
+	LeftAirBow,
+	LeftCrouchBow,
 	LeftAttack1,
 	LeftAttack2,
 	LeftAttack3,
@@ -31,6 +34,9 @@ enum class State : int
 	RightRise,
 	RightRoll,
 	RightLadderEnter,
+	RightBow,
+	RightAirBow,
+	RightCrouchBow,
 	RightAttack1,
 	RightAttack2,
 	RightAttack3,
@@ -41,7 +47,10 @@ enum class State : int
 	LadderDown,
 	Death
 };
-
+//enum class Direction :int
+//{
+//
+//};
 class Image;
 class Animation;
 
@@ -158,11 +167,18 @@ public:
 	void SetStateIdle();
 	void SetStateLadderUp();
 	void SetStateLadderDown();
-	void SetEndAttack1();
 
+	void SetEndAttack();
+	void SetEndAirAttack();
+	void SetEndCrouchAttack();
 
 	int GetAttackDamage() { return mAttackDamage; }
 	int GetHp() { return mHp; }
 	void SetHp(int i) { mHp = i; }
 	bool GetHitAttack() { return mHitAttack; }
+
+	State GetState() { return mState; }
+
+
+	//void SetImageAnimation();
 };

@@ -12,6 +12,7 @@ Input::Input()
 
 void Input::Update()
 {
+	mPrevKey = mCurrentKey;
 }
 
 bool Input::GetKeyDown(const int& key)

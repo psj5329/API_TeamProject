@@ -101,7 +101,7 @@ bool CollisionManager::IsCollideWithPlatform(RECT* rect)
 
 		if (IntersectRect(&tempRect, rect, &platformRect))
 			return true;
-		else if (platformRect.top == rect->bottom && platformRect.left > rect->right && platformRect.right > rect->left)
+		else if (platformRect.top == rect->bottom && platformRect.left < rect->right && platformRect.right > rect->left)
 			return true;
 	}
 
