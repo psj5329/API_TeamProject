@@ -112,6 +112,9 @@
     <Filter Include="MainGame\Object\Item">
       <UniqueIdentifier>{69e2171b-d49b-4fb0-85f9-6464b28ce70f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\GameEvent">
+      <UniqueIdentifier>{4c809052-e1c5-4966-b0ee-75fce55d8680}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -231,9 +234,6 @@
     <ClInclude Include="LoadingScene.h">
       <Filter>Framework\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="BossBullet.h">
-      <Filter>MainGame\Object\Enemy\Boss</Filter>
-    </ClInclude>
     <ClInclude Include="Dagger.h">
       <Filter>MainGame\Object\EnemyProjectile</Filter>
     </ClInclude>
@@ -264,11 +264,20 @@
     <ClInclude Include="PlayerHpUI.h">
       <Filter>MainGame\UI\PlayerHp</Filter>
     </ClInclude>
-    <ClInclude Include="StarCountUI.h">
-      <Filter>MainGame\UI\PlayerHp</Filter>
-    </ClInclude>
     <ClInclude Include="StarItem.h">
       <Filter>MainGame\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="StarCountUI.h">
+      <Filter>MainGame\UI\StarCount</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBullet.h">
+      <Filter>MainGame\Object\EnemyProjectile</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvent.h">
+      <Filter>Framework\GameEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEventManager.h">
+      <Filter>Framework\GameEvent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -377,9 +386,6 @@
     <ClCompile Include="LoadingScene.cpp">
       <Filter>Framework\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="BossBullet.cpp">
-      <Filter>MainGame\Object\Enemy\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="Dagger.cpp">
       <Filter>MainGame\Object\EnemyProjectile</Filter>
     </ClCompile>
@@ -410,11 +416,20 @@
     <ClCompile Include="PlayerHpUI.cpp">
       <Filter>MainGame\UI\PlayerHp</Filter>
     </ClCompile>
-    <ClCompile Include="StarCountUI.cpp">
-      <Filter>MainGame\UI\PlayerHp</Filter>
-    </ClCompile>
     <ClCompile Include="StarItem.cpp">
       <Filter>MainGame\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="StarCountUI.cpp">
+      <Filter>MainGame\UI\StarCount</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBullet.cpp">
+      <Filter>MainGame\Object\EnemyProjectile</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEvent.cpp">
+      <Filter>Framework\GameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEventManager.cpp">
+      <Filter>Framework\GameEvent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

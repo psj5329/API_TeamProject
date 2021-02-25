@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-enum class State : int	//왼쪽 오른쪽 상태 추가
+enum class State : int
 {
 	LeftIdle,
 	LeftRun,
@@ -61,7 +61,7 @@ class Player : public GameObject
 
 	bool invincibility = 0;
 	bool stopmove = 0;
-	bool stoproll = 0; //불값 추가 질문
+	bool stoproll = 0;
 
 	bool mHitAttack;
 
@@ -91,7 +91,7 @@ class Player : public GameObject
 	Image* mHurtImage;
 	Image* mDeathImage;
 
-	Image* mCurrentImage; //현재 이미지
+	Image* mCurrentImage;
 
 	Animation* mLeftIdleAnimation;
 	Animation* mLeftRunStartAnimation;
@@ -142,7 +142,7 @@ class Player : public GameObject
 	Animation* mLadderUpAnimation;
 	Animation* mLadderDownAnimation;
 
-	Animation* mCurrentAnimation;	//현재 애니메이션
+	Animation* mCurrentAnimation;
 
 
 public:

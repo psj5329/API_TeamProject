@@ -17,7 +17,8 @@ void ActiveItemUI::Init()
 
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 
-	mItemCount = 1;
+	mItemMaxCount = 9;
+	mItemCount = 9;
 
 	mItemSizeX = mItemImage->GetWidth() / 2;
 	mItemSizeY = mItemImage->GetHeight() / 2;
