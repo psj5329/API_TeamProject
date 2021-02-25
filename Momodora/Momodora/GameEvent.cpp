@@ -149,3 +149,29 @@ void IScriptEvent::Render(HDC hdc)
 //void IChangeAnimation::Render(HDC hdc)
 //{
 //}
+
+IEraseEvent::IEraseEvent(GameObject * object, float x, float y)
+{
+	mObject = object;
+	mX = x;
+	mY = y;
+}
+
+void IEraseEvent::Start()
+{
+	int num = sqrtf(mX * mX + mY * mY) / 2.f;
+
+	/*for (int i = 0; i < num; ++i)
+	{
+		RECT rc = RectMakeCenter(, , 2, 2);
+	}*/
+}
+
+bool IEraseEvent::Update()
+{
+	return false;
+}
+
+void IEraseEvent::Render(HDC hdc)
+{
+}
