@@ -272,6 +272,15 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_LeftArm_Dead", Resources(L"Boss/Boss_LeftArm_Dead"), 108, 87, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_LeftShoulder_Dead", Resources(L"Boss/Boss_LeftShoulder_Dead"), 39, 81, true); });
 
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Head_back", Resources(L"Boss/Boss_Head_back"), 1020, 157, 5, 1, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Body_back", Resources(L"Boss/Boss_Body_back"), 115, 176, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_BackHair_back", Resources(L"Boss/Boss_BackHair_back"), 200, 221, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Chest_back", Resources(L"Boss/Boss_Chest_back"), 101, 57, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Eyes_back", Resources(L"Boss/Boss_Eyes_back"), 61, 21, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Pupil_back", Resources(L"Boss/Boss_Pupil_back"), 49, 19, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_LeftArm_back", Resources(L"Boss/Boss_LeftArm_back"), 41, 136, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_RightArm_back", Resources(L"Boss/Boss_RightArm_back"), 41, 136, true); });
+
 	// Boss Bullet
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"BossBullet1", Resources(L"Boss/BossBullet1"), 32, 32, true); });
 
