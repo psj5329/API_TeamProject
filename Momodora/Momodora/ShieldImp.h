@@ -13,5 +13,6 @@ public:
 
 	void ThrowDagger();
 	void EndAttack() override;
+	void SetPosition(float x, float y)override;
 };
 

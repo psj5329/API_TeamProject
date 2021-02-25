@@ -15,7 +15,7 @@ void Monkey::Init()
 	mSizeX = mImage->GetFrameWidth()*2;
 	mSizeY = mImage->GetFrameHeight()*2;
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
-	mHitBox = RectMakeCenter(mX, mY, 50, 50);
+	mHitBox = RectMakeCenter(mX, mY + 30, 50, 50);
 	mSearchZone = RectMakeCenter(mX - 150, mY - 150, 300, 300);
 
 	mSpeed = 70;
@@ -122,7 +122,7 @@ void Monkey::Update()
 
 		//거리가 가까우면
 		//공격!
-		if (Math::GetDistance(mPlayer->GetX(), 0, mX, 0) < 30 && mEnemyState != EnemyState::Death)
+		if (Math::GetDistance(mPlayer->GetX(), 0, mX, 0) < 80 && mEnemyState != EnemyState::Death)
 		{
 			if (mAttackSpeed > 4)
 			{
@@ -133,7 +133,7 @@ void Monkey::Update()
 			}
 		}
 
-		if (Math::GetDistance(mPlayer->GetX(), 0, mX, 0) >= 30)
+		if (Math::GetDistance(mPlayer->GetX(), 0, mX, 0) >= 80)
 		{
 			if (mEnemyState == EnemyState::Idle)
 			{
@@ -171,29 +171,62 @@ void Monkey::Update()
 	DeathCheck();
 
 
+
 	mCurrentAnimation->Update();
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
-	mHitBox = RectMakeCenter(mX, mY, 100, 100);
+	mHitBox = RectMakeCenter(mX, mY + 30, 50, 50);
+
 
 
 	if (mDirection == Direction::Left) {
 		mSearchZone = RectMakeCenter(mX - 110, mY, 220, 200);
+		mAtkBox = RectMakeCenter(mX-30, mY+20, 30, 50);
+
 	}
 	else {
 		mSearchZone = RectMakeCenter(mX + 110, mY, 220, 200);
+		mAtkBox = RectMakeCenter(mX+30, mY+20, 30, 50);
+
+	}
+
+	if (mEnemyState == EnemyState::Attack)
+	{
+		if (mCurrentAnimation->GetNowFrameX() == 2 || mCurrentAnimation->GetNowFrameX() == 3)
+		{
+			if (mDirection == Direction::Left)
+				mAtkBox = RectMakeCenter(mX + 30, mY + 20, 50, 50);
+			else
+				mAtkBox = RectMakeCenter(mX - 30, mY + 20, 50, 50);
+		}
+		if (mCurrentAnimation->GetNowFrameX() > 3)
+		{
+			if (mDirection == Direction::Left)
+				mAtkBox = RectMakeCenter(mX - 40, mY + 20, 50, 50);
+			else
+				mAtkBox = RectMakeCenter(mX + 40, mY + 20, 50, 50);
+		}
 	}
 }
 
 void Monkey::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(),mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY,mAlpha);
-	
-	////색적
-	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mSearchZone);
-	//
 	////몽둥이
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAtkBox);
-	//
+	////색적
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mSearchZone);
+
+	//히트박스
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
+	
+	//mREct
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
+
+	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(),mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY,mAlpha);
+	
+	
+
+	
+
 	////플레이어
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mPlayer->GetRect());
 }
