@@ -3,6 +3,8 @@
 
 class Scene03 final : public Scene
 {
+	bool mIsBossDead;
+
 public:
 	void Init()override;
 	void Release()override;

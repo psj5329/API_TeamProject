@@ -7,6 +7,7 @@ class ActiveItemUI : public UI
 	Image* mItemImage;
 	Image* mItemCountImage;
 
+	int mItemMaxCount;
 	int mItemCount;
 
 	float mItemSizeX;

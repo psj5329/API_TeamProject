@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <queue> // 뀨
 
 using namespace std;
 
@@ -51,6 +52,7 @@ using namespace std;
 #include "SceneManager.h"
 #include "SoundManager.h"
 #include "D2DRenderer.h"
+#include "GameEventManager.h"
 
 extern HINSTANCE _hInstance;
 extern HWND _hWnd;
