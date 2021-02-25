@@ -179,6 +179,7 @@
     <ClInclude Include="Ladder.h" />
     <ClInclude Include="Leaf.h" />
     <ClInclude Include="LoadingScene.h" />
+    <ClInclude Include="Magnet.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Momodora.h" />
@@ -234,6 +235,7 @@
     <ClCompile Include="Ladder.cpp" />
     <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
+    <ClCompile Include="Magnet.cpp" />
     <ClCompile Include="MainGame + Proc.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Math.cpp" />

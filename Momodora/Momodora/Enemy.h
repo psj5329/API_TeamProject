@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-//»óÅÂµé
+//ìƒíƒœë“¤
 enum class EnemyState : int
 {
 	Idle,
@@ -24,19 +24,19 @@ protected:
 	Image* mImage;
 	Player* mPlayer;
 		
-	RECT mSearchZone;		//»öÀû¹üÀ§
-	EnemyState mEnemyState;	//»óÅÂ
+	RECT mSearchZone;		//ìƒ‰ì ë²”ìœ„
+	EnemyState mEnemyState;	//ìƒíƒœ
 
-	POINT mStart;	//½ÃÀÛÁ¡
-	int mHp;	//Ã¼·Â
-	int mAtk;	//°ø°İ·Â
-	int mDef;	//¹æ¾î·Â
+	POINT mStart;	//ì‹œì‘ì 
+	int mHp;	//ì²´ë ¥
+	int mAtk;	//ê³µê²©ë ¥
+	int mDef;	//ë°©ì–´ë ¥
 	int mSpeed;
-	float mAttackSpeed;	//°ø°İºóµµ
-	float mSearchSpeed; //ÇÃ·¹ÀÌ¾î À§Ä¡ °»½Å¼Óµµ
-	int mDistance;		//ÇÃ·¹ÀÌ¾î¿Í °Å¸®
+	float mAttackSpeed;	//ê³µê²©ë¹ˆë„
+	float mSearchSpeed; //í”Œë ˆì´ì–´ ìœ„ì¹˜ ê°±ì‹ ì†ë„
+	int mDistance;		//í”Œë ˆì´ì–´ì™€ ê±°ë¦¬
 
-	bool mFoundPlayer;	//ÇÃ·¹ÀÌ¾î¸¦ ¸¸³µ³ª? ¸¸³µÀ¸¸é ÀüÅõ»óÅÂ·Î
+	bool mFoundPlayer;	//í”Œë ˆì´ì–´ë¥¼ ë§Œë‚¬ë‚˜? ë§Œë‚¬ìœ¼ë©´ ì „íˆ¬ìƒíƒœë¡œ
 	bool isHit;
 	float mAlpha;
 
@@ -70,13 +70,16 @@ public:
 	inline void SetPlayerPtr(Player* player) { mPlayer = player; }
 	void SetIsHit(bool hit) { isHit = hit; }
 
-	virtual void SetPosition(float startX, float startY); //À§Ä¡¼³Á¤ Y¿¡ ÇÃ·§ÆûÀÇ top 
+	virtual void SetPosition(float startX, float startY); //ìœ„ì¹˜ì„¤ì • Yì— í”Œë«í¼ì˜ top 
 
 	//virtual void Stun(); 
 	virtual void EndAttack();
 	void CalculateHp(int attack) { mHp -= attack - mDef; }
-	void SetAnimation();	//»óÅÂ¿¡µû¶ó ¾Ö´Ï¸ŞÀÌ¼Ç ¼³Á¤
-	void SetDirection();	//ÇÃ·¹ÀÌ¾îÀ§Ä¡¿¡µû¶ó ÁÂ¿ì¼³Á¤
+	void SetAnimation();	//ìƒíƒœì—ë”°ë¼ ì• ë‹ˆë©”ì´ì…˜ ì„¤ì •
+	void SetDirection();	//í”Œë ˆì´ì–´ìœ„ì¹˜ì—ë”°ë¼ ì¢Œìš°ì„¤ì •
 	virtual void Attack();
 	virtual void DeathCheck();
+	void DropGold();	//ëˆëœë¤ë¿Œë¦¬ê¸°
+	void DropGold(int goldNum);	//ëˆì¸ìë§Œí¼ë¿Œë¦¬ê¸°
 };
+

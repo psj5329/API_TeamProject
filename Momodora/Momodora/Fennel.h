@@ -60,8 +60,6 @@ class Fennel :
 	Animation* mCurrentThunder;
 	POINT mTarget;
 
-	RECT mSword;
-
 	float mTimer;
 
 	vector <AfterImage> mAfterImages;
@@ -74,7 +72,7 @@ public:
 
 	//void SearchPlayer();
 	void SetImageAnimation();	//상태에따라 이미지와 애니메이션 설정
-	
+
 	//움직임
 	void Attack();
 	void Attack2();
@@ -110,5 +108,10 @@ public:
 	void EndDeath();
 
 	void SetAfterImages(int frame1, int frame2, int frame3);
+
+	//랙트겟
+	RECT GetThunderRect(void) { return mThunder; }
+	RECT GetImpactRect(void) { return mImpact; }
+
 };
 
