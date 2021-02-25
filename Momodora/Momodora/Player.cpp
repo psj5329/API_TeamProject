@@ -20,6 +20,7 @@ void Player::Init()
 	mTurnImage = IMAGEMANAGER->FindImage(L"Turn");
 	mJumpImage = IMAGEMANAGER->FindImage(L"Jump");
 	mFallImage = IMAGEMANAGER->FindImage(L"Fall");
+	mLandSoftImage = IMAGEMANAGER->FindImage(L"LandSoft");
 	mCrouchImage = IMAGEMANAGER->FindImage(L"Crouch");
 	mRiseImage = IMAGEMANAGER->FindImage(L"Rise");
 	mRollImage = IMAGEMANAGER->FindImage(L"Roll");
@@ -34,6 +35,8 @@ void Player::Init()
 	mAttack2Image = IMAGEMANAGER->FindImage(L"Attack2");
 	mAttack3Image = IMAGEMANAGER->FindImage(L"Attack3");
 	mAirAttackImage = IMAGEMANAGER->FindImage(L"AirAttack");
+	mHurtImage = IMAGEMANAGER->FindImage(L"Hurt");
+	mDeathImage = IMAGEMANAGER->FindImage(L"Death");
 	
 
 	//스탠드 애니메이션
@@ -126,6 +129,20 @@ void Player::Init()
 	mRightFallAnimation->SetIsLoop(false);
 	mRightFallAnimation->SetFrameUpdateTime(0.2f);
 	mRightFallAnimation->Play();
+	//약한 착지 애니메이션
+	mLeftLandSoftAnimation = new Animation();
+	mLeftLandSoftAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
+	mLeftLandSoftAnimation->SetIsLoop(true);
+	mLeftLandSoftAnimation->SetFrameUpdateTime(0.1f);
+	mLeftLandSoftAnimation->Play();
+	mLeftLandSoftAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
+
+	mRightLandSoftAnimation = new Animation();
+	mRightLandSoftAnimation->InitFrameByStartEnd(0, 0, 3, 0, false);
+	mRightLandSoftAnimation->SetIsLoop(true);
+	mRightLandSoftAnimation->SetFrameUpdateTime(0.1f);
+	mRightLandSoftAnimation->Play();
+	mRightLandSoftAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 	//앉기 애니메이션
 	mLeftCrouchAnimation = new Animation();
 	mLeftCrouchAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
@@ -288,6 +305,30 @@ void Player::Init()
 	mRightAirAttackAnimation->SetIsLoop(true);
 	mRightAirAttackAnimation->SetFrameUpdateTime(0.1f);
 	mRightAirAttackAnimation->Play();
+	//피격 애니메이션
+	mLeftHurtAnimation = new Animation();
+	mLeftHurtAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
+	mLeftHurtAnimation->SetIsLoop(true);
+	mLeftHurtAnimation->SetFrameUpdateTime(0.3f);
+	mLeftHurtAnimation->Play();
+
+	mRightHurtAnimation = new Animation();
+	mRightHurtAnimation->InitFrameByStartEnd(0, 0, 1, 0, false);
+	mRightHurtAnimation->SetIsLoop(true);
+	mRightHurtAnimation->SetFrameUpdateTime(0.3f);
+	mRightHurtAnimation->Play();
+	//사망 애니메이션
+	mLeftDeathAnimation = new Animation();
+	mLeftDeathAnimation->InitFrameByStartEnd(0, 1, 23, 1, true);
+	mLeftDeathAnimation->SetIsLoop(false);
+	mLeftDeathAnimation->SetFrameUpdateTime(0.2f);
+	mLeftDeathAnimation->Play();
+
+	mRightDeathAnimation = new Animation();
+	mRightDeathAnimation->InitFrameByStartEnd(0, 0, 23, 0, false);
+	mRightDeathAnimation->SetIsLoop(false);
+	mRightDeathAnimation->SetFrameUpdateTime(0.2f);
+	mRightDeathAnimation->Play();
 
 
 
@@ -380,6 +421,7 @@ void Player::Update()
 	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 	{
 		mJumpPower = 8.f;
+		mGravity = 0.2f;
 
 		if (mState == State::LeftIdle || mState == State::LeftRun)
 		{
@@ -398,8 +440,12 @@ void Player::Update()
 			mCurrentImage = mJumpImage;
 		}
 	}
-	mY -= mJumpPower;
-	mJumpPower -= mGravity;
+	if (mState == State::LeftJump || mState == State::LeftFall || mState == State::RightJump || mState == State::RightFall)
+	{
+		mY -= mJumpPower;
+		mJumpPower -= mGravity;
+	}
+
 
 	//앉기
 	if (Input::GetInstance()->GetKeyDown('C'))
@@ -482,10 +528,10 @@ void Player::Update()
 	//사다리!!!!!!!!!!!!!!!!!!!!!!!!!!
 	RECT LadderRect;
 	vector<GameObject*> LadderList = OBJECTMANAGER->GetObjectList(ObjectLayer::Ladder);
-	vector<GameObject*>::iterator iter = LadderList.begin();
-	for (; iter != LadderList.end(); ++iter)
+	vector<GameObject*>::iterator ladderiter = LadderList.begin();
+	for (; ladderiter != LadderList.end(); ++ladderiter)
 	{
-		LadderRect = (*iter)->GetRect();
+		LadderRect = (*ladderiter)->GetRect();
 		if (COLLISIONMANAGER->IsCollision(&mRect, &LadderRect))
 		{
 			if (LadderRect.left + 2 <= mX && mX <= LadderRect.right - 2)
@@ -559,7 +605,7 @@ void Player::Update()
 			arrow->SetArrowIndexY(0);
 			mArrow.push_back(arrow);
 		}
-		if (mState == State::LeftJump)
+		if (mState == State::LeftJump || mState == State::LeftFall)
 		{
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftAirBowAnimation;
@@ -569,7 +615,7 @@ void Player::Update()
 			arrow->SetArrowIndexY(1);
 			mArrow.push_back(arrow);
 		}
-		if (mState == State::RightJump)
+		if (mState == State::RightJump || mState == State::RightFall)
 		{
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightAirBowAnimation;
@@ -643,6 +689,7 @@ void Player::Update()
 				mCurrentAnimation->Play();
 				mCurrentImage = mAirAttackImage;
 			}
+			mAttackDamage = 10;
 		}
 	}
 	//검 공격 2
@@ -672,6 +719,7 @@ void Player::Update()
 					mCurrentImage = mAttack2Image;
 				}
 			}
+			mAttackDamage = 15;
 		}
 	}
 	//검 공격 3
@@ -701,10 +749,61 @@ void Player::Update()
 					mCurrentImage = mAttack3Image;
 				}
 			}
+			mAttackDamage = 20;
+		}
+	}
+	//피격 및 사망
+	if (mHp <= 0)
+	{
+		stopmove = 1;
+		if (mState == State::LeftIdle || mState == State::LeftRun)
+		{
+			mState = State::Death;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftDeathAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mDeathImage;
+		}
+		if (mState == State::RightIdle || mState == State::RightRun)
+		{
+			mState = State::Death;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightDeathAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mDeathImage;
 		}
 	}
 
-	//false 일때만 움직임
+
+	//땅에 닿았을때 중력 X
+	RECT PlatformRect;
+	vector<GameObject*> PlatformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
+	vector<GameObject*>::iterator platformiter = PlatformList.begin();
+	for (; platformiter != PlatformList.end(); ++platformiter)
+	{
+		PlatformRect = (*platformiter)->GetRect();
+		if (mRect.bottom >= PlatformRect.top)
+		{
+			if (mState == State::LeftFall)
+			{
+				mState = State::LeftLandSoft;
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mLeftLandSoftAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mLandSoftImage;
+			}
+			if (mState == State::RightFall)
+			{
+				mState = State::RightLandSoft;
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mRightLandSoftAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mLandSoftImage;
+			}
+		}
+	}
+	
+
 	if (stopmove == 0)
 	{
 		mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
@@ -748,7 +847,7 @@ void Player::SetStateRun()
 
 void Player::SetStateIdle()
 {
-	if (mState == State::LeftRoll || mState == State::LeftRise || mState == State::LeftBrake)
+	if (mState == State::LeftRoll || mState == State::LeftRise || mState == State::LeftBrake || mState == State::LeftLandSoft)
 	{
 		mState = State::LeftIdle;
 		mCurrentAnimation->Stop();
@@ -756,7 +855,7 @@ void Player::SetStateIdle()
 		mCurrentAnimation->Play();
 		mCurrentImage = mIdleImage;
 	}
-	else if (mState == State::RightRoll || mState == State::RightRise || mState == State::RightBrake)
+	else if (mState == State::RightRoll || mState == State::RightRise || mState == State::RightBrake || mState == State::RightLandSoft)
 	{
 		mState = State::RightIdle;
 		mCurrentAnimation->Stop();

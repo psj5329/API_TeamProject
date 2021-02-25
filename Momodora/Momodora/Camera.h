@@ -46,6 +46,7 @@ public:
 	bool IsInCameraArea(RECT rect);
 
 public:
+	Mode GetMode()const { return mMode; }
 	inline void SetMode(Mode mode) { mMode = mode; }
 	inline void SetTarget(GameObject* target) { mTarget = target; }
 	inline float GetMoveSpeed() const { return mMoveSpeed; }

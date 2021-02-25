@@ -20,17 +20,13 @@ void MainGame::Init()
 	MakeScene();
 
 	IMAGEMANAGER->LoadFromFile(L"Background", Resources(L"temp"), 1501, 1000, false);
-	IMAGEMANAGER->LoadFromFile(L"TempPlayer", Resources(L"tempPlayer"), 32, 32, true);
 
 	mBackground = IMAGEMANAGER->FindImage(L"Background"); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
-
-	//mTempPlayer // 지금 플레이어가 없어서 프리 카메라로
 
 	Camera* main = new Camera();
 	main->Init();
 	main->SetMoveSpeed(5.f);
-	//main->SetMode(Camera::Mode::Follow); // 지금 플레이어가 없어서 프리 카메라로
-	main->SetMode(Camera::Mode::Free);
+	main->SetMode(Camera::Mode::Free); // 프리 카메라
 
 	CAMERAMANAGER->SetMainCamera(main);
 }
@@ -91,6 +87,19 @@ void MainGame::Update()
 		if (SCENEMANAGER->GetCurrentSceneName() != L"SceneTest")
 			SCENEMANAGER->LoadScene(L"SceneTest");
 	}
+
+	if (INPUT->GetKeyDown('5'))
+	{
+		Camera* main = CAMERAMANAGER->GetMainCamera();
+		if (main->GetMode() == Camera::Mode::Follow)
+			main->SetMode(Camera::Mode::Free);
+		else
+		{
+			main->SetMode(Camera::Mode::Follow);
+			GameObject* player99 = (GameObject*)(OBJECTMANAGER->GetPlayer());
+			main->SetTarget(player99);
+		}
+	}
 }
 
 void MainGame::Render(HDC hdc)
@@ -107,7 +116,6 @@ void MainGame::Render(HDC hdc)
 	//mBackground->Render(backDC, 0, 0); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
 	CAMERAMANAGER->GetMainCamera()->Render(backDC, mBackground, 0, 0);
 	//CAMERAMANAGER->GetMainCamera()->Render(hdc, mBackground, 0, 0);
-	//mTempPlayer
 
 	//SceneManager::GetInstance()->Render(backDC);
 
@@ -122,6 +130,14 @@ void MainGame::Render(HDC hdc)
 	}
 
 	RenderTimeText(backDC);
+
+	Camera* main = CAMERAMANAGER->GetMainCamera();
+	wstring strCam = L"";
+	if (main->GetMode() == Camera::Mode::Follow)
+		strCam = L"팔로우 카메라(모드변경:5)";
+	else
+		strCam = L"프리 카메라(모드변경:5)";
+	TextOut(backDC, 10, 55, strCam.c_str(), (int)strCam.length());
 
 	// 그리기 끝 }
 
@@ -164,9 +180,9 @@ void MainGame::MakeScene()
 void MainGame::LoadImageResource(LoadingScene* scene)
 {
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"Map/map2"), 1200, 900, false); });
-	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FF", Resources(L"ffffff"), 16, 16, false); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapFixRect", Resources(L"MapFixRect"), 32, 32, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapFixDia", Resources(L"MapFixDia"), 45, 45, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attacked", Resources(L"Attacked"), 960, 720, true); });
 
 	// Player
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Idle", Resources(L"Player/idle"), 294, 96, 6, 2, true); });
@@ -194,6 +210,10 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf2", Resources(L"/Player/leaf2"), 679, 96, 7, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf3", Resources(L"/Player/leaf3"), 1066, 96, 11, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"AirLeaf", Resources(L"/Player/airleaf"), 582, 112, 6, 2, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"LandSoft", Resources(L"/Player/landsoft"), 196, 96, 4, 2, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"LandHard", Resources(L"/Player/landhard"), 539, 96, 11, 2, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Hurt", Resources(L"/Player/hurt"), 49, 96, 1, 2, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Death", Resources(L"/Player/death"), 1200, 88, 24, 2, true); });
 
 	// Enemy
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Imp", Resources(L"Imp"), 320, 384, 10, 12, true); });

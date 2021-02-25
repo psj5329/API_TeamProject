@@ -28,8 +28,7 @@ class Enemy :
 protected:
 	Image* mImage;
 	Player* mPlayer;
-
-	RECT mHitBox;			//히트박스
+		
 	RECT mSearchZone;		//색적범위
 	Direction mDirection;	//방향
 	EnemyState mEnemyState;	//상태
@@ -69,7 +68,6 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
-	inline RECT GetHitBox() { return mHitBox; }
 	inline int GetAtk() { return mAtk; }
 	inline int GetDef() { return mDef; }
 	inline int GetHP() { return mHp; }
