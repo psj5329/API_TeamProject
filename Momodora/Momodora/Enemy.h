@@ -76,7 +76,7 @@ public:
 	inline void SetPlayerPtr(Player* player) { mPlayer = player; }
 	void SetIsHit(bool hit) { isHit = hit; }
 
-	void SetPosition(int startX, int startY);
+	virtual void SetPosition(float startX, float startY); //À§Ä¡¼³Á¤ Y¿¡ ÇÃ·§ÆûÀÇ top 
 
 	//virtual void Stun(); 
 	virtual void EndAttack();

@@ -33,10 +33,11 @@ void Enemy::Render(HDC hdc)
 
 }
 
-void Enemy::SetPosition(int startX, int startY)
+void Enemy::SetPosition(float startX, float startY)
 {
+
 	mStart.x = startX;
-	mStart.y = startY;
+	mStart.y = startY - ((mHitBox.bottom - mHitBox.top)) ;
 	mX = mStart.x;
 	mY = mStart.y;
 }

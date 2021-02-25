@@ -20,7 +20,7 @@ void Witch::Init()
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
 	mHoldStaff = true;
-	mHp = 0;
+	mHp = 100;
 
 	//지팡이
 	mStaff = new Staff();
@@ -257,4 +257,13 @@ void Witch::Attack()
 void Witch::EndDeath()
 {
 	this->SetIsDestroy(true);
+}
+
+//위치조정
+void Witch::SetPosition(float x, float y)
+{
+	mStart.x = x;
+	mStart.y = y - (mHitBox.bottom - mHitBox.top) + 19;
+	mX = mStart.x;
+	mY = mStart.y;
 }

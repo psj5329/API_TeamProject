@@ -13,5 +13,8 @@ public:
 
 	void ThrowBomb();		//공격
 	void EndThrow();	//공격애니메이션끝나고 실행할함수
+
+	void SetPosition(float startX, float startY)override;
+
 };
 

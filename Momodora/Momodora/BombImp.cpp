@@ -104,10 +104,12 @@ void BombImp::Update()
 	mCurrentAnimation->Update();
 
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 }
 
 void BombImp::Render(HDC hdc)
 {
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY);
 }
 
@@ -153,4 +155,12 @@ void BombImp::EndThrow()
 {
 	mEnemyState = EnemyState::Idle;
 	SetAnimation();
+}
+
+void BombImp::SetPosition(float x, float y)
+{
+	mStart.x = x;
+	mStart.y = y - (mHitBox.bottom - mHitBox.top) + 20;
+	mX = mStart.x;
+	mY = mStart.y;
 }

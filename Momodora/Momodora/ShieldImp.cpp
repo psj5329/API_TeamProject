@@ -136,7 +136,7 @@ void ShieldImp::Update()
 
 void ShieldImp::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 
 	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY,mAlpha);
 }
@@ -162,4 +162,12 @@ void ShieldImp::ThrowDagger()
 	Dagger1->Init(mX, mY, angle);
 	Dagger1->SetObject();
 	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyProjectile, Dagger1);
+}
+
+void ShieldImp::SetPosition(float x, float y)
+{
+	mStart.x = x;
+	mStart.y = y - (mHitBox.bottom - mHitBox.top) + 20;
+	mX = mStart.x;
+	mY = mStart.y;
 }
