@@ -9,7 +9,8 @@ protected:
 	float mSizeX;
 	float mSizeY;
 	RECT mRect;
-	RECT mHitBox; // 히트박스
+	RECT mHitBox; // 히트박스(피격)
+	RECT mAttackBox; // 어택박스(공격)
 
 	bool mIsActive;
 	bool mIsDestroy;
@@ -48,6 +49,9 @@ public:
 	inline RECT GetHitBox()const { return mHitBox; }
 	inline void SetHitBox(RECT rect) { mHitBox = rect; }
 	inline void SetHitBox(int left, int top, int right, int bottom) { mHitBox.left = left; mHitBox.top = top; mHitBox.right = right; mHitBox.bottom = bottom; }
+	inline RECT GetAttackBox()const { return mAttackBox; }
+	inline void SetAttackBox(RECT rect) { mAttackBox = rect; }
+	inline void SetAttackBox(int left, int top, int right, int bottom) { mAttackBox.left = left; mAttackBox.top = top; mAttackBox.right = right; mAttackBox.bottom = bottom; }
 
 	inline bool GetIsActive()const { return mIsActive; }
 	inline void SetIsActive(bool isActive) { mIsActive = isActive; }
