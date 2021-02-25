@@ -9,6 +9,7 @@ public:
 	enum class Mode : int
 	{
 		Follow,
+		Fix,
 		Free
 	};
 
@@ -20,6 +21,14 @@ protected:
 	int mShakeX;
 	int mShakeY;
 	int mShakePower;
+
+	int mMarginX;
+	int mMarginY;
+
+	int tempRight; // getDirection 대신 임시로
+
+	int mFixX;
+	int mFixY;
 
 public:
 	void Init()override;
@@ -49,8 +58,17 @@ public:
 	Mode GetMode()const { return mMode; }
 	inline void SetMode(Mode mode) { mMode = mode; }
 	inline void SetTarget(GameObject* target) { mTarget = target; }
-	inline float GetMoveSpeed() const { return mMoveSpeed; }
+	inline float GetMoveSpeed()const { return mMoveSpeed; }
 	inline void SetMoveSpeed(float moveSpeed) { mMoveSpeed = moveSpeed; }
 	inline void SetShake(float shakeTime) { mShakeTime = shakeTime; } // 2. 실제로 shaking
 	inline void SetShakePower(int shakePower) { mShakePower = shakePower; } // 1. 떨리는 정도 세팅(누군가 한 번 세팅해놓으면, 바꾸고 싶지 않을 경우 안 써도 되긴 함)
+
+	inline bool GetRight()const { return tempRight; }
+	inline void SetRight(bool temp) { tempRight = temp; }
+
+	inline int GetFixX()const { return mFixX; }
+	inline void SetFixX(int x) { mFixX = x; }
+	inline int GetFixY()const { return mFixY; }
+	inline void SetFixY(int y) { mFixY = y; }
+	inline void SetFix(int x, int y) { mFixX = x, mFixY = y; }
 };

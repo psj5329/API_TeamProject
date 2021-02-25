@@ -39,7 +39,7 @@ void Player::Init()
 	mDeathImage = IMAGEMANAGER->FindImage(L"Death");
 	
 
-	//스탠드 애니메이션
+	//?�탠???�니메이??
 	mLeftIdleAnimation = new Animation();
 	mLeftIdleAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftIdleAnimation->SetIsLoop(true);
@@ -51,7 +51,7 @@ void Player::Init()
 	mRightIdleAnimation->SetIsLoop(true);
 	mRightIdleAnimation->SetFrameUpdateTime(0.2f);
 	mRightIdleAnimation->Play();
-	//이동 애니메이션
+	//?�동 ?�니메이??
 	mLeftRunStartAnimation = new Animation();
 	mLeftRunStartAnimation->InitFrameByStartEnd(8, 1, 9, 1, true);
 	mLeftRunStartAnimation->SetIsLoop(false);
@@ -77,7 +77,7 @@ void Player::Init()
 	mRightRunAnimation->SetIsLoop(true);
 	mRightRunAnimation->SetFrameUpdateTime(0.1f);
 	mRightRunAnimation->Play();
-	//브레이크 애니메이션
+	//브레?�크 ?�니메이??
 	mLeftBrakeAnimation = new Animation();
 	mLeftBrakeAnimation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftBrakeAnimation->SetIsLoop(true);
@@ -91,7 +91,7 @@ void Player::Init()
 	mRightBrakeAnimation->SetFrameUpdateTime(0.05f);
 	mRightBrakeAnimation->Play();
 	mRightBrakeAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
-	//방향전환 애니메이션
+	//방향?�환 ?�니메이??
 	mLeftTurnAnimation = new Animation();
 	mLeftTurnAnimation->InitFrameByStartEnd(0, 1, 2, 1, true);
 	mLeftTurnAnimation->SetIsLoop(false);
@@ -103,7 +103,7 @@ void Player::Init()
 	mRightTurnAnimation->SetIsLoop(false);
 	mRightTurnAnimation->SetFrameUpdateTime(0.1f);
 	mRightTurnAnimation->Play();
-	//점프 애니메이션
+	//?�프 ?�니메이??
 	mLeftJumpAnimation = new Animation();
 	mLeftJumpAnimation->InitFrameByStartEnd(0, 1, 2, 1, true);
 	mLeftJumpAnimation->SetIsLoop(true);
@@ -115,7 +115,7 @@ void Player::Init()
 	mRightJumpAnimation->SetIsLoop(true);
 	mRightJumpAnimation->SetFrameUpdateTime(0.2f);
 	mRightJumpAnimation->Play();
-	//점프 하강 애니메이션
+	//?�프 ?�강 ?�니메이??
 	mLeftFallAnimation = new Animation();
 	mLeftFallAnimation->InitFrameByStartEnd(0, 1, 4, 1, true);
 	mLeftFallAnimation->SetIsLoop(false);
@@ -127,7 +127,7 @@ void Player::Init()
 	mRightFallAnimation->SetIsLoop(false);
 	mRightFallAnimation->SetFrameUpdateTime(0.2f);
 	mRightFallAnimation->Play();
-	//약한 착지 애니메이션
+	//?�한 착�? ?�니메이??
 	mLeftLandSoftAnimation = new Animation();
 	mLeftLandSoftAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
 	mLeftLandSoftAnimation->SetIsLoop(true);
@@ -141,7 +141,7 @@ void Player::Init()
 	mRightLandSoftAnimation->SetFrameUpdateTime(0.1f);
 	mRightLandSoftAnimation->Play();
 	mRightLandSoftAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
-	//앉기 애니메이션
+	//?�기 ?�니메이??
 	mLeftCrouchAnimation = new Animation();
 	mLeftCrouchAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
 	mLeftCrouchAnimation->SetIsLoop(false);
@@ -153,7 +153,7 @@ void Player::Init()
 	mRightCrouchAnimation->SetIsLoop(false);
 	mRightCrouchAnimation->SetFrameUpdateTime(0.1f);
 	mRightCrouchAnimation->Play();
-	//일어나기 애니메이션
+	//?�어?�기 ?�니메이??
 	mLeftRiseAnimation = new Animation();
 	mLeftRiseAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
 	mLeftRiseAnimation->SetIsLoop(false);
@@ -167,7 +167,7 @@ void Player::Init()
 	mRightRiseAnimation->SetFrameUpdateTime(0.1f);
 	mRightRiseAnimation->Play();
 	mRightRiseAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
-	//구르기 애니메이션
+	//구르�??�니메이??
 	mLeftRollAnimation = new Animation();
 	mLeftRollAnimation->InitFrameByStartEnd(0, 1, 7, 1, true);
 	mLeftRollAnimation->SetIsLoop(false);
@@ -181,7 +181,7 @@ void Player::Init()
 	mRightRollAnimation->SetFrameUpdateTime(0.07f);
 	mRightRollAnimation->Play();
 	mRightRollAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
-	//사다리 오르내리기 애니메이션
+	//?�다�??�르?�리�??�니메이??
 	mLadderUpAnimation = new Animation();
 	mLadderUpAnimation->InitFrameByStartEnd(0, 0, 5, 0, true);
 	mLadderUpAnimation->SetIsLoop(true);
@@ -193,7 +193,8 @@ void Player::Init()
 	mLadderDownAnimation->SetIsLoop(true);
 	mLadderDownAnimation->SetFrameUpdateTime(0.1f);
 	mLadderDownAnimation->Play();
-	//사다리 입장 애니메이션
+  
+	//?�다�??�장 ?�니메이??
 	mLeftLadderEnterAnimation = new Animation();
 	mLeftLadderEnterAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftLadderEnterAnimation->SetIsLoop(true);
@@ -207,7 +208,8 @@ void Player::Init()
 	mRightLadderEnterAnimation->SetFrameUpdateTime(0.1f);
 	mRightLadderEnterAnimation->Play();
 	mRightLadderEnterAnimation->SetCallbackFunc(bind(&Player::SetStateLadderUp, this));
-	//사다리 퇴장 애니메이션
+  
+	//?�다�??�장 ?�니메이??
 	mLeftLadderLeaveAnimation = new Animation();
 	mLeftLadderLeaveAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftLadderLeaveAnimation->SetIsLoop(true);
@@ -219,7 +221,8 @@ void Player::Init()
 	mRightLadderLeaveAnimation->SetIsLoop(true);
 	mRightLadderLeaveAnimation->SetFrameUpdateTime(0.1f);
 	mRightLadderLeaveAnimation->Play();
-	//서서 활 애니메이션
+  
+	//?�서 ???�니메이??
 	mLeftBowAnimation = new Animation();
 	mLeftBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftBowAnimation->SetIsLoop(true);
@@ -233,6 +236,7 @@ void Player::Init()
 	mRightBowAnimation->SetFrameUpdateTime(0.1f);
 	mRightBowAnimation->Play();
 	mRightBowAnimation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
+  
 	//공중 활 애니메이션
 	mLeftAirBowAnimation = new Animation();
 	mLeftAirBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
@@ -247,6 +251,7 @@ void Player::Init()
 	mRightAirBowAnimation->SetFrameUpdateTime(0.1f);
 	mRightAirBowAnimation->Play();
 	mRightAirBowAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
+  
 	//앉아 활 애니메이션
 	mLeftCrouchBowAnimation = new Animation();
 	mLeftCrouchBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
@@ -261,6 +266,7 @@ void Player::Init()
 	mRightCrouchBowAnimation->SetFrameUpdateTime(0.1f);
 	mRightCrouchBowAnimation->Play();
 	mRightCrouchBowAnimation->SetCallbackFunc(bind(&Player::SetEndCrouchAttack, this));
+  
 	//첫번째 공격 애니메이션
 	mLeftAttack1Animation = new Animation();
 	mLeftAttack1Animation->InitFrameByStartEnd(0, 1, 6, 1, true);
@@ -275,7 +281,7 @@ void Player::Init()
 	mRightAttack1Animation->SetFrameUpdateTime(0.1f);
 	mRightAttack1Animation->Play();
 	mRightAttack1Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
-	//두번째 공격 애니메이션
+  
 	mLeftAttack2Animation = new Animation();
 	mLeftAttack2Animation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAttack2Animation->SetIsLoop(true);
@@ -289,6 +295,7 @@ void Player::Init()
 	mRightAttack2Animation->SetFrameUpdateTime(0.1f);
 	mRightAttack2Animation->Play();
 	mRightAttack2Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
+  
 	//세번째 공격 애니메이션
 	mLeftAttack3Animation = new Animation();
 	mLeftAttack3Animation->InitFrameByStartEnd(0, 1, 10, 1, true);
@@ -303,6 +310,7 @@ void Player::Init()
 	mRightAttack3Animation->SetFrameUpdateTime(0.1f);
 	mRightAttack3Animation->Play();
 	mRightAttack3Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
+  
 	//공중 공격 애니메이션
 	mLeftAirAttackAnimation = new Animation();
 	mLeftAirAttackAnimation->InitFrameByStartEnd(0, 1, 6, 1, true);
@@ -317,6 +325,7 @@ void Player::Init()
 	mRightAirAttackAnimation->SetFrameUpdateTime(0.1f);
 	mRightAirAttackAnimation->Play();
 	mRightAirAttackAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
+  
 	//피격 애니메이션
 	mLeftHurtAnimation = new Animation();
 	mLeftHurtAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
@@ -329,7 +338,7 @@ void Player::Init()
 	mRightHurtAnimation->SetIsLoop(true);
 	mRightHurtAnimation->SetFrameUpdateTime(0.3f);
 	mRightHurtAnimation->Play();
-	//사망 애니메이션
+	//?�망 ?�니메이??
 	mLeftDeathAnimation = new Animation();
 	mLeftDeathAnimation->InitFrameByStartEnd(0, 1, 23, 1, true);
 	mLeftDeathAnimation->SetIsLoop(false);
@@ -344,7 +353,7 @@ void Player::Init()
 
 
 
-	//값 설정
+	//�??�정
 	mX = WINSIZEX / 2;
 	mY = 200;
 	mCurrentAnimation = mRightIdleAnimation;
@@ -360,7 +369,7 @@ void Player::Release()
 
 void Player::Update()
 {
-	//이동 프레임
+	//?�동 ?�레??
 	if (Input::GetInstance()->GetKeyDown(VK_LEFT))
 	{
 		mState = State::LeftRun;
@@ -393,8 +402,8 @@ void Player::Update()
 		mCurrentAnimation->Play();
 		mCurrentImage = mBrakeImage;
 	}
+  
 	//이동 구현
-	
 	if (Input::GetInstance()->GetKey(VK_LEFT))
 	{	
 		if (stopmove == 0)
@@ -450,7 +459,7 @@ void Player::Update()
 			mCurrentImage = mCrouchImage;
 		}
 	}
-	//일어서기
+	//?�어?�기
 	if (Input::GetInstance()->GetKeyUp('C'))
 	{
 		if (mState == State::LeftCrouch)
@@ -471,7 +480,7 @@ void Player::Update()
 		}
 	}
 
-	//구르기
+	//구르�?
 	if (Input::GetInstance()->GetKeyDown(VK_LSHIFT))
 	{
 		if (mState == State::LeftIdle || mState == State::LeftRun)
@@ -502,7 +511,7 @@ void Player::Update()
 		mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	}
 
-	//사다리!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//?�다�?!!!!!!!!!!!!!!!!!!!!!!!!!
 	RECT LadderRect;
 	vector<GameObject*> LadderList = OBJECTMANAGER->GetObjectList(ObjectLayer::Ladder);
 	vector<GameObject*>::iterator ladderiter = LadderList.begin();
@@ -556,7 +565,7 @@ void Player::Update()
 		}
 	}
 
-	//활 공격
+	//??공격
 	if (Input::GetInstance()->GetKeyDown('X'))
 	{
 		Arrow* arrow = new Arrow;
@@ -635,7 +644,7 @@ void Player::Update()
 
 	}
 
-	//검 공격 1 //이펙트 X
+	//검 공격 1 //?�펙??X
 	if (mState != State::LeftAttack1 && mState != State::RightAttack1 && mState != State::LeftAttack2 && mState != State::RightAttack2 && mState != State::LeftAttack3 && mState != State::RightAttack3)
 	{
 		if (Input::GetInstance()->GetKeyDown('Z'))
@@ -738,7 +747,7 @@ void Player::Update()
 		}
 	}
 
-	//Hp 회복 아이템
+	//Hp ?�복 ?�이??
 	if (mHp > 0)
 	{
 		if (Input::GetInstance()->GetKeyDown('Q'))
@@ -748,7 +757,7 @@ void Player::Update()
 		}
 	}
 
-	//피격 및 사망
+	//?�격 �??�망
 	if (mHp <= 0)
 	{
 		if (mState == State::LeftIdle || mState == State::LeftRun)
@@ -768,7 +777,8 @@ void Player::Update()
 			mCurrentImage = mDeathImage;
 		}
 	}
-
+  
+//	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 	//플랫폼 충돌
 	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect))
 	{
@@ -939,6 +949,7 @@ void Player::SetStateIdle()
 		mCurrentImage = mIdleImage;
 	}
 }
+
 void Player::SetEndAttack() 
 {
 	if (mState == State::LeftAttack1 || mState == State::LeftAttack2 || mState == State::LeftAttack3 || mState == State::LeftBow)
