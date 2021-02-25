@@ -282,6 +282,9 @@
     <ClInclude Include="Potion.h">
       <Filter>MainGame\Object\Item</Filter>
     </ClInclude>
+    <ClInclude Include="Leaf.h">
+      <Filter>MainGame\Object\PlayerProjectile</Filter>
+    </ClInclude>
     <ClInclude Include="Magnet.h">
       <Filter>MainGame\Object\Item</Filter>
     </ClInclude>
@@ -439,6 +442,9 @@
     </ClCompile>
     <ClCompile Include="Potion.cpp">
       <Filter>MainGame\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Leaf.cpp">
+      <Filter>MainGame\Object\PlayerProjectile</Filter>
     </ClCompile>
     <ClCompile Include="Magnet.cpp">
       <Filter>MainGame\Object\Item</Filter>

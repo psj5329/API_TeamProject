@@ -24,7 +24,6 @@ void Scene03::Init()
 	boss->SetAnimation();
 	OBJECTMANAGER->AddObject(ObjectLayer::Boss, boss);
 
-
 	// {{ 충돌 체크용 맵
 	Platform* platform01 = new Platform();
 	platform01->SetPlatform(0, 600, 800, 650, PlatformType::Normal);

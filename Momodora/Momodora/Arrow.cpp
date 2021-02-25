@@ -16,7 +16,6 @@ void Arrow::Fire(Image* image, float x, float y, float speed, float angle)
 
 void Arrow::Release()
 {
-
 }
 
 void Arrow::Update()

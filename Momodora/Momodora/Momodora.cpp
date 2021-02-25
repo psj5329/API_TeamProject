@@ -59,23 +59,14 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 	//_CrtSetBreakAlloc();
 #endif
 
-	//복붙 한 줄 추가
 	HDC hdc = GetDC(_hWnd);
 
 	_mainGame = new MainGame();
 	_mainGame->Init();
 
-	//복붙 한 줄 추가
 	TIME->Start();
 
-	// 여기부터 유찬 내용 주석 시작
-/*	// 기본 메시지 루프입니다:
-	while (GetMessage(&msg, nullptr, 0, 0))
-	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}*/  // 여기부터 유찬 내용 주석 끝
-	// 여기부터 복붙시작
+
 	while (true)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -95,7 +86,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 			_mainGame->Update();
 			_mainGame->Render(hdc);
 		}
-	} // 여기부터 복붙끝
+	}
 
 	_mainGame->Release();
 	delete _mainGame;

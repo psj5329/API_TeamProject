@@ -1,5 +1,11 @@
 #pragma once
 
+enum class Direction : int
+{
+	Left,
+	Right
+};
+
 class GameObject
 {
 protected:
@@ -8,6 +14,7 @@ protected:
 	float mY;
 	float mSizeX;
 	float mSizeY;
+	Direction mDirection;
 	RECT mRect;
 	RECT mHitBox; // 히트박스(피격)
 	RECT mAttackBox; // 어택박스(공격)
@@ -35,14 +42,10 @@ public:
 	inline void SetSizeX(float sizeX) { mSizeX = sizeX; }
 	inline float GetSizeY()const { return mSizeY; }
 	inline void SetSizeY(float sizeY) { mSizeY = sizeY; }
-	//inline float GetX()const { return mPosition.GetX(); }
-	//inline void SetX(float x) { mPosition.SetX(x); }
-	//inline float GetY()const { return mPosition.GetY(); }
-	//inline void SetY(float y) { mPosition.SetY(y); }
-	//inline float GetSizeX()const { return mSize.GetX(); }
-	//inline void SetSizeX(float sizeX) { mSize.SetX(sizeX); }
-	//inline float GetSizeY()const { return mSize.GetY(); }
-	//inline void SetSizeY(float sizeY) { mSize.SetY(sizeY); }
+
+	inline Direction GetDirection()const { return mDirection; }
+	inline void SetDirection(Direction direction) { mDirection = direction; }
+
 	inline RECT GetRect()const { return mRect; }
 	inline void SetRect(RECT rect) { mRect = rect; }
 	inline void SetRect(int left, int top, int right, int bottom) { mRect.left = left; mRect.top = top; mRect.right = right; mRect.bottom = bottom; }

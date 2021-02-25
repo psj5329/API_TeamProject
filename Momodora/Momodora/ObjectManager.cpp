@@ -29,6 +29,7 @@ void ObjectManager::Release()
 		{
 			iter->second[i]->Release();
 			SafeDelete(iter->second[i]);
+			//(iter->second).erase(iter->second.begin() + i);
 		}
 }
 

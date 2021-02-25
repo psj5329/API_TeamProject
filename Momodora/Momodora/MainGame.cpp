@@ -21,12 +21,12 @@ void MainGame::Init()
 
 	IMAGEMANAGER->LoadFromFile(L"Background", Resources(L"temp"), 1501, 1000, false);
 
-	mBackground = IMAGEMANAGER->FindImage(L"Background"); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
+	mBackground = IMAGEMANAGER->FindImage(L"Background"); // �ӽ÷� ����� �� // �� �������� ��� ��
 
 	Camera* main = new Camera();
 	main->Init();
 	main->SetMoveSpeed(5.f);
-	main->SetMode(Camera::Mode::Free); // 프리 카메라
+	main->SetMode(Camera::Mode::Free); // ��� ī�޶�
 
 	CAMERAMANAGER->SetMainCamera(main);
 }
@@ -84,7 +84,7 @@ void MainGame::Update()
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene03")
 			SCENEMANAGER->LoadScene(L"Scene03");
 	}
-	else if (INPUT->GetKeyDown('0')) // 테스트 끝나면 지우기
+	else if (INPUT->GetKeyDown('0')) // �׽�Ʈ ������ ����
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"SceneTest")
 			SCENEMANAGER->LoadScene(L"SceneTest");
@@ -120,32 +120,26 @@ void MainGame::Render(HDC hdc)
 {
 	HDC backDC = mBackBuffer->GetHDC();
 	PatBlt(backDC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
-	//D2DRENDERER->BeginRender(D2D1::ColorF::Black);
 
-	// { 그리기 시작
+	// { �׸��� ����
 
-	//ID2D1RenderTarget* renderTarget = D2DRENDERER->GetRenderTarget();
-
-	//mBackground->Render(backDC, 0, 0, (mBackground->GetWidth() - WINSIZEX) / 2, (mBackground->GetHeight() - WINSIZEY) / 2, WINSIZEX, WINSIZEY); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
-	//mBackground->Render(backDC, 0, 0); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
-	CAMERAMANAGER->GetMainCamera()->Render(backDC, mBackground, 0, 0);
-	//CAMERAMANAGER->GetMainCamera()->Render(hdc, mBackground, 0, 0);
-
-	//SceneManager::GetInstance()->Render(backDC);
+	//CAMERAMANAGER->GetMainCamera()->Render(backDC, mBackground, 0, 0); // �ӽ÷� ����� �� // �� �������� ��� ��
 
 	SCENEMANAGER->Render(backDC);
-
 
 	wstring str = SCENEMANAGER->GetCurrentSceneName();
 	if (str == L"LoadingScene" && ((LoadingScene*)(SCENEMANAGER->GetCurrentScene()))->GetIsEndLoading())
 	{
-		wstring strLoad = L"로딩끝";
-		TextOut(backDC, 300, 300, strLoad.c_str(), (int)strLoad.length());
+		wstring strLoad = L"�ε� ��";
+		TextOut(backDC, 400, 300, strLoad.c_str(), (int)strLoad.length());
+/*		wstring strLoad = L"로딩끝";
+		TextOut(backDC, 300, 300, strLoad.c_str(), (int)strLoad.length());*/
 	}
 
-	RenderTimeText(backDC);
+	RenderDebugText(backDC);
 
-	Camera* main = CAMERAMANAGER->GetMainCamera();
+	// �׸��� �� }
+/*	Camera* main = CAMERAMANAGER->GetMainCamera();
 	wstring strCam = L"";
 	if (main->GetMode() == Camera::Mode::Follow)
 		strCam = L"팔로우 카메라(모드변경:5)";
@@ -161,15 +155,13 @@ void MainGame::Render(HDC hdc)
 	else strRight = L"Left";
 	TextOut(backDC, 10, 70, strRight.c_str(), (int)strRight.length());
 
-	// 그리기 끝 }
+	// 그리기 끝 }*/
 
 	mBackBuffer->Render(hdc, 0, 0);
-	//D2DRENDERER->EndRender();
 }
 
-void MainGame::RenderTimeText(HDC hdc)
+void MainGame::RenderDebugText(HDC hdc)
 {
-	// 타임 복붙 시작
 	float worldTime = TIME->GetWorldTime();
 	float deltaTime = TIME->DeltaTime();
 	ULONG fps = TIME->GetmFrameRate();
@@ -177,10 +169,27 @@ void MainGame::RenderTimeText(HDC hdc)
 	wstring strDeltaTime = L"DeltaTime : " + to_wstring(deltaTime);
 	wstring strFPS = L"FPS : " + to_wstring(fps);
 
-	TextOut(hdc, 10, 10, strWorldTime.c_str(), (int)strWorldTime.length());
-	TextOut(hdc, 10, 25, strDeltaTime.c_str(), (int)strDeltaTime.length());
-	TextOut(hdc, 10, 40, strFPS.c_str(), (int)strFPS.length());
-	// 타임 복붙 끝
+	TextOut(hdc, 700, 10, strWorldTime.c_str(), (int)strWorldTime.length());
+	TextOut(hdc, 700, 25, strDeltaTime.c_str(), (int)strDeltaTime.length());
+	TextOut(hdc, 700, 40, strFPS.c_str(), (int)strFPS.length());
+
+	Camera* main = CAMERAMANAGER->GetMainCamera();
+	wstring strCam = L"";
+	if (main->GetMode() == Camera::Mode::Follow)
+		strCam = L"�ȷο� ī�޶�(��庯��:5)";
+	else if (main->GetMode() == Camera::Mode::Fix)
+		strCam = L"��� ī�޶�(��庯��:5)";
+	else
+		strCam = L"��� ī�޶�(��庯��:5)";
+	TextOut(hdc, 700, 55, strCam.c_str(), (int)strCam.length());
+
+	bool tempRight = CAMERAMANAGER->GetMainCamera()->GetRight();
+	wstring strRight = L"";
+	if (tempRight)
+		strRight = L"�����";
+	else
+		strRight = L"����";
+	TextOut(hdc, 700, 70, strRight.c_str(), (int)strRight.length());
 }
 
 void MainGame::MakeScene()
@@ -228,7 +237,7 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attack2", Resources(L"/Player/attack2"), 343, 96, 7, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attack3", Resources(L"/Player/attack3"), 539, 96, 11, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"AirAttack", Resources(L"/Player/airattack"), 343, 96, 7, 2, true); });
-	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf1", Resources(L"/Player/leaf1"), 679, 96, 7, 2, true); }); //이펙트 이미지 아직 안씀
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf1", Resources(L"/Player/leaf1"), 679, 96, 7, 2, true); }); //����Ʈ �̹��� ���� �Ⱦ�
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf2", Resources(L"/Player/leaf2"), 679, 96, 7, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf3", Resources(L"/Player/leaf3"), 1066, 96, 11, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"AirLeaf", Resources(L"/Player/airleaf"), 582, 112, 6, 2, true); });

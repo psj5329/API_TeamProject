@@ -40,12 +40,18 @@ void SceneTest::Init()
 
 	mAttacked = IMAGEMANAGER->FindImage(L"Attacked");
 	mAttackedAlpha = 0.f;
+
+	Camera* main = CAMERAMANAGER->GetMainCamera();
+	//main->SetMode(Camera::Mode::Follow);
+	//GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
+	//main->SetTarget(player);
+	main->SetMode(Camera::Mode::Fix);
+	main->SetFix(WINSIZEX / 2, WINSIZEY / 2);
 }
 
 void SceneTest::Release()
 {
 	SOUNDMANAGER->Stop(L"Boss"); // Bgm 반드시 Stop해야 함, 씬 전환 시에 Release 함수 호출하므로 Release 제일 상단에 기재할 것
-	//SafeDelete(mPlatform01);
 }
 
 void SceneTest::Update()
