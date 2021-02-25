@@ -36,7 +36,7 @@ void StarItem::Release()
 void StarItem::Update()
 {
 	//자석을먹었으면
-	if (mPlayer.GetmHaveMagnet()) 
+	if (mPlayer->GetHaveMagnet()) 
 	//if (true)
 	{
 		Magnet();
