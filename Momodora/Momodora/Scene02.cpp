@@ -13,12 +13,12 @@
 
 void Scene02::Init()
 {
+	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
 	//根虐积己
 	//Monkey* monkey1 = new Monkey();
 	//monkey1->Init();
 	//monkey1->SetObject();
 	//monkey1->SetPosition(WINSIZEX / 2, 500);
-	//vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
 	//monkey1->SetPlayerPtr((Player*)player[0]);
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, monkey1);
 
@@ -27,7 +27,6 @@ void Scene02::Init()
 	//DaggerImp1->Init();
 	//DaggerImp1->SetObject();
 	//DaggerImp1->SetPosition(WINSIZEX / 2 - 300, 550);
-	//vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
 	//DaggerImp1->SetPlayerPtr((Player*)player[0]);
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, DaggerImp1);
 	
@@ -36,7 +35,6 @@ void Scene02::Init()
 	//BombImp1->Init();
 	//BombImp1->SetObject();
 	//BombImp1->SetPosition(WINSIZEX / 2 , 550);
-	//vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
 	//BombImp1->SetPlayerPtr((Player*)player[0]);
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, BombImp1);
 
@@ -45,27 +43,24 @@ void Scene02::Init()
 	//ShieldImp1->Init();
 	//ShieldImp1->SetObject();
 	//ShieldImp1->SetPosition(WINSIZEX / 2 - 300, 550);
-	//vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
 	//ShieldImp1->SetPlayerPtr((Player*)player[0]);
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, ShieldImp1);
 
 	//付赤
-	//Witch* Witch1 = new Witch();
-	//Witch1->Init();
-	//Witch1->SetObject();
-	//Witch1->SetPosition(WINSIZEX / 2 + 100, 550);
-	//vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
-	//Witch1->SetPlayerPtr((Player*)player[0]);
-	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Witch1);
+	Witch* Witch1 = new Witch();
+	Witch1->Init();
+	Witch1->SetObject();
+	Witch1->SetPosition(WINSIZEX / 2 + 100, 550);
+	Witch1->SetPlayerPtr((Player*)player[0]);
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Witch1);
 
 	//其弛
-	Fennel* Fennel1 = new Fennel();
-	Fennel1->Init();
-	Fennel1->SetObject();
-	Fennel1->SetPosition(WINSIZEX / 2 + 300, 545);
-	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
-	Fennel1->SetPlayerPtr((Player*)player[0]);
-	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Fennel1);
+	//Fennel* Fennel1 = new Fennel();
+	//Fennel1->Init();
+	//Fennel1->SetObject();
+	//Fennel1->SetPosition(WINSIZEX / 2 + 300, 545);
+	//Fennel1->SetPlayerPtr((Player*)player[0]);
+	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Fennel1);
 
 
 
@@ -92,15 +87,15 @@ void Scene02::Update()
 {
 	OBJECTMANAGER->Update();
 
-	RECT temp;
-	Player* player = OBJECTMANAGER->GetPlayer();
-	RECT playerRect = player->GetRect();
-	GameObject* fennel1 = OBJECTMANAGER->FindObject(ObjectLayer::Enemy, "Fennel");
-	RECT fennel = ((Enemy*)fennel1)->GetHitBox();
-	if (IntersectRect(&temp, &playerRect, &fennel))
-	{
-		((Enemy*)fennel1)->SetIsHit(true);
-	}
+	//RECT temp;
+	//Player* player = OBJECTMANAGER->GetPlayer();
+	//RECT playerRect = player->GetRect();
+	//GameObject* fennel1 = OBJECTMANAGER->FindObject(ObjectLayer::Enemy, "Fennel");
+	//RECT fennel = ((Enemy*)fennel1)->GetHitBox();
+	//if (IntersectRect(&temp, &playerRect, &fennel))
+	//{
+	//	((Enemy*)fennel1)->SetIsHit(true);
+	//}
 }
 
 void Scene02::Render(HDC hdc)

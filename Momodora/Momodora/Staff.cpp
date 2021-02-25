@@ -22,6 +22,7 @@ void Staff::Init()
 	mLeftMove->SetFrameUpdateTime(0.1f);
 	mCurrentAnimation = mLeftMove;
 
+
 }
 void Staff::Init(int x, int y, float angle)
 {
@@ -34,7 +35,7 @@ void Staff::Init(int x, int y, float angle)
 	mSpeed = 330;
 	mReturn = false;
 	mDistance = 3;
-
+	mAtk = 25;
 
 	if (mAngle > PI / 2)
 	{

@@ -52,10 +52,12 @@ void Dagger::Update()
 	mX += cosf(mAngle) * mSpeed * TIME->DeltaTime();
 
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+	mHitBox = RectMakeCenter(mX, mY, mSizeX-10, mSizeY-10);
 }
 
 
 void Dagger::Render(HDC hdc)
 {
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mSizeX, mSizeY);
 }

@@ -20,6 +20,7 @@ void Witch::Init()
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
 	mHoldStaff = true;
+	mHp = 0;
 
 	//지팡이
 	mStaff = new Staff();
@@ -78,12 +79,13 @@ void Witch::Init()
 	mRightDeath->InitFrameByStartEnd(0, 0, 6, 0, false);
 	mRightDeath->SetIsLoop(false);
 	mRightDeath->SetFrameUpdateTime(0.2f);
-		 
+	mRightDeath->SetCallbackFunc(bind(&Witch::EndDeath, this));
+
 	mLeftDeath = new Animation();
 	mLeftDeath->InitFrameByStartEnd(0, 1, 6, 1, false);
 	mLeftDeath->SetIsLoop(false);
 	mLeftDeath->SetFrameUpdateTime(0.2f);
-
+	mLeftDeath->SetCallbackFunc(bind(&Witch::EndDeath, this));
 
 	mEnemyState = EnemyState::Idle;
 	mDirection = Direction::Left;
@@ -145,6 +147,10 @@ void Witch::Update()
 				//SetDirection();
 				mImage = IMAGEMANAGER->FindImage(L"Witchcatch");
 
+				//크기조정
+				mSizeX = mImage->GetFrameWidth() * 2;
+				mSizeY = mImage->GetFrameHeight() * 2;
+
 				//에니메이션 설정하고
 				if (mDirection == Direction::Left)
 				{
@@ -185,14 +191,36 @@ void Witch::Update()
 	//맞으면
 
 
+	//죽으면
+	if (mHp <= 0 && mEnemyState != EnemyState::Death)
+	{
+		mEnemyState = EnemyState::Death;
+		if (mHoldStaff)
+			mImage = IMAGEMANAGER->FindImage(L"Witchdeath");
+		else
+			mImage = IMAGEMANAGER->FindImage(L"Witchdeath2");
+
+		mCurrentAnimation->Stop();
+		if (mDirection == Direction::Left)
+			mCurrentAnimation = mLeftDeath;
+		else
+			mCurrentAnimation = mRightDeath;
+		mCurrentAnimation->Play();
+	}
+
+
+
 
 	mCurrentAnimation->Update();
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+	mHitBox = RectMakeCenter(mX, mY, 50, 80);
 }
 
 void Witch::Render(HDC hdc)
 {
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(),mSizeX,mSizeY);
+	
 }
 
 void Witch::SearchPlayer()
@@ -212,6 +240,8 @@ void Witch::EndCatch()
 {
 	mEnemyState = EnemyState::Idle;
 	mImage = IMAGEMANAGER->FindImage(L"Witchidle");
+	mSizeX = mImage->GetFrameWidth() * 2;
+	mSizeY = mImage->GetFrameHeight() * 2;
 	SetAnimation();
 }
 
@@ -222,4 +252,9 @@ void Witch::Attack()
 	mStaff->Init(mX, mY, angle);
 	
 	mStaff->SetIsActive(true);
+}
+
+void Witch::EndDeath()
+{
+	this->SetIsDestroy(true);
 }

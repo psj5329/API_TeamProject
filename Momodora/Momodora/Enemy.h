@@ -44,6 +44,7 @@ protected:
 
 	bool mFoundPlayer;	//플레이어를 만났나? 만났으면 전투상태로
 	bool isHit;
+	float mAlpha;
 
 	Animation* mRightIdle;
 	Animation* mLeftIdle;
@@ -83,5 +84,6 @@ public:
 	void SetAnimation();	//상태에따라 애니메이션 설정
 	void SetDirection();	//플레이어위치에따라 좌우설정
 	virtual void Attack();
+	virtual void DeathCheck();
 };
 
