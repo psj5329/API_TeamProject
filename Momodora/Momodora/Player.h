@@ -54,7 +54,7 @@ class Player : public GameObject
 	State mState = State::RightIdle;
 	float mSpeed = 400.f;
 	float mJumpPower = 0;
-	float mGravity = 0;
+	float mGravity = 0.2f;
 
 	int mHp = 100;
 	int mAttackDamage = 0;
@@ -62,6 +62,8 @@ class Player : public GameObject
 	bool invincibility = 0;
 	bool stopmove = 0;
 	bool stoproll = 0; //불값 추가 질문
+
+	bool mHitAttack;
 
 	RECT mPrevRect;
 
@@ -154,11 +156,13 @@ public:
   
 	void SetStateRun();
 	void SetStateIdle();
-	void SetStateFall();
 	void SetStateLadderUp();
 	void SetStateLadderDown();
+	void SetEndAttack1();
+
 
 	int GetAttackDamage() { return mAttackDamage; }
 	int GetHp() { return mHp; }
 	void SetHp(int i) { mHp = i; }
+	bool GetHitAttack() { return mHitAttack; }
 };

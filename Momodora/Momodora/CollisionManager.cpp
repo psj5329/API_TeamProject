@@ -101,6 +101,8 @@ bool CollisionManager::IsCollideWithPlatform(RECT* rect)
 
 		if (IntersectRect(&tempRect, rect, &platformRect))
 			return true;
+		else if (platformRect.top == rect->bottom && platformRect.left > rect->right && platformRect.right > rect->left)
+			return true;
 	}
 
 	return false;
@@ -156,7 +158,7 @@ RECT* CollisionManager::CollideWithPlatform(RECT* rect, RECT* prevRect, float si
 
 			if (platformRect.top >= (*prevRect).bottom)
 			{
-				centerY = platformRect.top - sizeY / 2.f - 1.f;
+				centerY = platformRect.top - sizeY / 2.f;
 				(*rect) = RectMakeCenter((int)centerX, (int)centerY, (int)sizeX, (int)sizeY);
 			}
 			else if (platformRect.left >= (*prevRect).right)

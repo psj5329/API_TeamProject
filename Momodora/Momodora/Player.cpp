@@ -109,14 +109,12 @@ void Player::Init()
 	mLeftJumpAnimation->SetIsLoop(true);
 	mLeftJumpAnimation->SetFrameUpdateTime(0.2f);
 	mLeftJumpAnimation->Play();
-	mLeftJumpAnimation->SetCallbackFunc(bind(&Player::SetStateFall, this));
 
 	mRightJumpAnimation = new Animation();
 	mRightJumpAnimation->InitFrameByStartEnd(0, 0, 2, 0, false);
 	mRightJumpAnimation->SetIsLoop(true);
 	mRightJumpAnimation->SetFrameUpdateTime(0.2f);
 	mRightJumpAnimation->Play();
-	mRightJumpAnimation->SetCallbackFunc(bind(&Player::SetStateFall, this));
 	//점프 하강 애니메이션
 	mLeftFallAnimation = new Animation();
 	mLeftFallAnimation->InitFrameByStartEnd(0, 1, 4, 1, true);
@@ -334,7 +332,7 @@ void Player::Init()
 
 	//값 설정
 	mX = WINSIZEX / 2;
-	mY = 500;
+	mY = 200;
 	mCurrentAnimation = mRightIdleAnimation;
 	mCurrentImage = mIdleImage;
 	mSizeX = (float)(mIdleImage->GetFrameWidth()) *2;
@@ -416,36 +414,6 @@ void Player::Update()
 			}
 		}
 	}
-
-	//점프
-	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
-	{
-		mJumpPower = 8.f;
-		mGravity = 0.2f;
-
-		if (mState == State::LeftIdle || mState == State::LeftRun)
-		{
-			mState = State::LeftJump;
-			mCurrentAnimation->Stop();
-			mCurrentAnimation = mLeftJumpAnimation;
-			mCurrentAnimation->Play();
-			mCurrentImage = mJumpImage;
-		}
-		if (mState == State::RightIdle || mState == State::RightRun)
-		{
-			mState = State::RightJump;
-			mCurrentAnimation->Stop();
-			mCurrentAnimation = mRightJumpAnimation;
-			mCurrentAnimation->Play();
-			mCurrentImage = mJumpImage;
-		}
-	}
-	if (mState == State::LeftJump || mState == State::LeftFall || mState == State::RightJump || mState == State::RightFall)
-	{
-		mY -= mJumpPower;
-		mJumpPower -= mGravity;
-	}
-
 
 	//앉기
 	if (Input::GetInstance()->GetKeyDown('C'))
@@ -752,6 +720,17 @@ void Player::Update()
 			mAttackDamage = 20;
 		}
 	}
+
+	//Hp 회복 아이템
+	if (mHp > 0)
+	{
+		if (Input::GetInstance()->GetKeyDown('Q'))
+		{
+			if (mState == State::LeftIdle || mState == State::RightIdle)
+			mHp + 30;
+		}
+	}
+
 	//피격 및 사망
 	if (mHp <= 0)
 	{
@@ -774,35 +753,95 @@ void Player::Update()
 		}
 	}
 
-
-	//땅에 닿았을때 중력 X
-	RECT PlatformRect;
-	vector<GameObject*> PlatformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
-	vector<GameObject*>::iterator platformiter = PlatformList.begin();
-	for (; platformiter != PlatformList.end(); ++platformiter)
+	//점프
+	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 	{
-		PlatformRect = (*platformiter)->GetRect();
-		if (mRect.bottom >= PlatformRect.top)
+		mJumpPower = 8.f;
+		mGravity = 0.2f;
+
+		if (mState == State::LeftIdle || mState == State::LeftRun)
 		{
-			if (mState == State::LeftFall)
-			{
-				mState = State::LeftLandSoft;
-				mCurrentAnimation->Stop();
-				mCurrentAnimation = mLeftLandSoftAnimation;
-				mCurrentAnimation->Play();
-				mCurrentImage = mLandSoftImage;
-			}
-			if (mState == State::RightFall)
-			{
-				mState = State::RightLandSoft;
-				mCurrentAnimation->Stop();
-				mCurrentAnimation = mRightLandSoftAnimation;
-				mCurrentAnimation->Play();
-				mCurrentImage = mLandSoftImage;
-			}
+			mState = State::LeftJump;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftJumpAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mJumpImage;
+		}
+		if (mState == State::RightIdle || mState == State::RightRun)
+		{
+			mState = State::RightJump;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightJumpAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mJumpImage;
 		}
 	}
+	if (mState == State::LeftJump || mState == State::RightJump)
+	{
+		if (mJumpPower < 0 && mState == State::LeftJump) {
+			mState = State::LeftFall;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftFallAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mFallImage;
+		}
+		if (mJumpPower < 0 && mState == State::RightJump) {
+			mState = State::RightFall;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightFallAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mFallImage;
+		}
+	}
+	//if (mRect != *(COLLISIONMANAGER->CollideWithPlatform(&mRect, &mPrevRect, mSizeX, mSizeY)))
+	if (mState == State::LeftFall || mState == State::RightFall || mState == State::LeftJump || mState == State::RightJump)
+	{
+		mY -= mJumpPower;
+		mJumpPower -= mGravity;
+	}
 	
+	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect))
+	{
+		mJumpPower = 0;
+		mGravity = 0;
+		if (mState == State::LeftFall)
+		{
+			mState = State::LeftLandSoft;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftLandSoftAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mLandSoftImage;
+		}
+		if (mState == State::RightFall)
+		{
+			mState = State::RightLandSoft;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightLandSoftAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mLandSoftImage;
+		}
+	}
+	else
+	{
+		mGravity = 0.2f;
+		if (mState == State::LeftIdle || mState == State::LeftRun || mState == State::LeftBrake)
+		{
+			mState = State::LeftFall;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftFallAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mFallImage;
+		}
+		if (mState == State::RightIdle)
+		{
+			mState = State::RightFall;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightFallAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mFallImage;
+		}
+	}
+
 
 	if (stopmove == 0)
 	{
@@ -812,7 +851,7 @@ void Player::Update()
 	 
 	//RECT mPrevRect;
 	mRect = *(COLLISIONMANAGER->CollideWithPlatform(&mRect, &mPrevRect, mSizeX, mSizeY));
-
+	mY = (mRect.bottom + mRect.top) / 2;
 	mPrevRect = mRect;
 }
 
@@ -825,6 +864,16 @@ void Player::Render(HDC hdc)
 	{
 		mArrow[i]->Render(hdc);
 	}
+
+	wstring str3 = L"mX:" + to_wstring(mX);
+	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 10, str3.c_str(), str3.length());
+	wstring str4 = L"mY:" + to_wstring(mY);
+	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 30, str4.c_str(), str4.length());
+	wstring str5 = L"Gravity:" + to_wstring(mGravity);
+	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 50, str5.c_str(), str5.length());
+	wstring str6 = L"jumppower" + to_wstring(mJumpPower);
+	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 70, str6.c_str(), str6.length());
+
 }
 
 void Player::SetStateRun()
@@ -864,27 +913,14 @@ void Player::SetStateIdle()
 		mCurrentImage = mIdleImage;
 	}
 }
-
-void Player::SetStateFall()
-{
-	if (mState == State::LeftJump)
-	{
-		mState = State::LeftFall;
-		mCurrentAnimation->Stop();
-		mCurrentAnimation = mLeftFallAnimation;
-		mCurrentAnimation->Play();
-		mCurrentImage = mFallImage;
-	}
-	else if (mState == State::RightJump)
-	{
-		mState = State::RightFall;
-		mCurrentAnimation->Stop();
-		mCurrentAnimation = mRightFallAnimation;
-		mCurrentAnimation->Play();
-		mCurrentImage = mFallImage;
-	}
-}
-
+//void Player::SetEndAttack1() 
+//{
+//	//방향에따라 아이들
+//	//애니메이션 세팅
+//	if (mState == State::LeftAttack1 || mState == State::LeftAttack2 || mState == State::LeftAttack3 || mState == State::LeftAirAttack)
+//
+//	mHitAttack = true;
+//}
 void Player::SetStateLadderUp()
 {
 	if (mState == State::LeftLadderEnter || mState == State::RightLadderEnter)
