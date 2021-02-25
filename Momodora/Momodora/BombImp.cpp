@@ -114,7 +114,7 @@ void BombImp::Render(HDC hdc)
 void BombImp::ThrowBomb()
 {
 	float angle;
-	float distance = Math::GetDistance(mPlayer->GetX(), mPlayer->GetY(), mX, mY);
+	float distance = Math::GetDistance(mPlayer->GetSizeX(), mPlayer->GetY(), mX, mY);
 	//각설정
 	//왼쪽
 	if (mDirection == Direction::Left)
@@ -126,7 +126,7 @@ void BombImp::ThrowBomb()
 		}
 		else
 		{
-			angle = PI * 7 / 8;
+			angle = PI * 7 /8;
 		}
 	}
 	else

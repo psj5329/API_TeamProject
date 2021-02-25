@@ -17,14 +17,6 @@ enum class FennelState
 	BackFlip
 };
 
-struct AfterImage
-{
-	Image* cImage;
-	RECT cRect;
-	Animation* cAnimation;
-	float cAlpha;
-};
-
 class Fennel :
 	public Enemy
 {
@@ -63,9 +55,7 @@ class Fennel :
 	RECT mSword;
 
 	float mAlpha;
-	float mTimer;
 
-	vector <AfterImage> mAfterImages;
 
 public:
 	void Init() override;
@@ -94,7 +84,7 @@ public:
 	void JumpRect();
 	void PlungeRect();
 	void ThunderRect();
-	void DashRect();
+
 
 	//Ä®·ºÆ®¼³Á¤
 	void AttackSword();
@@ -109,7 +99,5 @@ public:
 	void EndPlunge();
 	void EndBuff();
 	void EndDeath();
-
-	void SetAfterImages(int frame1, int frame2, int frame3);
 };
 
