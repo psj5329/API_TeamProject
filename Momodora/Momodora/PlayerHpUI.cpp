@@ -30,8 +30,7 @@ void PlayerHpUI::Release()
 
 void PlayerHpUI::Update()
 {
-	//mHp = OBJECTMANAGER->GetPlayer()->GetHp();
-	//mHp = ((Enemy*)OBJECTMANAGER->FindObject(ObjectLayer::Boss, "Boss"))->GetHP();	// 플레이어 체력 아직 없움 > 생기면 UI 살리기
+	mHp = OBJECTMANAGER->GetPlayer()->GetHp();
 
 	mSizeX = mImage->GetWidth() / 2 * mHp / mMaxHp;
 }
