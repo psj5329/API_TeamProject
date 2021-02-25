@@ -100,7 +100,7 @@ void Scene03::Update()
 
 	// 충돌 (상호작용 필요한 것만) {{
 	// 풀레이어 공격 상태일 때 보스랑 충돌 확인
-	if ((OBJECTMANAGER->GetPlayer()->GetState() == State::LeftAirAttack)
+/*	if ((OBJECTMANAGER->GetPlayer()->GetState() == State::LeftAirAttack)
 		|| (OBJECTMANAGER->GetPlayer()->GetState() == State::LeftAttack1)
 		|| (OBJECTMANAGER->GetPlayer()->GetState() == State::LeftAttack2)
 		|| (OBJECTMANAGER->GetPlayer()->GetState() == State::LeftAttack3)
@@ -118,7 +118,7 @@ void Scene03::Update()
 					- ((100 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetDef()) / 100.f * OBJECTMANAGER->GetPlayer()->GetAttackDamage()));
 			}
 		}
-	}
+	}*/
 
 	//if (COLLISIONMANAGER->IsCollision(&OBJECTMANAGER->GetPlayer()->GetRect(), ObjectLayer::EnemyProjectile))	// 플레이어 - 보스 패턴
 	//{
