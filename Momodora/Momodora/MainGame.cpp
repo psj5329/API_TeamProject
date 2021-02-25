@@ -21,12 +21,12 @@ void MainGame::Init()
 
 	IMAGEMANAGER->LoadFromFile(L"Background", Resources(L"temp"), 1501, 1000, false);
 
-	mBackground = IMAGEMANAGER->FindImage(L"Background"); // ÀÓ½Ã·Î ¶ç¿ö³õÀº °Í // ¾À ¸¸µé¾îÁö¸é Áö¿ï °Í
+	mBackground = IMAGEMANAGER->FindImage(L"Background"); // ìž„ì‹œë¡œ ë„ì›Œë†“ì€ ê²ƒ // ì”¬ ë§Œë“¤ì–´ì§€ë©´ ì§€ìš¸ ê²ƒ
 
 	Camera* main = new Camera();
 	main->Init();
 	main->SetMoveSpeed(5.f);
-	main->SetMode(Camera::Mode::Free); // ÇÁ¸® Ä«¸Þ¶ó
+	main->SetMode(Camera::Mode::Free); // í”„ë¦¬ ì¹´ë©”ë¼
 
 	CAMERAMANAGER->SetMainCamera(main);
 }
@@ -57,7 +57,7 @@ void MainGame::Release()
 void MainGame::Update()
 {
 	INPUT->Update();
-
+  
 	SCENEMANAGER->Update();
 
 	CAMERAMANAGER->Update();
@@ -84,7 +84,7 @@ void MainGame::Update()
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene03")
 			SCENEMANAGER->LoadScene(L"Scene03");
 	}
-	else if (INPUT->GetKeyDown('0')) // Å×½ºÆ® ³¡³ª¸é Áö¿ì±â
+	else if (INPUT->GetKeyDown('0')) // í…ŒìŠ¤íŠ¸ ëë‚˜ë©´ ì§€ìš°ê¸°
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"SceneTest")
 			SCENEMANAGER->LoadScene(L"SceneTest");
@@ -122,12 +122,12 @@ void MainGame::Render(HDC hdc)
 	PatBlt(backDC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 	//D2DRENDERER->BeginRender(D2D1::ColorF::Black);
 
-	// { ±×¸®±â ½ÃÀÛ
+	// { ê·¸ë¦¬ê¸° ì‹œìž‘
 
 	//ID2D1RenderTarget* renderTarget = D2DRENDERER->GetRenderTarget();
 
-	//mBackground->Render(backDC, 0, 0, (mBackground->GetWidth() - WINSIZEX) / 2, (mBackground->GetHeight() - WINSIZEY) / 2, WINSIZEX, WINSIZEY); // ÀÓ½Ã·Î ¶ç¿ö³õÀº °Í // ¾À ¸¸µé¾îÁö¸é Áö¿ï °Í
-	//mBackground->Render(backDC, 0, 0); // ÀÓ½Ã·Î ¶ç¿ö³õÀº °Í // ¾À ¸¸µé¾îÁö¸é Áö¿ï °Í
+	//mBackground->Render(backDC, 0, 0, (mBackground->GetWidth() - WINSIZEX) / 2, (mBackground->GetHeight() - WINSIZEY) / 2, WINSIZEX, WINSIZEY); // ìž„ì‹œë¡œ ë„ì›Œë†“ì€ ê²ƒ // ì”¬ ë§Œë“¤ì–´ì§€ë©´ ì§€ìš¸ ê²ƒ
+	//mBackground->Render(backDC, 0, 0); // ìž„ì‹œë¡œ ë„ì›Œë†“ì€ ê²ƒ // ì”¬ ë§Œë“¤ì–´ì§€ë©´ ì§€ìš¸ ê²ƒ
 	CAMERAMANAGER->GetMainCamera()->Render(backDC, mBackground, 0, 0);
 	//CAMERAMANAGER->GetMainCamera()->Render(hdc, mBackground, 0, 0);
 
@@ -139,7 +139,7 @@ void MainGame::Render(HDC hdc)
 	wstring str = SCENEMANAGER->GetCurrentSceneName();
 	if (str == L"LoadingScene" && ((LoadingScene*)(SCENEMANAGER->GetCurrentScene()))->GetIsEndLoading())
 	{
-		wstring strLoad = L"·Îµù ³¡";
+		wstring strLoad = L"ë¡œë”© ë";
 		TextOut(backDC, 300, 300, strLoad.c_str(), (int)strLoad.length());
 	}
 
@@ -148,22 +148,22 @@ void MainGame::Render(HDC hdc)
 	Camera* main = CAMERAMANAGER->GetMainCamera();
 	wstring strCam = L"";
 	if (main->GetMode() == Camera::Mode::Follow)
-		strCam = L"ÆÈ·Î¿ì Ä«¸Þ¶ó(¸ðµåº¯°æ:5)";
+		strCam = L"íŒ”ë¡œìš° ì¹´ë©”ë¼(ëª¨ë“œë³€ê²½:5)";
 	else if (main->GetMode() == Camera::Mode::Fix)
-		strCam = L"°íÁ¤ Ä«¸Þ¶ó(¸ðµåº¯°æ:5)";
+		strCam = L"ê³ ì • ì¹´ë©”ë¼(ëª¨ë“œë³€ê²½:5)";
 	else
-		strCam = L"ÇÁ¸® Ä«¸Þ¶ó(¸ðµåº¯°æ:5)";
+		strCam = L"í”„ë¦¬ ì¹´ë©”ë¼(ëª¨ë“œë³€ê²½:5)";
 	TextOut(backDC, 10, 55, strCam.c_str(), (int)strCam.length());
 
 	bool tempRight = CAMERAMANAGER->GetMainCamera()->GetRight();
 	wstring strRight = L"";
 	if (tempRight)
-		strRight = L"¿À¸¥ÂÊ";
+		strRight = L"ì˜¤ë¥¸ìª½";
 	else
-		strRight = L"¿ÞÂÊ";
+		strRight = L"ì™¼ìª½";
 	TextOut(backDC, 10, 70, strRight.c_str(), (int)strRight.length());
 
-	// ±×¸®±â ³¡ }
+	// ê·¸ë¦¬ê¸° ë }
 
 	mBackBuffer->Render(hdc, 0, 0);
 	//D2DRENDERER->EndRender();
@@ -171,7 +171,7 @@ void MainGame::Render(HDC hdc)
 
 void MainGame::RenderTimeText(HDC hdc)
 {
-	// Å¸ÀÓ º¹ºÙ ½ÃÀÛ
+	// íƒ€ìž„ ë³µë¶™ ì‹œìž‘
 	float worldTime = TIME->GetWorldTime();
 	float deltaTime = TIME->DeltaTime();
 	ULONG fps = TIME->GetmFrameRate();
@@ -182,7 +182,7 @@ void MainGame::RenderTimeText(HDC hdc)
 	TextOut(hdc, 10, 10, strWorldTime.c_str(), (int)strWorldTime.length());
 	TextOut(hdc, 10, 25, strDeltaTime.c_str(), (int)strDeltaTime.length());
 	TextOut(hdc, 10, 40, strFPS.c_str(), (int)strFPS.length());
-	// Å¸ÀÓ º¹ºÙ ³¡
+	// íƒ€ìž„ ë³µë¶™ ë
 }
 
 void MainGame::MakeScene()
@@ -230,7 +230,7 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attack2", Resources(L"/Player/attack2"), 343, 96, 7, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attack3", Resources(L"/Player/attack3"), 539, 96, 11, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"AirAttack", Resources(L"/Player/airattack"), 343, 96, 7, 2, true); });
-	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf1", Resources(L"/Player/leaf1"), 679, 96, 7, 2, true); }); //ÀÌÆåÆ® ÀÌ¹ÌÁö ¾ÆÁ÷ ¾È¾¸
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf1", Resources(L"/Player/leaf1"), 679, 96, 7, 2, true); }); //ì´íŽ™íŠ¸ ì´ë¯¸ì§€ ì•„ì§ ì•ˆì”€
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf2", Resources(L"/Player/leaf2"), 679, 96, 7, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf3", Resources(L"/Player/leaf3"), 1066, 96, 11, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"AirLeaf", Resources(L"/Player/airleaf"), 582, 112, 6, 2, true); });
@@ -295,11 +295,21 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_LeftArm_Dead", Resources(L"Boss/Boss_LeftArm_Dead"), 108, 87, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_LeftShoulder_Dead", Resources(L"Boss/Boss_LeftShoulder_Dead"), 39, 81, true); });
 
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Head_back", Resources(L"Boss/Boss_Head_back"), 1020, 157, 5, 1, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Body_back", Resources(L"Boss/Boss_Body_back"), 115, 176, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_BackHair_back", Resources(L"Boss/Boss_BackHair_back"), 200, 221, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Chest_back", Resources(L"Boss/Boss_Chest_back"), 101, 57, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Eyes_back", Resources(L"Boss/Boss_Eyes_back"), 61, 21, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Pupil_back", Resources(L"Boss/Boss_Pupil_back"), 49, 19, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_LeftArm_back", Resources(L"Boss/Boss_LeftArm_back"), 41, 136, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_RightArm_back", Resources(L"Boss/Boss_RightArm_back"), 41, 136, true); });
+
 	// Boss Bullet
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"BossBullet1", Resources(L"Boss/BossBullet1"), 32, 32, true); });
 
 	// Item
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Star", Resources(L"Star"), 22, 22, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Potion", Resources(L"Potion"), 36, 18, 2, 1, true); });
 
 	// UI
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Hp", Resources(L"UI/Boss_Hp"), 970, 65, true); });

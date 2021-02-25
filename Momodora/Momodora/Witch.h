@@ -26,5 +26,7 @@ public:
 	void EndCatch();
 	void Attack()override;
 	void EndDeath();
+	
+	void SetPosition(float x, float y)override;
 };
 

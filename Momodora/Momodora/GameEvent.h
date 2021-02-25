@@ -47,6 +47,21 @@ public:
 	void Render(HDC hdc)override;
 };
 
+class IEraseEvent : public IEvent
+{
+	GameObject* mObject;
+	float mX;
+	float mY;
+	vector<RECT> mVecCircle;
+
+public:
+	IEraseEvent(GameObject* object, float x, float y);
+
+	void Start()override;
+	bool Update()override;
+	void Render(HDC hdc)override;
+};
+
 //class IMoveGameObject : public IEvent
 //{
 //	class GameObject* mObject;

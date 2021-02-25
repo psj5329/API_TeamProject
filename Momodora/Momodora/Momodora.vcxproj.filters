@@ -279,6 +279,9 @@
     <ClInclude Include="GameEventManager.h">
       <Filter>Framework\GameEvent</Filter>
     </ClInclude>
+    <ClInclude Include="Potion.h">
+      <Filter>MainGame\Object\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Momodora.cpp">
@@ -430,6 +433,9 @@
     </ClCompile>
     <ClCompile Include="GameEventManager.cpp">
       <Filter>Framework\GameEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="Potion.cpp">
+      <Filter>MainGame\Object\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

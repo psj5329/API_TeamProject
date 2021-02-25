@@ -39,7 +39,7 @@ void Player::Init()
 	mDeathImage = IMAGEMANAGER->FindImage(L"Death");
 	
 
-	//?�탠???�니메이??
+	//?�탠???�니메이??
 	mLeftIdleAnimation = new Animation();
 	mLeftIdleAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftIdleAnimation->SetIsLoop(true);
@@ -51,7 +51,7 @@ void Player::Init()
 	mRightIdleAnimation->SetIsLoop(true);
 	mRightIdleAnimation->SetFrameUpdateTime(0.2f);
 	mRightIdleAnimation->Play();
-	//?�동 ?�니메이??
+	//?�동 ?�니메이??
 	mLeftRunStartAnimation = new Animation();
 	mLeftRunStartAnimation->InitFrameByStartEnd(8, 1, 9, 1, true);
 	mLeftRunStartAnimation->SetIsLoop(false);
@@ -77,7 +77,7 @@ void Player::Init()
 	mRightRunAnimation->SetIsLoop(true);
 	mRightRunAnimation->SetFrameUpdateTime(0.1f);
 	mRightRunAnimation->Play();
-	//브레?�크 ?�니메이??
+	//브레?�크 ?�니메이??
 	mLeftBrakeAnimation = new Animation();
 	mLeftBrakeAnimation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftBrakeAnimation->SetIsLoop(true);
@@ -91,19 +91,19 @@ void Player::Init()
 	mRightBrakeAnimation->SetFrameUpdateTime(0.05f);
 	mRightBrakeAnimation->Play();
 	mRightBrakeAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
-	//방향?�환 ?�니메이??
+	//방향?�환 ?�니메이??
 	mLeftTurnAnimation = new Animation();
 	mLeftTurnAnimation->InitFrameByStartEnd(0, 1, 2, 1, true);
 	mLeftTurnAnimation->SetIsLoop(false);
-	mLeftTurnAnimation->SetFrameUpdateTime(0.3f);
+	mLeftTurnAnimation->SetFrameUpdateTime(0.1f);
 	mLeftTurnAnimation->Play();
 
 	mRightTurnAnimation = new Animation();
 	mRightTurnAnimation->InitFrameByStartEnd(0, 0, 2, 0, false);
 	mRightTurnAnimation->SetIsLoop(false);
-	mRightTurnAnimation->SetFrameUpdateTime(0.3f);
+	mRightTurnAnimation->SetFrameUpdateTime(0.1f);
 	mRightTurnAnimation->Play();
-	//?�프 ?�니메이??
+	//?�프 ?�니메이??
 	mLeftJumpAnimation = new Animation();
 	mLeftJumpAnimation->InitFrameByStartEnd(0, 1, 2, 1, true);
 	mLeftJumpAnimation->SetIsLoop(true);
@@ -115,7 +115,7 @@ void Player::Init()
 	mRightJumpAnimation->SetIsLoop(true);
 	mRightJumpAnimation->SetFrameUpdateTime(0.2f);
 	mRightJumpAnimation->Play();
-	//?�프 ?�강 ?�니메이??
+	//?�프 ?�강 ?�니메이??
 	mLeftFallAnimation = new Animation();
 	mLeftFallAnimation->InitFrameByStartEnd(0, 1, 4, 1, true);
 	mLeftFallAnimation->SetIsLoop(false);
@@ -127,7 +127,7 @@ void Player::Init()
 	mRightFallAnimation->SetIsLoop(false);
 	mRightFallAnimation->SetFrameUpdateTime(0.2f);
 	mRightFallAnimation->Play();
-	//?�한 착�? ?�니메이??
+	//?�한 착�? ?�니메이??
 	mLeftLandSoftAnimation = new Animation();
 	mLeftLandSoftAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
 	mLeftLandSoftAnimation->SetIsLoop(true);
@@ -141,7 +141,7 @@ void Player::Init()
 	mRightLandSoftAnimation->SetFrameUpdateTime(0.1f);
 	mRightLandSoftAnimation->Play();
 	mRightLandSoftAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
-	//?�기 ?�니메이??
+	//?�기 ?�니메이??
 	mLeftCrouchAnimation = new Animation();
 	mLeftCrouchAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
 	mLeftCrouchAnimation->SetIsLoop(false);
@@ -153,7 +153,7 @@ void Player::Init()
 	mRightCrouchAnimation->SetIsLoop(false);
 	mRightCrouchAnimation->SetFrameUpdateTime(0.1f);
 	mRightCrouchAnimation->Play();
-	//?�어?�기 ?�니메이??
+	//?�어?�기 ?�니메이??
 	mLeftRiseAnimation = new Animation();
 	mLeftRiseAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
 	mLeftRiseAnimation->SetIsLoop(false);
@@ -167,7 +167,7 @@ void Player::Init()
 	mRightRiseAnimation->SetFrameUpdateTime(0.1f);
 	mRightRiseAnimation->Play();
 	mRightRiseAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
-	//구르�??�니메이??
+	//구르�??�니메이??
 	mLeftRollAnimation = new Animation();
 	mLeftRollAnimation->InitFrameByStartEnd(0, 1, 7, 1, true);
 	mLeftRollAnimation->SetIsLoop(false);
@@ -181,7 +181,7 @@ void Player::Init()
 	mRightRollAnimation->SetFrameUpdateTime(0.07f);
 	mRightRollAnimation->Play();
 	mRightRollAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
-	//?�다�??�르?�리�??�니메이??
+	//?�다�??�르?�리�??�니메이??
 	mLadderUpAnimation = new Animation();
 	mLadderUpAnimation->InitFrameByStartEnd(0, 0, 5, 0, true);
 	mLadderUpAnimation->SetIsLoop(true);
@@ -193,7 +193,8 @@ void Player::Init()
 	mLadderDownAnimation->SetIsLoop(true);
 	mLadderDownAnimation->SetFrameUpdateTime(0.1f);
 	mLadderDownAnimation->Play();
-	//?�다�??�장 ?�니메이??
+  
+	//?�다�??�장 ?�니메이??
 	mLeftLadderEnterAnimation = new Animation();
 	mLeftLadderEnterAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftLadderEnterAnimation->SetIsLoop(true);
@@ -207,7 +208,8 @@ void Player::Init()
 	mRightLadderEnterAnimation->SetFrameUpdateTime(0.1f);
 	mRightLadderEnterAnimation->Play();
 	mRightLadderEnterAnimation->SetCallbackFunc(bind(&Player::SetStateLadderUp, this));
-	//?�다�??�장 ?�니메이??
+  
+	//?�다�??�장 ?�니메이??
 	mLeftLadderLeaveAnimation = new Animation();
 	mLeftLadderLeaveAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftLadderLeaveAnimation->SetIsLoop(true);
@@ -219,91 +221,112 @@ void Player::Init()
 	mRightLadderLeaveAnimation->SetIsLoop(true);
 	mRightLadderLeaveAnimation->SetFrameUpdateTime(0.1f);
 	mRightLadderLeaveAnimation->Play();
-	//?�서 ???�니메이??
+  
+	//?�서 ???�니메이??
 	mLeftBowAnimation = new Animation();
 	mLeftBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftBowAnimation->SetIsLoop(true);
 	mLeftBowAnimation->SetFrameUpdateTime(0.1f);
 	mLeftBowAnimation->Play();
+	mLeftBowAnimation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	mRightBowAnimation = new Animation();
 	mRightBowAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightBowAnimation->SetIsLoop(true);
 	mRightBowAnimation->SetFrameUpdateTime(0.1f);
 	mRightBowAnimation->Play();
-	//공중 ???�니메이??
+	mRightBowAnimation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
+  
+	//공중 활 애니메이션
 	mLeftAirBowAnimation = new Animation();
 	mLeftAirBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftAirBowAnimation->SetIsLoop(true);
 	mLeftAirBowAnimation->SetFrameUpdateTime(0.1f);
 	mLeftAirBowAnimation->Play();
+	mLeftAirBowAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
 	mRightAirBowAnimation = new Animation();
 	mRightAirBowAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightAirBowAnimation->SetIsLoop(true);
 	mRightAirBowAnimation->SetFrameUpdateTime(0.1f);
 	mRightAirBowAnimation->Play();
-	//?�아 ???�니메이??
+	mRightAirBowAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
+  
+	//앉아 활 애니메이션
 	mLeftCrouchBowAnimation = new Animation();
 	mLeftCrouchBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftCrouchBowAnimation->SetIsLoop(true);
 	mLeftCrouchBowAnimation->SetFrameUpdateTime(0.1f);
 	mLeftCrouchBowAnimation->Play();
+	mLeftCrouchBowAnimation->SetCallbackFunc(bind(&Player::SetEndCrouchAttack, this));
 
 	mRightCrouchBowAnimation = new Animation();
 	mRightCrouchBowAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightCrouchBowAnimation->SetIsLoop(true);
 	mRightCrouchBowAnimation->SetFrameUpdateTime(0.1f);
 	mRightCrouchBowAnimation->Play();
-	//첫번�?공격 ?�니메이??
+	mRightCrouchBowAnimation->SetCallbackFunc(bind(&Player::SetEndCrouchAttack, this));
+  
+	//첫번째 공격 애니메이션
 	mLeftAttack1Animation = new Animation();
 	mLeftAttack1Animation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAttack1Animation->SetIsLoop(true);
 	mLeftAttack1Animation->SetFrameUpdateTime(0.1f);
 	mLeftAttack1Animation->Play();
+	mLeftAttack1Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	mRightAttack1Animation = new Animation();
 	mRightAttack1Animation->InitFrameByStartEnd(0, 0, 6, 0, false);
 	mRightAttack1Animation->SetIsLoop(true);
 	mRightAttack1Animation->SetFrameUpdateTime(0.1f);
 	mRightAttack1Animation->Play();
-	//?�번�?공격 ?�니메이??
+	mRightAttack1Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
+  
 	mLeftAttack2Animation = new Animation();
 	mLeftAttack2Animation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAttack2Animation->SetIsLoop(true);
 	mLeftAttack2Animation->SetFrameUpdateTime(0.1f);
 	mLeftAttack2Animation->Play();
+	mLeftAttack2Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	mRightAttack2Animation = new Animation();
 	mRightAttack2Animation->InitFrameByStartEnd(0, 0, 6, 0, false);
 	mRightAttack2Animation->SetIsLoop(true);
 	mRightAttack2Animation->SetFrameUpdateTime(0.1f);
 	mRightAttack2Animation->Play();
-	//?�번�?공격 ?�니메이??
+	mRightAttack2Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
+  
+	//세번째 공격 애니메이션
 	mLeftAttack3Animation = new Animation();
 	mLeftAttack3Animation->InitFrameByStartEnd(0, 1, 10, 1, true);
 	mLeftAttack3Animation->SetIsLoop(true);
 	mLeftAttack3Animation->SetFrameUpdateTime(0.1f);
 	mLeftAttack3Animation->Play();
+	mLeftAttack3Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	mRightAttack3Animation = new Animation();
 	mRightAttack3Animation->InitFrameByStartEnd(0, 0, 10, 0, false);
 	mRightAttack3Animation->SetIsLoop(true);
 	mRightAttack3Animation->SetFrameUpdateTime(0.1f);
 	mRightAttack3Animation->Play();
-	//공중 공격 ?�니메이??
+	mRightAttack3Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
+  
+	//공중 공격 애니메이션
 	mLeftAirAttackAnimation = new Animation();
 	mLeftAirAttackAnimation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAirAttackAnimation->SetIsLoop(true);
 	mLeftAirAttackAnimation->SetFrameUpdateTime(0.1f);
 	mLeftAirAttackAnimation->Play();
+	mLeftAirAttackAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
 	mRightAirAttackAnimation = new Animation();
 	mRightAirAttackAnimation->InitFrameByStartEnd(0, 0, 6, 0, false);
 	mRightAirAttackAnimation->SetIsLoop(true);
 	mRightAirAttackAnimation->SetFrameUpdateTime(0.1f);
 	mRightAirAttackAnimation->Play();
-	//?�격 ?�니메이??
+	mRightAirAttackAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
+  
+	//피격 애니메이션
 	mLeftHurtAnimation = new Animation();
 	mLeftHurtAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
 	mLeftHurtAnimation->SetIsLoop(true);
@@ -315,7 +338,7 @@ void Player::Init()
 	mRightHurtAnimation->SetIsLoop(true);
 	mRightHurtAnimation->SetFrameUpdateTime(0.3f);
 	mRightHurtAnimation->Play();
-	//?�망 ?�니메이??
+	//?�망 ?�니메이??
 	mLeftDeathAnimation = new Animation();
 	mLeftDeathAnimation->InitFrameByStartEnd(0, 1, 23, 1, true);
 	mLeftDeathAnimation->SetIsLoop(false);
@@ -330,7 +353,7 @@ void Player::Init()
 
 
 
-	//�??�정
+	//�??�정
 	mX = WINSIZEX / 2;
 	mY = 200;
 	mCurrentAnimation = mRightIdleAnimation;
@@ -346,7 +369,7 @@ void Player::Release()
 
 void Player::Update()
 {
-	//?�동 ?�레??
+	//?�동 ?�레??
 	if (Input::GetInstance()->GetKeyDown(VK_LEFT))
 	{
 		mState = State::LeftRun;
@@ -379,47 +402,46 @@ void Player::Update()
 		mCurrentAnimation->Play();
 		mCurrentImage = mBrakeImage;
 	}
-	//?�동 구현
+  
+	//이동 구현
 	if (Input::GetInstance()->GetKey(VK_LEFT))
-	{
+	{	
 		if (stopmove == 0)
 		{
-			if (mState != State::LeftRoll)
-				mX -= mSpeed * Time::GetInstance()->DeltaTime();
+			mX -= mSpeed * Time::GetInstance()->DeltaTime();
+		}
 
-			if (Input::GetInstance()->GetKeyDown(VK_RIGHT))
-			{
-				mState = State::RightTurn;
-				mCurrentAnimation->Stop();
-				mCurrentAnimation = mRightTurnAnimation;
-				mCurrentAnimation->Play();
-				mCurrentImage = mTurnImage;
-			}
+		if (Input::GetInstance()->GetKeyDown(VK_RIGHT))
+		{
+			mState = State::RightTurn;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightTurnAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mTurnImage;
+		
 		}
 	}
 	if (Input::GetInstance()->GetKey(VK_RIGHT))
-	{
+	{	
 		if (stopmove == 0)
 		{
-			if (mState != State::RightRoll)
-				mX += mSpeed * Time::GetInstance()->DeltaTime();
-
-			if (Input::GetInstance()->GetKeyDown(VK_LEFT))
-			{
-				mState = State::LeftTurn;
-				mCurrentAnimation->Stop();
-				mCurrentAnimation = mLeftTurnAnimation;
-				mCurrentAnimation->Play();
-				mCurrentImage = mTurnImage;
-			}
+			mX += mSpeed * Time::GetInstance()->DeltaTime();
 		}
+
+		if (Input::GetInstance()->GetKeyDown(VK_LEFT))
+		{
+			mState = State::LeftTurn;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftTurnAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mTurnImage;
+		}
+	
 	}
 
-	//?�기
-	if (Input::GetInstance()->GetKeyDown('C'))
+	//앉기
+	if (Input::GetInstance()->GetKey('C'))
 	{
-		stopmove = 1;
-
 		if (mState == State::LeftIdle || mState == State::LeftRun)
 		{
 			mState = State::LeftCrouch;
@@ -437,11 +459,9 @@ void Player::Update()
 			mCurrentImage = mCrouchImage;
 		}
 	}
-	//?�어?�기
+	//?�어?�기
 	if (Input::GetInstance()->GetKeyUp('C'))
 	{
-		stopmove = 0;
-
 		if (mState == State::LeftCrouch)
 		{
 			mState = State::LeftRise;
@@ -460,11 +480,9 @@ void Player::Update()
 		}
 	}
 
-	//구르�?
+	//구르�?
 	if (Input::GetInstance()->GetKeyDown(VK_LSHIFT))
 	{
-		//stopmove = 1;
-
 		if (mState == State::LeftIdle || mState == State::LeftRun)
 		{
 			mState = State::LeftRoll;
@@ -493,7 +511,7 @@ void Player::Update()
 		mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	}
 
-	//?�다�?!!!!!!!!!!!!!!!!!!!!!!!!!
+	//?�다�?!!!!!!!!!!!!!!!!!!!!!!!!!
 	RECT LadderRect;
 	vector<GameObject*> LadderList = OBJECTMANAGER->GetObjectList(ObjectLayer::Ladder);
 	vector<GameObject*>::iterator ladderiter = LadderList.begin();
@@ -555,6 +573,7 @@ void Player::Update()
 
 		if (mState == State::LeftIdle || mState == State::LeftRun)
 		{
+			mState = State::LeftBow;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftBowAnimation;
 			mCurrentAnimation->Play();
@@ -565,6 +584,7 @@ void Player::Update()
 		}
 		if (mState == State::RightIdle || mState == State::RightRun)
 		{
+			mState = State::RightBow;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightBowAnimation;
 			mCurrentAnimation->Play();
@@ -575,6 +595,7 @@ void Player::Update()
 		}
 		if (mState == State::LeftJump || mState == State::LeftFall)
 		{
+			mState = State::LeftAirBow;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftAirBowAnimation;
 			mCurrentAnimation->Play();
@@ -585,6 +606,7 @@ void Player::Update()
 		}
 		if (mState == State::RightJump || mState == State::RightFall)
 		{
+			mState = State::RightAirBow;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightAirBowAnimation;
 			mCurrentAnimation->Play();
@@ -595,6 +617,7 @@ void Player::Update()
 		}
 		if (mState == State::LeftCrouch)
 		{
+			mState = State::LeftCrouchBow;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftCrouchBowAnimation;
 			mCurrentAnimation->Play();
@@ -605,6 +628,7 @@ void Player::Update()
 		}
 		if (mState == State::RightCrouch)
 		{
+			mState = State::RightCrouchBow;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightCrouchBowAnimation;
 			mCurrentAnimation->Play();
@@ -620,7 +644,7 @@ void Player::Update()
 
 	}
 
-	//검 공격 1 //?�펙??X
+	//검 공격 1 //?�펙??X
 	if (mState != State::LeftAttack1 && mState != State::RightAttack1 && mState != State::LeftAttack2 && mState != State::RightAttack2 && mState != State::LeftAttack3 && mState != State::RightAttack3)
 	{
 		if (Input::GetInstance()->GetKeyDown('Z'))
@@ -687,6 +711,7 @@ void Player::Update()
 					mCurrentImage = mAttack2Image;
 				}
 			}
+			mHitAttack = true;
 			mAttackDamage = 15;
 		}
 	}
@@ -717,24 +742,24 @@ void Player::Update()
 					mCurrentImage = mAttack3Image;
 				}
 			}
+			mHitAttack = true;
 			mAttackDamage = 20;
 		}
 	}
 
-	//Hp ?�복 ?�이??
+	//Hp ?�복 ?�이??
 	if (mHp > 0)
 	{
 		if (Input::GetInstance()->GetKeyDown('Q'))
 		{
 			if (mState == State::LeftIdle || mState == State::RightIdle)
-			mHp + 30;
+				mHp + 30;
 		}
 	}
 
-	//?�격 �??�망
+	//?�격 �??�망
 	if (mHp <= 0)
 	{
-		stopmove = 1;
 		if (mState == State::LeftIdle || mState == State::LeftRun)
 		{
 			mState = State::Death;
@@ -752,8 +777,52 @@ void Player::Update()
 			mCurrentImage = mDeathImage;
 		}
 	}
+  
+//	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
+	//플랫폼 충돌
+	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect))
+	{
+		mJumpPower = 0;
+		mGravity = 0;
+		if (mState == State::LeftFall)
+		{
+			mState = State::LeftLandSoft;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftLandSoftAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mLandSoftImage;
+		}
+		if (mState == State::RightFall)
+		{
+			mState = State::RightLandSoft;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightLandSoftAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mLandSoftImage;
+		}
+	}
+	else
+	{
+		mGravity = 0.2f;
+		if (mState == State::LeftIdle || mState == State::LeftRun || mState == State::LeftBrake)
+		{
+			mState = State::LeftFall;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftFallAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mFallImage;
+		}
+		if (mState == State::RightIdle || mState == State::RightRun || mState == State::RightBrake)
+		{
+			mState = State::RightFall;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightFallAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mFallImage;
+		}
+	}
 
-	//?�프
+	//점프
 	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 	{
 		mJumpPower = 8.f;
@@ -793,56 +862,22 @@ void Player::Update()
 			mCurrentImage = mFallImage;
 		}
 	}
-	//if (mRect != *(COLLISIONMANAGER->CollideWithPlatform(&mRect, &mPrevRect, mSizeX, mSizeY)))
 	if (mState == State::LeftFall || mState == State::RightFall || mState == State::LeftJump || mState == State::RightJump)
 	{
 		mY -= mJumpPower;
 		mJumpPower -= mGravity;
 	}
-	
-	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect))
-	{
-		mJumpPower = 0;
-		mGravity = 0;
-		if (mState == State::LeftFall)
-		{
-			mState = State::LeftLandSoft;
-			mCurrentAnimation->Stop();
-			mCurrentAnimation = mLeftLandSoftAnimation;
-			mCurrentAnimation->Play();
-			mCurrentImage = mLandSoftImage;
-		}
-		if (mState == State::RightFall)
-		{
-			mState = State::RightLandSoft;
-			mCurrentAnimation->Stop();
-			mCurrentAnimation = mRightLandSoftAnimation;
-			mCurrentAnimation->Play();
-			mCurrentImage = mLandSoftImage;
-		}
-	}
-	else
-	{
-		mGravity = 0.2f;
-		if (mState == State::LeftIdle || mState == State::LeftRun || mState == State::LeftBrake)
-		{
-			mState = State::LeftFall;
-			mCurrentAnimation->Stop();
-			mCurrentAnimation = mLeftFallAnimation;
-			mCurrentAnimation->Play();
-			mCurrentImage = mFallImage;
-		}
-		if (mState == State::RightIdle)
-		{
-			mState = State::RightFall;
-			mCurrentAnimation->Stop();
-			mCurrentAnimation = mRightFallAnimation;
-			mCurrentAnimation->Play();
-			mCurrentImage = mFallImage;
-		}
-	}
 
-
+	//움직임 제한
+	if (mState == State::LeftCrouch || mState == State::RightCrouch || mState == State::LeftLandSoft || mState == State::RightLandSoft || 
+		mState == State::LeftAttack1 || mState == State::LeftAttack2 || mState == State::LeftAttack3)
+	{
+		stopmove = 1;
+	}
+	if (mState == State::LeftIdle || mState == State::RightIdle)
+	{
+		stopmove = 0;
+	}
 	if (stopmove == 0)
 	{
 		mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
@@ -851,6 +886,7 @@ void Player::Update()
 	 
 	//RECT mPrevRect;
 	mRect = *(COLLISIONMANAGER->CollideWithPlatform(&mRect, &mPrevRect, mSizeX, mSizeY));
+	mX = (mRect.left + mRect.right) / 2;
 	mY = (mRect.bottom + mRect.top) / 2;
 	mPrevRect = mRect;
 }
@@ -913,14 +949,73 @@ void Player::SetStateIdle()
 		mCurrentImage = mIdleImage;
 	}
 }
-//void Player::SetEndAttack1() 
-//{
-//	//방향?�따???�이??
-//	//?�니메이???�팅
-//	if (mState == State::LeftAttack1 || mState == State::LeftAttack2 || mState == State::LeftAttack3 || mState == State::LeftAirAttack)
-//
-//	mHitAttack = true;
-//}
+
+void Player::SetEndAttack() 
+{
+	if (mState == State::LeftAttack1 || mState == State::LeftAttack2 || mState == State::LeftAttack3 || mState == State::LeftBow)
+	{
+		mState = State::LeftIdle;
+		mCurrentAnimation->Stop();
+		mCurrentAnimation = mLeftIdleAnimation;
+		mCurrentAnimation->Play();
+		mCurrentImage = mIdleImage;
+	}
+	if (mState == State::RightAttack1 || mState == State::RightAttack2 || mState == State::RightAttack3 || mState == State::RightBow)
+	{
+		mState = State::RightIdle;
+		mCurrentAnimation->Stop();
+		mCurrentAnimation = mRightIdleAnimation;
+		mCurrentAnimation->Play();
+		mCurrentImage = mIdleImage;
+	}
+
+	mHitAttack = true;
+}
+
+void Player::SetEndAirAttack()
+{
+	if (mState == State::LeftAirBow || mState == State::LeftAirAttack)
+	{
+		mState = State::LeftFall;
+		mCurrentAnimation->Stop();
+		mCurrentAnimation = mLeftFallAnimation;
+		mCurrentAnimation->Play();
+		mCurrentImage = mFallImage;
+	}
+	if (mState == State::RightAirBow || mState == State::RightAirAttack)
+	{
+		mState = State::RightFall;
+		mCurrentAnimation->Stop();
+		mCurrentAnimation = mRightFallAnimation;
+		mCurrentAnimation->Play();
+		mCurrentImage = mFallImage;
+	}
+
+	mHitAttack = true;
+}
+
+void Player::SetEndCrouchAttack()
+{
+	if (mState == State::LeftCrouchBow)
+	{
+		mState = State::LeftCrouch;
+		mCurrentAnimation->Stop();
+		mCurrentAnimation = mLeftCrouchAnimation;
+		mCurrentAnimation->Play();
+		mCurrentImage = mCrouchImage;
+	}
+	if (mState == State::RightAirBow)
+	{
+		mState = State::RightCrouch;
+		mCurrentAnimation->Stop();
+		mCurrentAnimation = mRightCrouchAnimation;
+		mCurrentAnimation->Play();
+		mCurrentImage = mCrouchImage;
+	}
+
+	mHitAttack = true;
+}
+
 void Player::SetStateLadderUp()
 {
 	if (mState == State::LeftLadderEnter || mState == State::RightLadderEnter)
@@ -944,3 +1039,150 @@ void Player::SetStateLadderDown()
 		mCurrentImage = mLadderDownImage;
 	}
 }
+/*
+void Player::SetImageAnimation()
+{
+	mCurrentAnimation->Stop();
+
+	//왼쪽
+	if (mDirection == Direction::Left)
+	{
+		if (mFennelState == FennelState::Jump)
+		{
+			mCurrentAnimation = mLeftJump;
+			mImage = IMAGEMANAGER->FindImage(L"Fenneljump");
+		}
+		if (mFennelState == FennelState::Plunge)
+		{
+			mCurrentAnimation = mLeftPlunge;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelplunge");
+		}
+		if (mFennelState == FennelState::Idle)
+		{
+			mCurrentAnimation = mLeftIdle;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelidle");
+		}
+		if (mFennelState == FennelState::Attack)
+		{
+			mCurrentAnimation = mLeftAtk;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelatk1");
+		}
+		if (mFennelState == FennelState::Attack2)
+		{
+			mCurrentAnimation = mLeftAtk2;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelatk2");
+		}
+		if (mFennelState == FennelState::Hurt)
+		{
+			mCurrentAnimation = mLeftHurt;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelhurt");
+		}
+		if (mFennelState == FennelState::JumpReady)
+		{
+			mCurrentAnimation = mLeftJumpReady;
+			mImage = IMAGEMANAGER->FindImage(L"Fenneljumpready");
+		}
+		if (mFennelState == FennelState::Buff)
+		{
+			mCurrentAnimation = mLeftBuff;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelbuff");
+		}
+		if (mFennelState == FennelState::Dash)
+		{
+			mCurrentAnimation = mLeftDash;
+			mImage = IMAGEMANAGER->FindImage(L"Fenneldash");
+		}
+		if (mFennelState == FennelState::Death)
+		{
+			mCurrentAnimation = mLeftDeath;
+			mImage = IMAGEMANAGER->FindImage(L"Fenneldeath");
+		}
+		if (mFennelState == FennelState::Thunder)
+		{
+			mCurrentAnimation = mLeftThunder;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelthunder");
+		}
+		if (mFennelState == FennelState::Thunder)
+		{
+			mCurrentAnimation = mLeftThunder;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelthunder");
+		}
+		if (mFennelState == FennelState::BackFlip)
+		{
+			mCurrentAnimation = mLeftBackflip;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelbackflip");
+		}
+	}
+	//오른쪽
+	if (mDirection == Direction::Right)
+	{
+		if (mFennelState == FennelState::Jump)
+		{
+			mCurrentAnimation = mRightJump;
+			mImage = IMAGEMANAGER->FindImage(L"Fenneljump");
+		}
+		if (mFennelState == FennelState::Plunge)
+		{
+			mCurrentAnimation = mRightPlunge;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelplunge");
+		}
+		if (mFennelState == FennelState::Idle)
+		{
+			mCurrentAnimation = mRightIdle;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelidle");
+		}
+		if (mFennelState == FennelState::Attack)
+		{
+			mCurrentAnimation = mRightAtk;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelatk1");
+		}
+		if (mFennelState == FennelState::Attack2)
+		{
+			mCurrentAnimation = mRightAtk2;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelatk2");
+		}
+		if (mFennelState == FennelState::Hurt)
+		{
+			mCurrentAnimation = mRightHurt;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelhurt");
+		}
+		if (mFennelState == FennelState::JumpReady)
+		{
+			mCurrentAnimation = mRightJumpReady;
+			mImage = IMAGEMANAGER->FindImage(L"Fenneljumpready");
+		}
+		if (mFennelState == FennelState::Buff)
+		{
+			mCurrentAnimation = mRightBuff;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelbuff");
+		}
+		if (mFennelState == FennelState::Dash)
+		{
+			mCurrentAnimation = mRightDash;
+			mImage = IMAGEMANAGER->FindImage(L"Fenneldash");
+		}
+		if (mFennelState == FennelState::Death)
+		{
+			mCurrentAnimation = mRightDeath;
+			mImage = IMAGEMANAGER->FindImage(L"Fenneldeath");
+		}
+		if (mFennelState == FennelState::Thunder)
+		{
+			mCurrentAnimation = mRightThunder;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelthunder");
+		}
+		if (mFennelState == FennelState::Thunder)
+		{
+			mCurrentAnimation = mRightThunder;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelthunder");
+		}
+		if (mFennelState == FennelState::BackFlip)
+		{
+			mCurrentAnimation = mRightBackflip;
+			mImage = IMAGEMANAGER->FindImage(L"Fennelbackflip");
+		}
+	}
+
+	mCurrentAnimation->Play();
+}
+*/
