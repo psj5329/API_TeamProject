@@ -31,6 +31,7 @@ enum class PlayerState : int
 
 class Image;
 class Animation;
+class Leaf;
 
 class Player : public GameObject
 {
@@ -55,6 +56,7 @@ class Player : public GameObject
 	RECT mPrevRect;
 
 	bool mHaveMagnet;
+	Leaf* mLeaf;
 
 	Image* mIdleImage;
 	Image* mRunImage;

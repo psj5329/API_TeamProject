@@ -4,6 +4,7 @@
 #include "Animation.h"
 #include "Camera.h"
 #include "Arrow.h"
+#include "Leaf.h"
 
 Player::Player()
 	: GameObject()
@@ -432,6 +433,7 @@ void Player::Update()
 					mCurrentAnimation = mLeftAttack1Animation;
 					mCurrentAnimation->Play();
 					mCurrentImage = mAttack1Image;
+					mLeaf->SetCurrentImageAnimation(1, true);
 				}
 				//if (mState == State::LeftJump || mState == State::LeftFall)
 				if (mState == PlayerState::Jump || mState == PlayerState::Fall)
@@ -455,6 +457,8 @@ void Player::Update()
 					mCurrentAnimation = mRightAttack1Animation;
 					mCurrentAnimation->Play();
 					mCurrentImage = mAttack1Image;
+					mLeaf->SetIsActive(true);
+					mLeaf->SetCurrentImageAnimation(1, false);
 				}
 				//if (mState == State::RightJump || mState == State::RightFall)
 				if (mState == PlayerState::Jump || mState == PlayerState::Fall)
@@ -488,6 +492,7 @@ void Player::Update()
 					mCurrentAnimation = mLeftAttack2Animation;
 					mCurrentAnimation->Play();
 					mCurrentImage = mAttack2Image;
+					mLeaf->SetCurrentImageAnimation(2, true);
 				}
 			}
 			//if (mState == State::RightAttack1)
@@ -501,6 +506,7 @@ void Player::Update()
 					mCurrentAnimation = mRightAttack2Animation;
 					mCurrentAnimation->Play();
 					mCurrentImage = mAttack2Image;
+					mLeaf->SetCurrentImageAnimation(2, false);
 				}
 			}
 			mHitAttack = true;
@@ -525,6 +531,7 @@ void Player::Update()
 					mCurrentAnimation = mLeftAttack3Animation;
 					mCurrentAnimation->Play();
 					mCurrentImage = mAttack3Image;
+					mLeaf->SetCurrentImageAnimation(3, true);
 				}
 			}
 			//if (mState == State::RightAttack2)
@@ -538,6 +545,7 @@ void Player::Update()
 					mCurrentAnimation = mRightAttack3Animation;
 					mCurrentAnimation->Play();
 					mCurrentImage = mAttack3Image;
+					mLeaf->SetCurrentImageAnimation(3, false);
 				}
 			}
 			mHitAttack = true;
@@ -1202,6 +1210,10 @@ void Player::InitPlayerVar()
 	stopmove = 0;
 
 	mHaveMagnet = false;
+	mLeaf = new Leaf();
+	mLeaf->Init();
+	OBJECTMANAGER->AddObject(ObjectLayer::PlayerProjectile, mLeaf);
+
 
 	mCurrentImage = mIdleImage;
 	mCurrentAnimation = mRightIdleAnimation;
@@ -1342,6 +1354,8 @@ void Player::SetEndAttack()
 	}
 
 	mHitAttack = true;
+
+	mLeaf->SetIsActive(false); // 애니메이션 안 돌고 출력도 안 되게
 }
 
 void Player::SetEndAirAttack()
