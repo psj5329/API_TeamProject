@@ -99,13 +99,13 @@ void Fennel::Init()
 	mRightDash->InitFrameByStartEnd(0, 1, 0, 1, false);
 	mRightDash->SetIsLoop(false);
 	mRightDash->SetFrameUpdateTime(0.2f);
-	mRightDash->SetCallbackFunc(bind(&Fennel::EndMove, this));
+//	mRightDash->SetCallbackFunc(bind(&Fennel::EndMove, this));
 
 	mLeftDash = new Animation();
-	mLeftDash->InitFrameByStartEnd(0, 0, 14, 0, false);
+	mLeftDash->InitFrameByStartEnd(0, 0, 0, 0, false);
 	mLeftDash->SetIsLoop(false);
 	mLeftDash->SetFrameUpdateTime(0.2f);
-	mLeftDash->SetCallbackFunc(bind(&Fennel::EndMove, this));
+	//mLeftDash->SetCallbackFunc(bind(&Fennel::EndMove, this));
 
 	mRightDeath = new Animation();
 	mRightDeath->InitFrameByStartEnd(0, 1, 0, 1, false);
@@ -268,11 +268,17 @@ void Fennel::Update()
 			int rand = RANDOM->RandomInt(3);
 			if (rand == 0)
 			{
-				//if (Math::GetDistance(mPlayer->GetX(), 0, mX, 0) > 300)
-				//{
-				//	Dash();
-				//}
-				Attack();
+				//거리가멀면 대쉬후 공격
+				if (Math::GetDistance(mPlayer->GetX(), 0, mX, 0) > 200)
+				{
+					Dash();
+				}
+				//거리가 가까우면 그냥 공격
+				else
+				{
+					Attack();
+
+				}
 			}
 			else if(rand == 1)
 			{
@@ -378,30 +384,6 @@ void Fennel::Update()
 		}
 	}
 
-	//잔상실패
-	//mTimer += TIME->DeltaTime();
-	//if (mTimer > 1 && mTimer <= 2)
-	//{
-	//	mAfterImages[0].cRect = mRect;
-	//	mAfterImages[0].cAnimation = mCurrentAnimation;
-	//	mAfterImages[0].cImage = mImage;
-	//}
-	//else if (mTimer > 2 && mTimer <= 3)
-	//{
-	//	mAfterImages[1].cRect = mRect;
-	//	mAfterImages[1].cAnimation = mCurrentAnimation;
-	//	mAfterImages[1].cImage = mImage;
-	//}
-	//else if (mTimer > 3 && mTimer <= 4)
-	//{
-	//	mAfterImages[2].cRect = mRect;
-	//	mAfterImages[2].cAnimation = mCurrentAnimation;
-	//	mAfterImages[2].cImage = mImage;
-	//}
-	//else if (mTimer > 4) {
-	//	mTimer = 0;
-	//}
-	
 	//히트박스
 	if(mDirection == Direction::Left)
 		mHitBox = RectMakeCenter(mX + 10, mY, 50, 100);
@@ -419,7 +401,7 @@ void Fennel::Render(HDC hdc)
 	
 	for (int i = 0;i < 3;i++)
 	{
-		CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mAfterImages[i].cImage, mAfterImages[i].cRect.left, mAfterImages[i].cRect.top, mAfterImages[i].cAnimation->GetNowFrameX(), mAfterImages[i].cAnimation->GetNowFrameY(), mSizeX, mSizeY, mAfterImages[i].cAlpha);
+		CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mAfterImages[i].cImage, mAfterImages[i].cRect.left, mAfterImages[i].cRect.top, mAfterImages[i].cFrameX, mAfterImages[i].cFrameY, mSizeX, mSizeY, mAfterImages[i].cAlpha);
 	}
 }
 
@@ -543,6 +525,8 @@ void Fennel::AttackRect()
 			mX += 150 * TIME->DeltaTime();
 	}
 	AttackSword();
+	SetAfterImages(5, 10, 14);
+
 }
 void Fennel::Attack2Rect() 
 {
@@ -553,14 +537,14 @@ void Fennel::Attack2Rect()
 		if (mDirection == Direction::Left)
 		{
 			angle = PI * 15 / 16;
-			mX += cos(angle) * 350 * TIME->DeltaTime();
-			mY -= sin(angle) * 350 * TIME->DeltaTime();
+			mX += cos(angle) * 370 * TIME->DeltaTime();
+			mY -= sin(angle) * 370 * TIME->DeltaTime();
 		}
 		else
 		{
 			angle = PI / 16;
-			mX += cos(angle) * 350 * TIME->DeltaTime();
-			mY -= sin(angle) * 350 * TIME->DeltaTime();
+			mX += cos(angle) * 370 * TIME->DeltaTime();
+			mY -= sin(angle) * 370 * TIME->DeltaTime();
 		}
 
 	}
@@ -583,7 +567,8 @@ void Fennel::Attack2Rect()
 	Attack2Sword();
 
 	//잔상
-	
+	SetAfterImages(0, 3, 8);
+
 }
 
 void Fennel::BackflipRect() 
@@ -595,6 +580,9 @@ void Fennel::BackflipRect()
 		else
 			mX -= 120 * TIME->DeltaTime();
 	}
+
+	//잔상
+	SetAfterImages(3, 6, 8);
 }
 
 void Fennel::JumpRect() 
@@ -634,7 +622,7 @@ void Fennel::JumpRect()
 	}
 
 	//잔상
-	SetAfterImages(1,2,5);
+	SetAfterImages(1,2,3);
 	
 }
 void Fennel::PlungeRect() 
@@ -679,6 +667,41 @@ void Fennel::ThunderRect()
 
 void Fennel::DashRect()
 {
+	if ((Math::GetDistance(mPlayer->GetX(), 0, mX, 0) > 100))
+	{
+		if (mDirection == Direction::Left)
+			mX -= 600 * TIME->DeltaTime();
+		else
+			mX += 600 * TIME->DeltaTime();
+		mTimer += TIME->DeltaTime();
+
+	}
+	else
+	{
+		mTimer = 0;
+		mFennelState = FennelState::Attack;
+		SetImageAnimation();
+	}
+	if (mTimer == TIME->DeltaTime() && mAfterImages[0].cAlpha == 0.8f)
+	{
+		mAfterImages[0].cRect = mRect;
+		mAfterImages[0].cAnimation = mCurrentAnimation;
+		mAfterImages[0].cFrameX = mCurrentAnimation->GetNowFrameX();
+		mAfterImages[0].cFrameY = mCurrentAnimation->GetNowFrameY();
+		mAfterImages[0].cImage = mImage;
+		mAfterImages[0].cAlpha -= TIME->DeltaTime();
+	}
+	if ((mTimer > 0.5) && mAfterImages[1].cAlpha == 0.8f)
+	{
+		mAfterImages[1].cRect = mRect;
+		mAfterImages[1].cAnimation = mCurrentAnimation;
+		mAfterImages[1].cFrameX = mCurrentAnimation->GetNowFrameX();
+		mAfterImages[1].cFrameY = mCurrentAnimation->GetNowFrameY();
+		mAfterImages[1].cImage = mImage;
+		mAfterImages[1].cAlpha -= TIME->DeltaTime();
+	}
+
+
 
 }
 
@@ -688,21 +711,27 @@ void Fennel::SetAfterImages(int frame1, int frame2, int frame3)
 	{
 		mAfterImages[0].cRect = mRect;
 		mAfterImages[0].cAnimation = mCurrentAnimation;
+		mAfterImages[0].cFrameX = mCurrentAnimation->GetNowFrameX();
+		mAfterImages[0].cFrameY = mCurrentAnimation->GetNowFrameY();
 		mAfterImages[0].cImage = mImage;
 		mAfterImages[0].cAlpha -= TIME->DeltaTime();
 	}
-	if (mCurrentAnimation->GetNowFrameX() == frame2 && mAfterImages[0].cAlpha == 0.8f)
+	if (mCurrentAnimation->GetNowFrameX() == frame2 && mAfterImages[1].cAlpha == 0.8f)
 	{
 		mAfterImages[1].cRect = mRect;
 		mAfterImages[1].cAnimation = mCurrentAnimation;
+		mAfterImages[1].cFrameX = mCurrentAnimation->GetNowFrameX();
+		mAfterImages[1].cFrameY = mCurrentAnimation->GetNowFrameY();
 		mAfterImages[1].cImage = mImage;
 		mAfterImages[1].cAlpha -= TIME->DeltaTime();
 
 	}
-	if (mCurrentAnimation->GetNowFrameX() == frame3 && mAfterImages[0].cAlpha == 0.8f)
+	if (mCurrentAnimation->GetNowFrameX() == frame3 && mAfterImages[2].cAlpha == 0.8f)
 	{
 		mAfterImages[2].cRect = mRect;
 		mAfterImages[2].cAnimation = mCurrentAnimation;
+		mAfterImages[2].cFrameX = mCurrentAnimation->GetNowFrameX();
+		mAfterImages[2].cFrameY = mCurrentAnimation->GetNowFrameY();
 		mAfterImages[2].cImage = mImage;
 		mAfterImages[2].cAlpha -= TIME->DeltaTime();
 
