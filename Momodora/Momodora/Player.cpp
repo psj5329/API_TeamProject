@@ -318,7 +318,6 @@ void Player::Update()
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, PI);
 				arrow->SetArrowIndexY(1);
 				arrow->SetObject();
-				//mArrow.push_back(arrow);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
 			if (mState == PlayerState::Jump || mState == PlayerState::Fall)
@@ -330,7 +329,6 @@ void Player::Update()
 				mCurrentImage = mAirBowImage;
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, PI);
 				arrow->SetArrowIndexY(1);
-				//mArrow.push_back(arrow);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
 			if (mState == PlayerState::Crouch)
@@ -342,7 +340,6 @@ void Player::Update()
 				mCurrentImage = mCrouchBowImage;
 				arrow->Fire(mArrowImage, mX - 20, mY + 18, mArrowSpeed, PI);
 				arrow->SetArrowIndexY(1);
-				//mArrow.push_back(arrow);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
 		}
@@ -357,7 +354,6 @@ void Player::Update()
 				mCurrentImage = mBowImage;
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, 0);
 				arrow->SetArrowIndexY(0);
-				//mArrow.push_back(arrow);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
 			if (mState == PlayerState::Jump || mState == PlayerState::Fall)
@@ -369,7 +365,6 @@ void Player::Update()
 				mCurrentImage = mAirBowImage;
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, 0);
 				arrow->SetArrowIndexY(0);
-				//mArrow.push_back(arrow);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
 			if (mState == PlayerState::Crouch)
@@ -381,7 +376,6 @@ void Player::Update()
 				mCurrentImage = mCrouchBowImage;
 				arrow->Fire(mArrowImage, mX + 20, mY + 18, mArrowSpeed, 0);
 				arrow->SetArrowIndexY(0);
-				//mArrow.push_back(arrow);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
 		}
@@ -753,11 +747,6 @@ void Player::Render(HDC hdc)
 	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
 	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY, 1.f);
 
-	//for (int i = 0; i < mArrow.size(); ++i)
-	//{
-	//	mArrow[i]->Render(hdc);
-	//}
-
 	wstring str3 = L"mX:" + to_wstring(mX);
 	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 10, str3.c_str(), str3.length());
 	wstring str4 = L"mY:" + to_wstring(mY);
@@ -995,14 +984,12 @@ void Player::ReadyPlayerAnimation()
 	mLeftAirBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftAirBowAnimation->SetIsLoop(true);
 	mLeftAirBowAnimation->SetFrameUpdateTime(0.1f);
-	//	mLeftAirBowAnimation->Play();
 	mLeftAirBowAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
 	mRightAirBowAnimation = new Animation();
 	mRightAirBowAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightAirBowAnimation->SetIsLoop(true);
 	mRightAirBowAnimation->SetFrameUpdateTime(0.1f);
-	//	mRightAirBowAnimation->Play();
 	mRightAirBowAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
 	// 앉아 활 애니메이션
@@ -1010,14 +997,12 @@ void Player::ReadyPlayerAnimation()
 	mLeftCrouchBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftCrouchBowAnimation->SetIsLoop(true);
 	mLeftCrouchBowAnimation->SetFrameUpdateTime(0.1f);
-	//	mLeftCrouchBowAnimation->Play();
 	mLeftCrouchBowAnimation->SetCallbackFunc(bind(&Player::SetEndCrouchAttack, this));
 
 	mRightCrouchBowAnimation = new Animation();
 	mRightCrouchBowAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightCrouchBowAnimation->SetIsLoop(true);
 	mRightCrouchBowAnimation->SetFrameUpdateTime(0.1f);
-	//	mRightCrouchBowAnimation->Play();
 	mRightCrouchBowAnimation->SetCallbackFunc(bind(&Player::SetEndCrouchAttack, this));
 
 	// 첫 번째 공격 애니메이션
@@ -1025,14 +1010,12 @@ void Player::ReadyPlayerAnimation()
 	mLeftAttack1Animation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAttack1Animation->SetIsLoop(true);
 	mLeftAttack1Animation->SetFrameUpdateTime(0.1f);
-	//	mLeftAttack1Animation->Play();
 	mLeftAttack1Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	mRightAttack1Animation = new Animation();
 	mRightAttack1Animation->InitFrameByStartEnd(0, 0, 6, 0, false);
 	mRightAttack1Animation->SetIsLoop(true);
 	mRightAttack1Animation->SetFrameUpdateTime(0.1f);
-	//	mRightAttack1Animation->Play();
 	mRightAttack1Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	// 두 번째 공격 애니메이션
@@ -1040,14 +1023,12 @@ void Player::ReadyPlayerAnimation()
 	mLeftAttack2Animation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAttack2Animation->SetIsLoop(true);
 	mLeftAttack2Animation->SetFrameUpdateTime(0.1f);
-	//	mLeftAttack2Animation->Play();
 	mLeftAttack2Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	mRightAttack2Animation = new Animation();
 	mRightAttack2Animation->InitFrameByStartEnd(0, 0, 6, 0, false);
 	mRightAttack2Animation->SetIsLoop(true);
 	mRightAttack2Animation->SetFrameUpdateTime(0.1f);
-	//	mRightAttack2Animation->Play();
 	mRightAttack2Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	// 세 번째 공격 애니메이션
@@ -1055,14 +1036,12 @@ void Player::ReadyPlayerAnimation()
 	mLeftAttack3Animation->InitFrameByStartEnd(0, 1, 10, 1, true);
 	mLeftAttack3Animation->SetIsLoop(true);
 	mLeftAttack3Animation->SetFrameUpdateTime(0.1f);
-	//	mLeftAttack3Animation->Play();
 	mLeftAttack3Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	mRightAttack3Animation = new Animation();
 	mRightAttack3Animation->InitFrameByStartEnd(0, 0, 10, 0, false);
 	mRightAttack3Animation->SetIsLoop(true);
 	mRightAttack3Animation->SetFrameUpdateTime(0.1f);
-	//	mRightAttack3Animation->Play();
 	mRightAttack3Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	// 공중 공격 애니메이션
@@ -1070,14 +1049,12 @@ void Player::ReadyPlayerAnimation()
 	mLeftAirAttackAnimation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAirAttackAnimation->SetIsLoop(true);
 	mLeftAirAttackAnimation->SetFrameUpdateTime(0.1f);
-	//	mLeftAirAttackAnimation->Play();
 	mLeftAirAttackAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
 	mRightAirAttackAnimation = new Animation();
 	mRightAirAttackAnimation->InitFrameByStartEnd(0, 0, 6, 0, false);
 	mRightAirAttackAnimation->SetIsLoop(true);
 	mRightAirAttackAnimation->SetFrameUpdateTime(0.1f);
-	//	mRightAirAttackAnimation->Play();
 	mRightAirAttackAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
 	// 피격 애니메이션
@@ -1085,26 +1062,22 @@ void Player::ReadyPlayerAnimation()
 	mLeftHurtAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
 	mLeftHurtAnimation->SetIsLoop(true);
 	mLeftHurtAnimation->SetFrameUpdateTime(0.3f);
-	//	mLeftHurtAnimation->Play();
 
 	mRightHurtAnimation = new Animation();
 	mRightHurtAnimation->InitFrameByStartEnd(0, 0, 1, 0, false);
 	mRightHurtAnimation->SetIsLoop(true);
 	mRightHurtAnimation->SetFrameUpdateTime(0.3f);
-	//	mRightHurtAnimation->Play();
 
 		// 사망 애니메이션
 	mLeftDeathAnimation = new Animation();
 	mLeftDeathAnimation->InitFrameByStartEnd(0, 1, 23, 1, true);
 	mLeftDeathAnimation->SetIsLoop(false);
 	mLeftDeathAnimation->SetFrameUpdateTime(0.2f);
-	//	mLeftDeathAnimation->Play();
 
 	mRightDeathAnimation = new Animation();
 	mRightDeathAnimation->InitFrameByStartEnd(0, 0, 23, 0, false);
 	mRightDeathAnimation->SetIsLoop(false);
 	mRightDeathAnimation->SetFrameUpdateTime(0.2f);
-	//	mRightDeathAnimation->Play();
 
 		//아이템 사용 애니메이션
 	mLeftUseItemAnimation = new Animation();
@@ -1154,7 +1127,6 @@ void Player::InitPlayerVar()
 	mLeaf = new Leaf();
 	mLeaf->Init();
 	OBJECTMANAGER->AddObject(ObjectLayer::PlayerLeaf, mLeaf);
-
 
 	mCurrentImage = mIdleImage;
 	mCurrentAnimation = mRightIdleAnimation;
@@ -1236,12 +1208,10 @@ void Player::SetStateRun()
 
 void Player::SetStateIdle()
 {
-	//if (mState == State::LeftRoll || mState == State::LeftRise || mState == State::LeftBrake || mState == State::LeftLandSoft)
 	if (mDirection == Direction::Left)
 	{
 		if (mState == PlayerState::Roll || mState == PlayerState::Rise || mState == PlayerState::Brake || mState == PlayerState::LandSoft || mState == PlayerState::UseItem)
 		{
-			//mState = State::LeftIdle;
 			mState = PlayerState::Idle;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftIdleAnimation;
@@ -1249,12 +1219,10 @@ void Player::SetStateIdle()
 			mCurrentImage = mIdleImage;
 		}
 	}
-	//else if (mState == State::RightRoll || mState == State::RightRise || mState == State::RightBrake || mState == State::RightLandSoft)
 	else if (mDirection == Direction::Right)
 	{
 		if (mState == PlayerState::Roll || mState == PlayerState::Rise || mState == PlayerState::Brake || mState == PlayerState::LandSoft || mState == PlayerState::UseItem)
 		{
-			//mState = State::RightIdle;
 			mState = PlayerState::Idle;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightIdleAnimation;
@@ -1267,12 +1235,10 @@ void Player::SetStateIdle()
 
 void Player::SetEndAttack()
 {
-	//if (mState == State::LeftAttack1 || mState == State::LeftAttack2 || mState == State::LeftAttack3 || mState == State::LeftBow)
 	if (mDirection == Direction::Left)
 	{
 		if (mState == PlayerState::Attack1 || mState == PlayerState::Attack2 || mState == PlayerState::Attack3 || mState == PlayerState::Bow)
 		{
-			//mState = State::LeftIdle;
 			mState = PlayerState::Idle;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftIdleAnimation;
@@ -1280,12 +1246,10 @@ void Player::SetEndAttack()
 			mCurrentImage = mIdleImage;
 		}
 	}
-	//if (mState == State::RightAttack1 || mState == State::RightAttack2 || mState == State::RightAttack3 || mState == State::RightBow)
 	if (mDirection == Direction::Right)
 	{
 		if (mState == PlayerState::Attack1 || mState == PlayerState::Attack2 || mState == PlayerState::Attack3 || mState == PlayerState::Bow)
 		{
-			//mState = State::RightIdle;
 			mState = PlayerState::Idle;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightIdleAnimation;
@@ -1301,12 +1265,10 @@ void Player::SetEndAttack()
 
 void Player::SetEndAirAttack()
 {
-	//if (mState == State::LeftAirBow || mState == State::LeftAirAttack)
 	if (mDirection == Direction::Left)
 	{
 		if (mState == PlayerState::AirBow || mState == PlayerState::AirAttack)
 		{
-			//mState = State::LeftFall;
 			mState = PlayerState::Fall;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftFallAnimation;
@@ -1314,12 +1276,10 @@ void Player::SetEndAirAttack()
 			mCurrentImage = mFallImage;
 		}
 	}
-	//if (mState == State::RightAirBow || mState == State::RightAirAttack)
 	if (mDirection == Direction::Right)
 	{
 		if (mState == PlayerState::AirBow || mState == PlayerState::AirAttack)
 		{
-			//mState = State::RightFall;
 			mState = PlayerState::Fall;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightFallAnimation;
@@ -1337,7 +1297,6 @@ void Player::SetEndCrouchAttack()
 	{
 		if (mState == PlayerState::CrouchBow)
 		{
-			//mState = State::LeftCrouch;
 			mState = PlayerState::Crouch;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftCrouchAnimation;
@@ -1349,7 +1308,6 @@ void Player::SetEndCrouchAttack()
 	{
 		if (mState == PlayerState::CrouchBow)
 		{
-			//mState = State::RightCrouch;
 			mState = PlayerState::Crouch;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightCrouchAnimation;
@@ -1363,10 +1321,8 @@ void Player::SetEndCrouchAttack()
 
 void Player::SetStateLadderUp()
 {
-	//if (mState == State::LeftLadderEnter || mState == State::RightLadderEnter)
 	if (mState == PlayerState::LadderEnter)
 	{
-		//mState = State::LadderUp;
 		mState = PlayerState::LadderUp;
 		mCurrentAnimation->Stop();
 		mCurrentAnimation = mLadderUpAnimation;
@@ -1377,10 +1333,8 @@ void Player::SetStateLadderUp()
 
 void Player::SetStateLadderDown()
 {
-	//if (mState == State::LeftLadderEnter || mState == State::RightLadderEnter)
 	if (mState == PlayerState::LadderEnter)
 	{
-		//mState = State::LadderDown;
 		mState = PlayerState::LadderDown;
 		mCurrentAnimation->Stop();
 		mCurrentAnimation = mLadderDownAnimation;
