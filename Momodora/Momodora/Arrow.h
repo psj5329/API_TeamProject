@@ -1,6 +1,7 @@
 #pragma once
+#include "GameObject.h"
 
-class Arrow
+class Arrow :public GameObject
 {
 	float mX;
 	float mY;
@@ -13,11 +14,12 @@ class Arrow
 	Image* mImage;
 
 public:
+	void Init()override;
 	void Fire(class Image* image, float x, float y, float speed, float angle);
-	void Release();
-	void Update();
-	void Render(HDC hdc);
-	RECT GetRect() { return mRect; };
+	void Release()override;
+	void Update()override;
+	void Render(HDC hdc)override;
+	//RECT GetRect() { return mRect; };
 	void SetArrowIndexY(int IndexY) { mArrowIndexY = IndexY; }
 
 	int GetArrowDamage() { return mArrowDamage; }
