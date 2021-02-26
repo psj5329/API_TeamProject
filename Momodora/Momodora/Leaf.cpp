@@ -81,8 +81,8 @@ void Leaf::Render(HDC hdc)
 {
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mCurrentImage, mRect.left, mRect.top,
 		mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY);
-	if(mIsActive)
-		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
+//	if(mIsActive)
+//		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
 }
 
 void Leaf::MakeAttackBox(RECT* attackBox)
