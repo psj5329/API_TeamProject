@@ -38,6 +38,24 @@ void SceneTest::Init()
 	mFixDia = IMAGEMANAGER->FindImage(L"MapFixDia");
 	mFixRect = IMAGEMANAGER->FindImage(L"MapFixRect");
 
+	// 보스 맵 하단 설치용
+	mCircle01 = IMAGEMANAGER->FindImage(L"FallCircle");
+	mCircle02 = IMAGEMANAGER->FindImage(L"FallOneTwiceCircle");
+	mCircle03 = IMAGEMANAGER->FindImage(L"FallTripleCircle");
+	mCircle04 = IMAGEMANAGER->FindImage(L"FallFourCircle");
+	mCircle05 = IMAGEMANAGER->FindImage(L"FallFiveCircle");
+
+	for (int i = 0; i < 20; ++i)
+	{
+		mImageC[i] = 0;
+		mImageCAlpha[i] = 0.25f;
+	}
+
+	mOrderC = 0;
+	mImageCCreateDelay = 0.5f;
+
+	mEarthQuakeDust = false;
+
 	mAttacked = IMAGEMANAGER->FindImage(L"Attacked");
 	mAttackedAlpha = 0.f;
 
@@ -80,6 +98,14 @@ void SceneTest::Update()
 		mAttackedAlpha = 0.5f;
 	}
 
+	if (INPUT->GetKeyDown('J'))
+	{
+		if (mEarthQuakeDust)
+			mEarthQuakeDust = false;
+		else
+			mEarthQuakeDust = true;
+	}
+
 	// {{ 보스 맵 좌우 설치용
 	mImageCreateDelay -= TIME->DeltaTime();
 
@@ -115,6 +141,41 @@ void SceneTest::Update()
 	}
 	// 보스 맵 좌우 설치용 }}
 
+	// {{ 보스 맵 하단 설치용
+	if (mEarthQuakeDust)
+	{
+		mImageCCreateDelay -= TIME->DeltaTime();
+
+		if (mImageCCreateDelay <= 0.f)
+		{
+			mImageCCreateDelay = 0.5f;
+			mImageC[mOrderC] = rand() % 5 + 1; // 1부터 5까지
+			for (int i = 0; i < 24; ++i)
+			{
+				mImageCX[mOrderC * 24 + i] = 30 + rand() % 856; // 901-45
+				mImageCY[mOrderC * 24 + i] = 570 + rand() % 51;
+
+				mImageCAlpha[mOrderC] = 0.25f;
+			}
+
+			++mOrderC;
+
+			if (mOrderC >= 20)
+				mOrderC = 0;
+		}
+	}
+
+		for (int i = 0; i < 20; ++i)
+		{
+			if (mImageC[i])
+				mImageCAlpha[i] -= 0.05f * TIME->DeltaTime();
+
+			if (mImageCAlpha[i] < 0.f)
+				mImageCAlpha[i] = 0.f;
+		}
+	//}
+	// 보스 맵 하단 설치용 }}
+
 	// 피격
 	if (mAttackedAlpha)
 	{
@@ -129,7 +190,7 @@ void SceneTest::Render(HDC hdc)
 {
 	CAMERAMANAGER->GetMainCamera()->Render(hdc, mMapTest, 0, 0);
 
-	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
+/*	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
 	vector<GameObject*>::iterator iter1 = platformList.begin();
 	for (; iter1 != platformList.end(); ++iter1)
 		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, (*iter1)->GetRect());
@@ -137,7 +198,7 @@ void SceneTest::Render(HDC hdc)
 	vector<GameObject*> ladderList = OBJECTMANAGER->GetObjectList(ObjectLayer::Ladder);
 	vector<GameObject*>::iterator iter2 = ladderList.begin();
 	for (; iter2 != ladderList.end(); ++iter2)
-		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, (*iter2)->GetRect());
+		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, (*iter2)->GetRect());*/
 
 	// 보스 맵 좌우 설치용
 	for (int i = 0; i < 20; ++i)
@@ -150,6 +211,27 @@ void SceneTest::Render(HDC hdc)
 					CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mFixDia, mImageX[i * 24 + j], mImageY[i * 24 + j], mImageAlpha[i]);
 				else
 					CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mFixRect, mImageX[i * 24 + j], mImageY[i * 24 + j], mImageAlpha[i]);
+			}
+		}
+	}
+
+	// 보스 맵 하단 설치용
+	for (int i = 0; i < 20; ++i)
+	{
+		if (mImageC[i])
+		{
+			for (int j = 0; j < 24; ++j)
+			{
+				if (mImageC[i] == 1)
+					CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mCircle01, mImageCX[i * 24 + j], mImageCY[i * 24 + j], mImageCAlpha[i]);
+				else if (mImageC[i] == 2)
+					CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mCircle02, mImageCX[i * 24 + j], mImageCY[i * 24 + j], mImageCAlpha[i]);
+				else if (mImageC[i] == 3)
+					CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mCircle03, mImageCX[i * 24 + j], mImageCY[i * 24 + j], mImageCAlpha[i]);
+				else if (mImageC[i] == 4)
+					CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mCircle04, mImageCX[i * 24 + j], mImageCY[i * 24 + j], mImageCAlpha[i]);
+				else if (mImageC[i] == 5)
+					CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mCircle05, mImageCX[i * 24 + j], mImageCY[i * 24 + j], mImageCAlpha[i]);
 			}
 		}
 	}
@@ -169,4 +251,6 @@ void SceneTest::Render(HDC hdc)
 	TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2 + 75, str4.c_str(), (int)str4.length());
 	wstring str5 = L"L: 피격 효과";
 	TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2 + 100, str5.c_str(), (int)str5.length());
+	wstring str6 = L"J: 먼지 효과";
+	TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2 + 125, str6.c_str(), (int)str6.length());
 }
