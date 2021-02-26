@@ -81,11 +81,11 @@ void Bomb::Update()
 	}
 
 
+
 	//어디 부딛히면
 	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect) && !mIsExplode)
 	{
 		Explode();
-		mIsExplode = true;
 	}
 
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
@@ -94,29 +94,36 @@ void Bomb::Update()
 	else
 		mHitBox = RectMakeCenter(mX, mY, 120, 120);
 	mCurrentAnimation->Update();
+
 }
 
 	
 void Bomb::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mSizeX, mSizeY);
 }
 
 void Bomb::Explode()
 {
-	mImage = IMAGEMANAGER->FindImage(L"Fire");
-	mIsExplode = true;
-	mSizeX = mImage->GetFrameWidth() * 3;
-	mSizeY = mImage->GetFrameHeight() * 3;
-	mCurrentAnimation->Stop();
-	mCurrentAnimation = mExplosion;
-	mCurrentAnimation->Play();
-	mY = mRect.top - 50;
+	if (!mIsExplode)
+	{
+		mImage = IMAGEMANAGER->FindImage(L"Fire");
+		mIsExplode = true;
+		mSizeX = mImage->GetFrameWidth() * 3;
+		mSizeY = mImage->GetFrameHeight() * 3;
+		mCurrentAnimation->Stop();
+		mCurrentAnimation = mExplosion;
+		mCurrentAnimation->Play();
+		mY = mRect.top - 50;
+	}
+	
+
 }
 
 void Bomb::EndExplosion()
 {
 	mRect = RectMakeCenter(2000, 2000, 1, 1);
-	this->SetIsActive(false);
+	//this->SetIsActive(false);
+	this->SetIsDestroy(true);
 }

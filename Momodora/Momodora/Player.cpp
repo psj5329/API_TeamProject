@@ -741,6 +741,11 @@ void Player::Update()
 		mHp -= 20;
 	}
 
+	//히트박스
+	if (mState != PlayerState::Hurt)
+	{
+		mHitBox = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+	}
 }
 
 void Player::Render(HDC hdc)
