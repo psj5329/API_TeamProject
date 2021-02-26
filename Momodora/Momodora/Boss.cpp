@@ -8,11 +8,15 @@
 #include "BossBullet.h"
 #include "Player.h"
 
+#include "GameEvent.h"
+
 void Boss::Init()
 {
 	srand(unsigned int((NULL)));
 	// 보스의 위치는 Body가 기준이지만 Rect는 가슴으로 정한다
 	mName = "Boss";
+	mImage = IMAGEMANAGER->FindImage(L"Boss");
+	mBackImage = IMAGEMANAGER->FindImage(L"Boss_back");
 	mX = WINSIZEX / 2;
 	mY = WINSIZEY / 2;
 	mSizeX = 630;//IMAGEMANAGER->FindImage(L"Boss_Chest")->GetWidth();	// 셋팅했을 때 기준 * 2 (크기 두배라)
@@ -57,6 +61,20 @@ void Boss::Init()
 	mJumpPower = 15.f;
 
 	mIsEndEvent = false;
+
+
+	mEraseSize = 2.f;
+	int num = sqrtf(WINSIZEX * WINSIZEX + WINSIZEY * WINSIZEY) / 2;// / mEraseSize;
+
+	for (int i = 0; i < num; ++i)
+	{
+		//POINT p = { WINSIZEX / num * i, WINSIZEY / num * i };
+		POINT p = { i * 2 - WINSIZEX / 3, i * 2 + WINSIZEY / 3 };
+		mVecEraseCenter.push_back(p);
+	}
+	mVecBackEraseCenter = mVecEraseCenter;
+
+	mEraseTime = 0.f;
 }
 
 void Boss::Release()
@@ -67,7 +85,11 @@ void Boss::Update()
 {
 	if (mIsEndEvent)
 	{
-		mCurrentAnimation->Update();		// 머리 애니메이션
+		mEraseTime += TIME->DeltaTime();
+
+		if (mCurrentAnimation->GetCurrentFrameIndex() == 0)
+			mCurrentAnimation->Stop();
+		//EraseBossImage();
 		MotionFrame();
 		return;
 	}
@@ -133,19 +155,29 @@ void Boss::Render(HDC hdc)
 	}
 #endif // DEBUG
 
-
-	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mBackHair.image, mBackHair.rc.left, mBackHair.rc.top, mBackHair.sizeX, mBackHair.sizeY);
-	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mLeftArm.image, mLeftArm.rc.left, mLeftArm.rc.top, mLeftArm.sizeX, mLeftArm.sizeY);
-	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mRightArm.image, mRightArm.rc.left, mRightArm.rc.top, mRightArm.sizeX, mRightArm.sizeY);
-	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mBody.image, mBody.rc.left, mBody.rc.top, mBody.sizeX, mBody.sizeY);
-	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mHead.image, mHead.rc.left, mHead.rc.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mHead.sizeX, mHead.sizeY);
-	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mChest.image, mChest.rc.left, mChest.rc.top, mChest.sizeX, mChest.sizeY);
-
-	if (!mIsCloseEyes)
+	if (!mIsEndEvent)
 	{
-		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mEyes.image, mEyes.rc.left, mEyes.rc.top, mEyes.sizeX, mEyes.sizeY);
-		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mPupil.image, mPupil.rc.left, mPupil.rc.top, mPupil.sizeX, mPupil.sizeY);
+		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mBackHair.image, mBackHair.rc.left, mBackHair.rc.top, mBackHair.sizeX, mBackHair.sizeY);
+		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mLeftArm.image, mLeftArm.rc.left, mLeftArm.rc.top, mLeftArm.sizeX, mLeftArm.sizeY);
+		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mRightArm.image, mRightArm.rc.left, mRightArm.rc.top, mRightArm.sizeX, mRightArm.sizeY);
+		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mBody.image, mBody.rc.left, mBody.rc.top, mBody.sizeX, mBody.sizeY);
+		CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mHead.image, mHead.rc.left, mHead.rc.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mHead.sizeX, mHead.sizeY);
+		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mChest.image, mChest.rc.left, mChest.rc.top, mChest.sizeX, mChest.sizeY);
+
+		if (!mIsCloseEyes)
+		{
+			CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mEyes.image, mEyes.rc.left, mEyes.rc.top, mEyes.sizeX, mEyes.sizeY);
+			CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mPupil.image, mPupil.rc.left, mPupil.rc.top, mPupil.sizeX, mPupil.sizeY);
+		}
 	}
+	else
+	{
+		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mBackImage, mRect.left, mRect.top, mSizeX, mSizeY);
+		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mImage, mRect.left, mRect.top, mSizeX, mSizeY);
+	}
+
+	//for (int i = 0; i < mVecEraseCenter.size(); ++i)
+	//	CAMERAMANAGER->GetMainCamera()->RenderEllipseInCamera(hdc, mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize);
 }
 
 void Boss::ImageSetting()
@@ -581,5 +613,142 @@ void Boss::Hit()
 	{
 		mIsHit = true;
 		//mHp -= 30;
+	}
+}
+
+void Boss::EraseBossImage()
+{
+	for (int i = 0; i < mVecEraseCenter.size(); ++i)
+	{
+		float speed = (rand() % 9 + 1) / 10.f;
+		mVecEraseCenter[i].x += cosf(30.f * PI / 180.f) * speed * 2;
+		mVecEraseCenter[i].y += -sinf(30.f * PI / 180.f) * speed * 2;
+
+		HBRUSH brush = CreateSolidBrush(RGB(255, 0, 255));
+		HPEN pen = CreatePen(PS_SOLID, 1, RGB(255, 0, 255));
+
+		if (mVecEraseCenter[i].x >= 0 && mVecEraseCenter[i].x <= WINSIZEX && mVecEraseCenter[i].y <= WINSIZEY && mVecEraseCenter[i].y >= 0)
+		{
+			HBRUSH oldBrush = (HBRUSH)SelectObject(mImage->GetHDC(), brush);
+			HPEN oldPen = (HPEN)SelectObject(mImage->GetHDC(), pen);
+
+			COLORREF pixelColor = GetPixel(mImage->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+
+			RenderEllipse(mImage->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 3);
+
+			SelectObject(mImage->GetHDC(), oldPen);
+			SelectObject(mImage->GetHDC(), oldBrush);
+		}
+		
+		if (mEraseTime >= 0.1f)
+		{
+			float speed = (rand() % 9 + 1) / 10.f;
+			mVecBackEraseCenter[i].x += cosf(30.f * PI / 180.f) * speed * 2;
+			mVecBackEraseCenter[i].y += -sinf(30.f * PI / 180.f) * speed * 2;
+
+			if (mVecBackEraseCenter[i].x >= 0 && mVecBackEraseCenter[i].x <= WINSIZEX && mVecBackEraseCenter[i].y <= WINSIZEY && mVecBackEraseCenter[i].y >= 0)
+			{
+				HBRUSH oldBrush = (HBRUSH)SelectObject(mBackImage->GetHDC(), brush);
+				HPEN oldPen = (HPEN)SelectObject(mBackImage->GetHDC(), pen);
+
+				COLORREF pixelColor = GetPixel(mBackImage->GetHDC(), mVecBackEraseCenter[i].x, mVecBackEraseCenter[i].y);
+
+				RenderEllipse(mBackImage->GetHDC(), mVecBackEraseCenter[i].x, mVecBackEraseCenter[i].y, mEraseSize * 3);
+
+				SelectObject(mBackImage->GetHDC(), oldPen);
+				SelectObject(mBackImage->GetHDC(), oldBrush);
+			}
+		}
+
+		/*// 몸통
+		HBRUSH oldBrush = (HBRUSH)SelectObject(mBody.image->GetHDC(), brush);
+		HPEN oldPen = (HPEN)SelectObject(mBody.image->GetHDC(), pen);
+
+		COLORREF pixelColor = GetPixel(mBody.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+
+		RenderEllipse(mBody.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+
+		SelectObject(mBody.image->GetHDC(), oldPen);
+		SelectObject(mBody.image->GetHDC(), oldBrush);
+
+		// 뒷머리
+		oldBrush = (HBRUSH)SelectObject(mBackHair.image->GetHDC(), brush);
+		oldPen = (HPEN)SelectObject(mBackHair.image->GetHDC(), pen);
+
+		pixelColor = GetPixel(mBackHair.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+
+		RenderEllipse(mBackHair.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+
+		SelectObject(mBackHair.image->GetHDC(), oldPen);
+		SelectObject(mBackHair.image->GetHDC(), oldBrush);
+
+		// 머리는 프레임 봐야하는데
+		oldBrush = (HBRUSH)SelectObject(mHead.image->GetHDC(), brush);
+		oldPen = (HPEN)SelectObject(mHead.image->GetHDC(), pen);
+
+		pixelColor = GetPixel(mHead.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+		
+		RenderEllipse(mHead.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+
+		SelectObject(mHead.image->GetHDC(), oldPen);
+		SelectObject(mHead.image->GetHDC(), oldBrush);
+
+		// 가슴
+		oldBrush = (HBRUSH)SelectObject(mChest.image->GetHDC(), brush);
+		oldPen = (HPEN)SelectObject(mChest.image->GetHDC(), pen);
+
+		pixelColor = GetPixel(mChest.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+
+		RenderEllipse(mChest.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+
+		SelectObject(mChest.image->GetHDC(), oldPen);
+		SelectObject(mChest.image->GetHDC(), oldBrush);
+
+
+		// 눈알
+		oldBrush = (HBRUSH)SelectObject(mEyes.image->GetHDC(), brush);
+		oldPen = (HPEN)SelectObject(mEyes.image->GetHDC(), pen);
+
+		pixelColor = GetPixel(mEyes.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+
+		RenderEllipse(mEyes.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+		
+		SelectObject(mEyes.image->GetHDC(), oldPen);
+		SelectObject(mEyes.image->GetHDC(), oldBrush);
+
+		oldBrush = (HBRUSH)SelectObject(mPupil.image->GetHDC(), brush);
+		oldPen = (HPEN)SelectObject(mPupil.image->GetHDC(), pen);
+
+		pixelColor = GetPixel(mPupil.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+
+		RenderEllipse(mPupil.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+
+		SelectObject(mPupil.image->GetHDC(), oldPen);
+		SelectObject(mPupil.image->GetHDC(), oldBrush);
+
+		// 왼팔
+		oldBrush = (HBRUSH)SelectObject(mLeftArm.image->GetHDC(), brush);
+		oldPen = (HPEN)SelectObject(mLeftArm.image->GetHDC(), pen);
+
+		pixelColor = GetPixel(mLeftArm.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+
+		RenderEllipse(mLeftArm.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+
+		SelectObject(mLeftArm.image->GetHDC(), oldPen);
+		SelectObject(mLeftArm.image->GetHDC(), oldBrush);
+
+		// 오른팔
+		oldBrush = (HBRUSH)SelectObject(mRightArm.image->GetHDC(), brush);
+		oldPen = (HPEN)SelectObject(mRightArm.image->GetHDC(), pen);
+
+		pixelColor = GetPixel(mRightArm.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+
+		RenderEllipse(mRightArm.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+
+		SelectObject(mRightArm.image->GetHDC(), oldPen);
+		SelectObject(mRightArm.image->GetHDC(), oldBrush);*/
+
+		DeleteObject(pen);
+		DeleteObject(brush);
 	}
 }

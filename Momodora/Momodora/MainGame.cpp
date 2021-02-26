@@ -272,6 +272,9 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Staff", Resources(L"Enemy/Witchstaff"), 256, 64, 4, 1, true); });
 
 	// Boss
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss", Resources(L"Boss/Boss"), 210, 320, 5, 1, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_back", Resources(L"Boss/Boss_back"), 210, 320, 5, 1, true); });
+
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Head", Resources(L"Boss/Boss_Head"), 1020, 157, 5, 1, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Body", Resources(L"Boss/Boss_Body"), 115, 176, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_BackHair", Resources(L"Boss/Boss_BackHair"), 200, 221, true); });
@@ -300,7 +303,12 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Potion", Resources(L"Potion"), 36, 18, 2, 1, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Magnet", Resources(L"Magnet"), 128, 128, 1, 1, true); });
 
+	// Script
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Dialogue1", Resources(L"Boss/Boss_Dialogue1"), 210, 50, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Dialogue2", Resources(L"Boss/Boss_Dialogue2"), 210, 100, true); });
+
 	// UI
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Name", Resources(L"Boss_Name"), 280, 40, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Hp", Resources(L"UI/Boss_Hp"), 970, 65, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_HpBar", Resources(L"UI/Boss_HpBar"), 960, 45, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_HpLess", Resources(L"UI/Boss_HpLess"), 10, 45, true); });

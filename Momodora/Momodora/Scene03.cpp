@@ -15,6 +15,7 @@
 #include "StarCountUI.h"
 
 #include "GameEvent.h"
+#include "Animation.h"
 
 void Scene03::Init()
 {
@@ -131,14 +132,19 @@ void Scene03::Update()
 	// 이벤트 추가
 	if (!mIsBossDead && ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP() <= 0 && !((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetEndEvent())
 	{
-		mIsBossDead = true;
 		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetEndEvent(true);
 
 		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(1.f));
 
-		GAMEEVENTMANAGER->PushEvent(new IScriptEvent(L"Flower_UI"));
-		GAMEEVENTMANAGER->PushEvent(new IScriptEvent(L"Flower_UI"));
+		GAMEEVENTMANAGER->PushEvent(new IScriptEvent(L"Boss_Dialogue1"));
+		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(0.5f));
+		GAMEEVENTMANAGER->PushEvent(new IScriptEvent(L"Boss_Dialogue2"));
+		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(0.5f));
+
+		GAMEEVENTMANAGER->PushEvent(new IEraseEvent(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetImage()
+			, ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetBackImage(), 2.f, 0.07f));
 	}
+
 	GAMEEVENTMANAGER->Update();
 }
 
