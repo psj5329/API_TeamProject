@@ -48,7 +48,7 @@ void Potion::Update()
 		//플레이어의 물약숫자 늘려주기
 		if (mType == 0)
 		{
-
+			mPlayer->AddPotion();
 		}
 		else
 		{
