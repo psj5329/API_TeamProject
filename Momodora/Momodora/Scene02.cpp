@@ -49,28 +49,28 @@ void Scene02::Init()
 	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, BombImp1);
 
 	//방패
-	//ShieldImp* ShieldImp1 = new ShieldImp();
-	//ShieldImp1->Init();
-	//ShieldImp1->SetObject();
-	//ShieldImp1->SetPosition(WINSIZEX / 2 - 300, platform01->GetRect().top);
-	//ShieldImp1->SetPlayerPtr((Player*)player[0]);
-	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, ShieldImp1);
+	ShieldImp* ShieldImp1 = new ShieldImp();
+	ShieldImp1->Init();
+	ShieldImp1->SetObject();
+	ShieldImp1->SetPosition(WINSIZEX / 2 - 300, platform01->GetRect().top);
+	ShieldImp1->SetPlayerPtr((Player*)player[0]);
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, ShieldImp1);
 
 	//마녀
-	Witch* Witch1 = new Witch();
-	Witch1->Init();
-	Witch1->SetObject();
-	Witch1->SetPosition(WINSIZEX / 2 + 100, platform01->GetRect().top);
-	Witch1->SetPlayerPtr((Player*)player[0]);
-	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Witch1);
+	//Witch* Witch1 = new Witch();
+	//Witch1->Init();
+	//Witch1->SetObject();
+	//Witch1->SetPosition(WINSIZEX / 2 + 100, platform01->GetRect().top);
+	//Witch1->SetPlayerPtr((Player*)player[0]);
+	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Witch1);
 
 	////페넬
-	//Fennel* Fennel1 = new Fennel();
-	//Fennel1->Init();
-	//Fennel1->SetObject();
-	//Fennel1->SetPosition(WINSIZEX / 2 + 300, platform01->GetRect().top);
-	//Fennel1->SetPlayerPtr((Player*)player[0]);
-	//ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Fennel1);
+	Fennel* Fennel1 = new Fennel();
+	Fennel1->Init();
+	Fennel1->SetObject();
+	Fennel1->SetPosition(WINSIZEX / 2 + 300, platform01->GetRect().top);
+	Fennel1->SetPlayerPtr((Player*)player[0]);
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Fennel1);
 
 	//템
 	//Potion* potion1 = new Potion();
@@ -112,31 +112,30 @@ void Scene02::Update()
 	//	((Enemy*)fennel1)->SetIsHit(true);
 	//}
 
-
 	
 	vector<GameObject*> enemyList = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
 	vector<GameObject*> arrowList = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerArrow);
 
 	//적히트박스, 플레이어 화살 충돌
-	//for (int i = 0;i < enemyList.size();i++)
-	//{
-	//	for (int j = 0;j < arrowList.size(); j++)
-	//	{
-	//		RECT temp;
-	//		RECT hitBox = enemyList[i]->GetHitBox();
-	//		RECT arrow = arrowList[j]->GetRect();
-	//		if (IntersectRect(&temp, &hitBox, &arrow))
-	//		{
-	//			//화살 없애고
-	//			arrowList[i]->SetIsDestroy(true);
-	//			//에너미 체력조정
-	//			enemyList[i].
-	//		}
-	//	}
-	//	//RECT hitBox = enemyList[i]->GetHitBox();
-	//	//COLLISIONMANAGER->IsCollision(hitB)
-	//
-	//}
+	for (int i = 0;i < enemyList.size();i++)
+	{
+		for (int j = 0;j < arrowList.size(); j++)
+		{
+			RECT temp;
+			RECT hitBox = enemyList[i]->GetHitBox();
+			RECT arrow = arrowList[j]->GetRect();
+			if (IntersectRect(&temp, &hitBox, &arrow))
+			{
+				//화살 없애고
+				//arrowList[j]->Release();
+				//arrowList[j]->SetIsActive(false);
+				arrowList[j]->SetIsDestroy(true);
+				//에너미 체력조정
+				((Enemy*)(enemyList[i]))->TakeHp(100);
+			}
+		}
+	}
+
 
 
 
