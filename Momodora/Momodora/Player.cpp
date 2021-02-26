@@ -339,7 +339,8 @@ void Player::Update()
 				mCurrentImage = mBowImage;
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, PI);
 				arrow->SetArrowIndexY(1);
-				mArrow.push_back(arrow);
+				//mArrow.push_back(arrow);
+				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
 			//if (mState == State::LeftJump || mState == State::LeftFall)
 			if (mState == PlayerState::Jump || mState == PlayerState::Fall)
@@ -352,7 +353,8 @@ void Player::Update()
 				mCurrentImage = mAirBowImage;
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, PI);
 				arrow->SetArrowIndexY(1);
-				mArrow.push_back(arrow);
+				//mArrow.push_back(arrow);
+				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
 			//if (mState == State::LeftCrouch)
 			if (mState == PlayerState::Crouch)
@@ -365,7 +367,8 @@ void Player::Update()
 				mCurrentImage = mCrouchBowImage;
 				arrow->Fire(mArrowImage, mX - 20, mY + 18, mArrowSpeed, PI);
 				arrow->SetArrowIndexY(1);
-				mArrow.push_back(arrow);
+				//mArrow.push_back(arrow);
+				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
 		}
 		if (mDirection == Direction::Right)
@@ -381,7 +384,8 @@ void Player::Update()
 				mCurrentImage = mBowImage;
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, 0);
 				arrow->SetArrowIndexY(0);
-				mArrow.push_back(arrow);
+				//mArrow.push_back(arrow);
+				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
 			//if (mState == State::RightJump || mState == State::RightFall)
 			if (mState == PlayerState::Jump || mState == PlayerState::Fall)
@@ -394,7 +398,8 @@ void Player::Update()
 				mCurrentImage = mAirBowImage;
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, 0);
 				arrow->SetArrowIndexY(0);
-				mArrow.push_back(arrow);
+				//mArrow.push_back(arrow);
+				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
 			//if (mState == State::RightCrouch)
 			if (mState == PlayerState::Crouch)
@@ -407,14 +412,15 @@ void Player::Update()
 				mCurrentImage = mCrouchBowImage;
 				arrow->Fire(mArrowImage, mX + 20, mY + 18, mArrowSpeed, 0);
 				arrow->SetArrowIndexY(0);
-				mArrow.push_back(arrow);
+				//mArrow.push_back(arrow);
+				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
 		}
 	}
-	for (int i = 0; i < mArrow.size(); ++i)
-	{
-		mArrow[i]->Update();
-	}
+	//for (int i = 0; i < mArrow.size(); ++i)
+	//{
+	//	mArrow[i]->Update();
+	//}
 
 	// 검 공격 1 // 이펙트 X
 	//if (mState != State::LeftAttack1 && mState != State::RightAttack1 && mState != State::LeftAttack2 && mState != State::RightAttack2 && mState != State::LeftAttack3 && mState != State::RightAttack3)
@@ -784,10 +790,10 @@ void Player::Render(HDC hdc)
 	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
 	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY, 1.f);
 
-	for (int i = 0; i < mArrow.size(); ++i)
-	{
-		mArrow[i]->Render(hdc);
-	}
+	//for (int i = 0; i < mArrow.size(); ++i)
+	//{
+	//	mArrow[i]->Render(hdc);
+	//}
 
 	wstring str3 = L"mX:" + to_wstring(mX);
 	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 10, str3.c_str(), str3.length());
@@ -1212,7 +1218,7 @@ void Player::InitPlayerVar()
 	mHaveMagnet = false;
 	mLeaf = new Leaf();
 	mLeaf->Init();
-	OBJECTMANAGER->AddObject(ObjectLayer::PlayerProjectile, mLeaf);
+	OBJECTMANAGER->AddObject(ObjectLayer::PlayerLeaf, mLeaf);
 
 
 	mCurrentImage = mIdleImage;

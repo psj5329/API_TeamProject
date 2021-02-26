@@ -148,7 +148,7 @@ void BombImp::ThrowBomb()
 	Bomb* Bomb1 = new Bomb();
 	Bomb1->Init(mX, mY, angle, mPlayer->GetX(),mPlayer->GetY());
 	Bomb1->SetObject();
-	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyProjectile, Bomb1);
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyBomb, Bomb1);
 }
 
 void BombImp::EndThrow()

@@ -26,7 +26,7 @@ void Witch::Init()
 	//ÁöÆÎÀÌ
 	mStaff = new Staff();
 	mStaff->Init();
-	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyProjectile, mStaff);
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyStaff, mStaff);
 	mStaff->SetObject();
 	mStaff->SetIsActive(false);
 

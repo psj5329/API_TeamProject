@@ -14,7 +14,6 @@ void Bomb::Init()
 void Bomb::Init(int x, int y, float angle, float targetX, float targetY)
 {
 	mImage = IMAGEMANAGER->FindImage(L"Bomb");
-	
 
 	mX = x;
 	mY = y;

@@ -222,7 +222,7 @@ void DaggerImp::ThrowDagger()
 	Dagger* Dagger1 = new Dagger();
 	Dagger1->Init(mX, mY, angle);
 	Dagger1->SetObject();
-	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyProjectile, Dagger1);
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyDagger, Dagger1);
 }
 
 void DaggerImp::EndAttack()

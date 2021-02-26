@@ -35,7 +35,7 @@ class Leaf;
 
 class Player : public GameObject
 {
-	vector<class Arrow*> mArrow;
+	//vector<class Arrow*> mArrow;
 	float mArrowSpeed;
 	Image* mArrowImage;
 

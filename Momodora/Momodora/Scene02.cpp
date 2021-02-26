@@ -115,7 +115,7 @@ void Scene02::Update()
 
 	
 	vector<GameObject*> enemyList = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
-	vector<GameObject*> arrowList = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerProjectile);
+	vector<GameObject*> arrowList = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerArrow);
 
 	//적히트박스, 플레이어 화살 충돌
 	//for (int i = 0;i < enemyList.size();i++)

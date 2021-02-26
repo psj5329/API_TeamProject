@@ -9,8 +9,14 @@ enum class ObjectLayer : int
 	Ladder,
 	Player,
 	Enemy,
-	PlayerProjectile, // 플레이어 투사체 // PlayerArrow, PlayerLeaf
-	EnemyProjectile, // 적 투사체, 지팡이, 중보 번개 // EnemyDagger, EnemyBomb, EnemyStaff, BossBullet
+	PlayerArrow,
+	PlayerLeaf,
+	//PlayerProjectile, // 플레이어 투사체 // PlayerArrow, PlayerLeaf
+	EnemyDagger,
+	EnemyBomb,
+	EnemyStaff,
+	BossBullet,
+	//EnemyProjectile, // 적 투사체, 지팡이, 중보 번개 // EnemyDagger, EnemyBomb, EnemyStaff, BossBullet
 	Item, // 맵에서 획득 가능한 아이템
 	Effect,
 	BossUI,

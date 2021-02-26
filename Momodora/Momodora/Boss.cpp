@@ -496,7 +496,7 @@ void Boss::Pattern()
 				bullet->SetPattern(BulletPattern::PatternBulletDown);
 				bullet->SetObject();
 				mVecBullet.push_back(bullet);
-				OBJECTMANAGER->AddObject(ObjectLayer::EnemyProjectile, bullet);
+				OBJECTMANAGER->AddObject(ObjectLayer::BossBullet, bullet);
 
 				if (mBulletCreateCount == 4)
 				{
@@ -526,7 +526,7 @@ void Boss::Pattern()
 				bullet->SetPattern(BulletPattern::PatternBulletUp);
 				bullet->SetObject();
 				mVecBullet.push_back(bullet);
-				OBJECTMANAGER->AddObject(ObjectLayer::EnemyProjectile, bullet);
+				OBJECTMANAGER->AddObject(ObjectLayer::BossBullet, bullet);
 
 				if (mBulletCreateCount == 2)
 				{
@@ -581,7 +581,7 @@ void Boss::Pattern()
 						bullet->SetObject();
 					}
 					mVecBullet.push_back(bullet);
-					OBJECTMANAGER->AddObject(ObjectLayer::EnemyProjectile, bullet);
+					OBJECTMANAGER->AddObject(ObjectLayer::BossBullet, bullet);
 				}
 
 				if (mVecBullet.size() == 0)
