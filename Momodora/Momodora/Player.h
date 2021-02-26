@@ -16,10 +16,10 @@ enum class PlayerState : int
 	LadderEnter,
 	LadderUp, // 좌우없음
 	LadderDown, // 좌우없음
-	//LadderLeave,
-	Bow,
-	AirBow,
-	CrouchBow,
+	//LadderLeave,		// 필요한지 물어보기
+	Bow,				// 없어도 되는지 물어보기
+	AirBow,			// 없어도 되는지 물어보기
+	CrouchBow,		// 없어도 되는지 물어보기
 	Attack1,
 	Attack2,
 	Attack3,
@@ -35,6 +35,7 @@ class Leaf;
 
 class Player : public GameObject
 {
+	//vector<class Arrow*> mArrow;
 	float mArrowSpeed;
 	Image* mArrowImage;
 
