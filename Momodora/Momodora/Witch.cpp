@@ -21,7 +21,7 @@ void Witch::Init()
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
 	mHoldStaff = true;
-	mHp = 0;
+	mHp = 100;
 
 	//¡ˆ∆Œ¿Ã
 	mStaff = new Staff();

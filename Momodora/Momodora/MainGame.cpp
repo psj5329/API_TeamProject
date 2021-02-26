@@ -184,6 +184,7 @@ void MainGame::MakeScene()
 	SCENEMANAGER->AddScene(L"Scene01", new Scene01());
 	SCENEMANAGER->AddScene(L"Scene02", new Scene02());
 	SCENEMANAGER->AddScene(L"Scene03", new Scene03());
+
 	SCENEMANAGER->AddScene(L"SceneTest", new SceneTest());
 
 	SCENEMANAGER->LoadScene(L"LoadingScene");
