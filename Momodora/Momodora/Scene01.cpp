@@ -3,7 +3,7 @@
 #include "Camera.h"
 #include "Platform.h"
 #include "Ladder.h"
-
+#include "Potion.h"
 #include "Player.h"
 #include "Image.h"
 
@@ -22,6 +22,14 @@ void Scene01::Init()
 	ladder01->SetLadder(675, 450, 725, 600);
 	OBJECTMANAGER->AddObject(ObjectLayer::Ladder, (GameObject*)ladder01);
 	// 충돌 체크용 맵 }}
+
+
+	//템
+	Potion* potion1 = new Potion();
+	potion1->Init(WINSIZEX / 2 + 350, 550,0);
+	potion1->SetObject();
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::Item, potion1);
+
 
 	Camera* main = CAMERAMANAGER->GetMainCamera();
 	main->SetMode(Camera::Mode::Follow);

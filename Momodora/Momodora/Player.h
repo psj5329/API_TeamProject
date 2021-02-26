@@ -25,7 +25,8 @@ enum class PlayerState : int
 	Attack3,
 	AirAttack,
 	Hurt,
-	Death
+	Death,
+	UseItem
 };
 
 class Image;
@@ -44,10 +45,10 @@ class Player : public GameObject
 
 	int mHp;
 	int mAttackDamage;
+	int mPotion;
 
 	bool invincibility;
 	bool stopmove;
-	bool stoproll;
 
 	bool mHitAttack;
 
@@ -78,6 +79,7 @@ class Player : public GameObject
 	Image* mAirAttackImage;
 	Image* mHurtImage;
 	Image* mDeathImage;
+	Image* mUseItemImage;
 
 	Image* mCurrentImage;
 
@@ -103,6 +105,7 @@ class Player : public GameObject
 	Animation* mLeftAirAttackAnimation;
 	Animation* mLeftHurtAnimation;
 	Animation* mLeftDeathAnimation;
+	Animation* mLeftUseItemAnimation;
 
 	Animation* mRightIdleAnimation;
 	Animation* mRightRunStartAnimation;
@@ -126,6 +129,7 @@ class Player : public GameObject
 	Animation* mRightAirAttackAnimation;
 	Animation* mRightHurtAnimation;
 	Animation* mRightDeathAnimation;
+	Animation* mRightUseItemAnimation;
 
 	Animation* mLadderUpAnimation;
 	Animation* mLadderDownAnimation;
@@ -163,6 +167,8 @@ public:
 	void SetHp(int i) { mHp = i; }
 	bool GetHitAttack() { return mHitAttack; }
 	PlayerState GetState() { return mState; }
+	int GetPotion() { return mPotion; }
+	void AddPotion() { mPotion += 1; }
 
 	//void SetImageAnimation();
 
