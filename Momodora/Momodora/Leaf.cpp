@@ -1,44 +1,50 @@
 #include "pch.h"
 #include "Leaf.h"
 #include "Animation.h"
+#include "Image.h"
 #include "Camera.h"
 #include "Player.h"
 
 void Leaf::Init()
 {
+	mIsActive = false;
+	mIsDestroy = false;
+
 	mLeafImage01 = IMAGEMANAGER->FindImage(L"Leaf1");
 	mLeafImage02 = IMAGEMANAGER->FindImage(L"Leaf2");
 	mLeafImage03 = IMAGEMANAGER->FindImage(L"Leaf3");
 
 	mLeaf01Left = new Animation();
-	mLeaf01Left->InitFrameByStartEnd(0, 0, 6, 0, false);
+	mLeaf01Left->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeaf01Left->SetIsLoop(false);
 	mLeaf01Left->SetFrameUpdateTime(0.1f);
 
 	mLeaf01Right = new Animation();
-	mLeaf01Right->InitFrameByStartEnd(0, 0, 6, 0, true);
+	mLeaf01Right->InitFrameByStartEnd(0, 0, 6, 0, false);
 	mLeaf01Right->SetIsLoop(false);
 	mLeaf01Right->SetFrameUpdateTime(0.1f);
 
 	mLeaf02Left = new Animation();
-	mLeaf02Left->InitFrameByStartEnd(0, 0, 6, 0, false);
+	mLeaf02Left->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeaf02Left->SetIsLoop(false);
 	mLeaf02Left->SetFrameUpdateTime(0.1f);
 
 	mLeaf02Right = new Animation();
-	mLeaf02Right->InitFrameByStartEnd(0, 0, 6, 0, true);
+	mLeaf02Right->InitFrameByStartEnd(0, 0, 6, 0, false);
 	mLeaf02Right->SetIsLoop(false);
 	mLeaf02Right->SetFrameUpdateTime(0.1f);
 
 	mLeaf03Left = new Animation();
-	mLeaf03Left->InitFrameByStartEnd(0, 0, 10, 0, false);
+	mLeaf03Left->InitFrameByStartEnd(0, 1, 10, 1, true);
 	mLeaf03Left->SetIsLoop(false);
 	mLeaf03Left->SetFrameUpdateTime(0.1f);
 
 	mLeaf03Right = new Animation();
-	mLeaf03Right->InitFrameByStartEnd(0, 0, 6, 0, true);
+	mLeaf03Right->InitFrameByStartEnd(0, 0, 10, 0, false);
 	mLeaf03Right->SetIsLoop(false);
 	mLeaf03Right->SetFrameUpdateTime(0.1f);
+
+	mCurrentAnimation = mLeaf01Right;
 }
 
 void Leaf::Release()
@@ -54,25 +60,96 @@ void Leaf::Release()
 void Leaf::Update()
 {
 	Player* player = OBJECTMANAGER->GetPlayer();
-	mX = player->GetX();
-	mY = player->GetY();
 	mDirection = player->GetDirection();
 
-	//mCurrentImage;
-	//mCurrentAnimation;
-	//	float mSizeX = mCurrentImage->getframewidth() * 2;
-	//	float mSizeY = mCurrentImage->getframeheight() * 2;
-	//	RECT mRect;
-	//	RECT mAttackBox; // 어택박스(공격)
-	//	bool mIsActive; // 끝나면 false로
+	if (mDirection == Direction::Left)
+		mX = player->GetX() - player->GetSizeX() / 2.f;
+	else
+		mX = player->GetX() + player->GetSizeX() / 2.f;
+	mY = player->GetY();
 
-	//	Leaf1
-	//		Leaf2
-	//		Leaf3
+	mSizeX = mCurrentImage->GetFrameWidth() * 2.f;
+	mSizeY = mCurrentImage->GetFrameHeight() * 2.f;
+	mRect = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY);
+
+	MakeAttackBox(&mAttackBox);
+
+	mCurrentAnimation->Update();
 }
 
 void Leaf::Render(HDC hdc)
 {
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mCurrentImage, mRect.left, mRect.top,
 		mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY);
+	if(mIsActive)
+		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
+}
+
+void Leaf::MakeAttackBox(RECT* attackBox)
+{
+	mAttackBox = mRect; // 프레임 잘 돌아가면 프레임별로 세분화 예정
+
+	if (mCurrentAnimation == mLeaf01Left)
+	{
+
+	}
+	else if (mCurrentAnimation == mLeaf01Right)
+	{
+
+	}
+	else if (mCurrentAnimation == mLeaf02Left)
+	{
+
+	}
+	else if (mCurrentAnimation == mLeaf02Right)
+	{
+
+	}
+	else if (mCurrentAnimation == mLeaf03Left)
+	{
+
+	}
+	else if (mCurrentAnimation == mLeaf03Right)
+	{
+
+	}
+}
+
+void Leaf::SetCurrentImageAnimation(int num, bool left)
+{
+	mIsActive = true;
+	mCurrentAnimation->Stop();
+
+	if (num == 1)
+	{
+		mCurrentImage = mLeafImage01;
+		if (left)
+			mCurrentAnimation = mLeaf01Left;
+		else
+			mCurrentAnimation = mLeaf01Right;
+	}
+	else if (num == 2)
+	{
+		mCurrentImage = mLeafImage02;
+		if (left)
+			mCurrentAnimation = mLeaf02Left;
+		else
+			mCurrentAnimation = mLeaf02Right;
+	}
+	else if (num == 3)
+	{
+		mCurrentImage = mLeafImage03;
+		if (left)
+			mCurrentAnimation = mLeaf03Left;
+		else
+			mCurrentAnimation = mLeaf03Right;
+	}
+
+	mCurrentAnimation->Play();
+}
+
+void Leaf::SetStop()
+{
+	mIsActive = false;
+	mCurrentAnimation->Stop();
 }
