@@ -2,6 +2,10 @@
 #include "Arrow.h"
 #include "Image.h"
 #include "Camera.h"
+void Arrow::Init()
+{
+
+}
 
 void Arrow::Fire(Image* image, float x, float y, float speed, float angle)
 {

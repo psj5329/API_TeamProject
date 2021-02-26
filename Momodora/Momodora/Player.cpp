@@ -41,20 +41,6 @@ void Player::Update()
 			mCurrentImage = mRunImage;
 		}
 	}
-
-	if (mState == PlayerState::Run)
-	{
-		if (Input::GetInstance()->GetKeyUp(VK_LEFT))
-		{
-			//mState = State::LeftBrake;
-			mDirection = Direction::Left;
-			mState = PlayerState::Brake;
-			mCurrentAnimation->Stop();
-			mCurrentAnimation = mLeftBrakeAnimation;
-			mCurrentAnimation->Play();
-			mCurrentImage = mBrakeImage;
-		}
-	}
 	if (mState == PlayerState::Idle || mState == PlayerState::Turn || mState == PlayerState::Brake)
 	{
 		if (Input::GetInstance()->GetKeyDown(VK_RIGHT))
@@ -70,9 +56,17 @@ void Player::Update()
 	}
 	if (mState == PlayerState::Run)
 	{
+		if (Input::GetInstance()->GetKeyUp(VK_LEFT))
+		{
+			mDirection = Direction::Left;
+			mState = PlayerState::Brake;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftBrakeAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mBrakeImage;
+		}
 		if (Input::GetInstance()->GetKeyUp(VK_RIGHT))
 		{
-			//mState = State::RightBrake;
 			mDirection = Direction::Right;
 			mState = PlayerState::Brake;
 			mCurrentAnimation->Stop();
@@ -83,7 +77,6 @@ void Player::Update()
 	}
 
 	// 이동 구현
-
 	if (Input::GetInstance()->GetKey(VK_LEFT))
 	{	
 		if (stopmove == 0)
@@ -100,15 +93,6 @@ void Player::Update()
 				mCurrentAnimation = mRightTurnAnimation;
 				mCurrentAnimation->Play();
 				mCurrentImage = mTurnImage;
-			}
-			if (Input::GetInstance()->GetKeyUp(VK_RIGHT))
-			{
-				mDirection = Direction::Right;
-				mState = PlayerState::Brake;
-				mCurrentAnimation->Stop();
-				mCurrentAnimation = mRightBrakeAnimation;
-				mCurrentAnimation->Play();
-				mCurrentImage = mBrakeImage;
 			}
 		}
 	}
@@ -129,22 +113,12 @@ void Player::Update()
 				mCurrentAnimation->Play();
 				mCurrentImage = mTurnImage;
 			}
-			if (Input::GetInstance()->GetKeyUp(VK_LEFT))
-			{
-				mDirection = Direction::Left;
-				mState = PlayerState::Brake;
-				mCurrentAnimation->Stop();
-				mCurrentAnimation = mLeftBrakeAnimation;
-				mCurrentAnimation->Play();
-				mCurrentImage = mBrakeImage;
-			}
 		}
 	}
 
 	// 앉기
-	if (Input::GetInstance()->GetKey('C'))
+	if (Input::GetInstance()->GetKey(VK_DOWN))
 	{
-		//if (mState == State::LeftIdle || mState == State::LeftRun)
 		if (mDirection == Direction::Left)
 		{
 			if (mState == PlayerState::Idle || mState == PlayerState::Run)
@@ -157,7 +131,6 @@ void Player::Update()
 				mCurrentImage = mCrouchImage;
 			}
 		}
-		//if (mState == State::RightIdle || mState == State::RightRun)
 		if (mDirection == Direction::Right)
 		{
 			if (mState == PlayerState::Idle || mState == PlayerState::Run)
@@ -170,10 +143,31 @@ void Player::Update()
 				mCurrentImage = mCrouchImage;
 			}
 		}
+		//아래 점프
+		if (Input::GetInstance()->GetKeyDown(VK_SPACE))
+		{
+			if (mDirection == Direction::Left)
+			{
+				mState = PlayerState::Fall;
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mLeftFallAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mFallImage;
+		
+			}
+			if (mDirection == Direction::Right)
+			{
+				mState = PlayerState::Fall;
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mRightFallAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mFallImage;
+			}
+		}
 	}
 
 	// 일어서기
-	if (Input::GetInstance()->GetKeyUp('C'))
+	if (Input::GetInstance()->GetKeyUp(VK_DOWN))
 	{
 		if (mState == PlayerState::Crouch)
 		{
@@ -248,7 +242,7 @@ void Player::Update()
 	}
 
 	// 사다리!!!!!!!!!!!!!!!!!!!!
-	RECT LadderRect;
+	/*RECT LadderRect;
 	vector<GameObject*> LadderList = OBJECTMANAGER->GetObjectList(ObjectLayer::Ladder);
 	vector<GameObject*>::iterator ladderiter = LadderList.begin();
 	for (; ladderiter != LadderList.end(); ++ladderiter)
@@ -318,7 +312,7 @@ void Player::Update()
 				}
 			}
 		}
-	}
+	}*/
 
 	// 활 공격
 	if (Input::GetInstance()->GetKeyDown('X'))
@@ -339,6 +333,7 @@ void Player::Update()
 				mCurrentImage = mBowImage;
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, PI);
 				arrow->SetArrowIndexY(1);
+				arrow->SetObject();
 				//mArrow.push_back(arrow);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
@@ -417,12 +412,8 @@ void Player::Update()
 			}
 		}
 	}
-	//for (int i = 0; i < mArrow.size(); ++i)
-	//{
-	//	mArrow[i]->Update();
-	//}
 
-	// 검 공격 1 // 이펙트 X
+	// 검 공격 1
 	//if (mState != State::LeftAttack1 && mState != State::RightAttack1 && mState != State::LeftAttack2 && mState != State::RightAttack2 && mState != State::LeftAttack3 && mState != State::RightAttack3)
 	if(mState != PlayerState::Attack1 || mState != PlayerState::Attack2 || mState != PlayerState::Attack3)
 	{
@@ -477,6 +468,7 @@ void Player::Update()
 					mCurrentImage = mAirAttackImage;
 				}
 			}
+			mHitAttack = true;
 			mAttackDamage = 10;
 		}
 	}
@@ -521,41 +513,74 @@ void Player::Update()
 	}
 
 	// 검 공격 3
-	//if (mState == State::LeftAttack2 || mState == State::RightAttack2)
 	if (mState == PlayerState::Attack2)
 	{
 		if (Input::GetInstance()->GetKeyDown('Z'))
 		{
-			//if (mState == State::LeftAttack2)
 			if (mDirection == Direction::Left)
 			{
-				if (mCurrentAnimation->GetNowFrameX() == 0 || mCurrentAnimation->GetNowFrameX() == 1 || mCurrentAnimation->GetNowFrameX() == 2)
+				if (mCurrentAnimation->GetNowFrameX() == 0 || mCurrentAnimation->GetNowFrameX() == 1 )
 				{
-					//mState = State::LeftAttack3;
-					mState = PlayerState::Attack3;
-					mCurrentAnimation->Stop();
-					mCurrentAnimation = mLeftAttack3Animation;
-					mCurrentAnimation->Play();
-					mCurrentImage = mAttack3Image;
-					mLeaf->SetCurrentImageAnimation(3, true);
+
+					if(INPUT->GetKey(VK_RIGHT))
+					{
+						mDirection = Direction::Right;
+						mState = PlayerState::Attack3;
+						mCurrentAnimation->Stop();
+						mCurrentAnimation = mRightAttack3Animation;
+						mCurrentAnimation->Play();
+						mCurrentImage = mAttack3Image;
+						mLeaf->SetCurrentImageAnimation(3, false);
+					}
+					else
+					{
+						mState = PlayerState::Attack3;
+						mCurrentAnimation->Stop();
+						mCurrentAnimation = mLeftAttack3Animation;
+						mCurrentAnimation->Play();
+						mCurrentImage = mAttack3Image;
+						mLeaf->SetCurrentImageAnimation(3, true);
+					}
 				}
 			}
-			//if (mState == State::RightAttack2)
+
 			if (mDirection == Direction::Right)
 			{
-				if (mCurrentAnimation->GetNowFrameX() == 4 || mCurrentAnimation->GetNowFrameX() == 5 || mCurrentAnimation->GetNowFrameX() == 6)
+				if (mCurrentAnimation->GetNowFrameX() == 4 || mCurrentAnimation->GetNowFrameX() == 5)
 				{
-					//mState = State::RightAttack3;
-					mState = PlayerState::Attack3;
-					mCurrentAnimation->Stop();
-					mCurrentAnimation = mRightAttack3Animation;
-					mCurrentAnimation->Play();
-					mCurrentImage = mAttack3Image;
-					mLeaf->SetCurrentImageAnimation(3, false);
+					if (INPUT->GetKey(VK_LEFT))
+					{
+						mDirection = Direction::Left;
+						mState = PlayerState::Attack3;
+						mCurrentAnimation->Stop();
+						mCurrentAnimation = mLeftAttack3Animation;
+						mCurrentAnimation->Play();
+						mCurrentImage = mAttack3Image;
+						mLeaf->SetCurrentImageAnimation(3, true);
+					}
+					else
+					{
+						mState = PlayerState::Attack3;
+						mCurrentAnimation->Stop();
+						mCurrentAnimation = mRightAttack3Animation;
+						mCurrentAnimation->Play();
+						mCurrentImage = mAttack3Image;
+						mLeaf->SetCurrentImageAnimation(3, false);
+					}
 				}
 			}
 			mHitAttack = true;
 			mAttackDamage = 20;
+		}
+	}
+	//피격
+	if (mState == PlayerState::Hurt)
+	{
+		mTimer += Time::GetInstance()->DeltaTime();
+		//밀쳐나기
+		if (mTimer >= 1.f)
+		{
+
 		}
 	}
 
@@ -627,7 +652,6 @@ void Player::Update()
 		}
 	}
   
-//	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 	// 플랫폼 충돌
 	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect))
 	{
@@ -745,7 +769,6 @@ void Player::Update()
 			mCurrentImage = mFallImage;
 		}
 	}
-	//if (mState == State::LeftFall || mState == State::RightFall || mState == State::LeftJump || mState == State::RightJump)
 	if(mState == PlayerState::Fall || mState == PlayerState::Jump)
 	{
 		mY -= mJumpPower;
@@ -753,10 +776,8 @@ void Player::Update()
 	}
 
 	// 움직임 제한
-	//if (mState == State::LeftCrouch || mState == State::RightCrouch || mState == State::LeftLandSoft || mState == State::RightLandSoft || 
-	//	mState == State::LeftAttack1 || mState == State::LeftAttack2 || mState == State::LeftAttack3) // <- 혹시 right attack 1~3 뺀 이유가 있는지?
 	if(mState == PlayerState::Crouch || mState == PlayerState::Roll || mState == PlayerState::LandSoft || mState == PlayerState::Attack1 || 
-		mState == PlayerState::Attack2 || mState == PlayerState::Attack3 || mState == PlayerState::UseItem)
+		mState == PlayerState::Attack2 || mState == PlayerState::Attack3 || mState == PlayerState::UseItem || mState == PlayerState::Death)
 	{
 		stopmove = 1;
 	}
@@ -1211,6 +1232,8 @@ void Player::InitPlayerVar()
 	mHp = 99;
 	mAttackDamage = 0;
 	mPotion = 3;
+
+	mTimer = 0;
 
 	invincibility = 0;
 	stopmove = 0;

@@ -16,11 +16,13 @@ class Arrow : public GameObject
 
 public:
 	void Fire(class Image* image, float x, float y, float speed, float angle);
+  
 	void Init()override {}
 	void Release()override;
 	void Update()override;
 	void Render(HDC hdc)override;
 //	RECT GetRect() { return mRect; };
+
 	void SetArrowIndexY(int IndexY) { mArrowIndexY = IndexY; }
 
 	int GetArrowDamage() { return mArrowDamage; }
