@@ -195,6 +195,11 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"Map/map2"), 1200, 900, false); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapFixRect", Resources(L"MapFixRect"), 32, 32, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapFixDia", Resources(L"MapFixDia"), 45, 45, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallCircle", Resources(L"FallCircle"), 45, 45, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallOneTwiceCircle", Resources(L"FallOneTwiceCircle"), 45, 45, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallTripleCircle", Resources(L"FallTripleCircle"), 45, 45, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallFourCircle", Resources(L"FallFourCircle"), 45, 45, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallFiveCircle", Resources(L"FallFiveCircle"), 45, 45, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attacked", Resources(L"Attacked"), 960, 720, true); });
 
 	// Player

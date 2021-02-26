@@ -317,7 +317,7 @@ void Player::Update()
 	// È° °ø°Ý
 	if (Input::GetInstance()->GetKeyDown('X'))
 	{
-		Arrow* arrow = new Arrow;
+		Arrow* arrow = new Arrow();
 		mArrowImage = IMAGEMANAGER->FindImage(L"Arrow");
 
 		if (mDirection == Direction::Left)
