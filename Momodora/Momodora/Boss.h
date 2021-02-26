@@ -54,6 +54,12 @@ class Boss : public Enemy
 
 	bool mIsEndEvent;
 
+	Image* mBackImage;
+	vector<POINT> mVecEraseCenter;
+	vector<POINT> mVecBackEraseCenter;
+	int mEraseSize;
+	float mEraseTime;
+
 public:
 	void Init()override;
 	void Release()override;
@@ -65,10 +71,14 @@ public:
 	void MotionFrame();
 	void Pattern();
 	void Hit();
+	void EraseBossImage();
 
 public:
 	bool GetInvincibility() { return mIsInvincibility; }
 	bool GetEndEvent() { return mIsEndEvent; }
+	Image* GetImage() { return mImage; }
+	Image* GetBackImage() { return mBackImage; }
+	Animation* GetCurrentAnimation() { return mCurrentAnimation; }
 
 	void SetEndEvent(bool b) { mIsEndEvent = b; }
 };

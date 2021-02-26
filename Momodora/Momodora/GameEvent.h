@@ -39,6 +39,8 @@ class IScriptEvent : public IEvent
 	Image* mImage;
 	float mCurrentTime;
 	float mDelayTime;
+	float mShakeX;
+	float mShakeY;
 public:
 	IScriptEvent(wstring image);
 
@@ -49,18 +51,30 @@ public:
 
 class IEraseEvent : public IEvent
 {
-	GameObject* mObject;
-	float mX;
-	float mY;
-	vector<RECT> mVecCircle;
+	Image* mImage1;
+	Image* mImage2;
+	float mSize;
+	float mDelayTime;
+	vector<POINT> mVecEraseCenter;
+	vector<POINT> mVecBackEraseCenter;
 
 public:
-	IEraseEvent(GameObject* object, float x, float y);
+	IEraseEvent(Image* image1, Image* image2, float r, float time);
 
 	void Start()override;
 	bool Update()override;
 	void Render(HDC hdc)override;
 };
+
+//class IPlayFunctionEvent : public IEvent
+//{
+//public:
+//	IPlayFunctionEvent();
+//
+//	void Start()override;
+//	bool Update()override;
+//	void Render(HDC hdc)override;
+//};
 
 //class IMoveGameObject : public IEvent
 //{
