@@ -23,6 +23,8 @@ struct AfterImage
 	RECT cRect;
 	Animation* cAnimation;
 	float cAlpha;
+	int cFrameX;
+	int cFrameY;
 };
 
 class Fennel :
