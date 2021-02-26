@@ -67,6 +67,7 @@ public:
 	inline int GetDef() { return mDef; }
 	inline int GetHP() { return mHp; }
 	inline void SetHp(int hp) { mHp = hp; }
+	inline void TakeHp(int hp) { mHp -= hp; }
 	inline void SetPlayerPtr(Player* player) { mPlayer = player; }
 	void SetIsHit(bool hit) { isHit = hit; }
 
