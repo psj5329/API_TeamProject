@@ -236,3 +236,29 @@ RECT* CollisionManager::CollideWithDownjumpPlatform(RECT* rect, RECT* prevRect, 
 
 	return rect;
 }
+
+
+Direction CollisionManager::CheckSide(RECT* player, RECT* projectile)
+{
+	RECT tempRect;
+	RECT layerRect;
+	int tempX = 0;
+	//플레이어 중심점
+	int playerX = (player->left + player->right) / 2;
+	Direction direction = Direction::Left;
+
+
+		if (IntersectRect(&tempRect, player, projectile))
+		{
+			//충돌부분 중심점
+			tempX = (tempRect.right + tempRect.left)/2;
+			
+			if (playerX < tempX)
+				direction = Direction::Right; // 우
+			else
+				direction = Direction::Left; // 좌
+		}
+	
+
+	return direction;
+}

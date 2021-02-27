@@ -29,6 +29,7 @@ void DaggerImp::Init()
 	mHp = 60;
 	bottom = { 0, 602, 600, 650 };
 	mAlpha = 1;
+	isHit = false;
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 0, 0, 0, false);

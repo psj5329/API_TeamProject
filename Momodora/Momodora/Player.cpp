@@ -17,7 +17,7 @@ void Player::Init()
 
 	ReadyPlayerAnimation();
 
-	InitPlayerVar(); // ?�레?�어가 가�?각종 변?�들 초기???�는 ?�수
+	InitPlayerVar(); // ?Œë ˆ?´ì–´ê°€ ê°€ì§?ê°ì¢… ë³€?˜ë“¤ ì´ˆê¸°???˜ëŠ” ?¨ìˆ˜
 }
 
 void Player::Release()
@@ -27,7 +27,7 @@ void Player::Release()
 
 void Player::Update()
 {
-	// ?�동 ?�레??
+	// ?´ë™ ?„ë ˆ??
 	if (mState == PlayerState::Idle || mState == PlayerState::Turn || mState == PlayerState::Brake)
 	{
 		if (Input::GetInstance()->GetKeyDown(VK_LEFT))
@@ -74,7 +74,7 @@ void Player::Update()
 		}
 	}
 
-	// ?�동 구현
+	// ?´ë™ êµ¬í˜„
 	if (Input::GetInstance()->GetKey(VK_LEFT))
 	{
 		if (stopmove == 0)
@@ -114,7 +114,7 @@ void Player::Update()
 		}
 	}
 
-	// ?�기
+	// ?‰ê¸°
 	if (Input::GetInstance()->GetKey(VK_DOWN))
 	{
 		if (mDirection == Direction::Left)
@@ -139,7 +139,7 @@ void Player::Update()
 				mCurrentImage = mCrouchImage;
 			}
 		}
-		//?�래 ?�프
+		//?„ëž˜ ?í”„
 		if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 		{
 			if (mDirection == Direction::Left)
@@ -162,7 +162,7 @@ void Player::Update()
 		}
 	}
 
-	// ?�어?�기
+	// ?¼ì–´?œê¸°
 	if (Input::GetInstance()->GetKeyUp(VK_DOWN))
 	{
 		if (mState == PlayerState::Crouch)
@@ -186,7 +186,7 @@ void Player::Update()
 		}
 	}
 
-	// 구르�?
+	// êµ¬ë¥´ê¸?
 	if (Input::GetInstance()->GetKeyDown(VK_LSHIFT))
 	{
 		if (mDirection == Direction::Left)
@@ -227,7 +227,7 @@ void Player::Update()
 		}
 	}
 
-	// ?�다�?!!!!!!!!!!!!!!!!!!!
+	// ?¬ë‹¤ë¦?!!!!!!!!!!!!!!!!!!!
 	/*RECT LadderRect;
 	vector<GameObject*> LadderList = OBJECTMANAGER->GetObjectList(ObjectLayer::Ladder);
 	vector<GameObject*>::iterator ladderiter = LadderList.begin();
@@ -300,7 +300,7 @@ void Player::Update()
 		}
 	}*/
 
-	// ??공격
+	// ??ê³µê²©
 	if (Input::GetInstance()->GetKeyDown('X'))
 	{
 		Arrow* arrow = new Arrow();
@@ -381,7 +381,7 @@ void Player::Update()
 		}
 	}
 
-	// 검 공격 1
+	// ê²€ ê³µê²© 1
 	if(mState != PlayerState::Attack1 && mState != PlayerState::Attack2 && mState != PlayerState::Attack3)
 	//if (mState != PlayerState::Attack1 || mState != PlayerState::Attack2 || mState != PlayerState::Attack3)
 	{
@@ -433,7 +433,7 @@ void Player::Update()
 		}
 	}
 
-	// 검 공격 2
+	// ê²€ ê³µê²© 2
 	if (mState == PlayerState::Attack1)
 	{
 		if (Input::GetInstance()->GetKeyDown('Z'))
@@ -467,7 +467,7 @@ void Player::Update()
 		}
 	}
 
-	// 검 공격 3
+	// ê²€ ê³µê²© 3
 	if (mState == PlayerState::Attack2)
 	{
 		if (Input::GetInstance()->GetKeyDown('Z'))
@@ -527,7 +527,7 @@ void Player::Update()
 			mAttackDamage = 20;
 		}
 	}
-	//?�격
+	//?¼ê²©
 	if (mState == PlayerState::Hurt)
 	{
 		if (mTimer == 0) 
@@ -591,13 +591,13 @@ void Player::Update()
 			}
 		}
 	}
-	//?�친?�태?�니�?
+	//?¤ì¹œ?íƒœ?„ë‹ˆë©?
 	else
 	{
 		mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
 	}
 
-	// Hp ?�복 ?�이???�용
+	// Hp ?Œë³µ ?„ì´???¬ìš©
 	if (mHp > 0 && mHp < 100 && mPotion > 0)
 	{
 		if (Input::GetInstance()->GetKeyDown('Q'))
@@ -634,7 +634,7 @@ void Player::Update()
 		mHp -= (mHp - 100);
 	}
 
-	// ?�망
+	// ?¬ë§
 	if (mHp <= 0)
 	{
 		if (mDirection == Direction::Left)
@@ -661,7 +661,7 @@ void Player::Update()
 		}
 	}
 
-	// ?�랫??충돌
+	// ?Œëž«??ì¶©ëŒ
 	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect))
 	{
 		mJumpPower = 0;
@@ -713,7 +713,7 @@ void Player::Update()
 		}
 	}
 
-	// ?�프
+	// ?í”„
 	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 	{
 		mJumpPower = 8.f;
@@ -767,7 +767,7 @@ void Player::Update()
 		mJumpPower -= mGravity;
 	}
 
-	// ?�직임 ?�한
+	// ?€ì§ìž„ ?œí•œ
 	if (mState == PlayerState::Crouch || mState == PlayerState::Roll || mState == PlayerState::LandSoft || mState == PlayerState::Attack1 ||
 		mState == PlayerState::Attack2 || mState == PlayerState::Attack3 || mState == PlayerState::UseItem || mState == PlayerState::Death)
 	{
@@ -789,24 +789,24 @@ void Player::Update()
 	mY = (mRect.bottom + mRect.top) / 2;
 	mPrevRect = mRect;
 
-	/////////////////////////////////////////?�시 체력깎기///////////////////////////
+	/////////////////////////////////////////?„ì‹œ ì²´ë ¥ê¹Žê¸°///////////////////////////
 	if (INPUT->GetKeyDown('O'))
 	{
 		PlayerHurt();
 		mHp -= 20;
 	}
 
-	//?�트박스
+	//?ˆíŠ¸ë°•ìŠ¤
 	if (mState != PlayerState::Hurt)
 	{
-		mHitBox = RectMakeCenter(mX, mY, mSizeX, mSizeY);
-		// mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
+		//mHitBox = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+		 mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
 	}
 }
 
 void Player::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
 	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 
 	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY, 1.f);
@@ -863,7 +863,7 @@ void Player::FindPlayerImage()
 
 void Player::ReadyPlayerAnimation()
 {
-	// ?�탠???�니메이??
+	// ?¤íƒ ??? ë‹ˆë©”ì´??
 	mLeftIdleAnimation = new Animation();
 	mLeftIdleAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftIdleAnimation->SetIsLoop(true);
@@ -874,7 +874,7 @@ void Player::ReadyPlayerAnimation()
 	mRightIdleAnimation->SetIsLoop(true);
 	mRightIdleAnimation->SetFrameUpdateTime(0.2f);
 
-		// ?�동 ?�니메이??
+		// ?´ë™ ? ë‹ˆë©”ì´??
 	mLeftRunStartAnimation = new Animation();
 	mLeftRunStartAnimation->InitFrameByStartEnd(8, 1, 9, 1, true);
 	mLeftRunStartAnimation->SetIsLoop(false);
@@ -897,7 +897,7 @@ void Player::ReadyPlayerAnimation()
 	mRightRunAnimation->SetIsLoop(true);
 	mRightRunAnimation->SetFrameUpdateTime(0.1f);
 
-		// 브레?�크 ?�니메이??
+		// ë¸Œë ˆ?´í¬ ? ë‹ˆë©”ì´??
 	mLeftBrakeAnimation = new Animation();
 	mLeftBrakeAnimation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftBrakeAnimation->SetIsLoop(true);
@@ -910,7 +910,7 @@ void Player::ReadyPlayerAnimation()
 	mRightBrakeAnimation->SetFrameUpdateTime(0.05f);
 	mRightBrakeAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
-	// 방향 ?�환 ?�니메이??
+	// ë°©í–¥ ?„í™˜ ? ë‹ˆë©”ì´??
 	mLeftTurnAnimation = new Animation();
 	mLeftTurnAnimation->InitFrameByStartEnd(0, 1, 2, 1, true);
 	mLeftTurnAnimation->SetIsLoop(false);
@@ -923,7 +923,7 @@ void Player::ReadyPlayerAnimation()
 	mRightTurnAnimation->SetFrameUpdateTime(0.1f);
 	mRightTurnAnimation->SetCallbackFunc(bind(&Player::SetStateRun, this));
 
-	// ?�프 ?�니메이??
+	// ?í”„ ? ë‹ˆë©”ì´??
 	mLeftJumpAnimation = new Animation();
 	mLeftJumpAnimation->InitFrameByStartEnd(0, 1, 2, 1, true);
 	mLeftJumpAnimation->SetIsLoop(true);
@@ -934,7 +934,7 @@ void Player::ReadyPlayerAnimation()
 	mRightJumpAnimation->SetIsLoop(true);
 	mRightJumpAnimation->SetFrameUpdateTime(0.2f);
 
-		// ?�프 ?�강 ?�니메이??
+		// ?í”„ ?˜ê°• ? ë‹ˆë©”ì´??
 	mLeftFallAnimation = new Animation();
 	mLeftFallAnimation->InitFrameByStartEnd(0, 1, 4, 1, true);
 	mLeftFallAnimation->SetIsLoop(false);
@@ -945,7 +945,7 @@ void Player::ReadyPlayerAnimation()
 	mRightFallAnimation->SetIsLoop(false);
 	mRightFallAnimation->SetFrameUpdateTime(0.2f);
 
-		// ?�한 착�? ?�니메이??
+		// ?½í•œ ì°©ì? ? ë‹ˆë©”ì´??
 	mLeftLandSoftAnimation = new Animation();
 	mLeftLandSoftAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
 	mLeftLandSoftAnimation->SetIsLoop(true);
@@ -958,7 +958,7 @@ void Player::ReadyPlayerAnimation()
 	mRightLandSoftAnimation->SetFrameUpdateTime(0.1f);
 	mRightLandSoftAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
-	// ?�기 ?�니메이??
+	// ?‰ê¸° ? ë‹ˆë©”ì´??
 	mLeftCrouchAnimation = new Animation();
 	mLeftCrouchAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
 	mLeftCrouchAnimation->SetIsLoop(false);
@@ -969,7 +969,7 @@ void Player::ReadyPlayerAnimation()
 	mRightCrouchAnimation->SetIsLoop(false);
 	mRightCrouchAnimation->SetFrameUpdateTime(0.1f);
 
-		// ?�어?�기 ?�니메이??
+		// ?¼ì–´?˜ê¸° ? ë‹ˆë©”ì´??
 	mLeftRiseAnimation = new Animation();
 	mLeftRiseAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
 	mLeftRiseAnimation->SetIsLoop(false);
@@ -982,7 +982,7 @@ void Player::ReadyPlayerAnimation()
 	mRightRiseAnimation->SetFrameUpdateTime(0.1f);
 	mRightRiseAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
-	// 구르�??�니메이??
+	// êµ¬ë¥´ê¸?? ë‹ˆë©”ì´??
 	mLeftRollAnimation = new Animation();
 	mLeftRollAnimation->InitFrameByStartEnd(0, 1, 7, 1, true);
 	mLeftRollAnimation->SetIsLoop(false);
@@ -995,7 +995,7 @@ void Player::ReadyPlayerAnimation()
 	mRightRollAnimation->SetFrameUpdateTime(0.07f);
 	mRightRollAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
-	// ?�다�??�장 ?�니메이??
+	// ?¬ë‹¤ë¦??…ìž¥ ? ë‹ˆë©”ì´??
 	mLeftLadderEnterAnimation = new Animation();
 	mLeftLadderEnterAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftLadderEnterAnimation->SetIsLoop(true);
@@ -1008,7 +1008,7 @@ void Player::ReadyPlayerAnimation()
 	mRightLadderEnterAnimation->SetFrameUpdateTime(0.1f);
 	mRightLadderEnterAnimation->SetCallbackFunc(bind(&Player::SetStateLadderUp, this));
 
-	// ?�다�??�르?�리�??�니메이??
+	// ?¬ë‹¤ë¦??¤ë¥´?´ë¦¬ê¸?? ë‹ˆë©”ì´??
 	mLadderUpAnimation = new Animation();
 	mLadderUpAnimation->InitFrameByStartEnd(0, 0, 5, 0, true);
 	mLadderUpAnimation->SetIsLoop(true);
@@ -1019,7 +1019,7 @@ void Player::ReadyPlayerAnimation()
 	mLadderDownAnimation->SetIsLoop(true);
 	mLadderDownAnimation->SetFrameUpdateTime(0.1f);
 
-		// ?�다�??�장 ?�니메이??
+		// ?¬ë‹¤ë¦??´ìž¥ ? ë‹ˆë©”ì´??
 	mLeftLadderLeaveAnimation = new Animation();
 	mLeftLadderLeaveAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftLadderLeaveAnimation->SetIsLoop(true);
@@ -1030,7 +1030,8 @@ void Player::ReadyPlayerAnimation()
 	mRightLadderLeaveAnimation->SetIsLoop(true);
 	mRightLadderLeaveAnimation->SetFrameUpdateTime(0.1f);
 
-		// ?�서 ???�니메이??
+//NH	// ì„œì„œ í™œ ì• ë‹ˆë©”ì´ì…˜
+//master		// ?œì„œ ??? ë‹ˆë©”ì´??
 	mLeftBowAnimation = new Animation();
 	mLeftBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftBowAnimation->SetIsLoop(true);
@@ -1043,7 +1044,7 @@ void Player::ReadyPlayerAnimation()
 	mRightBowAnimation->SetFrameUpdateTime(0.1f);
 	mRightBowAnimation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
-	// 공중 ???�니메이??
+	// ê³µì¤‘ ??? ë‹ˆë©”ì´??
 	mLeftAirBowAnimation = new Animation();
 	mLeftAirBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftAirBowAnimation->SetIsLoop(true);
@@ -1056,7 +1057,7 @@ void Player::ReadyPlayerAnimation()
 	mRightAirBowAnimation->SetFrameUpdateTime(0.1f);
 	mRightAirBowAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
-	// ?�아 ???�니메이??
+	// ?‰ì•„ ??? ë‹ˆë©”ì´??
 	mLeftCrouchBowAnimation = new Animation();
 	mLeftCrouchBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftCrouchBowAnimation->SetIsLoop(true);
@@ -1069,7 +1070,7 @@ void Player::ReadyPlayerAnimation()
 	mRightCrouchBowAnimation->SetFrameUpdateTime(0.1f);
 	mRightCrouchBowAnimation->SetCallbackFunc(bind(&Player::SetEndCrouchAttack, this));
 
-	// �?번째 공격 ?�니메이??
+	// ì²?ë²ˆì§¸ ê³µê²© ? ë‹ˆë©”ì´??
 	mLeftAttack1Animation = new Animation();
 	mLeftAttack1Animation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAttack1Animation->SetIsLoop(true);
@@ -1082,7 +1083,7 @@ void Player::ReadyPlayerAnimation()
 	mRightAttack1Animation->SetFrameUpdateTime(0.1f);
 	mRightAttack1Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
-	// ??번째 공격 ?�니메이??
+	// ??ë²ˆì§¸ ê³µê²© ? ë‹ˆë©”ì´??
 	mLeftAttack2Animation = new Animation();
 	mLeftAttack2Animation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAttack2Animation->SetIsLoop(true);
@@ -1095,7 +1096,7 @@ void Player::ReadyPlayerAnimation()
 	mRightAttack2Animation->SetFrameUpdateTime(0.1f);
 	mRightAttack2Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
-	// ??번째 공격 ?�니메이??
+	// ??ë²ˆì§¸ ê³µê²© ? ë‹ˆë©”ì´??
 	mLeftAttack3Animation = new Animation();
 	mLeftAttack3Animation->InitFrameByStartEnd(0, 1, 10, 1, true);
 	mLeftAttack3Animation->SetIsLoop(true);
@@ -1108,7 +1109,7 @@ void Player::ReadyPlayerAnimation()
 	mRightAttack3Animation->SetFrameUpdateTime(0.1f);
 	mRightAttack3Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
-	// 공중 공격 ?�니메이??
+	// ê³µì¤‘ ê³µê²© ? ë‹ˆë©”ì´??
 	mLeftAirAttackAnimation = new Animation();
 	mLeftAirAttackAnimation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAirAttackAnimation->SetIsLoop(true);
@@ -1121,7 +1122,7 @@ void Player::ReadyPlayerAnimation()
 	mRightAirAttackAnimation->SetFrameUpdateTime(0.1f);
 	mRightAirAttackAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
-	// ?�격 ?�니메이??
+	// ?¼ê²© ? ë‹ˆë©”ì´??
 	mLeftHurtAnimation = new Animation();
 	mLeftHurtAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
 	mLeftHurtAnimation->SetIsLoop(true);
@@ -1132,7 +1133,7 @@ void Player::ReadyPlayerAnimation()
 	mRightHurtAnimation->SetIsLoop(true);
 	mRightHurtAnimation->SetFrameUpdateTime(0.3f);
 
-		// ?�망 ?�니메이??
+		// ?¬ë§ ? ë‹ˆë©”ì´??
 	mLeftDeathAnimation = new Animation();
 	mLeftDeathAnimation->InitFrameByStartEnd(0, 1, 23, 1, true);
 	mLeftDeathAnimation->SetIsLoop(false);
@@ -1143,7 +1144,7 @@ void Player::ReadyPlayerAnimation()
 	mRightDeathAnimation->SetIsLoop(false);
 	mRightDeathAnimation->SetFrameUpdateTime(0.2f);
 
-		//?�이???�용 ?�니메이??
+		//?„ì´???¬ìš© ? ë‹ˆë©”ì´??
 	mLeftUseItemAnimation = new Animation();
 	mLeftUseItemAnimation->InitFrameByStartEnd(0, 1, 10, 1, true);
 	mLeftUseItemAnimation->SetIsLoop(false);
@@ -1159,7 +1160,7 @@ void Player::ReadyPlayerAnimation()
 
 void Player::InitPlayerVar()
 {
-	// 부�??�래?�인 GameObject???�언??변?�들
+	// ë¶€ëª??´ëž˜?¤ì¸ GameObject??? ì–¸??ë³€?˜ë“¤
 	mName = "Player";
 	mX = WINSIZEX / 2.f;
 	mY = 200.f;
@@ -1167,10 +1168,10 @@ void Player::InitPlayerVar()
 	mSizeY = (float)(mIdleImage->GetFrameHeight()) * 2.f;
 	mDirection = Direction::Right;
 	mRect = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY);
-	mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY); // ?�시(가로만 1/3)
-	mAttackBox = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY); // ?�시(?�레?�어 ?�이�?
+	mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY); // ?„ì‹œ(ê°€ë¡œë§Œ 1/3)
+	mAttackBox = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY); // ?„ì‹œ(?Œë ˆ?´ì–´ ?¬ì´ì¦?
 
-	// Player???�언??변?�들
+	// Player??? ì–¸??ë³€?˜ë“¤
 	mArrowSpeed = 600.f;
 
 	mState = PlayerState::Idle;
@@ -1322,9 +1323,10 @@ void Player::SetEndAttack()
 		}
 	}
 
+	mEndCombo = true;
 	mHitAttack = true;
 
-	mLeaf->SetIsActive(false); // ?�니메이?????�고 출력?????�게
+	mLeaf->SetIsActive(false); // ? ë‹ˆë©”ì´?????Œê³  ì¶œë ¥?????˜ê²Œ
 }
 
 void Player::SetEndAirAttack()

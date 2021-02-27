@@ -24,6 +24,7 @@ void Fennel::Init()
 	mAttackSpeed = 0;
 	mName = "Fennel";
 	mAlpha = 1;
+	isHit = false;
 
 	//스탯 ////// 나중에 바꾸기////////////
 	mHp = 500;

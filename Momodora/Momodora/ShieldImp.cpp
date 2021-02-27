@@ -21,6 +21,7 @@ void ShieldImp::Init()
 	mThrown = false;
 	mAlpha = 1;
 	mHp = 60;
+	isHit = false;
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 0, 0, 0, false);

@@ -17,6 +17,6 @@ public:
 	void SearchPlayer();
 	void Attack()override;
 	void EndAttack()override;
-	RECT GetAtkBox() { return mAttackBox; }
+	//RECT GetAtkBox() { return mAttackBox; }
 };
 

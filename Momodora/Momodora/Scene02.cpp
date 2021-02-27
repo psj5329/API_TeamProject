@@ -24,16 +24,19 @@ void Scene02::Init()
 
 	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
 	mPlayer = (Player*)player[0];
-
+	
+	//플랫폼만들기
 	mPlatform01 = new Platform();
 	mPlatform01->SetPlatform(0, 600, 800, 650, PlatformType::Normal);
 	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)mPlatform01);
 	mGround = { 0,600,800,650 };
 
-	//AddMonkey(WINSIZEX / 2, mPlatform01->GetRect().top);
+
+	//적만들기
+	//AddMonkey(WINSIZEX / 2 - 100, mPlatform01->GetRect().top);
 	AddBombImp(WINSIZEX / 2, mPlatform01->GetRect().top);
-	AddDaggerImp(WINSIZEX / 2 - 300, mPlatform01->GetRect().top);
-	//AddWitch(WINSIZEX / 2 + 100,mPlatform01->GetRect().top);
+	//AddDaggerImp(WINSIZEX / 2 - 300, mPlatform01->GetRect().top);
+	AddWitch(WINSIZEX / 2 + 100,mPlatform01->GetRect().top);
 	//AddPotion(WINSIZEX / 2 + 350, 550);
 
 	////페넬
@@ -84,7 +87,9 @@ void Scene02::Update()
 	vector<GameObject*> daggerList = OBJECTMANAGER->GetObjectList(ObjectLayer::EnemyDagger);
 	vector<GameObject*> bombList = OBJECTMANAGER->GetObjectList(ObjectLayer::EnemyBomb);
 	vector<GameObject*> staffList = OBJECTMANAGER->GetObjectList(ObjectLayer::EnemyStaff);
+	vector<GameObject*> leaf = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerLeaf);
 	RECT playertHitBox = mPlayer->GetHitBox();
+	RECT playerAtkBox = leaf[0]->GetAttackBox();
 
 	//적히트박스, 플레이어 화살 충돌
 	for (int i = 0;i < enemyList.size();i++)
@@ -105,6 +110,33 @@ void Scene02::Update()
 			}
 		}
 	}
+	//적히트박스, 플레이어의 리프 충돌
+	for (int i = 0;i < enemyList.size();i++)
+	{
+		//적이 이미맞은상태니?
+		if (!((Enemy*)(enemyList[i]))->GetIsHit())
+		{
+			RECT hitBox = enemyList[i]->GetHitBox();
+			RECT temp;
+			if (IntersectRect(&temp, &hitBox, &playerAtkBox))
+			{
+				//플레이어 불값바꾸기
+				mPlayer->SetEndCombo(false);
+				//적체력깎기
+				int atk = mPlayer->GetAttackDamage();
+				((Enemy*)(enemyList[i]))->TakeHp(30);
+				//에너미 맞은상태 true
+				((Enemy*)(enemyList[i]))->SetIsHit(true);
+			}
+		}
+		//플레이어의 공격애니메이션하나가 끝나면
+		if (mPlayer->GetEndCombo())
+		{
+			((Enemy*)(enemyList[i]))->SetIsHit(false);
+		}
+
+	}
+
 	//단도, 플레이어 히트박스 충돌
 	for (int i = 0;i < daggerList.size();i++)
 	{
@@ -116,9 +148,11 @@ void Scene02::Update()
 			//daggerList[i]->Release();
 			daggerList[i]->SetIsDestroy(true);
 
-			//플레이어 상태전환하고 무적시키는 함수
+			//플레이어 체력 깎기
 			//방향알려줘야해
-			//mPlayer.
+			Direction direction = COLLISIONMANAGER->CheckSide(&playertHitBox, &dagger);
+			//플레이어 상태전환하고 무적시키는 함수
+			mPlayer->PlayerHurt();
 		}
 	}
 	//폭탄, 플레이어 히트박스 충돌
@@ -131,27 +165,44 @@ void Scene02::Update()
 			//폭탄 터트리고
 			((Bomb*)bombList[i])->Explode();
 
-			//플레이어 상태전환하고 무적시키는 함수
+			//플레이어 체력 깎기
 			//방향알려줘야해
-			//mPlayer.
+			Direction direction = COLLISIONMANAGER->CheckSide(&playertHitBox, &bomb);
+			//플레이어 상태전환하고 무적시키는 함수
+			mPlayer->PlayerHurt();
 		}
 	}
 	//지팡이, 플레이어 히트박스 충돌
 	for (int i = 0;i < staffList.size();i++)
 	{
 		RECT temp;
-		RECT staff = staffList[i]->GetHitBox();
+		RECT staff = staffList[i]->GetRect();
 		if (IntersectRect(&temp, &playertHitBox, &staff))
 		{
 
-			//플레이어 상태전환하고 무적시키는 함수
+			//플레이어 체력 깎기
 			//방향알려줘야해
-			//mPlayer.
+			Direction direction = COLLISIONMANAGER->CheckSide(&playertHitBox, &staff);
+			//플레이어 상태전환하고 무적시키는 함수
+			mPlayer->PlayerHurt();
 		}
 	}
+	//적의 근접공격, 플레이어 히트박스 충돌
+	for (int i = 0;i < enemyList.size();i++)
+	{
+		RECT temp;
+		RECT atkBox = enemyList[i]->GetAttackBox();
 
+		if (IntersectRect(&temp, &playertHitBox, &atkBox))
+		{
 
-
+			//플레이어 체력 깎기
+			//플레이어 상태전환하고 무적시키는 함수
+			Direction direction = COLLISIONMANAGER->CheckSide(&playertHitBox, &atkBox);
+			//방향알려줘야해
+			mPlayer->PlayerHurt();
+		}
+	}
 
 
 
