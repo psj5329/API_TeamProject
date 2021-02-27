@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "Image.h"
 
 class Scene01 final : public Scene
 {

@@ -17,6 +17,11 @@
 
 void Scene02::Init()
 {
+	// 맵 배경으로 깔고 그 사이즈 받아서 맵 사이즈 초기화 해야 함
+	mSceneSizeX = 3000;
+	mSceneSizeY = 3000;
+	// 여기까지는 임시 데이터
+
 	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
 	mPlayer = (Player*)player[0];
 

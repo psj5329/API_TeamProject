@@ -19,6 +19,11 @@
 
 void Scene03::Init()
 {
+	// 맵 배경으로 깔고 그 사이즈 받아서 맵 사이즈 초기화 해야 함
+	mSceneSizeX = 1500;
+	mSceneSizeY = 4000;
+	// 여기까지는 임시 데이터
+
 	Boss* boss = new Boss;
 	boss->Init();
 	boss->SetObject();
@@ -36,7 +41,7 @@ void Scene03::Init()
 
 	Ladder* ladder01 = new Ladder();
 	ladder01->SetLadder(675, 450, 725, 600);
-	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)ladder01);
+	OBJECTMANAGER->AddObject(ObjectLayer::Ladder, (GameObject*)ladder01);
 	// 충돌 체크용 맵 }}
 
 	BossHpUI* ui = new BossHpUI;
