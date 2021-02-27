@@ -70,19 +70,19 @@ void MainGame::Update()
 	}
 
 	//if (INPUT->GetKeyDown('1'))
-	if(INPUT->GetKeyAKeyDownB('M', '1'))
+	if (INPUT->GetKeyAKeyDownB('M', '1'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene01")
 			SCENEMANAGER->LoadScene(L"Scene01");
 	}
 	//else if (INPUT->GetKeyDown('2'))
-	else if(INPUT->GetKeyAKeyUpB('M', '2'))
+	else if (INPUT->GetKeyAKeyUpB('M', '2'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene02")
 			SCENEMANAGER->LoadScene(L"Scene02");
 	}
 	//else if (INPUT->GetKeyDown('3'))
-	else if(INPUT->GetKeyAKeyB('M', '3'))
+	else if (INPUT->GetKeyAKeyB('M', '3'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene03")
 			SCENEMANAGER->LoadScene(L"Scene03");

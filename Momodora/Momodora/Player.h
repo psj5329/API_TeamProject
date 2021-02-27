@@ -46,6 +46,7 @@ class Player : public GameObject
 	int mHp;
 	int mAttackDamage;
 	int mPotion;
+	float mTimer;
 
 	bool invincibility;
 	bool stopmove;

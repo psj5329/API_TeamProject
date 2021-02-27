@@ -214,7 +214,7 @@ void Witch::Update()
 
 	mCurrentAnimation->Update();
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
-	mHitBox = RectMakeCenter(mX, mY, 50, 80);
+	mHitBox = RectMakeCenter(mX, mY, 40, 80);
 }
 
 void Witch::Render(HDC hdc)

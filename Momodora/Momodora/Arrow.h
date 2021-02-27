@@ -4,24 +4,26 @@
 
 class Arrow : public GameObject
 {
-	float mX;
-	float mY;
-	float mSpeed;
-	float mAngle;
-	RECT mRect;
-	int mArrowIndexY = 0;
-	int mArrowDamage = 0;
+    //float mX;
+    //float mY;
+    float mSpeed;
+    float mAngle;
+    //RECT mRect;
+    int mArrowIndexY = 0;
+    int mArrowDamage = 0;
 
-	Image* mImage;
+    Image* mImage;
 
 public:
 	void Fire(class Image* image, float x, float y, float speed, float angle);
+  
 	void Init()override {}
 	void Release()override;
 	void Update()override;
 	void Render(HDC hdc)override;
 //	RECT GetRect() { return mRect; };
+
 	void SetArrowIndexY(int IndexY) { mArrowIndexY = IndexY; }
 
-	int GetArrowDamage() { return mArrowDamage; }
+    int GetArrowDamage() { return mArrowDamage; }
 };

@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "Leaf.h"
 #include "Animation.h"
 #include "Image.h"
@@ -81,13 +81,14 @@ void Leaf::Render(HDC hdc)
 {
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mCurrentImage, mRect.left, mRect.top,
 		mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY);
-//	if(mIsActive)
-//		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
+
+	//	if(mIsActive)
+	//		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
 }
 
 void Leaf::MakeAttackBox(RECT* attackBox)
 {
-	mAttackBox = mRect; // ÇÁ·¹ÀÓ Àß µ¹¾Æ°¡¸é ÇÁ·¹ÀÓº°·Î ¼¼ºĞÈ­ ¿¹Á¤
+	mAttackBox = mRect; // í”„ë ˆì„ ì˜ ëŒì•„ê°€ë©´ í”„ë ˆì„ë³„ë¡œ ì„¸ë¶„í™” ì˜ˆì •
 
 	if (mCurrentAnimation == mLeaf01Left)
 	{

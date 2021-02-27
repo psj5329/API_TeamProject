@@ -27,5 +27,6 @@ void Arrow::Update()
 
 void Arrow::Render(HDC hdc)
 {
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
 	CameraManager::GetInstance()->GetMainCamera()->ScaleFrameRender(hdc, mImage, (int)mRect.left, (int)mRect.top, 0, mArrowIndexY, mImage->GetFrameWidth(), mImage->GetFrameHeight());
 }

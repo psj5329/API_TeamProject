@@ -37,7 +37,7 @@ bool Input::GetKeyUp(const int& key)
 	{
 		if (mPrevKey[key])
 		{
-			mCurrentKey.set(key,false);
+			mCurrentKey.set(key, false);
 			return true;
 		}
 	}
