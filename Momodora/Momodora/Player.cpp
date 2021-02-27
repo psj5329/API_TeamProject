@@ -70,7 +70,7 @@ void Player::Update()
 
 	// 이동 구현
 	if (Input::GetInstance()->GetKey(VK_LEFT))
-	{	
+	{
 		if (stopmove == 0)
 		{
 			mX -= mSpeed * Time::GetInstance()->DeltaTime();
@@ -85,11 +85,11 @@ void Player::Update()
 			mCurrentAnimation = mRightTurnAnimation;
 			mCurrentAnimation->Play();
 			mCurrentImage = mTurnImage;
-		
+
 		}
 	}
 	if (Input::GetInstance()->GetKey(VK_RIGHT))
-	{	
+	{
 		if (stopmove == 0)
 		{
 			mX += mSpeed * Time::GetInstance()->DeltaTime();
@@ -170,7 +170,7 @@ void Player::Update()
 	if (Input::GetInstance()->GetKeyDown(VK_LSHIFT))
 	{
 		//if (mState == State::LeftIdle || mState == State::LeftRun)
-		if(mDirection == Direction::Left)
+		if (mDirection == Direction::Left)
 		{
 			if (mState == PlayerState::Idle || mState == PlayerState::Run)
 			{
@@ -384,7 +384,7 @@ void Player::Update()
 
 	// 검 공격 1 // 이펙트 X
 	//if (mState != State::LeftAttack1 && mState != State::RightAttack1 && mState != State::LeftAttack2 && mState != State::RightAttack2 && mState != State::LeftAttack3 && mState != State::RightAttack3)
-	if(mState != PlayerState::Attack1 || mState != PlayerState::Attack2 || mState != PlayerState::Attack3)
+	if (mState != PlayerState::Attack1 || mState != PlayerState::Attack2 || mState != PlayerState::Attack3)
 	{
 		if (Input::GetInstance()->GetKeyDown('Z'))
 		{
@@ -434,6 +434,7 @@ void Player::Update()
 					mCurrentImage = mAirAttackImage;
 				}
 			}
+			mHitAttack = true;
 			mAttackDamage = 10;
 		}
 	}
@@ -519,11 +520,13 @@ void Player::Update()
 		{
 			//if (mState == State::LeftIdle || mState == State::RightIdle)
 			if (mState == PlayerState::Idle)
+			{
 				mHp + 30; // <- 이거 되는 문장인가요?
+			}
 		}
 	}
 
-	// 피격 및 사망
+	// 사망
 	if (mHp <= 0)
 	{
 		if (mDirection == Direction::Left)
@@ -553,9 +556,9 @@ void Player::Update()
 			}
 		}
 	}
-  
-//	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
-	// 플랫폼 충돌
+
+	//	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
+		// 플랫폼 충돌
 	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect))
 	{
 		mJumpPower = 0;
@@ -673,16 +676,30 @@ void Player::Update()
 		}
 	}
 	//if (mState == State::LeftFall || mState == State::RightFall || mState == State::LeftJump || mState == State::RightJump)
-	if(mState == PlayerState::Fall || mState == PlayerState::Jump)
+	if (mState == PlayerState::Fall || mState == PlayerState::Jump)
 	{
 		mY -= mJumpPower;
 		mJumpPower -= mGravity;
 	}
 
+	//무적시간
+	if (mState == PlayerState::Roll || mState == PlayerState::Hurt)
+	{
+		invincibility = 1;
+	}
+	if (mState != PlayerState::Roll || mState != PlayerState::Hurt)
+	{
+		invincibility = 0;
+	}
+	if (invincibility == 0)
+	{
+	
+	}
+
 	// 움직임 제한
 	//if (mState == State::LeftCrouch || mState == State::RightCrouch || mState == State::LeftLandSoft || mState == State::RightLandSoft || 
 	//	mState == State::LeftAttack1 || mState == State::LeftAttack2 || mState == State::LeftAttack3) // <- 혹시 right attack 1~3 뺀 이유가 있는지?
-	if(mState == PlayerState::Crouch || mState == PlayerState::LandSoft || mState == PlayerState::Attack1 || mState == PlayerState::Attack2 || mState == PlayerState::Attack3)
+	if(mState == PlayerState::Crouch || mState == PlayerState::LandSoft || mState == PlayerState::Attack1 || mState == PlayerState::Attack2 || mState == PlayerState::Attack3 || mState == PlayerState::Hurt)
 	{
 		stopmove = 1;
 	}
@@ -1295,7 +1312,7 @@ void Player::SetEndCrouchAttack()
 	//if (mState == State::RightAirBow) // <- 여기 왼쪽 오른쪽 왜 달라? 의도 맞아? (2)
 	if (mDirection == Direction::Right)
 	{
-		if (mState == PlayerState::AirBow)
+		if (mState == PlayerState::CrouchBow)
 		{
 			//mState = State::RightCrouch;
 			mState = PlayerState::Crouch;
