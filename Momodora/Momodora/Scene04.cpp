@@ -51,15 +51,15 @@ void Scene04::Render(HDC hdc)
 	CAMERAMANAGER->GetMainCamera()->Render(hdc, mMapImage, 0, 0);
 
 	OBJECTMANAGER->Render(hdc);
-	
-	RECT rect;
-	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
-	vector<GameObject*>::iterator iter = platformList.begin();
-	for (; iter != platformList.end(); ++iter)
-	{
-		rect = (*iter)->GetRect();
-		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, rect);
-	}
+
+	//RECT rect;
+	//vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
+	//vector<GameObject*>::iterator iter = platformList.begin();
+	//for (; iter != platformList.end(); ++iter)
+	//{
+	//	rect = (*iter)->GetRect();
+	//	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, rect);
+	//}
 }
 
 void Scene04::PlaceRect()
