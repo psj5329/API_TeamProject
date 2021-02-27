@@ -18,6 +18,8 @@ void BombImp::Init()
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
+	mHp = 60;
+	isHit = false;
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 0, 0, 0, false);
@@ -99,7 +101,7 @@ void BombImp::Update()
 
 		}
 	}
-
+	DeathCheck();
 
 	mCurrentAnimation->Update();
 
@@ -148,7 +150,7 @@ void BombImp::ThrowBomb()
 	Bomb* Bomb1 = new Bomb();
 	Bomb1->Init(mX, mY, angle, mPlayer->GetX(),mPlayer->GetY());
 	Bomb1->SetObject();
-	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyProjectile, Bomb1);
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyBomb, Bomb1);
 }
 
 void BombImp::EndThrow()

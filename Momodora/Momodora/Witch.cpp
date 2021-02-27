@@ -21,12 +21,13 @@ void Witch::Init()
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
 	mHoldStaff = true;
-	mHp = 0;
+	mHp = 100;
+	isHit = false;
 
 	//지팡이
 	mStaff = new Staff();
 	mStaff->Init();
-	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyProjectile, mStaff);
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyStaff, mStaff);
 	mStaff->SetObject();
 	mStaff->SetIsActive(false);
 
@@ -127,8 +128,8 @@ void Witch::Update()
 		}
 	}
 
-	//지팡이가 돌아오는 중이고
-	if (mStaff->GetIsReturn())
+	//지팡이가 돌아오는 중이고, 죽은것도아니면
+	if (mStaff->GetIsReturn() && mEnemyState != EnemyState::Death)
 	{
 		//지팡이 안들고있고
 		if (!mHoldStaff)
@@ -214,7 +215,7 @@ void Witch::Update()
 
 	mCurrentAnimation->Update();
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
-	mHitBox = RectMakeCenter(mX, mY, 50, 80);
+	mHitBox = RectMakeCenter(mX, mY, 40, 80);
 }
 
 void Witch::Render(HDC hdc)

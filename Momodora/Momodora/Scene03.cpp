@@ -15,28 +15,45 @@
 #include "StarCountUI.h"
 
 #include "GameEvent.h"
+#include "Animation.h"
 
 void Scene03::Init()
 {
+	// 맵 배경으로 깔고 그 사이즈 받아서 맵 사이즈 초기화 해야 함
+	mSceneSizeX = 960;
+	mSceneSizeY = 1600;
+	// 여기까지는 임시 데이터
+
+	mMapImage = IMAGEMANAGER->FindImage(L"Background_Boss");
+	mPlatformImage = IMAGEMANAGER->FindImage(L"platform1");
+
 	Boss* boss = new Boss;
 	boss->Init();
 	boss->SetObject();
 	boss->SetAnimation();
 	OBJECTMANAGER->AddObject(ObjectLayer::Boss, boss);
 
-	// {{ 충돌 체크용 맵
 	Platform* platform01 = new Platform();
-	platform01->SetPlatform(0, 600, 800, 650, PlatformType::Normal);
+	platform01->SetPlatform(0, 604, 960, 643, PlatformType::Normal);
 	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform01);
 
 	Platform* platform02 = new Platform();
-	platform02->SetPlatform(600, 400, 800, 450, PlatformType::DownJump);
+	platform02->SetPlatform(0, 1460, 960, 1600, PlatformType::Normal);
 	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform02);
 
-	Ladder* ladder01 = new Ladder();
-	ladder01->SetLadder(675, 450, 725, 600);
-	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)ladder01);
-	// 충돌 체크용 맵 }}
+	//// {{ 충돌 체크용 맵
+	//Platform* platform01 = new Platform();
+	//platform01->SetPlatform(0, 600, 800, 650, PlatformType::Normal);
+	//OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform01);
+
+	//Platform* platform02 = new Platform();
+	//platform02->SetPlatform(600, 400, 800, 450, PlatformType::DownJump);
+	//OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform02);
+
+	//Ladder* ladder01 = new Ladder();
+	//ladder01->SetLadder(675, 450, 725, 600);
+	//OBJECTMANAGER->AddObject(ObjectLayer::Ladder, (GameObject*)ladder01);
+	//// 충돌 체크용 맵 }}
 
 	BossHpUI* ui = new BossHpUI;
 	ui->Init();
@@ -131,32 +148,40 @@ void Scene03::Update()
 	// 이벤트 추가
 	if (!mIsBossDead && ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP() <= 0 && !((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetEndEvent())
 	{
-		mIsBossDead = true;
 		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetEndEvent(true);
 
 		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(1.f));
 
-		GAMEEVENTMANAGER->PushEvent(new IScriptEvent(L"Flower_UI"));
-		GAMEEVENTMANAGER->PushEvent(new IScriptEvent(L"Flower_UI"));
+		GAMEEVENTMANAGER->PushEvent(new IScriptEvent(L"Boss_Dialogue1"));
+		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(0.5f));
+		GAMEEVENTMANAGER->PushEvent(new IScriptEvent(L"Boss_Dialogue2"));
+		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(0.5f));
+
+		GAMEEVENTMANAGER->PushEvent(new IEraseEvent(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetImage()
+			, ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetBackImage(), 2.f, 0.07f));
 	}
+
 	GAMEEVENTMANAGER->Update();
 }
 
 void Scene03::Render(HDC hdc)
 {
+	// 맵 이미지
+	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mMapImage, 0, 0, mSceneSizeX, mSceneSizeY);
+
 	// {{ 충돌 체크용 맵
 	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
 	vector<GameObject*>::iterator iter1 = platformList.begin();
+
+
 	for (; iter1 != platformList.end(); ++iter1)
 		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, (*iter1)->GetRect());
 
-	vector<GameObject*> ladderList = OBJECTMANAGER->GetObjectList(ObjectLayer::Ladder);
-	vector<GameObject*>::iterator iter2 = ladderList.begin();
-	for (; iter2 != ladderList.end(); ++iter2)
-		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, (*iter2)->GetRect());
 	// 충돌 체크용 맵 }}
 
 	OBJECTMANAGER->Render(hdc);
+
+	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mPlatformImage, 0, 604, mPlatformImage->GetWidth(), mPlatformImage->GetHeight());
 	GAMEEVENTMANAGER->Render(hdc);
 	//wstring str = L"씬3 페이지";
 	//TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2, str.c_str(), (int)str.length());

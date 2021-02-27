@@ -16,24 +16,25 @@ enum class PlayerState : int
 	LadderEnter,
 	LadderUp, // 좌우없음
 	LadderDown, // 좌우없음
-	//LadderLeave,		// 필요한지 물어보기
-	Bow,				// 없어도 되는지 물어보기
-	AirBow,			// 없어도 되는지 물어보기
-	CrouchBow,		// 없어도 되는지 물어보기
+	//LadderLeave,
+	Bow,
+	AirBow,
+	CrouchBow,
 	Attack1,
 	Attack2,
 	Attack3,
 	AirAttack,
 	Hurt,
-	Death
+	Death,
+	UseItem
 };
 
 class Image;
 class Animation;
+class Leaf;
 
 class Player : public GameObject
 {
-	vector<class Arrow*> mArrow;
 	float mArrowSpeed;
 	Image* mArrowImage;
 
@@ -44,16 +45,23 @@ class Player : public GameObject
 
 	int mHp;
 	int mAttackDamage;
+	int mPotion;
+	float mTimer;
 
 	bool invincibility;
 	bool stopmove;
-	bool stoproll;
 
 	bool mHitAttack;
+
+	bool mIsInDownPlatform;  //아래점프중 플레이어의 랙트가 플랫폼 안에있으면 true
 
 	RECT mPrevRect;
 
 	bool mHaveMagnet;
+	Leaf* mLeaf;
+
+	//에너미와 리프가 충돌체크할때쓸 불
+	bool mEndCombo;
 
 	Image* mIdleImage;
 	Image* mRunImage;
@@ -78,6 +86,7 @@ class Player : public GameObject
 	Image* mAirAttackImage;
 	Image* mHurtImage;
 	Image* mDeathImage;
+	Image* mUseItemImage;
 
 	Image* mCurrentImage;
 
@@ -103,6 +112,7 @@ class Player : public GameObject
 	Animation* mLeftAirAttackAnimation;
 	Animation* mLeftHurtAnimation;
 	Animation* mLeftDeathAnimation;
+	Animation* mLeftUseItemAnimation;
 
 	Animation* mRightIdleAnimation;
 	Animation* mRightRunStartAnimation;
@@ -126,6 +136,7 @@ class Player : public GameObject
 	Animation* mRightAirAttackAnimation;
 	Animation* mRightHurtAnimation;
 	Animation* mRightDeathAnimation;
+	Animation* mRightUseItemAnimation;
 
 	Animation* mLadderUpAnimation;
 	Animation* mLadderDownAnimation;
@@ -161,11 +172,19 @@ public:
 	int GetAttackDamage() { return mAttackDamage; }
 	int GetHp() { return mHp; }
 	void SetHp(int i) { mHp = i; }
-	bool GetHitAttack() { return mHitAttack; }
+	bool GetHitAttack() {return mHitAttack; }
 	PlayerState GetState() { return mState; }
+	int GetPotion() { return mPotion; }
+	void AddPotion() { mPotion += 1; }
+	void PlayerHurt(Direction direction) { mHitBox = RectMakeCenter((int)mX + 10000, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY); mState = PlayerState::Hurt; mDirection = direction; }
 
 	//void SetImageAnimation();
 
 	inline bool GetHaveMagnet()const { return mHaveMagnet; }
 	inline void SetHaveMagnet(bool haveMagnet) { mHaveMagnet = haveMagnet; }
+
+
+	//몬스터와 충돌체크할때 쓸꺼
+	inline bool GetEndCombo() { return mEndCombo; }
+	inline void SetEndCombo(bool a) { mEndCombo = a; }
 };

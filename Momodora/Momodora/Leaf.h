@@ -24,4 +24,9 @@ public:
 	void Release()override;
 	void Update()override;
 	void Render(HDC hdc)override;
+
+	void MakeAttackBox(RECT* attackBox);
+
+	void SetCurrentImageAnimation(int num, bool left);
+	void SetStop();
 };

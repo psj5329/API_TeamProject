@@ -95,7 +95,10 @@ void BossBullet::Update()
 
 	// 확인 결과 땅에 닿을 때에만 사라진다
 	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect))
-		mIsActive = false;
+	{
+		if(mPattern != BulletPattern::PatternBulletUp)
+			mIsActive = false;
+	}
 
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 }

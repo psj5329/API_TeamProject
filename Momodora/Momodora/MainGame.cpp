@@ -69,17 +69,20 @@ void MainGame::Update()
 			return;
 	}
 
-	if (INPUT->GetKeyDown('1'))
+	//if (INPUT->GetKeyDown('1'))
+	if (INPUT->GetKeyAKeyDownB('M', '1'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene01")
 			SCENEMANAGER->LoadScene(L"Scene01");
 	}
-	else if (INPUT->GetKeyDown('2'))
+	//else if (INPUT->GetKeyDown('2'))
+	else if (INPUT->GetKeyAKeyUpB('M', '2'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene02")
 			SCENEMANAGER->LoadScene(L"Scene02");
 	}
-	else if (INPUT->GetKeyDown('3'))
+	//else if (INPUT->GetKeyDown('3'))
+	else if (INPUT->GetKeyAKeyB('M', '3'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene03")
 			SCENEMANAGER->LoadScene(L"Scene03");
@@ -131,7 +134,13 @@ void MainGame::Render(HDC hdc)
 	if (str == L"LoadingScene" && ((LoadingScene*)(SCENEMANAGER->GetCurrentScene()))->GetIsEndLoading())
 	{
 		wstring strLoad = L"로딩 끝";
+		wstring strLoad2 = L"씬1 이동: \'M\' 누르고 있는 상태에서 \'1\' 누르기";
+		wstring strLoad3 = L"씬2 이동: \'M\', \'2\' 누르고 있는 상태에서 \'2\'에서 손 떼기";
+		wstring strLoad4 = L"씬3 이동: \'M\', \'3\' 같이 누르기(순서 상관없음)";
 		TextOut(backDC, 400, 300, strLoad.c_str(), (int)strLoad.length());
+		TextOut(backDC, 400, 325, strLoad2.c_str(), (int)strLoad2.length());
+		TextOut(backDC, 400, 350, strLoad3.c_str(), (int)strLoad3.length());
+		TextOut(backDC, 400, 375, strLoad4.c_str(), (int)strLoad4.length());
 	}
 
 	RenderDebugText(backDC);
@@ -184,6 +193,7 @@ void MainGame::MakeScene()
 	SCENEMANAGER->AddScene(L"Scene01", new Scene01());
 	SCENEMANAGER->AddScene(L"Scene02", new Scene02());
 	SCENEMANAGER->AddScene(L"Scene03", new Scene03());
+
 	SCENEMANAGER->AddScene(L"SceneTest", new SceneTest());
 
 	SCENEMANAGER->LoadScene(L"LoadingScene");
@@ -194,7 +204,16 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"Map/map2"), 1200, 900, false); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapFixRect", Resources(L"MapFixRect"), 32, 32, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapFixDia", Resources(L"MapFixDia"), 45, 45, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallCircle", Resources(L"FallCircle"), 45, 45, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallOneTwiceCircle", Resources(L"FallOneTwiceCircle"), 45, 45, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallTripleCircle", Resources(L"FallTripleCircle"), 45, 45, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallFourCircle", Resources(L"FallFourCircle"), 45, 45, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallFiveCircle", Resources(L"FallFiveCircle"), 45, 45, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attacked", Resources(L"Attacked"), 960, 720, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"map0001", Resources(L"wp4020"), 4000, 2000, true); }); // 1번신
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Background_Boss", Resources(L"map/Background_Boss"), 960, 1600, true); }); // 3번신
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"platform1", Resources(L"map/platform1"), 960, 39, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"platform2", Resources(L"map/platform2"), 960, 93, true); });
 
 	// Player
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Idle", Resources(L"Player/idle"), 294, 96, 6, 2, true); });
@@ -226,6 +245,7 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"LandHard", Resources(L"/Player/landhard"), 539, 96, 11, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Hurt", Resources(L"/Player/hurt"), 49, 96, 1, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Death", Resources(L"/Player/death"), 1200, 88, 24, 2, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"UseItem", Resources(L"/Player/useitem"), 539, 96, 11, 2, true); });
 
 	// Enemy
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Imp", Resources(L"Imp"), 320, 384, 10, 12, true); });
@@ -272,6 +292,9 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Staff", Resources(L"Enemy/Witchstaff"), 256, 64, 4, 1, true); });
 
 	// Boss
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss", Resources(L"Boss/Boss"), 210, 320, 5, 1, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_back", Resources(L"Boss/Boss_back"), 210, 320, 5, 1, true); });
+
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Head", Resources(L"Boss/Boss_Head"), 1020, 157, 5, 1, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Body", Resources(L"Boss/Boss_Body"), 115, 176, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_BackHair", Resources(L"Boss/Boss_BackHair"), 200, 221, true); });
@@ -300,7 +323,12 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Potion", Resources(L"Potion"), 36, 18, 2, 1, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Magnet", Resources(L"Magnet"), 128, 128, 1, 1, true); });
 
+	// Script
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Dialogue1", Resources(L"Boss/Boss_Dialogue1"), 210, 50, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Dialogue2", Resources(L"Boss/Boss_Dialogue2"), 210, 100, true); });
+
 	// UI
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Name", Resources(L"Boss_Name"), 280, 40, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Hp", Resources(L"UI/Boss_Hp"), 970, 65, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_HpBar", Resources(L"UI/Boss_HpBar"), 960, 45, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_HpLess", Resources(L"UI/Boss_HpLess"), 10, 45, true); });

@@ -7,8 +7,6 @@ class Input
 	_Singleton(Input)
 
 private:
-	//bool mKeyDownList[KEYMAX];
-	//bool mKeyUpList[KEYMAX];
 	bitset<KEYMAX> mPrevKey;
 	bitset<KEYMAX> mCurrentKey;
 
@@ -21,6 +19,10 @@ public:
 	bool GetKeyUp(const int& key);
 	bool GetKey(const int& key);
 	bool GetToggleKey(const int& key);
+
+	bool GetKeyAKeyDownB(const int& keyA, const int& keyB);
+	bool GetKeyAKeyUpB(const int& keyA, const int& keyB);
+	bool GetKeyAKeyB(const int& keyA, const int& keyB);
 };
 
 #define INPUT Input::GetInstance()

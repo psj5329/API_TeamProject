@@ -129,7 +129,7 @@ void ObjectManager::RemoveObjectsInScene()
 	ObjectIter iter = mObjectList.begin();
 	for (; iter != mObjectList.end(); ++iter)
 	{
-		if ((iter->first == ObjectLayer::Player) || (iter->first == ObjectLayer::UI))
+		if ((iter->first == ObjectLayer::Player) || (iter->first == ObjectLayer::PlayerLeaf) || (iter->first == ObjectLayer::UI))
 			continue;
 
 		for (int i = 0; i < iter->second.size();)

@@ -22,6 +22,8 @@ public:
 	void Render(HDC hdc)override;
 
 public:
+	BulletPattern GetPattern() { return mPattern; }
+
 	void SetAngle(float angle) { mAngle = angle; }
 	void SetPattern(BulletPattern pattern) { mPattern = pattern; }
 };

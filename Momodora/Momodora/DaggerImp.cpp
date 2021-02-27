@@ -29,6 +29,7 @@ void DaggerImp::Init()
 	mHp = 60;
 	bottom = { 0, 602, 600, 650 };
 	mAlpha = 1;
+	isHit = false;
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 0, 0, 0, false);
@@ -222,7 +223,7 @@ void DaggerImp::ThrowDagger()
 	Dagger* Dagger1 = new Dagger();
 	Dagger1->Init(mX, mY, angle);
 	Dagger1->SetObject();
-	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyProjectile, Dagger1);
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyDagger, Dagger1);
 }
 
 void DaggerImp::EndAttack()

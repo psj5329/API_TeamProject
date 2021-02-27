@@ -39,6 +39,8 @@ class IScriptEvent : public IEvent
 	Image* mImage;
 	float mCurrentTime;
 	float mDelayTime;
+	float mShakeX;
+	float mShakeY;
 public:
 	IScriptEvent(wstring image);
 
@@ -49,43 +51,58 @@ public:
 
 class IEraseEvent : public IEvent
 {
-	GameObject* mObject;
-	float mX;
-	float mY;
-	vector<RECT> mVecCircle;
+	Image* mImage1;
+	Image* mImage2;
+	float mSize;
+	float mDelayTime;
+	vector<POINT> mVecEraseCenter;
+	vector<POINT> mVecBackEraseCenter;
 
 public:
-	IEraseEvent(GameObject* object, float x, float y);
+	IEraseEvent(Image* image1, Image* image2, float r, float time);
 
 	void Start()override;
 	bool Update()override;
 	void Render(HDC hdc)override;
 };
 
-//class IMoveGameObject : public IEvent
-//{
-//	class GameObject* mObject;
-//	float mTargetX;
-//	float mTargetY;
-//	float mSpeedX;
-//	float mSpeedY;
-//public:
-//	IMoveGameObject(GameObject* object, GameObject* target);
-//	IMoveGameObject(GameObject* object, float x, float y);
-//
-//	void Start()override;
-//	bool Update()override;
-//	void Render(HDC hdc)override;
-//};
-//
-//class IChangeAnimation : public IEvent
-//{
-//	class GameObject* mObject;
-//	class Animation* mAnimation;
-//public:
-//	IChangeAnimation(GameObject* object, Animation* animation);
-//
-//	void Start()override;
-//	bool Update()override;
-//	void Render(HDC hdc)override;
-//};
+class IMoveGameObject : public IEvent
+{
+	class GameObject* mObject;
+	float mTargetX;
+	float mTargetY;
+	float mSpeedX;
+	float mSpeedY;
+public:
+	IMoveGameObject(GameObject* object, GameObject* target);
+	IMoveGameObject(GameObject* object, float x, float y);
+
+	void Start()override;
+	bool Update()override;
+	void Render(HDC hdc)override;
+};
+
+class IChangeAnimation : public IEvent
+{
+	class GameObject* mObject;
+	class Animation* mAnimation;
+public:
+	IChangeAnimation(GameObject* object, Animation* animation);
+
+	void Start()override;
+	bool Update()override;
+	void Render(HDC hdc)override;
+};
+
+class IChangeImage : public IEvent
+{
+	Image* mImage1;
+	Image* mImage2;
+
+public:
+	IChangeImage(Image* image1, Image* image2);
+
+	void Start()override;
+	bool Update()override;
+	void Render(HDC hdc)override;
+};
