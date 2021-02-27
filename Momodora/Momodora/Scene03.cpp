@@ -27,6 +27,17 @@ void Scene03::Init()
 		player->SetX(2200);
 		player->SetY(400);
 	}
+	
+	//적배치
+	AddBombImp(800, 600);
+	AddShieldImp(900, 600);
+
+	AddWitch(1680,300);
+	AddWitch(2073, 230);
+
+	AddDaggerImp(1550, 540);
+	AddDaggerImp(1750, 540);
+	
 }
 
 void Scene03::Release()
@@ -44,6 +55,12 @@ void Scene03::Update()
 		SCENEMANAGER->LoadScene(L"Scene02", 2);
 	if ((int)x >= mSceneSizeX)
 		SCENEMANAGER->LoadScene(L"Scene04", 1);
+
+
+
+	//충돌확인
+	AllCollision();
+
 }
 
 void Scene03::Render(HDC hdc)

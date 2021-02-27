@@ -8,15 +8,15 @@
 void Monkey::Init()
 {
 	mImage = IMAGEMANAGER->FindImage(L"Monkey");
-	mStart.x = WINSIZEX / 2;
-	mStart.y = WINSIZEY / 2;
+	mStart.x = 4000;
+	mStart.y = 4000;
 	mX = mStart.x;
 	mY = mStart.y;
 	mSizeX = mImage->GetFrameWidth()*2;
 	mSizeY = mImage->GetFrameHeight()*2;
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mHitBox = RectMakeCenter(mX, mY + 30, 50, 50);
-	mSearchZone = RectMakeCenter(mX - 150, mY - 150, 300, 300);
+//	mSearchZone = RectMakeCenter(mX - 150, mY - 150, 300, 300);
 	isHit = false;
 
 	mSpeed = 70;
@@ -24,7 +24,7 @@ void Monkey::Init()
 	mAtk = 10;
 	mDef = 5;
 	mHp = 100;
-	mRange = 300;
+	mRange = 100;
 	mAlpha = 1;
 
 	mFoundPlayer = false;
@@ -98,22 +98,22 @@ void Monkey::Update()
 
 		//거리가 멀면
 		//플레이어로 이동
-	
-
 		if (mEnemyState== EnemyState::Move)
 		{
+			//SetDirection();
 			mSearchSpeed += TIME->DeltaTime();
 
 			if (mPlayer->GetX() > mX)
 			{
-				mX += mSpeed * TIME->DeltaTime();
+				mX += abs(mSpeed) * TIME->DeltaTime();
 			}
 			else
 			{
-				mX -= mSpeed * TIME->DeltaTime();
+				mX -= abs(mSpeed) * TIME->DeltaTime();
 			}
 			if (mEnemyState != EnemyState::Move)
 			{
+				SetDirection();
 				mEnemyState = EnemyState::Move;
 
 				SetAnimation();
@@ -236,21 +236,23 @@ void Monkey::Patrol()
 {
 	mX += mSpeed * TIME->DeltaTime();
 	if (mSpeed < 0) {
-		mDirection = Direction::Left;
+		//mDirection = Direction::Left;
 	}
 	else {
-		mDirection = Direction::Right;
+		//mDirection = Direction::Right;
 	}
 
 	if (mX < mStart.x - mRange)
 	{
 		mSpeed *= -1;
+		mDirection = Direction::Right;
 		mCurrentAnimation->Stop();
 		mCurrentAnimation = mRightMove;
 		mCurrentAnimation->Play();
 	}
 	if (mX > mStart.x + mRange)
 	{
+		mDirection = Direction::Left;
 		mSpeed *= -1;
 		mCurrentAnimation->Stop();
 		mCurrentAnimation = mLeftMove;
