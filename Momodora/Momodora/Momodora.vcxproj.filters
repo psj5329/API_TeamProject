@@ -462,5 +462,11 @@
     <Image Include="Momodora.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="..\..\..\..\..\Desktop\Momodora.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\Resources\Icon\Momodora.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -273,6 +273,8 @@
     <ResourceCompile Include="Momodora.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\..\Desktop\Momodora.ico" />
+    <Image Include="..\Resources\Icon\Momodora.ico" />
     <Image Include="Momodora.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
