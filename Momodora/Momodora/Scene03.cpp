@@ -24,7 +24,7 @@ void Scene03::Init()
 	}
 	else if (mEntrance == 2)
 	{
-		player->SetX(700);
+		player->SetX(2200);
 		player->SetY(400);
 	}
 }
@@ -52,14 +52,14 @@ void Scene03::Render(HDC hdc)
 
 	OBJECTMANAGER->Render(hdc);
 
-	RECT rect;
-	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
-	vector<GameObject*>::iterator iter = platformList.begin();
-	for (; iter != platformList.end(); ++iter)
-	{
-		rect = (*iter)->GetRect();
-		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, rect);
-	}
+	//RECT rect;
+	//vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
+	//vector<GameObject*>::iterator iter = platformList.begin();
+	//for (; iter != platformList.end(); ++iter)
+	//{
+	//	rect = (*iter)->GetRect();
+	//	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, rect);
+	//}
 }
 
 void Scene03::PlaceRect()
