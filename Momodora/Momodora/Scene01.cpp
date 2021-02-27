@@ -9,9 +9,14 @@
 
 void Scene01::Init()
 {
-	// {{ Ãæµ¹ Ã¼Å©¿ë ¸Ê
+	// {{ ì¶©ëŒ ì²´í¬ìš© ë§µ
+	mMapImage = IMAGEMANAGER->FindImage(L"map0001");
+
+	mSceneSizeX = mMapImage->GetWidth();
+	mSceneSizeY = mMapImage->GetHeight();
+
 	Platform* platform01 = new Platform();
-	platform01->SetPlatform(0, 600, 800, 650, PlatformType::Normal);
+	platform01->SetPlatform(0, 600, 4000, 650, PlatformType::Normal);
 	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform01);
 
 	Platform* platform02 = new Platform();
@@ -21,10 +26,9 @@ void Scene01::Init()
 	Ladder* ladder01 = new Ladder();
 	ladder01->SetLadder(675, 450, 725, 600);
 	OBJECTMANAGER->AddObject(ObjectLayer::Ladder, (GameObject*)ladder01);
-	// Ãæµ¹ Ã¼Å©¿ë ¸Ê }}
+	// ì¶©ëŒ ì²´í¬ìš© ë§µ }}
 
-
-	//ÅÛ
+	//í…œ
 	Potion* potion1 = new Potion();
 	potion1->Init(WINSIZEX / 2 + 350, 550,0);
 	potion1->SetObject();
@@ -52,7 +56,9 @@ void Scene01::Update()
 
 void Scene01::Render(HDC hdc)
 {
-	// {{ Ãæµ¹ Ã¼Å©¿ë ¸Ê
+	// {{ ì¶©ëŒ ì²´í¬ìš© ë§µ
+	CAMERAMANAGER->GetMainCamera()->Render(hdc, mMapImage, 0, 0);
+
 	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
 	vector<GameObject*>::iterator iter1 = platformList.begin();
 	for (; iter1 != platformList.end(); ++iter1)
@@ -62,9 +68,9 @@ void Scene01::Render(HDC hdc)
 	vector<GameObject*>::iterator iter2 = ladderList.begin();
 	for (; iter2 != ladderList.end(); ++iter2)
 		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, (*iter2)->GetRect());
-	// Ãæµ¹ Ã¼Å©¿ë ¸Ê }}
+	// ì¶©ëŒ ì²´í¬ìš© ë§µ }}
 
-	wstring str = L"¾À1 ÆäÀÌÁö";
+	wstring str = L"ì”¬1 íŽ˜ì´ì§€";
 	TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2, str.c_str(), (int)str.length());
 
 	OBJECTMANAGER->Render(hdc);

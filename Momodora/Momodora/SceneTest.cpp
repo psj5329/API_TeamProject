@@ -8,10 +8,14 @@ void SceneTest::Init()
 {
 	//IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"Map/map2"), 1200, 900, false); // 메인으로 옮겨감
 
+	// 맵 배경으로 깔고 그 사이즈 받아서 맵 사이즈 초기화 해야 함
 	mMapTest = IMAGEMANAGER->FindImage(L"MapTest"); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
+	mSceneSizeX = 5000; // 좌우 100 정도 마진 주고 막아야 함
+	mSceneSizeY = 3000;
+	// 여기까지는 임시 데이터
 
 	Platform* platform01 = new Platform();
-	platform01->SetPlatform(0, 600, 800, 650, PlatformType::Normal);
+	platform01->SetPlatform(0, 600, 5000, 650, PlatformType::Normal);
 	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform01);
 
 	Platform* platform02 = new Platform();

@@ -1,10 +1,12 @@
 #pragma once
+#include "Image.h"
 
 class Scene
 {
 protected:
 	int mSceneSizeX;
 	int mSceneSizeY;
+	Image* mMapImage;
 
 public:
 	virtual void Init() = 0;

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Camera.h"
 #include "Image.h"
+#include "Player.h"
+#include "Scene.h"
 
 void Camera::Init()
 {
@@ -30,27 +32,55 @@ void Camera::Update()
 	float targetLeft = 0.f;
 	float targetY = 0.f;
 
+	Player* player = NULL;
+	Direction playerDir = (Direction)NULL;
+
+	if (SCENEMANAGER->GetCurrentSceneName() != L"LoadingScene")
+	//if (player != nullptr)
+	{
+		player = OBJECTMANAGER->GetPlayer();
+		playerDir = player->GetDirection();
+	}
+
+	int sceneSizeX = SCENEMANAGER->GetCurrentScene()->GetSceneSizeX();
+	int sceneSizeY = SCENEMANAGER->GetCurrentScene()->GetSceneSizeY();
+
 	switch (mMode)
 	{
 	case Camera::Mode::Follow:
 		if (mTarget)
 		{
-			targetRight = mTarget->GetX() + WINSIZEX / 10.f;
-			targetLeft = mTarget->GetX() - WINSIZEX / 10.f;
+			targetRight = mTarget->GetX() + WINSIZEX / 5.f;
+			targetLeft = mTarget->GetX() - WINSIZEX / 5.f;
 			targetY = mTarget->GetY() + WINSIZEY / 10.f;
 
-			//mX = mTarget->GetX();
-			if (tempRight)      // 고정 인 곳 신사이즈로 조절
-				mX = Math::Lerp(mX, targetRight, 0.4f * mMoveSpeed * TIME->DeltaTime());
-			else
-				if (targetLeft <= WINSIZEX * 6.f / 10.f)
+			//if (player != nullptr)
+			//{
+				//mX = mTarget->GetX();
+			if (playerDir == Direction::Right)//(tempRight)      // 고정 인 곳 신사이즈로 조절
+				if (targetRight <= WINSIZEX / 2.f)
 					mX = Math::Lerp(mX, WINSIZEX / 2.f, 0.4f * mMoveSpeed * TIME->DeltaTime());
+				else if (targetRight >= sceneSizeX - WINSIZEX / 2.f)
+					mX = Math::Lerp(mX, sceneSizeX - WINSIZEX / 2.f, 0.4f * mMoveSpeed * TIME->DeltaTime());
+				else
+					mX = Math::Lerp(mX, targetRight, 0.4f * mMoveSpeed * TIME->DeltaTime());
+			else
+				if (targetLeft <= WINSIZEX / 2.f)
+					mX = Math::Lerp(mX, WINSIZEX / 2.f, 0.4f * mMoveSpeed * TIME->DeltaTime());
+				else if (targetLeft >= sceneSizeX - WINSIZEX / 2.f)
+					mX = Math::Lerp(mX, sceneSizeX - WINSIZEX / 2.f, 0.4f * mMoveSpeed * TIME->DeltaTime());
 				else
 					mX = Math::Lerp(mX, targetLeft, 0.4f * mMoveSpeed * TIME->DeltaTime());
+			//}
 
 			// y도 신사이즈로 조절
 			//mY = mTarget->GetY();
-			mY = Math::Lerp(mY, targetY, 2.f * mMoveSpeed * TIME->DeltaTime());
+			if (targetY <= WINSIZEY / 2.f)
+				mY = Math::Lerp(mY, WINSIZEY / 2.f, 2.f * mMoveSpeed * TIME->DeltaTime());
+			else if (targetY >= sceneSizeY - WINSIZEY / 2.f)
+				mY = Math::Lerp(mY, sceneSizeY - WINSIZEY / 2.f, 2.f * mMoveSpeed * TIME->DeltaTime());
+			else
+				mY = Math::Lerp(mY, targetY, 2.f * mMoveSpeed * TIME->DeltaTime());
 			mRect = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY);
 		}
 		break;

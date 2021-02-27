@@ -17,7 +17,7 @@ void Player::Init()
 
 	ReadyPlayerAnimation();
 
-	InitPlayerVar(); // «√∑π¿ÃæÓ∞° ∞°¡¯ ∞¢¡æ ∫ØºˆµÈ √ ±‚»≠ «œ¥¬ «‘ºˆ
+	InitPlayerVar(); // ÌîåÎ†àÏù¥Ïñ¥Í∞Ä Í∞ÄÏßÑ Í∞ÅÏ¢Ö Î≥ÄÏàòÎì§ Ï¥àÍ∏∞Ìôî ÌïòÎäî Ìï®Ïàò
 }
 
 void Player::Release()
@@ -27,12 +27,11 @@ void Player::Release()
 
 void Player::Update()
 {
-	// ¿Ãµø «¡∑π¿”
+	// Ïù¥Îèô ÌîÑÎ†àÏûÑ
 	if (mState == PlayerState::Idle || mState == PlayerState::Turn || mState == PlayerState::Brake)
 	{
 		if (Input::GetInstance()->GetKeyDown(VK_LEFT))
 		{
-			//mState = State::LeftRun;
 			mDirection = Direction::Left;
 			mState = PlayerState::Run;
 			mCurrentAnimation->Stop();
@@ -45,7 +44,6 @@ void Player::Update()
 	{
 		if (Input::GetInstance()->GetKeyDown(VK_RIGHT))
 		{
-			//mState = State::RightRun;
 			mDirection = Direction::Right;
 			mState = PlayerState::Run;
 			mCurrentAnimation->Stop();
@@ -76,9 +74,9 @@ void Player::Update()
 		}
 	}
 
-	// ¿Ãµø ±∏«ˆ
+	// Ïù¥Îèô Íµ¨ÌòÑ
 	if (Input::GetInstance()->GetKey(VK_LEFT))
-	{	
+	{
 		if (stopmove == 0)
 		{
 			mX -= mSpeed * Time::GetInstance()->DeltaTime();
@@ -97,7 +95,7 @@ void Player::Update()
 		}
 	}
 	if (Input::GetInstance()->GetKey(VK_RIGHT))
-	{	
+	{
 		if (stopmove == 0)
 		{
 			mX += mSpeed * Time::GetInstance()->DeltaTime();
@@ -116,14 +114,13 @@ void Player::Update()
 		}
 	}
 
-	// æ…±‚
+	// ÏïâÍ∏∞
 	if (Input::GetInstance()->GetKey(VK_DOWN))
 	{
 		if (mDirection == Direction::Left)
 		{
 			if (mState == PlayerState::Idle || mState == PlayerState::Run)
 			{
-				//mState = State::LeftCrouch;
 				mState = PlayerState::Crouch;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mLeftCrouchAnimation;
@@ -135,7 +132,6 @@ void Player::Update()
 		{
 			if (mState == PlayerState::Idle || mState == PlayerState::Run)
 			{
-				//mState = State::RightCrouch;
 				mState = PlayerState::Crouch;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mRightCrouchAnimation;
@@ -143,7 +139,7 @@ void Player::Update()
 				mCurrentImage = mCrouchImage;
 			}
 		}
-		//æ∆∑° ¡°«¡
+		//ÏïÑÎûò Ï†êÌîÑ
 		if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 		{
 			if (mDirection == Direction::Left)
@@ -153,7 +149,7 @@ void Player::Update()
 				mCurrentAnimation = mLeftFallAnimation;
 				mCurrentAnimation->Play();
 				mCurrentImage = mFallImage;
-		
+
 			}
 			if (mDirection == Direction::Right)
 			{
@@ -166,25 +162,21 @@ void Player::Update()
 		}
 	}
 
-	// ¿œæÓº≠±‚
+	// ÏùºÏñ¥ÏÑúÍ∏∞
 	if (Input::GetInstance()->GetKeyUp(VK_DOWN))
 	{
 		if (mState == PlayerState::Crouch)
 		{
-			//if (mState == State::LeftCrouch)
 			if (mDirection == Direction::Left)
 			{
-				//mState = State::LeftRise;
 				mState = PlayerState::Rise;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mLeftRiseAnimation;
 				mCurrentAnimation->Play();
 				mCurrentImage = mRiseImage;
 			}
-			//if (mState == State::RightCrouch)
 			if (mDirection == Direction::Right)
 			{
-				//mState = State::RightRise;
 				mState = PlayerState::Rise;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mRightRiseAnimation;
@@ -194,15 +186,13 @@ void Player::Update()
 		}
 	}
 
-	// ±∏∏£±‚
+	// Íµ¨Î•¥Í∏∞
 	if (Input::GetInstance()->GetKeyDown(VK_LSHIFT))
 	{
-		//if (mState == State::LeftIdle || mState == State::LeftRun)
-		if(mDirection == Direction::Left)
+		if (mDirection == Direction::Left)
 		{
 			if (mState == PlayerState::Idle || mState == PlayerState::Run)
 			{
-				//mState = State::LeftRoll;
 				mState = PlayerState::Roll;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mLeftRollAnimation;
@@ -210,12 +200,10 @@ void Player::Update()
 				mCurrentImage = mRollImage;
 			}
 		}
-		//if (mState == State::RightIdle || mState == State::RightRun)
 		if (mDirection == Direction::Right)
 		{
 			if (mState == PlayerState::Idle || mState == PlayerState::Run)
 			{
-				//mState = State::RightRoll;
 				mState = PlayerState::Roll;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mRightRollAnimation;
@@ -227,13 +215,11 @@ void Player::Update()
 
 	if (mState == PlayerState::Roll)
 	{
-		//if (mState == State::LeftRoll)
 		if (mDirection == Direction::Left)
 		{
 			mX -= mSpeed * Time::GetInstance()->DeltaTime() * 1.3f;
 			mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 		}
-		//if (mState == State::RightRoll)
 		if (mDirection == Direction::Right)
 		{
 			mX += mSpeed * Time::GetInstance()->DeltaTime() * 1.3f;
@@ -241,7 +227,7 @@ void Player::Update()
 		}
 	}
 
-	// ªÁ¥Ÿ∏Æ!!!!!!!!!!!!!!!!!!!!
+	// ÏÇ¨Îã§Î¶¨!!!!!!!!!!!!!!!!!!!!
 	/*RECT LadderRect;
 	vector<GameObject*> LadderList = OBJECTMANAGER->GetObjectList(ObjectLayer::Ladder);
 	vector<GameObject*>::iterator ladderiter = LadderList.begin();
@@ -314,7 +300,7 @@ void Player::Update()
 		}
 	}*/
 
-	// »∞ ∞¯∞›
+	// Ìôú Í≥µÍ≤©
 	if (Input::GetInstance()->GetKeyDown('X'))
 	{
 		Arrow* arrow = new Arrow();
@@ -322,10 +308,8 @@ void Player::Update()
 
 		if (mDirection == Direction::Left)
 		{
-			//if (mState == State::LeftIdle || mState == State::LeftRun)
 			if (mState == PlayerState::Idle || mState == PlayerState::Run)
 			{
-				//mState = State::LeftBow;
 				mState = PlayerState::Bow;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mLeftBowAnimation;
@@ -334,13 +318,10 @@ void Player::Update()
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, PI);
 				arrow->SetArrowIndexY(1);
 				arrow->SetObject();
-				//mArrow.push_back(arrow);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
-			//if (mState == State::LeftJump || mState == State::LeftFall)
 			if (mState == PlayerState::Jump || mState == PlayerState::Fall)
 			{
-				//mState = State::LeftAirBow;
 				mState = PlayerState::AirBow;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mLeftAirBowAnimation;
@@ -348,13 +329,10 @@ void Player::Update()
 				mCurrentImage = mAirBowImage;
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, PI);
 				arrow->SetArrowIndexY(1);
-				//mArrow.push_back(arrow);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
-			//if (mState == State::LeftCrouch)
 			if (mState == PlayerState::Crouch)
 			{
-				//mState = State::LeftCrouchBow;
 				mState = PlayerState::CrouchBow;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mLeftCrouchBowAnimation;
@@ -362,16 +340,13 @@ void Player::Update()
 				mCurrentImage = mCrouchBowImage;
 				arrow->Fire(mArrowImage, mX - 20, mY + 18, mArrowSpeed, PI);
 				arrow->SetArrowIndexY(1);
-				//mArrow.push_back(arrow);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
 		}
 		if (mDirection == Direction::Right)
 		{
-			//if (mState == State::RightIdle || mState == State::RightRun)
 			if (mState == PlayerState::Idle || mState == PlayerState::Run)
 			{
-				//mState = State::RightBow;
 				mState = PlayerState::Bow;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mRightBowAnimation;
@@ -379,13 +354,10 @@ void Player::Update()
 				mCurrentImage = mBowImage;
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, 0);
 				arrow->SetArrowIndexY(0);
-				//mArrow.push_back(arrow);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
-			//if (mState == State::RightJump || mState == State::RightFall)
 			if (mState == PlayerState::Jump || mState == PlayerState::Fall)
 			{
-				//mState = State::RightAirBow;
 				mState = PlayerState::AirBow;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mRightAirBowAnimation;
@@ -393,13 +365,10 @@ void Player::Update()
 				mCurrentImage = mAirBowImage;
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, 0);
 				arrow->SetArrowIndexY(0);
-				//mArrow.push_back(arrow);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
-			//if (mState == State::RightCrouch)
 			if (mState == PlayerState::Crouch)
 			{
-				//mState = State::RightCrouchBow;
 				mState = PlayerState::CrouchBow;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mRightCrouchBowAnimation;
@@ -407,23 +376,21 @@ void Player::Update()
 				mCurrentImage = mCrouchBowImage;
 				arrow->Fire(mArrowImage, mX + 20, mY + 18, mArrowSpeed, 0);
 				arrow->SetArrowIndexY(0);
-				//mArrow.push_back(arrow);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
 			}
 		}
 	}
 
-	// ∞À ∞¯∞› 1
+	// Í≤Ä Í≥µÍ≤© 1
 	if(mState != PlayerState::Attack1 && mState != PlayerState::Attack2 && mState != PlayerState::Attack3)
+	//if (mState != PlayerState::Attack1 || mState != PlayerState::Attack2 || mState != PlayerState::Attack3)
 	{
 		if (Input::GetInstance()->GetKeyDown('Z'))
 		{
 			if (mDirection == Direction::Left)
 			{
-				//if (mState == State::LeftIdle || mState == State::LeftRun)
 				if (mState == PlayerState::Idle || mState == PlayerState::Run)
 				{
-					//mState = State::LeftAttack1;
 					mState = PlayerState::Attack1;
 					mCurrentAnimation->Stop();
 					mCurrentAnimation = mLeftAttack1Animation;
@@ -431,10 +398,8 @@ void Player::Update()
 					mCurrentImage = mAttack1Image;
 					mLeaf->SetCurrentImageAnimation(1, true);
 				}
-				//if (mState == State::LeftJump || mState == State::LeftFall)
 				if (mState == PlayerState::Jump || mState == PlayerState::Fall)
 				{
-					//mState = State::LeftAirAttack;
 					mState = PlayerState::AirAttack;
 					mCurrentAnimation->Stop();
 					mCurrentAnimation = mLeftAirAttackAnimation;
@@ -444,10 +409,8 @@ void Player::Update()
 			}
 			if (mDirection == Direction::Right)
 			{
-				//if (mState == State::RightIdle || mState == State::RightRun)
 				if (mState == PlayerState::Idle || mState == PlayerState::Run)
 				{
-					//mState = State::RightAttack1;
 					mState = PlayerState::Attack1;
 					mCurrentAnimation->Stop();
 					mCurrentAnimation = mRightAttack1Animation;
@@ -456,10 +419,8 @@ void Player::Update()
 					mLeaf->SetIsActive(true);
 					mLeaf->SetCurrentImageAnimation(1, false);
 				}
-				//if (mState == State::RightJump || mState == State::RightFall)
 				if (mState == PlayerState::Jump || mState == PlayerState::Fall)
 				{
-					//mState = State::RightAirAttack;
 					mState = PlayerState::AirAttack;
 					mCurrentAnimation->Stop();
 					mCurrentAnimation = mRightAirAttackAnimation;
@@ -472,18 +433,15 @@ void Player::Update()
 		}
 	}
 
-	// ∞À ∞¯∞› 2
-	//if (mState == State::LeftAttack1 || mState == State::RightAttack1)
+	// Í≤Ä Í≥µÍ≤© 2
 	if (mState == PlayerState::Attack1)
 	{
 		if (Input::GetInstance()->GetKeyDown('Z'))
 		{
-			//if (mState == State::LeftAttack1)
 			if (mDirection == Direction::Left)
 			{
 				if (mCurrentAnimation->GetNowFrameX() == 0 || mCurrentAnimation->GetNowFrameX() == 1 || mCurrentAnimation->GetNowFrameX() == 2)
 				{
-					//mState = State::LeftAttack2;
 					mState = PlayerState::Attack2;
 					mCurrentAnimation->Stop();
 					mCurrentAnimation = mLeftAttack2Animation;
@@ -492,12 +450,10 @@ void Player::Update()
 					mLeaf->SetCurrentImageAnimation(2, true);
 				}
 			}
-			//if (mState == State::RightAttack1)
 			if (mDirection == Direction::Right)
 			{
 				if (mCurrentAnimation->GetNowFrameX() == 4 || mCurrentAnimation->GetNowFrameX() == 5 || mCurrentAnimation->GetNowFrameX() == 6)
 				{
-					//mState = State::RightAttack2;
 					mState = PlayerState::Attack2;
 					mCurrentAnimation->Stop();
 					mCurrentAnimation = mRightAttack2Animation;
@@ -511,17 +467,16 @@ void Player::Update()
 		}
 	}
 
-	// ∞À ∞¯∞› 3
+	// Í≤Ä Í≥µÍ≤© 3
 	if (mState == PlayerState::Attack2)
 	{
 		if (Input::GetInstance()->GetKeyDown('Z'))
 		{
 			if (mDirection == Direction::Left)
 			{
-				if (mCurrentAnimation->GetNowFrameX() == 0 || mCurrentAnimation->GetNowFrameX() == 1 )
+				if (mCurrentAnimation->GetNowFrameX() == 0 || mCurrentAnimation->GetNowFrameX() == 1)
 				{
-
-					if(INPUT->GetKey(VK_RIGHT))
+					if (INPUT->GetKey(VK_RIGHT))
 					{
 						mDirection = Direction::Right;
 						mState = PlayerState::Attack3;
@@ -572,7 +527,7 @@ void Player::Update()
 			mAttackDamage = 20;
 		}
 	}
-	//««∞›
+	//ÌîºÍ≤©
 	if (mState == PlayerState::Hurt)
 	{
 		if (mTimer == 0) 
@@ -636,13 +591,13 @@ void Player::Update()
 			}
 		}
 	}
-	//¥Ÿƒ£ªÛ≈¬æ∆¥œ∏È
+	//Îã§ÏπúÏÉÅÌÉúÏïÑÎãàÎ©¥
 	else
 	{
 		mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
 	}
 
-	// Hp »∏∫π æ∆¿Ã≈€ ªÁøÎ
+	// Hp ÌöåÎ≥µ ÏïÑÏù¥ÌÖú ÏÇ¨Ïö©
 	if (mHp > 0 && mHp < 100 && mPotion > 0)
 	{
 		if (Input::GetInstance()->GetKeyDown('Q'))
@@ -679,15 +634,13 @@ void Player::Update()
 		mHp -= (mHp - 100);
 	}
 
-	// ªÁ∏¡
+	// ÏÇ¨Îßù
 	if (mHp <= 0)
 	{
 		if (mDirection == Direction::Left)
 		{
-			//if (mState == State::LeftIdle || mState == State::LeftRun)
 			if (mState == PlayerState::Idle || mState == PlayerState::Run)
 			{
-				//mState = State::Death;
 				mState = PlayerState::Death;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mLeftDeathAnimation;
@@ -697,10 +650,8 @@ void Player::Update()
 		}
 		if (mDirection == Direction::Right)
 		{
-			//if (mState == State::RightIdle || mState == State::RightRun)
 			if (mState == PlayerState::Idle || mState == PlayerState::Run)
 			{
-				//mState = State::Death;
 				mState = PlayerState::Death;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mRightDeathAnimation;
@@ -709,18 +660,16 @@ void Player::Update()
 			}
 		}
 	}
-  
-	// «√∑ß∆˚ √Êµπ
+
+	// ÌîåÎû´Ìèº Ï∂©Îèå
 	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect))
 	{
 		mJumpPower = 0;
 		mGravity = 0;
-		//if (mState == State::LeftFall)
 		if (mDirection == Direction::Left)
 		{
 			if (mState == PlayerState::Fall)
 			{
-				//mState = State::LeftLandSoft;
 				mState = PlayerState::LandSoft;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mLeftLandSoftAnimation;
@@ -728,12 +677,10 @@ void Player::Update()
 				mCurrentImage = mLandSoftImage;
 			}
 		}
-		//if (mState == State::RightFall)
 		if (mDirection == Direction::Right)
 		{
 			if (mState == PlayerState::Fall)
 			{
-				//mState = State::RightLandSoft;
 				mState = PlayerState::LandSoft;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mRightLandSoftAnimation;
@@ -747,20 +694,16 @@ void Player::Update()
 		mGravity = 0.2f;
 		if (mState == PlayerState::Idle || mState == PlayerState::Run || mState == PlayerState::Brake)
 		{
-			//if (mState == State::LeftIdle || mState == State::LeftRun || mState == State::LeftBrake)
 			if (mDirection == Direction::Left)
 			{
-				//mState = State::LeftFall;
 				mState = PlayerState::Fall;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mLeftFallAnimation;
 				mCurrentAnimation->Play();
 				mCurrentImage = mFallImage;
 			}
-			//if (mState == State::RightIdle || mState == State::RightRun || mState == State::RightBrake)
 			if (mDirection == Direction::Right)
 			{
-				//mState = State::RightFall;
 				mState = PlayerState::Fall;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mRightFallAnimation;
@@ -770,7 +713,7 @@ void Player::Update()
 		}
 	}
 
-	// ¡°«¡
+	// Ï†êÌîÑ
 	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 	{
 		mJumpPower = 8.f;
@@ -778,10 +721,8 @@ void Player::Update()
 
 		if (mDirection == Direction::Left)
 		{
-			//if (mState == State::LeftIdle || mState == State::LeftRun)
 			if (mState == PlayerState::Idle || mState == PlayerState::Run)
 			{
-				//mState = State::LeftJump;
 				mState = PlayerState::Jump;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mLeftJumpAnimation;
@@ -791,10 +732,8 @@ void Player::Update()
 		}
 		if (mDirection == Direction::Right)
 		{
-			//if (mState == State::RightIdle || mState == State::RightRun)
 			if (mState == PlayerState::Idle || mState == PlayerState::Run)
 			{
-				//mState = State::RightJump;
 				mState = PlayerState::Jump;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mRightJumpAnimation;
@@ -803,23 +742,18 @@ void Player::Update()
 			}
 		}
 	}
-	//if (mState == State::LeftJump || mState == State::RightJump)
 	if (mState == PlayerState::Jump)
 	{
-		//if (mJumpPower < 0 && mState == State::LeftJump)
 		if (mJumpPower < 0 && mDirection == Direction::Left)
 		{
-			//mState = State::LeftFall;
 			mState = PlayerState::Fall;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftFallAnimation;
 			mCurrentAnimation->Play();
 			mCurrentImage = mFallImage;
 		}
-		//if (mJumpPower < 0 && mState == State::RightJump)
 		if (mJumpPower < 0 && mDirection == Direction::Right)
 		{
-			//mState = State::RightFall;
 			mState = PlayerState::Fall;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightFallAnimation;
@@ -827,19 +761,18 @@ void Player::Update()
 			mCurrentImage = mFallImage;
 		}
 	}
-	if(mState == PlayerState::Fall || mState == PlayerState::Jump)
+	if (mState == PlayerState::Fall || mState == PlayerState::Jump)
 	{
 		mY -= mJumpPower;
 		mJumpPower -= mGravity;
 	}
 
-	// øÚ¡˜¿” ¡¶«—
-	if(mState == PlayerState::Crouch || mState == PlayerState::Roll || mState == PlayerState::LandSoft || mState == PlayerState::Attack1 || 
+	// ÏõÄÏßÅÏûÑ Ï†úÌïú
+	if (mState == PlayerState::Crouch || mState == PlayerState::Roll || mState == PlayerState::LandSoft || mState == PlayerState::Attack1 ||
 		mState == PlayerState::Attack2 || mState == PlayerState::Attack3 || mState == PlayerState::UseItem || mState == PlayerState::Death)
 	{
 		stopmove = 1;
 	}
-	//if (mState == State::LeftIdle || mState == State::RightIdle)
 	if (mState == PlayerState::Idle || mState == PlayerState::Run)
 	{
 		stopmove = 0;
@@ -849,20 +782,26 @@ void Player::Update()
 		mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	}
 	mCurrentAnimation->Update();
-	 
+
 	//RECT mPrevRect;
 	mRect = *(COLLISIONMANAGER->CollideWithPlatform(&mRect, &mPrevRect, mSizeX, mSizeY));
 	mX = (mRect.left + mRect.right) / 2;
 	mY = (mRect.bottom + mRect.top) / 2;
 	mPrevRect = mRect;
 
-	/////////////////////////////////////////¿”Ω√ √º∑¬±±‚///////////////////////////
+	/////////////////////////////////////////ÏûÑÏãú Ï≤¥Î†•ÍπéÍ∏∞///////////////////////////
 	if (INPUT->GetKeyDown('O'))
 	{
 		PlayerHurt();
 		mHp -= 20;
 	}
 
+	//ÌûàÌä∏Î∞ïÏä§
+	if (mState != PlayerState::Hurt)
+	{
+		mHitBox = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+		// mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
+	}
 }
 
 void Player::Render(HDC hdc)
@@ -871,11 +810,6 @@ void Player::Render(HDC hdc)
 	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 
 	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY, 1.f);
-
-	//for (int i = 0; i < mArrow.size(); ++i)
-	//{
-	//	mArrow[i]->Render(hdc);
-	//}
 
 	wstring str3 = L"mX:" + to_wstring(mX);
 	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 10, str3.c_str(), str3.length());
@@ -886,13 +820,13 @@ void Player::Render(HDC hdc)
 	wstring str6 = L"jumppower" + to_wstring(mJumpPower);
 	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 70, str6.c_str(), str6.length());
 	wstring str7;
-	if(stopmove)
-		str7 = L"StopMove == true" ;
+	if (stopmove)
+		str7 = L"StopMove == true";
 	else
 		str7 = L"StopMove == false";
 	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 90, str7.c_str(), str7.length());
 
-	wstring str8 = L"mState" + to_wstring ((int)mState);
+	wstring str8 = L"mState" + to_wstring((int)mState);
 	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 110, str8.c_str(), str8.length());
 
 	wstring str9 = L"mHP" + to_wstring(mHp);
@@ -929,333 +863,287 @@ void Player::FindPlayerImage()
 
 void Player::ReadyPlayerAnimation()
 {
-	// Ω∫≈ƒµÂ æ÷¥œ∏ﬁ¿Ãº«
+	// Ïä§ÌÉ†Îìú Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftIdleAnimation = new Animation();
 	mLeftIdleAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftIdleAnimation->SetIsLoop(true);
 	mLeftIdleAnimation->SetFrameUpdateTime(0.2f);
-//	mLeftIdleAnimation->Play();
 
 	mRightIdleAnimation = new Animation();
 	mRightIdleAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightIdleAnimation->SetIsLoop(true);
 	mRightIdleAnimation->SetFrameUpdateTime(0.2f);
-//	mRightIdleAnimation->Play();
 
-	// ¿Ãµø æ÷¥œ∏ﬁ¿Ãº«
+		// Ïù¥Îèô Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftRunStartAnimation = new Animation();
 	mLeftRunStartAnimation->InitFrameByStartEnd(8, 1, 9, 1, true);
 	mLeftRunStartAnimation->SetIsLoop(false);
 	mLeftRunStartAnimation->SetFrameUpdateTime(0.1f);
-//	mLeftRunStartAnimation->Play();
 	mLeftRunStartAnimation->SetCallbackFunc(bind(&Player::SetStateRun, this));
 
 	mLeftRunAnimation = new Animation();
 	mLeftRunAnimation->InitFrameByStartEnd(0, 1, 7, 1, true);
 	mLeftRunAnimation->SetIsLoop(true);
 	mLeftRunAnimation->SetFrameUpdateTime(0.1f);
-//	mLeftRunAnimation->Play();
 
 	mRightRunStartAnimation = new Animation();
 	mRightRunStartAnimation->InitFrameByStartEnd(0, 0, 1, 0, false);
 	mRightRunStartAnimation->SetIsLoop(false);
 	mRightRunStartAnimation->SetFrameUpdateTime(0.1f);
-//	mRightRunStartAnimation->Play();
 	mRightRunStartAnimation->SetCallbackFunc(bind(&Player::SetStateRun, this));
 
 	mRightRunAnimation = new Animation();
 	mRightRunAnimation->InitFrameByStartEnd(2, 0, 9, 0, false);
 	mRightRunAnimation->SetIsLoop(true);
 	mRightRunAnimation->SetFrameUpdateTime(0.1f);
-//	mRightRunAnimation->Play();
 
-	// ∫Í∑π¿Ã≈© æ÷¥œ∏ﬁ¿Ãº«
+		// Î∏åÎ†àÏù¥ÌÅ¨ Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftBrakeAnimation = new Animation();
 	mLeftBrakeAnimation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftBrakeAnimation->SetIsLoop(true);
 	mLeftBrakeAnimation->SetFrameUpdateTime(0.05f);
-//	mLeftBrakeAnimation->Play();
 	mLeftBrakeAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
 	mRightBrakeAnimation = new Animation();
 	mRightBrakeAnimation->InitFrameByStartEnd(0, 0, 6, 0, false);
 	mRightBrakeAnimation->SetIsLoop(true);
 	mRightBrakeAnimation->SetFrameUpdateTime(0.05f);
-//	mRightBrakeAnimation->Play();
 	mRightBrakeAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
-	// πÊ«‚ ¿¸»Ø æ÷¥œ∏ﬁ¿Ãº«
+	// Î∞©Ìñ• Ï†ÑÌôò Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftTurnAnimation = new Animation();
 	mLeftTurnAnimation->InitFrameByStartEnd(0, 1, 2, 1, true);
 	mLeftTurnAnimation->SetIsLoop(false);
 	mLeftTurnAnimation->SetFrameUpdateTime(0.1f);
-//	mLeftTurnAnimation->Play();
 	mLeftTurnAnimation->SetCallbackFunc(bind(&Player::SetStateRun, this));
 
 	mRightTurnAnimation = new Animation();
 	mRightTurnAnimation->InitFrameByStartEnd(0, 0, 2, 0, false);
 	mRightTurnAnimation->SetIsLoop(false);
 	mRightTurnAnimation->SetFrameUpdateTime(0.1f);
-//	mRightTurnAnimation->Play();
 	mRightTurnAnimation->SetCallbackFunc(bind(&Player::SetStateRun, this));
 
-	// ¡°«¡ æ÷¥œ∏ﬁ¿Ãº«
+	// Ï†êÌîÑ Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftJumpAnimation = new Animation();
 	mLeftJumpAnimation->InitFrameByStartEnd(0, 1, 2, 1, true);
 	mLeftJumpAnimation->SetIsLoop(true);
 	mLeftJumpAnimation->SetFrameUpdateTime(0.2f);
-//	mLeftJumpAnimation->Play();
 
 	mRightJumpAnimation = new Animation();
 	mRightJumpAnimation->InitFrameByStartEnd(0, 0, 2, 0, false);
 	mRightJumpAnimation->SetIsLoop(true);
 	mRightJumpAnimation->SetFrameUpdateTime(0.2f);
-//	mRightJumpAnimation->Play();
 
-	// ¡°«¡ «œ∞≠ æ÷¥œ∏ﬁ¿Ãº«
+		// Ï†êÌîÑ ÌïòÍ∞ï Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftFallAnimation = new Animation();
 	mLeftFallAnimation->InitFrameByStartEnd(0, 1, 4, 1, true);
 	mLeftFallAnimation->SetIsLoop(false);
 	mLeftFallAnimation->SetFrameUpdateTime(0.2f);
-//	mLeftFallAnimation->Play();
 
 	mRightFallAnimation = new Animation();
 	mRightFallAnimation->InitFrameByStartEnd(0, 0, 4, 0, false);
 	mRightFallAnimation->SetIsLoop(false);
 	mRightFallAnimation->SetFrameUpdateTime(0.2f);
-//	mRightFallAnimation->Play();
 
-	// æ‡«— ¬¯¡ˆ æ÷¥œ∏ﬁ¿Ãº«
+		// ÏïΩÌïú Ï∞©ÏßÄ Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftLandSoftAnimation = new Animation();
 	mLeftLandSoftAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
 	mLeftLandSoftAnimation->SetIsLoop(true);
 	mLeftLandSoftAnimation->SetFrameUpdateTime(0.1f);
-//	mLeftLandSoftAnimation->Play();
 	mLeftLandSoftAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
 	mRightLandSoftAnimation = new Animation();
 	mRightLandSoftAnimation->InitFrameByStartEnd(0, 0, 3, 0, false);
 	mRightLandSoftAnimation->SetIsLoop(true);
 	mRightLandSoftAnimation->SetFrameUpdateTime(0.1f);
-//	mRightLandSoftAnimation->Play();
 	mRightLandSoftAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
-	// æ…±‚ æ÷¥œ∏ﬁ¿Ãº«
+	// ÏïâÍ∏∞ Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftCrouchAnimation = new Animation();
 	mLeftCrouchAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
 	mLeftCrouchAnimation->SetIsLoop(false);
 	mLeftCrouchAnimation->SetFrameUpdateTime(0.1f);
-//	mLeftCrouchAnimation->Play();
 
 	mRightCrouchAnimation = new Animation();
 	mRightCrouchAnimation->InitFrameByStartEnd(0, 0, 3, 0, false);
 	mRightCrouchAnimation->SetIsLoop(false);
 	mRightCrouchAnimation->SetFrameUpdateTime(0.1f);
-//	mRightCrouchAnimation->Play();
 
-	// ¿œæÓ≥™±‚ æ÷¥œ∏ﬁ¿Ãº«
+		// ÏùºÏñ¥ÎÇòÍ∏∞ Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftRiseAnimation = new Animation();
 	mLeftRiseAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
 	mLeftRiseAnimation->SetIsLoop(false);
 	mLeftRiseAnimation->SetFrameUpdateTime(0.1f);
-//	mLeftRiseAnimation->Play();
 	mLeftRiseAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
 	mRightRiseAnimation = new Animation();
 	mRightRiseAnimation->InitFrameByStartEnd(0, 0, 1, 0, false);
 	mRightRiseAnimation->SetIsLoop(false);
 	mRightRiseAnimation->SetFrameUpdateTime(0.1f);
-//	mRightRiseAnimation->Play();
 	mRightRiseAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
-	// ±∏∏£±‚ æ÷¥œ∏ﬁ¿Ãº«
+	// Íµ¨Î•¥Í∏∞ Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftRollAnimation = new Animation();
 	mLeftRollAnimation->InitFrameByStartEnd(0, 1, 7, 1, true);
 	mLeftRollAnimation->SetIsLoop(false);
 	mLeftRollAnimation->SetFrameUpdateTime(0.07f);
-//	mLeftRollAnimation->Play();
 	mLeftRollAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
 	mRightRollAnimation = new Animation();
 	mRightRollAnimation->InitFrameByStartEnd(0, 0, 7, 0, false);
 	mRightRollAnimation->SetIsLoop(false);
 	mRightRollAnimation->SetFrameUpdateTime(0.07f);
-//	mRightRollAnimation->Play();
 	mRightRollAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
-	// ªÁ¥Ÿ∏Æ ¿‘¿Â æ÷¥œ∏ﬁ¿Ãº«
+	// ÏÇ¨Îã§Î¶¨ ÏûÖÏû• Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftLadderEnterAnimation = new Animation();
 	mLeftLadderEnterAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftLadderEnterAnimation->SetIsLoop(true);
 	mLeftLadderEnterAnimation->SetFrameUpdateTime(0.1f);
-//	mLeftLadderEnterAnimation->Play();
 	mLeftLadderEnterAnimation->SetCallbackFunc(bind(&Player::SetStateLadderUp, this));
 
 	mRightLadderEnterAnimation = new Animation();
 	mRightLadderEnterAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightLadderEnterAnimation->SetIsLoop(true);
 	mRightLadderEnterAnimation->SetFrameUpdateTime(0.1f);
-//	mRightLadderEnterAnimation->Play();
 	mRightLadderEnterAnimation->SetCallbackFunc(bind(&Player::SetStateLadderUp, this));
 
-	// ªÁ¥Ÿ∏Æ ø¿∏£≥ª∏Æ±‚ æ÷¥œ∏ﬁ¿Ãº«
+	// ÏÇ¨Îã§Î¶¨ Ïò§Î•¥ÎÇ¥Î¶¨Í∏∞ Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLadderUpAnimation = new Animation();
 	mLadderUpAnimation->InitFrameByStartEnd(0, 0, 5, 0, true);
 	mLadderUpAnimation->SetIsLoop(true);
 	mLadderUpAnimation->SetFrameUpdateTime(0.1f);
-//	mLadderUpAnimation->Play();
 
 	mLadderDownAnimation = new Animation();
 	mLadderDownAnimation->InitFrameByStartEnd(0, 0, 2, 0, true);
 	mLadderDownAnimation->SetIsLoop(true);
 	mLadderDownAnimation->SetFrameUpdateTime(0.1f);
-//	mLadderDownAnimation->Play();
 
-	// ªÁ¥Ÿ∏Æ ≈¿Â æ÷¥œ∏ﬁ¿Ãº«
+		// ÏÇ¨Îã§Î¶¨ Ìá¥Ïû• Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftLadderLeaveAnimation = new Animation();
 	mLeftLadderLeaveAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftLadderLeaveAnimation->SetIsLoop(true);
 	mLeftLadderLeaveAnimation->SetFrameUpdateTime(0.1f);
-//	mLeftLadderLeaveAnimation->Play();
 
 	mRightLadderLeaveAnimation = new Animation();
 	mRightLadderLeaveAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightLadderLeaveAnimation->SetIsLoop(true);
 	mRightLadderLeaveAnimation->SetFrameUpdateTime(0.1f);
-//	mRightLadderLeaveAnimation->Play();
 
-	// º≠º≠ »∞ æ÷¥œ∏ﬁ¿Ãº«
+		// ÏÑúÏÑú Ìôú Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftBowAnimation = new Animation();
 	mLeftBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftBowAnimation->SetIsLoop(true);
 	mLeftBowAnimation->SetFrameUpdateTime(0.1f);
-//	mLeftBowAnimation->Play();
 	mLeftBowAnimation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	mRightBowAnimation = new Animation();
 	mRightBowAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightBowAnimation->SetIsLoop(true);
 	mRightBowAnimation->SetFrameUpdateTime(0.1f);
-//	mRightBowAnimation->Play();
 	mRightBowAnimation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
-	// ∞¯¡ﬂ »∞ æ÷¥œ∏ﬁ¿Ãº«
+	// Í≥µÏ§ë Ìôú Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftAirBowAnimation = new Animation();
 	mLeftAirBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftAirBowAnimation->SetIsLoop(true);
 	mLeftAirBowAnimation->SetFrameUpdateTime(0.1f);
-//	mLeftAirBowAnimation->Play();
 	mLeftAirBowAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
 	mRightAirBowAnimation = new Animation();
 	mRightAirBowAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightAirBowAnimation->SetIsLoop(true);
 	mRightAirBowAnimation->SetFrameUpdateTime(0.1f);
-//	mRightAirBowAnimation->Play();
 	mRightAirBowAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
-	// æ…æ∆ »∞ æ÷¥œ∏ﬁ¿Ãº«
+	// ÏïâÏïÑ Ìôú Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftCrouchBowAnimation = new Animation();
 	mLeftCrouchBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftCrouchBowAnimation->SetIsLoop(true);
 	mLeftCrouchBowAnimation->SetFrameUpdateTime(0.1f);
-//	mLeftCrouchBowAnimation->Play();
 	mLeftCrouchBowAnimation->SetCallbackFunc(bind(&Player::SetEndCrouchAttack, this));
 
 	mRightCrouchBowAnimation = new Animation();
 	mRightCrouchBowAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightCrouchBowAnimation->SetIsLoop(true);
 	mRightCrouchBowAnimation->SetFrameUpdateTime(0.1f);
-//	mRightCrouchBowAnimation->Play();
 	mRightCrouchBowAnimation->SetCallbackFunc(bind(&Player::SetEndCrouchAttack, this));
 
-	// √π π¯¬∞ ∞¯∞› æ÷¥œ∏ﬁ¿Ãº«
+	// Ï≤´ Î≤àÏß∏ Í≥µÍ≤© Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftAttack1Animation = new Animation();
 	mLeftAttack1Animation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAttack1Animation->SetIsLoop(true);
 	mLeftAttack1Animation->SetFrameUpdateTime(0.1f);
-//	mLeftAttack1Animation->Play();
 	mLeftAttack1Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	mRightAttack1Animation = new Animation();
 	mRightAttack1Animation->InitFrameByStartEnd(0, 0, 6, 0, false);
 	mRightAttack1Animation->SetIsLoop(true);
 	mRightAttack1Animation->SetFrameUpdateTime(0.1f);
-//	mRightAttack1Animation->Play();
 	mRightAttack1Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
-	// µŒ π¯¬∞ ∞¯∞› æ÷¥œ∏ﬁ¿Ãº«
+	// Îëê Î≤àÏß∏ Í≥µÍ≤© Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftAttack2Animation = new Animation();
 	mLeftAttack2Animation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAttack2Animation->SetIsLoop(true);
 	mLeftAttack2Animation->SetFrameUpdateTime(0.1f);
-//	mLeftAttack2Animation->Play();
 	mLeftAttack2Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	mRightAttack2Animation = new Animation();
 	mRightAttack2Animation->InitFrameByStartEnd(0, 0, 6, 0, false);
 	mRightAttack2Animation->SetIsLoop(true);
 	mRightAttack2Animation->SetFrameUpdateTime(0.1f);
-//	mRightAttack2Animation->Play();
 	mRightAttack2Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
-	// ºº π¯¬∞ ∞¯∞› æ÷¥œ∏ﬁ¿Ãº«
+	// ÏÑ∏ Î≤àÏß∏ Í≥µÍ≤© Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftAttack3Animation = new Animation();
 	mLeftAttack3Animation->InitFrameByStartEnd(0, 1, 10, 1, true);
 	mLeftAttack3Animation->SetIsLoop(true);
 	mLeftAttack3Animation->SetFrameUpdateTime(0.1f);
-//	mLeftAttack3Animation->Play();
 	mLeftAttack3Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	mRightAttack3Animation = new Animation();
 	mRightAttack3Animation->InitFrameByStartEnd(0, 0, 10, 0, false);
 	mRightAttack3Animation->SetIsLoop(true);
 	mRightAttack3Animation->SetFrameUpdateTime(0.1f);
-//	mRightAttack3Animation->Play();
 	mRightAttack3Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
-	// ∞¯¡ﬂ ∞¯∞› æ÷¥œ∏ﬁ¿Ãº«
+	// Í≥µÏ§ë Í≥µÍ≤© Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftAirAttackAnimation = new Animation();
 	mLeftAirAttackAnimation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAirAttackAnimation->SetIsLoop(true);
 	mLeftAirAttackAnimation->SetFrameUpdateTime(0.1f);
-//	mLeftAirAttackAnimation->Play();
 	mLeftAirAttackAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
 	mRightAirAttackAnimation = new Animation();
 	mRightAirAttackAnimation->InitFrameByStartEnd(0, 0, 6, 0, false);
 	mRightAirAttackAnimation->SetIsLoop(true);
 	mRightAirAttackAnimation->SetFrameUpdateTime(0.1f);
-//	mRightAirAttackAnimation->Play();
 	mRightAirAttackAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
-	// ««∞› æ÷¥œ∏ﬁ¿Ãº«
+	// ÌîºÍ≤© Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftHurtAnimation = new Animation();
 	mLeftHurtAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
 	mLeftHurtAnimation->SetIsLoop(true);
 	mLeftHurtAnimation->SetFrameUpdateTime(0.3f);
-//	mLeftHurtAnimation->Play();
 
 	mRightHurtAnimation = new Animation();
 	mRightHurtAnimation->InitFrameByStartEnd(0, 0, 1, 0, false);
 	mRightHurtAnimation->SetIsLoop(true);
 	mRightHurtAnimation->SetFrameUpdateTime(0.3f);
-//	mRightHurtAnimation->Play();
 
-	// ªÁ∏¡ æ÷¥œ∏ﬁ¿Ãº«
+		// ÏÇ¨Îßù Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftDeathAnimation = new Animation();
 	mLeftDeathAnimation->InitFrameByStartEnd(0, 1, 23, 1, true);
 	mLeftDeathAnimation->SetIsLoop(false);
 	mLeftDeathAnimation->SetFrameUpdateTime(0.2f);
-//	mLeftDeathAnimation->Play();
 
 	mRightDeathAnimation = new Animation();
 	mRightDeathAnimation->InitFrameByStartEnd(0, 0, 23, 0, false);
 	mRightDeathAnimation->SetIsLoop(false);
 	mRightDeathAnimation->SetFrameUpdateTime(0.2f);
-//	mRightDeathAnimation->Play();
 
-	//æ∆¿Ã≈€ ªÁøÎ æ÷¥œ∏ﬁ¿Ãº«
+		//ÏïÑÏù¥ÌÖú ÏÇ¨Ïö© Ïï†ÎãàÎ©îÏù¥ÏÖò
 	mLeftUseItemAnimation = new Animation();
 	mLeftUseItemAnimation->InitFrameByStartEnd(0, 1, 10, 1, true);
 	mLeftUseItemAnimation->SetIsLoop(false);
@@ -1271,7 +1159,7 @@ void Player::ReadyPlayerAnimation()
 
 void Player::InitPlayerVar()
 {
-	// ∫Œ∏ ≈¨∑°Ω∫¿Œ GameObjectø° º±æµ» ∫ØºˆµÈ
+	// Î∂ÄÎ™® ÌÅ¥ÎûòÏä§Ïù∏ GameObjectÏóê ÏÑ†Ïñ∏Îêú Î≥ÄÏàòÎì§
 	mName = "Player";
 	mX = WINSIZEX / 2.f;
 	mY = 200.f;
@@ -1279,10 +1167,10 @@ void Player::InitPlayerVar()
 	mSizeY = (float)(mIdleImage->GetFrameHeight()) * 2.f;
 	mDirection = Direction::Right;
 	mRect = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY);
-	mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY); // ¿”Ω√(∞°∑Œ∏∏ π›)
-	mAttackBox = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY); // ¿”Ω√(«√∑π¿ÃæÓ ªÁ¿Ã¡Ó)
+	mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY); // ÏûÑÏãú(Í∞ÄÎ°úÎßå 1/3)
+	mAttackBox = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY); // ÏûÑÏãú(ÌîåÎ†àÏù¥Ïñ¥ ÏÇ¨Ïù¥Ï¶à)
 
-	// Playerø° º±æµ» ∫ØºˆµÈ
+	// PlayerÏóê ÏÑ†Ïñ∏Îêú Î≥ÄÏàòÎì§
 	mArrowSpeed = 600.f;
 
 	mState = PlayerState::Idle;
@@ -1303,7 +1191,6 @@ void Player::InitPlayerVar()
 	mLeaf = new Leaf();
 	mLeaf->Init();
 	OBJECTMANAGER->AddObject(ObjectLayer::PlayerLeaf, mLeaf);
-
 
 	mCurrentImage = mIdleImage;
 	mCurrentAnimation = mRightIdleAnimation;
@@ -1385,12 +1272,10 @@ void Player::SetStateRun()
 
 void Player::SetStateIdle()
 {
-	//if (mState == State::LeftRoll || mState == State::LeftRise || mState == State::LeftBrake || mState == State::LeftLandSoft)
 	if (mDirection == Direction::Left)
 	{
 		if (mState == PlayerState::Roll || mState == PlayerState::Rise || mState == PlayerState::Brake || mState == PlayerState::LandSoft || mState == PlayerState::UseItem)
 		{
-			//mState = State::LeftIdle;
 			mState = PlayerState::Idle;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftIdleAnimation;
@@ -1398,12 +1283,10 @@ void Player::SetStateIdle()
 			mCurrentImage = mIdleImage;
 		}
 	}
-	//else if (mState == State::RightRoll || mState == State::RightRise || mState == State::RightBrake || mState == State::RightLandSoft)
 	else if (mDirection == Direction::Right)
 	{
 		if (mState == PlayerState::Roll || mState == PlayerState::Rise || mState == PlayerState::Brake || mState == PlayerState::LandSoft || mState == PlayerState::UseItem)
 		{
-			//mState = State::RightIdle;
 			mState = PlayerState::Idle;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightIdleAnimation;
@@ -1414,14 +1297,12 @@ void Player::SetStateIdle()
 	}
 }
 
-void Player::SetEndAttack() 
+void Player::SetEndAttack()
 {
-	//if (mState == State::LeftAttack1 || mState == State::LeftAttack2 || mState == State::LeftAttack3 || mState == State::LeftBow)
 	if (mDirection == Direction::Left)
 	{
 		if (mState == PlayerState::Attack1 || mState == PlayerState::Attack2 || mState == PlayerState::Attack3 || mState == PlayerState::Bow)
 		{
-			//mState = State::LeftIdle;
 			mState = PlayerState::Idle;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftIdleAnimation;
@@ -1429,12 +1310,10 @@ void Player::SetEndAttack()
 			mCurrentImage = mIdleImage;
 		}
 	}
-	//if (mState == State::RightAttack1 || mState == State::RightAttack2 || mState == State::RightAttack3 || mState == State::RightBow)
 	if (mDirection == Direction::Right)
 	{
 		if (mState == PlayerState::Attack1 || mState == PlayerState::Attack2 || mState == PlayerState::Attack3 || mState == PlayerState::Bow)
 		{
-			//mState = State::RightIdle;
 			mState = PlayerState::Idle;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightIdleAnimation;
@@ -1445,17 +1324,15 @@ void Player::SetEndAttack()
 
 	mHitAttack = true;
 
-	mLeaf->SetIsActive(false); // æ÷¥œ∏ﬁ¿Ãº« æ» µπ∞Ì √‚∑¬µµ æ» µ«∞‘
+	mLeaf->SetIsActive(false); // Ïï†ÎãàÎ©îÏù¥ÏÖò Ïïà ÎèåÍ≥† Ï∂úÎ†•ÎèÑ Ïïà ÎêòÍ≤å
 }
 
 void Player::SetEndAirAttack()
 {
-	//if (mState == State::LeftAirBow || mState == State::LeftAirAttack)
 	if (mDirection == Direction::Left)
 	{
 		if (mState == PlayerState::AirBow || mState == PlayerState::AirAttack)
 		{
-			//mState = State::LeftFall;
 			mState = PlayerState::Fall;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftFallAnimation;
@@ -1463,12 +1340,10 @@ void Player::SetEndAirAttack()
 			mCurrentImage = mFallImage;
 		}
 	}
-	//if (mState == State::RightAirBow || mState == State::RightAirAttack)
 	if (mDirection == Direction::Right)
 	{
 		if (mState == PlayerState::AirBow || mState == PlayerState::AirAttack)
 		{
-			//mState = State::RightFall;
 			mState = PlayerState::Fall;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightFallAnimation;
@@ -1486,7 +1361,6 @@ void Player::SetEndCrouchAttack()
 	{
 		if (mState == PlayerState::CrouchBow)
 		{
-			//mState = State::LeftCrouch;
 			mState = PlayerState::Crouch;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mLeftCrouchAnimation;
@@ -1498,7 +1372,6 @@ void Player::SetEndCrouchAttack()
 	{
 		if (mState == PlayerState::CrouchBow)
 		{
-			//mState = State::RightCrouch;
 			mState = PlayerState::Crouch;
 			mCurrentAnimation->Stop();
 			mCurrentAnimation = mRightCrouchAnimation;
@@ -1512,10 +1385,8 @@ void Player::SetEndCrouchAttack()
 
 void Player::SetStateLadderUp()
 {
-	//if (mState == State::LeftLadderEnter || mState == State::RightLadderEnter)
 	if (mState == PlayerState::LadderEnter)
 	{
-		//mState = State::LadderUp;
 		mState = PlayerState::LadderUp;
 		mCurrentAnimation->Stop();
 		mCurrentAnimation = mLadderUpAnimation;
@@ -1526,10 +1397,8 @@ void Player::SetStateLadderUp()
 
 void Player::SetStateLadderDown()
 {
-	//if (mState == State::LeftLadderEnter || mState == State::RightLadderEnter)
 	if (mState == PlayerState::LadderEnter)
 	{
-		//mState = State::LadderDown;
 		mState = PlayerState::LadderDown;
 		mCurrentAnimation->Stop();
 		mCurrentAnimation = mLadderDownAnimation;

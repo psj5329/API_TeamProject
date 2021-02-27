@@ -69,17 +69,20 @@ void MainGame::Update()
 			return;
 	}
 
-	if (INPUT->GetKeyDown('1'))
+	//if (INPUT->GetKeyDown('1'))
+	if (INPUT->GetKeyAKeyDownB('M', '1'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene01")
 			SCENEMANAGER->LoadScene(L"Scene01");
 	}
-	else if (INPUT->GetKeyDown('2'))
+	//else if (INPUT->GetKeyDown('2'))
+	else if (INPUT->GetKeyAKeyUpB('M', '2'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene02")
 			SCENEMANAGER->LoadScene(L"Scene02");
 	}
-	else if (INPUT->GetKeyDown('3'))
+	//else if (INPUT->GetKeyDown('3'))
+	else if (INPUT->GetKeyAKeyB('M', '3'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene03")
 			SCENEMANAGER->LoadScene(L"Scene03");
@@ -131,7 +134,13 @@ void MainGame::Render(HDC hdc)
 	if (str == L"LoadingScene" && ((LoadingScene*)(SCENEMANAGER->GetCurrentScene()))->GetIsEndLoading())
 	{
 		wstring strLoad = L"로딩 끝";
+		wstring strLoad2 = L"씬1 이동: \'M\' 누르고 있는 상태에서 \'1\' 누르기";
+		wstring strLoad3 = L"씬2 이동: \'M\', \'2\' 누르고 있는 상태에서 \'2\'에서 손 떼기";
+		wstring strLoad4 = L"씬3 이동: \'M\', \'3\' 같이 누르기(순서 상관없음)";
 		TextOut(backDC, 400, 300, strLoad.c_str(), (int)strLoad.length());
+		TextOut(backDC, 400, 325, strLoad2.c_str(), (int)strLoad2.length());
+		TextOut(backDC, 400, 350, strLoad3.c_str(), (int)strLoad3.length());
+		TextOut(backDC, 400, 375, strLoad4.c_str(), (int)strLoad4.length());
 	}
 
 	RenderDebugText(backDC);
@@ -201,6 +210,7 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallFourCircle", Resources(L"FallFourCircle"), 45, 45, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallFiveCircle", Resources(L"FallFiveCircle"), 45, 45, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attacked", Resources(L"Attacked"), 960, 720, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"map0001", Resources(L"wp4020"), 4000, 2000, true); }); // 1번신
 
 	// Player
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Idle", Resources(L"Player/idle"), 294, 96, 6, 2, true); });

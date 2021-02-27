@@ -393,7 +393,7 @@ void Fennel::Update()
 
 void Fennel::Render(HDC hdc)
 {
-	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
+	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
 	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mSizeX, mSizeY,mAlpha);
 	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImpactImg, mImpact.left, mImpact.top, mCurrentImpact->GetNowFrameX(), mCurrentImpact->GetNowFrameY(), mImpactImg->GetFrameWidth() * 2, mImpactImg->GetFrameHeight() * 2, 0.5f);
