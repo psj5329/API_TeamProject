@@ -196,6 +196,11 @@
     <ClInclude Include="Scene01.h" />
     <ClInclude Include="Scene02.h" />
     <ClInclude Include="Scene03.h" />
+    <ClInclude Include="Scene04.h" />
+    <ClInclude Include="Scene05.h" />
+    <ClInclude Include="Scene07.h" />
+    <ClInclude Include="Scene08.h" />
+    <ClInclude Include="Scene09.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneTest.h" />
     <ClInclude Include="ShieldImp.h" />
@@ -257,6 +262,11 @@
     <ClCompile Include="Scene01.cpp" />
     <ClCompile Include="Scene02.cpp" />
     <ClCompile Include="Scene03.cpp" />
+    <ClCompile Include="Scene04.cpp" />
+    <ClCompile Include="Scene05.cpp" />
+    <ClCompile Include="Scene07.cpp" />
+    <ClCompile Include="Scene08.cpp" />
+    <ClCompile Include="Scene09.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneTest.cpp" />
     <ClCompile Include="ShieldImp.cpp" />

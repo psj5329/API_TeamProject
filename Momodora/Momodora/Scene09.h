@@ -1,8 +1,11 @@
 #pragma once
 #include "Scene.h"
 
-class Scene02 : public Scene
+class Scene09 final : public Scene
 {
+	Image* mPlatformImage;
+	bool mIsBossDead;
+
 public:
 	void Init()override;
 	void Release()override;
