@@ -60,6 +60,28 @@ void SceneManager::LoadScene(const wstring& sceneName)
 	mCurrentScene = targetScene;
 }
 
+void SceneManager::LoadScene(const wstring& sceneName, int entrance)
+{
+	SceneIter iter = mSceneList.find(sceneName);
+	if (iter == mSceneList.end())
+		return;
+
+	if (mCurrentScene == iter->second)
+		return;
+
+	Scene* targetScene = iter->second;
+
+	if (mCurrentScene)
+		mCurrentScene->Release();
+
+	OBJECTMANAGER->RemoveObjectsInScene();
+
+	targetScene->SetEntrance(entrance);
+	targetScene->Init();
+
+	mCurrentScene = targetScene;
+}
+
 wstring SceneManager::GetCurrentSceneName()
 {
 	wstring result = L"";
