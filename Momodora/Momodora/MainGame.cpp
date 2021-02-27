@@ -8,6 +8,11 @@
 #include "Scene01.h"
 #include "Scene02.h"
 #include "Scene03.h"
+#include "Scene04.h"
+#include "Scene05.h"
+#include "Scene07.h"
+#include "Scene08.h"
+#include "Scene09.h"
 #include "SceneTest.h"
 
 void MainGame::Init()
@@ -72,20 +77,20 @@ void MainGame::Update()
 	//if (INPUT->GetKeyDown('7'))
 	if (INPUT->GetKeyAKeyDownB('M', '7'))
 	{
-		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene01")
-			SCENEMANAGER->LoadScene(L"Scene01");
+		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene07")
+			SCENEMANAGER->LoadScene(L"Scene07");
 	}
 	//else if (INPUT->GetKeyDown('8'))
 	else if (INPUT->GetKeyAKeyUpB('M', '8'))
 	{
-		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene02")
-			SCENEMANAGER->LoadScene(L"Scene02");
+		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene08")
+			SCENEMANAGER->LoadScene(L"Scene08");
 	}
 	//else if (INPUT->GetKeyDown('9'))
 	else if (INPUT->GetKeyAKeyB('M', '9'))
 	{
-		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene03")
-			SCENEMANAGER->LoadScene(L"Scene03");
+		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene09")
+			SCENEMANAGER->LoadScene(L"Scene09");
 	}
 	else if (INPUT->GetKeyDown('0')) // 테스트 끝나면 지우기
 	{
@@ -193,6 +198,11 @@ void MainGame::MakeScene()
 	SCENEMANAGER->AddScene(L"Scene01", new Scene01());
 	SCENEMANAGER->AddScene(L"Scene02", new Scene02());
 	SCENEMANAGER->AddScene(L"Scene03", new Scene03());
+	SCENEMANAGER->AddScene(L"Scene04", new Scene04());
+	SCENEMANAGER->AddScene(L"Scene05", new Scene05());
+	SCENEMANAGER->AddScene(L"Scene07", new Scene07());
+	SCENEMANAGER->AddScene(L"Scene08", new Scene08());
+	SCENEMANAGER->AddScene(L"Scene09", new Scene09());
 
 	SCENEMANAGER->AddScene(L"SceneTest", new SceneTest());
 

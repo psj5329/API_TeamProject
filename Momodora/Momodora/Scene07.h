@@ -1,7 +1,8 @@
 #pragma once
 #include "Scene.h"
+#include "Image.h"
 
-class Scene02 : public Scene
+class Scene07 final : public Scene
 {
 public:
 	void Init()override;
