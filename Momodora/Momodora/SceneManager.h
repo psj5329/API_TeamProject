@@ -20,6 +20,7 @@ public:
 
 	void AddScene(const wstring& sceneName, Scene* scene);
 	void LoadScene(const wstring& sceneName);
+	void LoadScene(const wstring& sceneName, int entrance);
 
 	Scene* GetCurrentScene()const { return mCurrentScene; }
 	wstring GetCurrentSceneName();

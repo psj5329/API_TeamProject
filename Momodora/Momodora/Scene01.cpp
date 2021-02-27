@@ -2,79 +2,75 @@
 #include "Scene01.h"
 #include "Camera.h"
 #include "Platform.h"
-#include "Ladder.h"
-#include "Potion.h"
-#include "Player.h"
-#include "Image.h"
 
 void Scene01::Init()
 {
-	// {{ ì¶©ëŒ ì²´í¬ìš© ë§µ
-	mMapImage = IMAGEMANAGER->FindImage(L"map0001");
-
+	mMapImage = IMAGEMANAGER->FindImage(L"MapImage01");
 	mSceneSizeX = mMapImage->GetWidth();
 	mSceneSizeY = mMapImage->GetHeight();
 
-	Platform* platform01 = new Platform();
-	platform01->SetPlatform(0, 600, 4000, 650, PlatformType::Normal);
-	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform01);
-
-	Platform* platform02 = new Platform();
-	platform02->SetPlatform(600, 400, 800, 450, PlatformType::DownJump);
-	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform02);
-
-	Ladder* ladder01 = new Ladder();
-	ladder01->SetLadder(675, 450, 725, 600);
-	OBJECTMANAGER->AddObject(ObjectLayer::Ladder, (GameObject*)ladder01);
-	// ì¶©ëŒ ì²´í¬ìš© ë§µ }}
-
-	//í…œ
-	Potion* potion1 = new Potion();
-	potion1->Init(WINSIZEX / 2 + 350, 550,0);
-	potion1->SetObject();
-	ObjectManager::GetInstance()->AddObject(ObjectLayer::Item, potion1);
-
+	PlaceRect();
 
 	Camera* main = CAMERAMANAGER->GetMainCamera();
 	main->SetMode(Camera::Mode::Follow);
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	main->SetTarget(player);
+
+	// ÇÃ·¹ÀÌ¾î°¡ ¼­ ÀÖ´Â À§Ä¡ °í·ÁÇØ¼­ °íÁ¤ Ä«¸Þ¶ó·Î Çß´Ù°¡ ¹Ù²ã¾ß ÇÔ
+	if (mEntrance == 0)
+	{
+		player->SetX(200);
+		player->SetY(400);
+	}
+	else if (mEntrance == 2)
+	{
+		player->SetX(1000);
+		player->SetY(400);
+	}
 }
 
 void Scene01::Release()
 {
-	//ObjectManager::GetInstance()->Release();
 }
 
 void Scene01::Update()
 {
 	OBJECTMANAGER->Update();
 
-	//Player* player = (Player*)(OBJECTMANAGER->FindObject("PLAYER"));
-	//player->Update();
+	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
+	float x = player->GetX();
+
+	if((int)x >= mSceneSizeX)
+		SCENEMANAGER->LoadScene(L"Scene02", 1);
 }
 
 void Scene01::Render(HDC hdc)
 {
-	// {{ ì¶©ëŒ ì²´í¬ìš© ë§µ
 	CAMERAMANAGER->GetMainCamera()->Render(hdc, mMapImage, 0, 0);
-
-	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
-	vector<GameObject*>::iterator iter1 = platformList.begin();
-	for (; iter1 != platformList.end(); ++iter1)
-		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, (*iter1)->GetRect());
-
-	vector<GameObject*> ladderList = OBJECTMANAGER->GetObjectList(ObjectLayer::Ladder);
-	vector<GameObject*>::iterator iter2 = ladderList.begin();
-	for (; iter2 != ladderList.end(); ++iter2)
-		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, (*iter2)->GetRect());
-	// ì¶©ëŒ ì²´í¬ìš© ë§µ }}
-
-	wstring str = L"ì”¬1 íŽ˜ì´ì§€";
-	TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2, str.c_str(), (int)str.length());
 
 	OBJECTMANAGER->Render(hdc);
 
-	//Player* player = (Player*)(OBJECTMANAGER->FindObject("PLAYER"));
-	//player->Render(hdc);
+	//RECT rect;
+	//vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
+	//vector<GameObject*>::iterator iter = platformList.begin();
+	//for (; iter != platformList.end(); ++iter)
+	//{
+	//	rect = (*iter)->GetRect();
+	//	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, rect);
+	//}
+}
+
+void Scene01::PlaceRect()
+{
+	Platform* platform01 = new Platform();
+	platform01->SetPlatform(-120, 600, 1320, 900, PlatformType::Normal);
+	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform01);
+
+	Platform* platform02 = new Platform();
+	platform02->SetPlatform(-120, 0, 900, 120, PlatformType::Normal);
+	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform02);
+
+	Platform* platform03 = new Platform();
+	platform03->SetPlatform(900, 0, 1320, 240, PlatformType::Normal);
+	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform03);
 }
