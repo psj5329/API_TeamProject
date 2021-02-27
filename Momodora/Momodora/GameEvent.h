@@ -66,40 +66,43 @@ public:
 	void Render(HDC hdc)override;
 };
 
-//class IPlayFunctionEvent : public IEvent
-//{
-//public:
-//	IPlayFunctionEvent();
-//
-//	void Start()override;
-//	bool Update()override;
-//	void Render(HDC hdc)override;
-//};
+class IMoveGameObject : public IEvent
+{
+	class GameObject* mObject;
+	float mTargetX;
+	float mTargetY;
+	float mSpeedX;
+	float mSpeedY;
+public:
+	IMoveGameObject(GameObject* object, GameObject* target);
+	IMoveGameObject(GameObject* object, float x, float y);
 
-//class IMoveGameObject : public IEvent
-//{
-//	class GameObject* mObject;
-//	float mTargetX;
-//	float mTargetY;
-//	float mSpeedX;
-//	float mSpeedY;
-//public:
-//	IMoveGameObject(GameObject* object, GameObject* target);
-//	IMoveGameObject(GameObject* object, float x, float y);
-//
-//	void Start()override;
-//	bool Update()override;
-//	void Render(HDC hdc)override;
-//};
-//
-//class IChangeAnimation : public IEvent
-//{
-//	class GameObject* mObject;
-//	class Animation* mAnimation;
-//public:
-//	IChangeAnimation(GameObject* object, Animation* animation);
-//
-//	void Start()override;
-//	bool Update()override;
-//	void Render(HDC hdc)override;
-//};
+	void Start()override;
+	bool Update()override;
+	void Render(HDC hdc)override;
+};
+
+class IChangeAnimation : public IEvent
+{
+	class GameObject* mObject;
+	class Animation* mAnimation;
+public:
+	IChangeAnimation(GameObject* object, Animation* animation);
+
+	void Start()override;
+	bool Update()override;
+	void Render(HDC hdc)override;
+};
+
+class IChangeImage : public IEvent
+{
+	Image* mImage1;
+	Image* mImage2;
+
+public:
+	IChangeImage(Image* image1, Image* image2);
+
+	void Start()override;
+	bool Update()override;
+	void Render(HDC hdc)override;
+};
