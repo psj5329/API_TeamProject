@@ -145,6 +145,36 @@ bool CollisionManager::IsCollideWithPlatform(RECT* rect, int& direction)
 	return false;
 }
 
+bool CollisionManager::IsInRangeDownjumpPlatform(RECT* rect)
+{
+	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
+	RECT tempRect;
+	RECT platformRect;
+	int width = 0;
+	int height = 0;
+
+	vector<GameObject*>::iterator iter = platformList.begin();
+	for (; iter != platformList.end(); ++iter)
+	{
+		if (((Platform*)(*iter))->GetPlatformType() == PlatformType::Normal)
+			continue;
+
+		platformRect = (*iter)->GetRect();
+
+		if (IntersectRect(&tempRect, rect, &platformRect))
+		{
+			width = tempRect.right - tempRect.left;
+			height = tempRect.bottom - tempRect.top;
+
+			if (width > height)
+				if ((*iter)->GetRect().top <= rect->bottom && rect->top <= (*iter)->GetRect().bottom)
+					return true;
+		}
+	}
+
+	return false;
+}
+
 RECT* CollisionManager::CollideWithPlatform(RECT* rect, RECT* prevRect, float sizeX, float sizeY)
 {
 	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);

@@ -27,7 +27,7 @@ void Player::Release()
 
 void Player::Update()
 {
-	// ?´ë™ ?„ë ˆ??
+	// 이동 브레이크 프레임
 	if (mState == PlayerState::Idle || mState == PlayerState::Turn || mState == PlayerState::Brake)
 	{
 		if (Input::GetInstance()->GetKeyDown(VK_LEFT))
@@ -39,9 +39,6 @@ void Player::Update()
 			mCurrentAnimation->Play();
 			mCurrentImage = mRunImage;
 		}
-	}
-	if (mState == PlayerState::Idle || mState == PlayerState::Turn || mState == PlayerState::Brake)
-	{
 		if (Input::GetInstance()->GetKeyDown(VK_RIGHT))
 		{
 			mDirection = Direction::Right;
@@ -74,7 +71,7 @@ void Player::Update()
 		}
 	}
 
-	// ?´ë™ êµ¬í˜„
+	// 이동 및 방향전환
 	if (Input::GetInstance()->GetKey(VK_LEFT))
 	{
 		if (stopmove == 0)
@@ -113,10 +110,52 @@ void Player::Update()
 			}
 		}
 	}
+	if (mState == PlayerState::Turn)
+	{
+		if (Input::GetInstance()->GetKeyUp(VK_LEFT))
+		{
+			mDirection = Direction::Right;
+			mState = PlayerState::Run;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightRunAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mRunImage;
+		}
+		if (Input::GetInstance()->GetKeyUp(VK_RIGHT))
+		{
+			mDirection = Direction::Left;
+			mState = PlayerState::Run;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftRunAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mRunImage;
+		}
+		if (INPUT->GetKeyUp(VK_LEFT) && INPUT->GetKeyUp(VK_RIGHT))
+		{
+			if (mDirection == Direction::Left)
+			{
+				mState = PlayerState::Brake;
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mLeftBrakeAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mBrakeImage;
+			}
+			if (mDirection == Direction::Right)
+			{
+				mState = PlayerState::Brake;
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mRightBrakeAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mBrakeImage;
+			}
+		}
+	}
 
 	// ?‰ê¸°
 	if (Input::GetInstance()->GetKey(VK_DOWN))
 	{
+		mHitBox = RectMakeCenter((int)mX, (int)mY + 20, (int)(mSizeX / 3.f), (int)(mSizeY / 2));
+
 		if (mDirection == Direction::Left)
 		{
 			if (mState == PlayerState::Idle || mState == PlayerState::Run)
@@ -124,6 +163,15 @@ void Player::Update()
 				mState = PlayerState::Crouch;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mLeftCrouchAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mCrouchImage;
+			}
+			if (INPUT->GetKeyDown(VK_RIGHT))
+			{
+				mDirection = Direction::Right;
+				mState = PlayerState::Crouch;
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mRightCrouchAnimation;
 				mCurrentAnimation->Play();
 				mCurrentImage = mCrouchImage;
 			}
@@ -138,34 +186,48 @@ void Player::Update()
 				mCurrentAnimation->Play();
 				mCurrentImage = mCrouchImage;
 			}
+			if (INPUT->GetKeyDown(VK_LEFT))
+			{
+				mDirection = Direction::Left;
+				mState = PlayerState::Crouch;
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mLeftCrouchAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mCrouchImage;
+			}
 		}
 		//?„ëž˜ ?í”„
 		if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 		{
-			if (mDirection == Direction::Left)
+			// if 플레이어가 특정 바닥위에 있으면
+			if (COLLISIONMANAGER->IsInRangeDownjumpPlatform(&mRect))
 			{
-				mState = PlayerState::Fall;
-				mCurrentAnimation->Stop();
-				mCurrentAnimation = mLeftFallAnimation;
-				mCurrentAnimation->Play();
-				mCurrentImage = mFallImage;
+				mIsInDownPlatform = true;
 
-			}
-			if (mDirection == Direction::Right)
-			{
-				mState = PlayerState::Fall;
-				mCurrentAnimation->Stop();
-				mCurrentAnimation = mRightFallAnimation;
-				mCurrentAnimation->Play();
-				mCurrentImage = mFallImage;
+				if (mDirection == Direction::Left)
+				{
+					mState = PlayerState::Fall;
+					mCurrentAnimation->Stop();
+					mCurrentAnimation = mLeftFallAnimation;
+					mCurrentAnimation->Play();
+					mCurrentImage = mFallImage;
+				}
+				if (mDirection == Direction::Right)
+				{
+					mState = PlayerState::Fall;
+					mCurrentAnimation->Stop();
+					mCurrentAnimation = mRightFallAnimation;
+					mCurrentAnimation->Play();
+					mCurrentImage = mFallImage;
+				}
 			}
 		}
 	}
 
-	// ?¼ì–´?œê¸°
-	if (Input::GetInstance()->GetKeyUp(VK_DOWN))
+	// 일어서기
+	if (mState == PlayerState::Crouch)
 	{
-		if (mState == PlayerState::Crouch)
+		if (Input::GetInstance()->GetKeyUp(VK_DOWN))
 		{
 			if (mDirection == Direction::Left)
 			{
@@ -212,9 +274,11 @@ void Player::Update()
 			}
 		}
 	}
-
+	//굴렀을때 랙트
 	if (mState == PlayerState::Roll)
 	{
+		mHitBox = RectMakeCenter((int)mX + 10000, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
+
 		if (mDirection == Direction::Left)
 		{
 			mX -= mSpeed * Time::GetInstance()->DeltaTime() * 1.3f;
@@ -227,8 +291,8 @@ void Player::Update()
 		}
 	}
 
-	// ?¬ë‹¤ë¦?!!!!!!!!!!!!!!!!!!!
-	/*RECT LadderRect;
+	// 사다리!!!!!!!!!!!!!!!!!!!!
+	RECT LadderRect;
 	vector<GameObject*> LadderList = OBJECTMANAGER->GetObjectList(ObjectLayer::Ladder);
 	vector<GameObject*>::iterator ladderiter = LadderList.begin();
 	for (; ladderiter != LadderList.end(); ++ladderiter)
@@ -298,7 +362,7 @@ void Player::Update()
 				}
 			}
 		}
-	}*/
+	}
 
 	// ??ê³µê²©
 	if (Input::GetInstance()->GetKeyDown('X'))
@@ -333,6 +397,8 @@ void Player::Update()
 			}
 			if (mState == PlayerState::Crouch)
 			{
+				mHitBox = RectMakeCenter((int)mX, (int)mY + 20, (int)(mSizeX / 3.f), (int)(mSizeY / 2));
+
 				mState = PlayerState::CrouchBow;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mLeftCrouchBowAnimation;
@@ -369,6 +435,8 @@ void Player::Update()
 			}
 			if (mState == PlayerState::Crouch)
 			{
+				mHitBox = RectMakeCenter((int)mX, (int)mY + 20, (int)(mSizeX / 3.f), (int)(mSizeY / 2));
+
 				mState = PlayerState::CrouchBow;
 				mCurrentAnimation->Stop();
 				mCurrentAnimation = mRightCrouchBowAnimation;
@@ -383,7 +451,6 @@ void Player::Update()
 
 	// ê²€ ê³µê²© 1
 	if(mState != PlayerState::Attack1 && mState != PlayerState::Attack2 && mState != PlayerState::Attack3)
-	//if (mState != PlayerState::Attack1 || mState != PlayerState::Attack2 || mState != PlayerState::Attack3)
 	{
 		if (Input::GetInstance()->GetKeyDown('Z'))
 		{
@@ -527,7 +594,65 @@ void Player::Update()
 			mAttackDamage = 20;
 		}
 	}
-	//?¼ê²©
+	if (mState == PlayerState::Attack1)
+	{
+		if (mDirection == Direction::Left)
+		{
+			if (mCurrentAnimation->GetNowFrameX() >= 4 && mCurrentAnimation->GetNowFrameX() <= 6)
+			{
+				mX -= 100.f * Time::GetInstance()->DeltaTime();
+				mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+			}
+		}
+		if (mDirection == Direction::Right)
+		{
+			if (mCurrentAnimation->GetNowFrameX() >= 0 && mCurrentAnimation->GetNowFrameX() <= 2)
+			{
+				mX += 100.f * Time::GetInstance()->DeltaTime();
+				mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+			}
+		}
+	}
+	if (mState == PlayerState::Attack2)
+	{
+		if (mDirection == Direction::Left)
+		{
+			if (mCurrentAnimation->GetNowFrameX() >= 4 && mCurrentAnimation->GetNowFrameX() <= 6)
+			{
+				mX -= 120.f * Time::GetInstance()->DeltaTime();
+				mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+			}
+		}
+		if (mDirection == Direction::Right)
+		{
+			if (mCurrentAnimation->GetNowFrameX() >= 0 && mCurrentAnimation->GetNowFrameX() <= 2)
+			{
+				mX += 120.f * Time::GetInstance()->DeltaTime();
+				mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+			}
+		}
+	}
+	if (mState == PlayerState::Attack3)
+	{
+		if (mDirection == Direction::Left)
+		{
+			if (mCurrentAnimation->GetNowFrameX() >= 6 && mCurrentAnimation->GetNowFrameX() <= 10)
+			{
+				mX -= 150.f * Time::GetInstance()->DeltaTime();
+				mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+			}
+		}
+		if (mDirection == Direction::Right)
+		{
+			if (mCurrentAnimation->GetNowFrameX() >= 0 && mCurrentAnimation->GetNowFrameX() <= 4)
+			{
+				mX += 150.f * Time::GetInstance()->DeltaTime();
+				mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+			}
+		}
+	}
+
+	//피격
 	if (mState == PlayerState::Hurt)
 	{
 		if (mTimer == 0) 
@@ -567,34 +692,29 @@ void Player::Update()
 			mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
 			mTimer = 0;
 
-			if (mDirection == Direction::Left)
-			{
-				if (mState == PlayerState::Hurt)
-				{
-					mState = PlayerState::Idle;
-					mCurrentAnimation->Stop();
-					mCurrentAnimation = mLeftIdleAnimation;
-					mCurrentAnimation->Play();
-					mCurrentImage = mIdleImage;
-				}
-			}
-			if (mDirection == Direction::Right)
-			{
-				if (mState == PlayerState::Hurt)
-				{
-					mState = PlayerState::Idle;
-					mCurrentAnimation->Stop();
-					mCurrentAnimation = mRightIdleAnimation;
-					mCurrentAnimation->Play();
-					mCurrentImage = mIdleImage;
-				}
-			}
-		}
-	}
-	//?¤ì¹œ?íƒœ?„ë‹ˆë©?
-	else
+if (mDirection == Direction::Left)
+{
+	if (mState == PlayerState::Hurt)
 	{
-		mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
+		mState = PlayerState::Idle;
+		mCurrentAnimation->Stop();
+		mCurrentAnimation = mLeftIdleAnimation;
+		mCurrentAnimation->Play();
+		mCurrentImage = mIdleImage;
+	}
+}
+if (mDirection == Direction::Right)
+{
+	if (mState == PlayerState::Hurt)
+	{
+		mState = PlayerState::Idle;
+		mCurrentAnimation->Stop();
+		mCurrentAnimation = mRightIdleAnimation;
+		mCurrentAnimation->Play();
+		mCurrentImage = mIdleImage;
+	}
+}
+		}
 	}
 
 	// Hp ?Œë³µ ?„ì´???¬ìš©
@@ -744,6 +864,22 @@ void Player::Update()
 	}
 	if (mState == PlayerState::Jump)
 	{
+		if (INPUT->GetKeyDown(VK_LEFT))
+		{
+			mDirection = Direction::Left;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftJumpAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mJumpImage;
+		}
+		if (INPUT->GetKeyDown(VK_RIGHT))
+		{
+			mDirection = Direction::Right;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightJumpAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mJumpImage;
+		}
 		if (mJumpPower < 0 && mDirection == Direction::Left)
 		{
 			mState = PlayerState::Fall;
@@ -761,15 +897,57 @@ void Player::Update()
 			mCurrentImage = mFallImage;
 		}
 	}
-	if (mState == PlayerState::Fall || mState == PlayerState::Jump)
+	if (mState == PlayerState::Fall)
+	{
+		if (INPUT->GetKeyDown(VK_LEFT))
+		{
+			mDirection = Direction::Left;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftFallAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mFallImage;
+		}
+		if (INPUT->GetKeyDown(VK_RIGHT))
+		{
+			mDirection = Direction::Right;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightFallAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mFallImage;
+		}
+	}
+	if (mState == PlayerState::Fall || mState == PlayerState::Jump || mState == PlayerState::AirBow || mState == PlayerState::AirAttack)
 	{
 		mY -= mJumpPower;
 		mJumpPower -= mGravity;
 	}
 
-	// ?€ì§ìž„ ?œí•œ
-	if (mState == PlayerState::Crouch || mState == PlayerState::Roll || mState == PlayerState::LandSoft || mState == PlayerState::Attack1 ||
-		mState == PlayerState::Attack2 || mState == PlayerState::Attack3 || mState == PlayerState::UseItem || mState == PlayerState::Death)
+	//IDLE || BRAKE 상태에서 이동 키 눌려있을때
+	if (mState == PlayerState::Idle || mState == PlayerState::Brake)
+	{
+		if (INPUT->GetKey(VK_LEFT))
+		{
+			mDirection = Direction::Left;
+			mState = PlayerState::Run;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mLeftRunAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mRunImage;
+		}
+		if (INPUT->GetKey(VK_RIGHT))
+		{
+			mDirection = Direction::Right;
+			mState = PlayerState::Run;
+			mCurrentAnimation->Stop();
+			mCurrentAnimation = mRightRunAnimation;
+			mCurrentAnimation->Play();
+			mCurrentImage = mRunImage;
+		}
+	}
+
+	// 움직임 제한
+	if (mState == PlayerState::Crouch || mState == PlayerState::Roll || mState == PlayerState::LandSoft || mState == PlayerState::Attack1 || mState == PlayerState::Bow
+		|| mState == PlayerState::Attack2 || mState == PlayerState::Attack3 || mState == PlayerState::UseItem || mState == PlayerState::Death || mState == PlayerState::Hurt)
 	{
 		stopmove = 1;
 	}
@@ -784,23 +962,31 @@ void Player::Update()
 	mCurrentAnimation->Update();
 
 	//RECT mPrevRect;
-	mRect = *(COLLISIONMANAGER->CollideWithPlatform(&mRect, &mPrevRect, mSizeX, mSizeY));
+	//벽을 통과중이 아니라면
+	if (!mIsInDownPlatform) 
+	{
+		mRect = *(COLLISIONMANAGER->CollideWithPlatform(&mRect, &mPrevRect, mSizeX, mSizeY));
+	}
+	//벽을 통과중이면
+	else
+	{
+		mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+	}
 	mX = (mRect.left + mRect.right) / 2;
 	mY = (mRect.bottom + mRect.top) / 2;
 	mPrevRect = mRect;
 
-	/////////////////////////////////////////?„ì‹œ ì²´ë ¥ê¹Žê¸°///////////////////////////
+	/////////////////////////////////////////임시 체력깎기///////////////////////////
 	if (INPUT->GetKeyDown('O'))
 	{
-		PlayerHurt();
+		PlayerHurt(Direction::Left);
 		mHp -= 20;
 	}
-
-	//?ˆíŠ¸ë°•ìŠ¤
-	if (mState != PlayerState::Hurt)
+  
+	//히트박스
+	if (mState != PlayerState::Hurt && mState != PlayerState::Roll && mState != PlayerState::Crouch && mState != PlayerState::CrouchBow)
 	{
-		//mHitBox = RectMakeCenter(mX, mY, mSizeX, mSizeY);
-		 mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
+		mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
 	}
 }
 
@@ -1000,13 +1186,13 @@ void Player::ReadyPlayerAnimation()
 	mLeftLadderEnterAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftLadderEnterAnimation->SetIsLoop(true);
 	mLeftLadderEnterAnimation->SetFrameUpdateTime(0.1f);
-	mLeftLadderEnterAnimation->SetCallbackFunc(bind(&Player::SetStateLadderUp, this));
+	mLeftLadderEnterAnimation->SetCallbackFunc(bind(&Player::SetStateLadderDown, this));
 
 	mRightLadderEnterAnimation = new Animation();
 	mRightLadderEnterAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightLadderEnterAnimation->SetIsLoop(true);
 	mRightLadderEnterAnimation->SetFrameUpdateTime(0.1f);
-	mRightLadderEnterAnimation->SetCallbackFunc(bind(&Player::SetStateLadderUp, this));
+	mRightLadderEnterAnimation->SetCallbackFunc(bind(&Player::SetStateLadderDown, this));
 
 	// ?¬ë‹¤ë¦??¤ë¥´?´ë¦¬ê¸?? ë‹ˆë©”ì´??
 	mLadderUpAnimation = new Animation();
