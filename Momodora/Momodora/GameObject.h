@@ -22,6 +22,8 @@ protected:
 	bool mIsActive;
 	bool mIsDestroy;
 
+	bool mIsPlayEvent;
+
 public:
 	GameObject();
 	GameObject(float x, float y);
@@ -63,4 +65,7 @@ public:
 
 	inline void SetObject(bool isActive = true, bool isDestroy = false) { mIsActive = isActive; mIsDestroy = isDestroy; }
 	inline void SetObject(const string& name, bool isActive = true, bool isDestroy = false) { mName = name; mIsActive = isActive; mIsDestroy = isDestroy; }
+
+	inline bool GetPlayEvent() { return mIsPlayEvent; }
+	inline void SetPlayEvent(bool b) { mIsPlayEvent = b; }
 };

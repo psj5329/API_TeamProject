@@ -22,6 +22,7 @@ void Witch::Init()
 	mAttackSpeed = 0;
 	mHoldStaff = true;
 	mHp = 100;
+	isHit = false;
 
 	//지팡이
 	mStaff = new Staff();
@@ -127,8 +128,8 @@ void Witch::Update()
 		}
 	}
 
-	//지팡이가 돌아오는 중이고
-	if (mStaff->GetIsReturn())
+	//지팡이가 돌아오는 중이고, 죽은것도아니면
+	if (mStaff->GetIsReturn() && mEnemyState != EnemyState::Death)
 	{
 		//지팡이 안들고있고
 		if (!mHoldStaff)

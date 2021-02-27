@@ -19,6 +19,7 @@ void BombImp::Init()
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
 	mHp = 60;
+	isHit = false;
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 0, 0, 0, false);
