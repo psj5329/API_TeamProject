@@ -195,3 +195,16 @@ void Enemy::DropGold(int goldNum)
 		OBJECTMANAGER->AddObject(ObjectLayer::Item, star);
 	}
 }
+
+void Enemy::Hurt()
+{
+	SetDirection();
+	mEnemyState = EnemyState::Hurt;
+	SetAnimation();
+
+}
+
+void Enemy::HurtRectMove()
+{
+	
+}
