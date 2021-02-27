@@ -10,8 +10,13 @@
 void Scene01::Init()
 {
 	// {{ 충돌 체크용 맵
+	mMapImage = IMAGEMANAGER->FindImage(L"map0001");
+
+	mSceneSizeX = mMapImage->GetWidth();
+	mSceneSizeY = mMapImage->GetHeight();
+
 	Platform* platform01 = new Platform();
-	platform01->SetPlatform(0, 600, 800, 650, PlatformType::Normal);
+	platform01->SetPlatform(0, 600, 4000, 650, PlatformType::Normal);
 	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform01);
 
 	Platform* platform02 = new Platform();
@@ -22,7 +27,6 @@ void Scene01::Init()
 	ladder01->SetLadder(675, 450, 725, 600);
 	OBJECTMANAGER->AddObject(ObjectLayer::Ladder, (GameObject*)ladder01);
 	// 충돌 체크용 맵 }}
-
 
 	//템
 	Potion* potion1 = new Potion();
@@ -53,6 +57,8 @@ void Scene01::Update()
 void Scene01::Render(HDC hdc)
 {
 	// {{ 충돌 체크용 맵
+	CAMERAMANAGER->GetMainCamera()->Render(hdc, mMapImage, 0, 0);
+
 	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
 	vector<GameObject*>::iterator iter1 = platformList.begin();
 	for (; iter1 != platformList.end(); ++iter1)
