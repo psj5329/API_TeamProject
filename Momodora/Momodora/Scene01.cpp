@@ -23,6 +23,8 @@ void Scene01::Init()
 	OBJECTMANAGER->AddObject(ObjectLayer::Ladder, (GameObject*)ladder01);
 	// 충돌 체크용 맵 }}
 
+	mSceneSizeX = 2000;
+	mSceneSizeY = 4000;
 
 	//템
 	Potion* potion1 = new Potion();
