@@ -40,6 +40,8 @@ protected:
 	bool isHit;
 	float mAlpha;
 
+	float mHurtCounter; //°æÁ÷½Ã°£
+
 	Animation* mRightIdle;
 	Animation* mLeftIdle;
 	Animation* mRightMove;
@@ -83,4 +85,6 @@ public:
 	virtual void DeathCheck();
 	void DropGold();	//µ··£´ý»Ñ¸®±â
 	void DropGold(int goldNum);	//µ·ÀÎÀÚ¸¸Å­»Ñ¸®±â
+	void Hurt();
+	void HurtRectMove();
 };
