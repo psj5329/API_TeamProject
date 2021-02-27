@@ -74,19 +74,43 @@ void MainGame::Update()
 			return;
 	}
 
-	//if (INPUT->GetKeyDown('7'))
+	if (INPUT->GetKeyDown('1'))
+	{
+		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene01")
+			SCENEMANAGER->LoadScene(L"Scene01", 0);
+	}
+	else if (INPUT->GetKeyDown('2'))
+	{
+		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene02")
+			SCENEMANAGER->LoadScene(L"Scene02");
+	}
+	else if (INPUT->GetKeyDown('3'))
+	{
+		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene03")
+			SCENEMANAGER->LoadScene(L"Scene03");
+	}
+	else if (INPUT->GetKeyDown('4'))
+	{
+		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene04")
+			SCENEMANAGER->LoadScene(L"Scene04");
+	}
+	else if (INPUT->GetKeyDown('5'))
+	{
+		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene05")
+			SCENEMANAGER->LoadScene(L"Scene05");
+	}
+
+	// scenetest
 	if (INPUT->GetKeyAKeyDownB('M', '7'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene07")
 			SCENEMANAGER->LoadScene(L"Scene07");
 	}
-	//else if (INPUT->GetKeyDown('8'))
 	else if (INPUT->GetKeyAKeyUpB('M', '8'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene08")
 			SCENEMANAGER->LoadScene(L"Scene08");
 	}
-	//else if (INPUT->GetKeyDown('9'))
 	else if (INPUT->GetKeyAKeyB('M', '9'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene09")
@@ -98,7 +122,7 @@ void MainGame::Update()
 			SCENEMANAGER->LoadScene(L"SceneTest");
 	}
 
-	if (INPUT->GetKeyDown('5'))
+	if (INPUT->GetKeyDown('6'))
 	{
 		Camera* main = CAMERAMANAGER->GetMainCamera();
 		if (main->GetMode() == Camera::Mode::Follow)
@@ -171,11 +195,11 @@ void MainGame::RenderDebugText(HDC hdc)
 	Camera* main = CAMERAMANAGER->GetMainCamera();
 	wstring strCam = L"";
 	if (main->GetMode() == Camera::Mode::Follow)
-		strCam = L"팔로우 카메라(모드변경:5)";
+		strCam = L"팔로우 카메라(모드변경:6)";
 	else if (main->GetMode() == Camera::Mode::Fix)
-		strCam = L"고정 카메라(모드변경:5)";
+		strCam = L"고정 카메라(모드변경:6)";
 	else
-		strCam = L"프리 카메라(모드변경:5)";
+		strCam = L"프리 카메라(모드변경:6)";
 	TextOut(hdc, 700, 55, strCam.c_str(), (int)strCam.length());
 
 	bool tempRight = CAMERAMANAGER->GetMainCamera()->GetRight();
@@ -226,11 +250,10 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"platform2", Resources(L"map/platform2"), 960, 93, true); });
 
 	// Scene
-	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapImage01", Resources(L"Background1"), 1200, 900, true); });
-	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapImage02", Resources(L"Background2"), 2400, 900, true); });
-	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapImage03", Resources(L"Background3"), 2400, 900, true); });
-	// 4를 끼워넣을지 펜릴을 4로 갈지
-	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapImage04", Resources(L"Background4"), 1200, 900, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapImage01", ResourcesBackground(L"Background1"), 1200, 900, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapImage02", ResourcesBackground(L"Background2"), 2400, 900, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapImage03", ResourcesBackground(L"Background3"), 2400, 900, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapImage04", ResourcesBackground(L"Background4"), 1200, 900, true); });
 
 
 	// Player

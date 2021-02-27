@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Scene07.h"
 #include "Camera.h"
 #include "Platform.h"
@@ -30,7 +30,7 @@ void Scene07::Init()
 
 	//템
 	Potion* potion1 = new Potion();
-	potion1->Init(WINSIZEX / 2 + 350, 550,0);
+	potion1->Init(WINSIZEX / 2 + 350, 550, 0);
 	potion1->SetObject();
 	ObjectManager::GetInstance()->AddObject(ObjectLayer::Item, potion1);
 
