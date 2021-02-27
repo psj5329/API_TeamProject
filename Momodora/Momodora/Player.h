@@ -53,6 +53,8 @@ class Player : public GameObject
 
 	bool mHitAttack;
 
+	bool mIsInDownPlatform;  //아래점프중 플레이어의 랙트가 플랫폼 안에있으면 true
+
 	RECT mPrevRect;
 
 	bool mHaveMagnet;
@@ -171,7 +173,7 @@ public:
 	PlayerState GetState() { return mState; }
 	int GetPotion() { return mPotion; }
 	void AddPotion() { mPotion += 1; }
-	void PlayerHurt() { mHitBox = RectMakeCenter((int)mX + 10000, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY); mState = PlayerState::Hurt; }
+	void PlayerHurt(Direction direction) { mHitBox = RectMakeCenter((int)mX + 10000, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY); mState = PlayerState::Hurt; mDirection = direction; }
 
 	//void SetImageAnimation();
 
