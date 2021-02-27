@@ -18,6 +18,7 @@ void BombImp::Init()
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mHitBox = RectMakeCenter(mX, mY, 50, 50);
 	mAttackSpeed = 0;
+	mHp = 60;
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 0, 0, 0, false);
@@ -99,7 +100,7 @@ void BombImp::Update()
 
 		}
 	}
-
+	DeathCheck();
 
 	mCurrentAnimation->Update();
 
