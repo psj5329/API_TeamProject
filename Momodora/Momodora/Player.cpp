@@ -799,14 +799,14 @@ void Player::Update()
 	//히트박스
 	if (mState != PlayerState::Hurt)
 	{
-		mHitBox = RectMakeCenter(mX, mY, mSizeX, mSizeY);
-		// mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
+		//mHitBox = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+		 mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
 	}
 }
 
 void Player::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
 	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 
 	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY, 1.f);
@@ -1030,7 +1030,7 @@ void Player::ReadyPlayerAnimation()
 	mRightLadderLeaveAnimation->SetIsLoop(true);
 	mRightLadderLeaveAnimation->SetFrameUpdateTime(0.1f);
 
-		// 서서 활 애니메이션
+	// 서서 활 애니메이션
 	mLeftBowAnimation = new Animation();
 	mLeftBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftBowAnimation->SetIsLoop(true);
@@ -1322,6 +1322,7 @@ void Player::SetEndAttack()
 		}
 	}
 
+	mEndCombo = true;
 	mHitAttack = true;
 
 	mLeaf->SetIsActive(false); // 애니메이션 안 돌고 출력도 안 되게

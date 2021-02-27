@@ -58,6 +58,9 @@ class Player : public GameObject
 	bool mHaveMagnet;
 	Leaf* mLeaf;
 
+	//에너미와 리프가 충돌체크할때쓸 불
+	bool mEndCombo;
+
 	Image* mIdleImage;
 	Image* mRunImage;
 	Image* mBrakeImage;
@@ -167,7 +170,7 @@ public:
 	int GetAttackDamage() { return mAttackDamage; }
 	int GetHp() { return mHp; }
 	void SetHp(int i) { mHp = i; }
-	bool GetHitAttack() { return mHitAttack; }
+	bool GetHitAttack() {return mHitAttack; }
 	PlayerState GetState() { return mState; }
 	int GetPotion() { return mPotion; }
 	void AddPotion() { mPotion += 1; }
@@ -177,4 +180,9 @@ public:
 
 	inline bool GetHaveMagnet()const { return mHaveMagnet; }
 	inline void SetHaveMagnet(bool haveMagnet) { mHaveMagnet = haveMagnet; }
+
+
+	//몬스터와 충돌체크할때 쓸꺼
+	inline bool GetEndCombo() { return mEndCombo; }
+	inline void SetEndCombo(bool a) { mEndCombo = a; }
 };

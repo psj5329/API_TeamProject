@@ -75,10 +75,17 @@ void Leaf::Update()
 	MakeAttackBox(&mAttackBox);
 
 	mCurrentAnimation->Update();
+
+
+
+
 }
 
 void Leaf::Render(HDC hdc)
 {
+	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
+	Player* player = OBJECTMANAGER->GetPlayer();
+
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mCurrentImage, mRect.left, mRect.top,
 		mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY);
 
@@ -88,31 +95,73 @@ void Leaf::Render(HDC hdc)
 
 void Leaf::MakeAttackBox(RECT* attackBox)
 {
-	mAttackBox = mRect; // 프레임 잘 돌아가면 프레임별로 세분화 예정
+	//mAttackBox = mRect; // 프레임 잘 돌아가면 프레임별로 세분화 예정
 
 	if (mCurrentAnimation == mLeaf01Left)
 	{
-
+		if (mCurrentAnimation->GetNowFrameX() >= 1 && mCurrentAnimation->GetNowFrameX() < 4)
+		{
+			mAttackBox = RectMakeCenter(mX-5, mY, 80, 60);
+		}
+		else
+		{
+			mAttackBox = RectMakeCenter(-2000, -2000, 2, 2);
+		}
 	}
 	else if (mCurrentAnimation == mLeaf01Right)
 	{
-
+		if (mCurrentAnimation->GetNowFrameX() >= 3 && mCurrentAnimation->GetNowFrameX() < 6)
+		{
+			mAttackBox = RectMakeCenter(mX, mY, 80, 60);
+		}
+		else
+		{
+			mAttackBox = RectMakeCenter(-2000, -2000, 2, 2);
+		}
 	}
 	else if (mCurrentAnimation == mLeaf02Left)
 	{
-
+		if (mCurrentAnimation->GetNowFrameX() >= 1 && mCurrentAnimation->GetNowFrameX() < 3)
+		{
+			mAttackBox = RectMakeCenter(mX, mY, 80, 60);
+		}
+		else
+		{
+			mAttackBox = RectMakeCenter(-2000, -2000, 2, 2);
+		}
 	}
 	else if (mCurrentAnimation == mLeaf02Right)
 	{
-
+		if (mCurrentAnimation->GetNowFrameX() >= 3 && mCurrentAnimation->GetNowFrameX() < 6)
+		{
+			mAttackBox = RectMakeCenter(mX, mY, 80, 60);
+		}
+		else
+		{
+			mAttackBox = RectMakeCenter(-2000, -2000, 2, 2);
+		}
 	}
 	else if (mCurrentAnimation == mLeaf03Left)
 	{
-
+		if (mCurrentAnimation->GetNowFrameX() >= 3 && mCurrentAnimation->GetNowFrameX() < 6)
+		{
+			mAttackBox = RectMakeCenter(mX+10, mY, 90, 80);
+		}
+		else
+		{
+			mAttackBox = RectMakeCenter(-2000, -2000, 2, 2);
+		}
 	}
 	else if (mCurrentAnimation == mLeaf03Right)
 	{
-
+		if (mCurrentAnimation->GetNowFrameX() >= 4 && mCurrentAnimation->GetNowFrameX() < 6)
+		{
+			mAttackBox = RectMakeCenter(mX, mY, 90, 80);
+		}
+		else
+		{
+			mAttackBox = RectMakeCenter(-2000, -2000, 2, 2);
+		}
 	}
 }
 

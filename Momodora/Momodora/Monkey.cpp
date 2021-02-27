@@ -17,6 +17,7 @@ void Monkey::Init()
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mHitBox = RectMakeCenter(mX, mY + 30, 50, 50);
 	mSearchZone = RectMakeCenter(mX - 150, mY - 150, 300, 300);
+	isHit = false;
 
 	mSpeed = 70;
 	mAttackSpeed = 100;

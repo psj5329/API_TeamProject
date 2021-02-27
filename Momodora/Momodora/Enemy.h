@@ -69,7 +69,8 @@ public:
 	inline void SetHp(int hp) { mHp = hp; }
 	inline void TakeHp(int hp) { mHp -= hp; }
 	inline void SetPlayerPtr(Player* player) { mPlayer = player; }
-	void SetIsHit(bool hit) { isHit = hit; }
+	inline void SetIsHit(bool hit) { isHit = hit; }
+	inline bool GetIsHit() { return isHit; }
 
 	virtual void SetPosition(float startX, float startY); //À§Ä¡¼³Á¤ Y¿¡ ÇÃ·§ÆûÀÇ top 
 
