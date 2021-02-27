@@ -88,71 +88,71 @@ void IScriptEvent::Render(HDC hdc)
 		, WINSIZEX / 2 - mImage->GetWidth() / 2 + CameraManager::GetInstance()->GetMainCamera()->GetRect().left - mShakeX
 		, WINSIZEY / 2 - mImage->GetHeight() / 2 + CameraManager::GetInstance()->GetMainCamera()->GetRect().top - mShakeY);
 }
-//
-//IMoveGameObject::IMoveGameObject(GameObject* object, GameObject * target)
-//{
-//	mObject = object;
-//	mTargetX = target->GetX() + target->GetSizeX() + mObject->GetSizeX();
-//	mTargetY = target->GetY();
-//	mSpeedX = (mTargetX - mObject->GetX()) * 0.1f * Time::GetInstance()->DeltaTime();
-//	mSpeedY = (mTargetY - mObject->GetY()) * 0.1f * Time::GetInstance()->DeltaTime();
-//}
-//
-//IMoveGameObject::IMoveGameObject(GameObject* object, float x, float y)
-//{
-//	mObject = object;
-//	mTargetX = x;
-//	mTargetY = y;
-//	mSpeedX = (mTargetX - mObject->GetX()) * 0.1f * Time::GetInstance()->DeltaTime();
-//	mSpeedY = (mTargetY - mObject->GetY()) * 0.1f * Time::GetInstance()->DeltaTime();
-//}
 
-//void IMoveGameObject::Start()
-//{
-//	mObject->SetIsEventMove(true);
-//	mObject->SetTargetX(mTargetX);
-//	mObject->SetTargetY(mTargetY);
-//}
-//
-//bool IMoveGameObject::Update()
-//{
-//	//mObject->SetX(Math::Lerp(mObject->GetX(), mTargetX, 0.5f * Time::GetInstance()->DeltaTime()));
-//	//mObject->SetY(Math::Lerp(mObject->GetY(), mTargetY, 0.5f * Time::GetInstance()->DeltaTime()));
-//	mObject->SetX(mObject->GetX() + mSpeedX);
-//	mObject->SetY(mObject->GetY() + mSpeedY);
-//
-//	if (Math::GetDistance(mObject->GetX(), mObject->GetY(), mTargetX, mTargetY) <= 5.0f)
-//	{
-//		mObject->SetIsEventMove(false);
-//		return true;
-//	}
-//
-//	return false;
-//}
-//
-//void IMoveGameObject::Render(HDC hdc)
-//{
-//}
-//
-//IChangeAnimation::IChangeAnimation(GameObject* object, Animation* animation)
-//{
-//	mObject = object;
-//	mAnimation = animation;
-//}
-//
-//void IChangeAnimation::Start()
-//{
-//}
-//
-//bool IChangeAnimation::Update()
-//{
-//	mObject->SetCurrentAnimation(mAnimation);
-//	return true;
-//}
-//
-//void IChangeAnimation::Render(HDC hdc)
-//{
-//}
+IMoveGameObject::IMoveGameObject(GameObject* object, GameObject * target)
+{
+	mObject = object;
+	mTargetX = target->GetX() + target->GetSizeX() + mObject->GetSizeX();
+	mTargetY = target->GetY();
+	mSpeedX = (mTargetX - mObject->GetX()) * 0.1f * Time::GetInstance()->DeltaTime();
+	mSpeedY = (mTargetY - mObject->GetY()) * 0.1f * Time::GetInstance()->DeltaTime();
+}
+
+IMoveGameObject::IMoveGameObject(GameObject* object, float x, float y)
+{
+	mObject = object;
+	mTargetX = x;
+	mTargetY = y;
+	mSpeedX = (mTargetX - mObject->GetX()) * 0.1f * Time::GetInstance()->DeltaTime();
+	mSpeedY = (mTargetY - mObject->GetY()) * 0.1f * Time::GetInstance()->DeltaTime();
+}
+
+void IMoveGameObject::Start()
+{
+	/*mObject->SetIsEventMove(true);
+	mObject->SetTargetX(mTargetX);
+	mObject->SetTargetY(mTargetY);*/
+}
+
+bool IMoveGameObject::Update()
+{
+	//mObject->SetX(Math::Lerp(mObject->GetX(), mTargetX, 0.5f * Time::GetInstance()->DeltaTime()));
+	//mObject->SetY(Math::Lerp(mObject->GetY(), mTargetY, 0.5f * Time::GetInstance()->DeltaTime()));
+	mObject->SetX(mObject->GetX() + mSpeedX);
+	mObject->SetY(mObject->GetY() + mSpeedY);
+
+	/*if (Math::GetDistance(mObject->GetX(), mObject->GetY(), mTargetX, mTargetY) <= 5.0f)
+	{
+		mObject->SetIsEventMove(false);
+		return true;
+	}*/
+
+	return false;
+}
+
+void IMoveGameObject::Render(HDC hdc)
+{
+}
+
+IChangeAnimation::IChangeAnimation(GameObject* object, Animation* animation)
+{
+	mObject = object;
+	mAnimation = animation;
+}
+
+void IChangeAnimation::Start()
+{
+}
+
+bool IChangeAnimation::Update()
+{
+	//mObject->SetCurrentAnimation(mAnimation);
+	return true;
+}
+
+void IChangeAnimation::Render(HDC hdc)
+{
+}
 
 IEraseEvent::IEraseEvent(Image* image1, Image* image2, float r, float time)
 {
@@ -236,4 +236,25 @@ void IEraseEvent::Render(HDC hdc)
 {
 	//for(int i = 0; i < mVecCircleCenter.size(); ++i)
 	//	CAMERAMANAGER->GetMainCamera()->RenderEllipseInCamera(hdc, mVecCircleCenter[i].x, mVecCircleCenter[i].y, mSize);
+}
+
+IChangeImage::IChangeImage(Image* image1, Image* image2)
+{
+	mImage1 = image1;
+	mImage2 = image2;
+}
+
+void IChangeImage::Start()
+{
+}
+
+bool IChangeImage::Update()
+{
+	// 아 이럼 이상한디
+	//mImage1 = mImage2;
+	return false;
+}
+
+void IChangeImage::Render(HDC hdc)
+{
 }

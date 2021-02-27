@@ -3,6 +3,7 @@
 
 class Scene03 final : public Scene
 {
+	Image* mPlatformImage;
 	bool mIsBossDead;
 
 public:
