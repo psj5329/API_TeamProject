@@ -4,6 +4,7 @@
 #include "Image.h"
 #include "Camera.h"
 #include "GameObject.h"
+#include "Scene.h"
 
 void Bomb::Init()
 {
@@ -55,6 +56,15 @@ void Bomb::Init(int x, int y, float angle, float targetX, float targetY)
 	}
 	mCurrentAnimation->Play();
 
+
+	if (mRect.right < 0)
+	{
+		this->SetIsDestroy(true);
+	}
+	if (mRect.left > SCENEMANAGER->GetCurrentScene()->GetSceneSizeX())
+	{
+		this->SetIsDestroy(true);
+	}
 }
 
 void Bomb::Release()
