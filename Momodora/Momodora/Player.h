@@ -172,6 +172,7 @@ public:
 	PlayerState GetState() { return mState; }
 	int GetPotion() { return mPotion; }
 	void AddPotion() { mPotion += 1; }
+	void PlayerHurt() { mHitBox = RectMakeCenter((int)mX + 10000, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY); mState = PlayerState::Hurt; }
 
 	//void SetImageAnimation();
 

@@ -414,8 +414,7 @@ void Player::Update()
 	}
 
 	// 검 공격 1
-	//if (mState != State::LeftAttack1 && mState != State::RightAttack1 && mState != State::LeftAttack2 && mState != State::RightAttack2 && mState != State::LeftAttack3 && mState != State::RightAttack3)
-	if(mState != PlayerState::Attack1 || mState != PlayerState::Attack2 || mState != PlayerState::Attack3)
+	if(mState != PlayerState::Attack1 && mState != PlayerState::Attack2 && mState != PlayerState::Attack3)
 	{
 		if (Input::GetInstance()->GetKeyDown('Z'))
 		{
@@ -576,12 +575,71 @@ void Player::Update()
 	//피격
 	if (mState == PlayerState::Hurt)
 	{
-		mTimer += Time::GetInstance()->DeltaTime();
-		//밀쳐나기
-		if (mTimer >= 1.f)
+		if (mTimer == 0) 
 		{
+			if (mDirection == Direction::Left)
+			{
+				mState = PlayerState::Hurt;
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mLeftHurtAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mHurtImage;
+			}
+			if (mDirection == Direction::Right)
+			{
+				mState = PlayerState::Hurt;
+				mCurrentAnimation->Stop();
+				mCurrentAnimation = mRightHurtAnimation;
+				mCurrentAnimation->Play();
+				mCurrentImage = mHurtImage;
+			}
+		}
+		mTimer += Time::GetInstance()->DeltaTime();
+		if (mDirection == Direction::Left)
+		{
+			mX += mSpeed * Time::GetInstance()->DeltaTime() / 3.f;
+			mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 
 		}
+		if (mDirection == Direction::Right)
+		{
+			mX -= mSpeed * Time::GetInstance()->DeltaTime() / 3.f;
+			mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+
+		}
+		if (mTimer >= 1.f)
+		{
+			mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
+			mTimer = 0;
+
+			if (mDirection == Direction::Left)
+			{
+				if (mState == PlayerState::Hurt)
+				{
+					mState = PlayerState::Idle;
+					mCurrentAnimation->Stop();
+					mCurrentAnimation = mLeftIdleAnimation;
+					mCurrentAnimation->Play();
+					mCurrentImage = mIdleImage;
+				}
+			}
+			if (mDirection == Direction::Right)
+			{
+				if (mState == PlayerState::Hurt)
+				{
+					mState = PlayerState::Idle;
+					mCurrentAnimation->Stop();
+					mCurrentAnimation = mRightIdleAnimation;
+					mCurrentAnimation->Play();
+					mCurrentImage = mIdleImage;
+				}
+			}
+		}
+	}
+	//다친상태아니면
+	else
+	{
+		mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
 	}
 
 	// Hp 회복 아이템 사용
@@ -801,6 +859,7 @@ void Player::Update()
 	/////////////////////////////////////////임시 체력깎기///////////////////////////
 	if (INPUT->GetKeyDown('O'))
 	{
+		PlayerHurt();
 		mHp -= 20;
 	}
 
@@ -809,6 +868,8 @@ void Player::Update()
 void Player::Render(HDC hdc)
 {
 	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
+	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
+
 	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY, 1.f);
 
 	//for (int i = 0; i < mArrow.size(); ++i)
@@ -1218,7 +1279,7 @@ void Player::InitPlayerVar()
 	mSizeY = (float)(mIdleImage->GetFrameHeight()) * 2.f;
 	mDirection = Direction::Right;
 	mRect = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY);
-	mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 2.f), (int)mSizeY); // 임시(가로만 반)
+	mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY); // 임시(가로만 반)
 	mAttackBox = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY); // 임시(플레이어 사이즈)
 
 	// Player에 선언된 변수들
