@@ -61,7 +61,7 @@ void Boss::Init()
 	mJumpPower = 15.f;
 
 	mIsEndEvent = false;
-
+	mIsEvent = true;
 
 	mEraseSize = 2.f;
 	int num = sqrtf(WINSIZEX * WINSIZEX + WINSIZEY * WINSIZEY) / 2;// / mEraseSize;
@@ -400,9 +400,14 @@ void Boss::MotionFrame()
 
 	if (mIsHit)		// 피격 순간
 	{
-		mChest.y -= 10;
 		mIsHit = false;
 		mIsInvincibility = true;
+
+		if (!mIsMoveChest)
+		{
+			mIsMoveChest = true;
+			mChest.y -= 10;
+		}
 	}
 
 	if (mIsInvincibility)	// 피격 후 무적 시간
@@ -411,14 +416,18 @@ void Boss::MotionFrame()
 
 		if (mHitFrameTime >= 0.2f)
 		{
-			mHitMoveCount++;
-			mHitFrameTime = 0.f;
-			mChest.y += 5;
+			if (mIsMoveChest)
+			{
+				mHitMoveCount++;
+				mHitFrameTime = 0.f;
+				mChest.y += 5;
+			}
 
 			if (mHitMoveCount >= 2)
 			{
 				mIsInvincibility = false;
 				mHitMoveCount = 0;
+				mIsMoveChest = false;
 			}
 		}
 	}
@@ -527,7 +536,7 @@ void Boss::Pattern()
 				BossBullet* bullet = new BossBullet;
 				bullet->Init();
 				bullet->SetX(OBJECTMANAGER->GetPlayer()->GetX());
-				bullet->SetY(1600.f);
+				bullet->SetY(1490.f);
 				bullet->SetAngle(angle);
 				bullet->SetPattern(BulletPattern::PatternBulletUp);
 				bullet->SetObject();
