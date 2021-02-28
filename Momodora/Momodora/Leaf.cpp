@@ -13,6 +13,7 @@ void Leaf::Init()
 	mLeafImage01 = IMAGEMANAGER->FindImage(L"Leaf1");
 	mLeafImage02 = IMAGEMANAGER->FindImage(L"Leaf2");
 	mLeafImage03 = IMAGEMANAGER->FindImage(L"Leaf3");
+	mAirLeafImage = IMAGEMANAGER->FindImage(L"AirLeaf");
 
 	mLeaf01Left = new Animation();
 	mLeaf01Left->InitFrameByStartEnd(0, 1, 6, 1, true);
@@ -44,6 +45,16 @@ void Leaf::Init()
 	mLeaf03Right->SetIsLoop(false);
 	mLeaf03Right->SetFrameUpdateTime(0.1f);
 
+	mAirLeafLeft = new Animation();
+	mAirLeafLeft->InitFrameByStartEnd(0, 1, 6, 1, true);
+	mAirLeafLeft->SetIsLoop(false);
+	mAirLeafLeft->SetFrameUpdateTime(0.1f);
+
+	mAirLeafRight = new Animation();
+	mAirLeafRight->InitFrameByStartEnd(0, 0, 6, 0, false);
+	mAirLeafRight->SetIsLoop(false);
+	mAirLeafRight->SetFrameUpdateTime(0.1f);
+
 	mCurrentAnimation = mLeaf01Right;
 }
 
@@ -55,6 +66,8 @@ void Leaf::Release()
 	SafeDelete(mLeaf02Right);
 	SafeDelete(mLeaf03Left);
 	SafeDelete(mLeaf03Right);
+	SafeDelete(mAirLeafLeft);
+	SafeDelete(mAirLeafRight);
 }
 
 void Leaf::Update()
@@ -121,7 +134,7 @@ void Leaf::MakeAttackBox(RECT* attackBox)
 	}
 	else if (mCurrentAnimation == mLeaf02Left)
 	{
-		if (mCurrentAnimation->GetNowFrameX() >= 1 && mCurrentAnimation->GetNowFrameX() < 3)
+		if (mCurrentAnimation->GetNowFrameX() >= 1 && mCurrentAnimation->GetNowFrameX() <= 3)
 		{
 			mAttackBox = RectMakeCenter(mX, mY, 80, 60);
 		}
@@ -143,7 +156,7 @@ void Leaf::MakeAttackBox(RECT* attackBox)
 	}
 	else if (mCurrentAnimation == mLeaf03Left)
 	{
-		if (mCurrentAnimation->GetNowFrameX() >= 3 && mCurrentAnimation->GetNowFrameX() < 6)
+		if (mCurrentAnimation->GetNowFrameX() >= 1 && mCurrentAnimation->GetNowFrameX() < 5)
 		{
 			mAttackBox = RectMakeCenter(mX+10, mY, 90, 80);
 		}
@@ -154,9 +167,31 @@ void Leaf::MakeAttackBox(RECT* attackBox)
 	}
 	else if (mCurrentAnimation == mLeaf03Right)
 	{
-		if (mCurrentAnimation->GetNowFrameX() >= 4 && mCurrentAnimation->GetNowFrameX() < 6)
+		if (mCurrentAnimation->GetNowFrameX() >= 4 && mCurrentAnimation->GetNowFrameX() < 8)
 		{
 			mAttackBox = RectMakeCenter(mX, mY, 90, 80);
+		}
+		else
+		{
+			mAttackBox = RectMakeCenter(-2000, -2000, 2, 2);
+		}
+	}
+	else if (mCurrentAnimation == mAirLeafLeft)
+	{
+		if (mCurrentAnimation->GetNowFrameX() >= 1 && mCurrentAnimation->GetNowFrameX() < 4)
+		{
+			mAttackBox = RectMakeCenter(mX, mY - 5, 90, 105);
+		}
+		else
+		{
+			mAttackBox = RectMakeCenter(-2000, -2000, 2, 2);
+		}
+	}
+	else if (mCurrentAnimation == mAirLeafRight)
+	{
+		if (mCurrentAnimation->GetNowFrameX() >= 2 && mCurrentAnimation->GetNowFrameX() < 5)
+		{
+			mAttackBox = RectMakeCenter(mX, mY - 5, 90, 105);
 		}
 		else
 		{
@@ -193,6 +228,14 @@ void Leaf::SetCurrentImageAnimation(int num, bool left)
 			mCurrentAnimation = mLeaf03Left;
 		else
 			mCurrentAnimation = mLeaf03Right;
+	}
+	else if (num == 4)
+	{
+		mCurrentImage = mAirLeafImage;
+		if (left)
+			mCurrentAnimation = mAirLeafLeft;
+		else
+			mCurrentAnimation = mAirLeafRight;
 	}
 
 	mCurrentAnimation->Play();

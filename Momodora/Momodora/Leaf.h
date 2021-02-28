@@ -9,6 +9,7 @@ class Leaf : public GameObject
 	Image* mLeafImage01;
 	Image* mLeafImage02;
 	Image* mLeafImage03;
+	Image* mAirLeafImage;
 	Image* mCurrentImage;
 
 	Animation* mLeaf01Left;
@@ -17,6 +18,8 @@ class Leaf : public GameObject
 	Animation* mLeaf02Right;
 	Animation* mLeaf03Left;
 	Animation* mLeaf03Right;
+	Animation* mAirLeafLeft;
+	Animation* mAirLeafRight;
 	Animation* mCurrentAnimation;
 
 public:
