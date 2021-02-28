@@ -366,6 +366,10 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Item_UI", Resources(L"UI/Item_UI"), 100, 100, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Flower_UI", Resources(L"UI/Flower_UI"), 78, 78, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Star_UI", Resources(L"UI/Star_UI"), 46, 46, true); });
+	//scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Hit", Resources(L"Hit"), 149, 25,5,1, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Hit", Resources(L"Hit"), 360, 110, 4, 1, true); });
+
+
 	for (int i = 0; i < 10; ++i)
 	{
 		wstring num = L"Number" + to_wstring(i);

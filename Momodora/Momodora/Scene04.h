@@ -3,6 +3,8 @@
 
 class Scene04 : public Scene
 {
+	bool FennelIntro;
+
 public:
 	void Init()override;
 	void Release()override;

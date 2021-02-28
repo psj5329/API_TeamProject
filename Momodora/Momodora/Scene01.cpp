@@ -32,7 +32,7 @@ void Scene01::Init()
 		main->SetY(540);
 	}
 
-	//몬스터 배  치
+	//에너미 배치
 	AddMonkey(900, 600);
 }
 
@@ -52,6 +52,10 @@ void Scene01::Update()
 
 	//충돌확인
 	AllCollision();
+
+
+
+
 }
 
 void Scene01::Render(HDC hdc)

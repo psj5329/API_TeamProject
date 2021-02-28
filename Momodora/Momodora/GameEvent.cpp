@@ -7,6 +7,8 @@
 #include "Boss.h"
 #include "Player.h"
 
+#include "Fennel.h"
+
 IChangeCameraTargetEvent::IChangeCameraTargetEvent(GameObject * target)
 {
 	mTarget = target;
@@ -321,5 +323,26 @@ bool IMoveCameraEvent::Update()
 }
 
 void IMoveCameraEvent::Render(HDC hdc)
+{
+}
+
+//Æä³Ú
+IChangeImage2::IChangeImage2(Image** image1, wstring name)
+{
+	mImage1 = *image1;
+}
+
+void IChangeImage2::Start()
+{
+	
+}
+
+bool IChangeImage2::Update()
+{
+	//mImage1 = IMAGEMANAGER->FindImage(mName);
+	return true;
+}
+
+void IChangeImage2::Render(HDC hdc)
 {
 }
