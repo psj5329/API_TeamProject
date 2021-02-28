@@ -142,16 +142,24 @@ void Scene::AllCollision()
 			if (IntersectRect(&temp, &hitBox, &playerAtkBox))
 			{
 				//플레이어 불값바꾸기
-				player->SetEndCombo(false);
+				player->SetHitAttack(false);
+
 				//적체력깎기
 				int atk = player->GetAttackDamage();
-				((Enemy*)(enemyList[i]))->TakeHp(30);
+				((Enemy*)(enemyList[i]))->TakeHp(2);
+
+				//방향 정하고
+				Direction direction = COLLISIONMANAGER->CheckSide(&hitBox, &playerAtkBox);
+				//적 아픈모션, 스턴 재생
+				((Enemy*)(enemyList[i]))->Hurt(direction);
+
+
 				//에너미 맞은상태 true
 				((Enemy*)(enemyList[i]))->SetIsHit(true);
 			}
 		}
 		//플레이어의 공격애니메이션하나가 끝나면
-		if (player->GetEndCombo())
+		if (player->GetHitAttack())
 		{
 			((Enemy*)(enemyList[i]))->SetIsHit(false);
 		}
