@@ -171,8 +171,9 @@ void Scene09::Update()
 	//			- OBJECTMANAGER->GetPlayer()->GetAttackDamage());
 	//	}
 	//}
-
-	if (COLLISIONMANAGER->IsCollision(&OBJECTMANAGER->GetPlayer()->GetRect(), ObjectLayer::BossBullet))	// 플레이어 - 보스 패턴
+	Player* player = OBJECTMANAGER->GetPlayer();
+	RECT playerrect = player->GetRect();
+	if (COLLISIONMANAGER->IsCollision(&playerrect, ObjectLayer::BossBullet))	// 플레이어 - 보스 패턴
 	{
 		if (OBJECTMANAGER->GetPlayer()->GetState() != PlayerState::Hurt)
 		{
