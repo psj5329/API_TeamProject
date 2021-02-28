@@ -84,7 +84,7 @@ void BossBullet::Update()
 		break;
 	}
 
-	if (mY - mSizeY / 2 >= WINSIZEY || mY + mSizeY / 2 <= 0)
+	if (mY - mSizeY / 2 >= 1600 || mY + mSizeY / 2 <= 900)
 		mIsActive = false;
 
 	//if (COLLISIONMANAGER->IsCollision(&mRect, ObjectLayer::Player))

@@ -26,6 +26,9 @@ void Scene09::Init()
 
 	mMapImage = IMAGEMANAGER->FindImage(L"Background_Boss");
 	mPlatformImage = IMAGEMANAGER->FindImage(L"platform1");
+	mPlatformImage2 = IMAGEMANAGER->FindImage(L"platform3");
+	mSceneSizeX = mMapImage->GetWidth();
+	mSceneSizeY = mMapImage->GetHeight();
 
 	Boss* boss = new Boss;
 	boss->Init();
@@ -40,20 +43,6 @@ void Scene09::Init()
 	Platform* platform02 = new Platform();
 	platform02->SetPlatform(0, 1460, 960, 1600, PlatformType::Normal);
 	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform02);
-
-	//// {{ 충돌 체크용 맵
-	//Platform* platform01 = new Platform();
-	//platform01->SetPlatform(0, 600, 800, 650, PlatformType::Normal);
-	//OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform01);
-
-	//Platform* platform02 = new Platform();
-	//platform02->SetPlatform(600, 400, 800, 450, PlatformType::DownJump);
-	//OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform02);
-
-	//Ladder* ladder01 = new Ladder();
-	//ladder01->SetLadder(675, 450, 725, 600);
-	//OBJECTMANAGER->AddObject(ObjectLayer::Ladder, (GameObject*)ladder01);
-	//// 충돌 체크용 맵 }}
 
 	BossHpUI* ui = new BossHpUI;
 	ui->Init();
@@ -74,10 +63,10 @@ void Scene09::Init()
 	OBJECTMANAGER->AddObject(ObjectLayer::UI, starCountui);
 
 	Camera* main = CAMERAMANAGER->GetMainCamera();
-	//main->SetMode(Camera::Mode::Follow);
-	//GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
-	//main->SetTarget(player);
-	main->SetMode(Camera::Mode::Fix);
+	main->SetMode(Camera::Mode::Follow);
+	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
+	main->SetTarget(player);
+	//main->SetMode(Camera::Mode::Fix);
 	main->SetFix(WINSIZEX / 2, WINSIZEY / 2);
 
 	mIsBossDead = false;
@@ -93,8 +82,6 @@ void Scene09::Update()
 	{
 		StarItem* star = new StarItem;
 		star->Init();
-		//star->SetX(OBJECTMANAGER->GetPlayer()->GetX());
-		//star->SetY(OBJECTMANAGER->GetPlayer()->GetY());
 		star->SetX(200);
 		star->SetY(WINSIZEY / 3 * 2);
 		star->SetAngle((rand() % 180) * PI / 180.f);
@@ -118,14 +105,10 @@ void Scene09::Update()
 
 	// 충돌 (상호작용 필요한 것만) {{
 	// 풀레이어 공격 상태일 때 보스랑 충돌 확인
-/*	if ((OBJECTMANAGER->GetPlayer()->GetState() == State::LeftAirAttack)
-		|| (OBJECTMANAGER->GetPlayer()->GetState() == State::LeftAttack1)
-		|| (OBJECTMANAGER->GetPlayer()->GetState() == State::LeftAttack2)
-		|| (OBJECTMANAGER->GetPlayer()->GetState() == State::LeftAttack3)
-		|| (OBJECTMANAGER->GetPlayer()->GetState() == State::RightAirAttack)
-		|| (OBJECTMANAGER->GetPlayer()->GetState() == State::RightAttack1)
-		|| (OBJECTMANAGER->GetPlayer()->GetState() == State::RightAttack2)
-		|| (OBJECTMANAGER->GetPlayer()->GetState() == State::RightAttack3))
+	if ((OBJECTMANAGER->GetPlayer()->GetState() == PlayerState::AirAttack)
+		|| (OBJECTMANAGER->GetPlayer()->GetState() == PlayerState::Attack1)
+		|| (OBJECTMANAGER->GetPlayer()->GetState() == PlayerState::Attack2)
+		|| (OBJECTMANAGER->GetPlayer()->GetState() == PlayerState::Attack3))
 	{
 		if (COLLISIONMANAGER->IsCollision(&OBJECTMANAGER->GetPlayer()->GetRect(), ObjectLayer::Boss))
 		{
@@ -136,16 +119,34 @@ void Scene09::Update()
 					- ((100 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetDef()) / 100.f * OBJECTMANAGER->GetPlayer()->GetAttackDamage()));
 			}
 		}
-	}*/
+	}
 
-	//if (COLLISIONMANAGER->IsCollision(&OBJECTMANAGER->GetPlayer()->GetRect(), ObjectLayer::EnemyProjectile))	// 플레이어 - 보스 패턴
-	//{
-	//	OBJECTMANAGER->GetPlayer()->SetHp(OBJECTMANAGER->GetPlayer()->GetHp() - 30);
-	//	// 플레이어 무적되게 셋팅해야함
-	//}
+	if (COLLISIONMANAGER->IsCollision(&OBJECTMANAGER->GetPlayer()->GetRect(), ObjectLayer::BossBullet))	// 플레이어 - 보스 패턴
+	{
+		if (OBJECTMANAGER->GetPlayer()->GetState() != PlayerState::Hurt)
+		{
+			//OBJECTMANAGER->GetPlayer()->SetHp(OBJECTMANAGER->GetPlayer()->GetHp() - 10);
+			// 플레이어 무적되게 셋팅해야함
+			//Direction direction = COLLISIONMANAGER->CheckSide(&OBJECTMANAGER->GetPlayer()->GetHitBox(), &((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHitBox());
+			//Direction direction = OBJECTMANAGER->GetPlayer()->GetDirection();
+			//OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
+		}
+	}
 	// }}
 
 	// 이벤트 추가
+	if (!mIsBossAppearanceEvent && OBJECTMANAGER->GetPlayer()->GetX() == WINSIZEX / 2)
+	{
+		mIsBossAppearanceEvent = true;
+		GAMEEVENTMANAGER->PushEvent(new IObjectStop(true));
+		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(2.f));
+		GAMEEVENTMANAGER->PushEvent(new IMoveGameObject(OBJECTMANAGER->FindObject("Boss"), ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetX()
+			, 1600 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetSizeY() / 3 - 50, 0.f, -500.f));
+		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(1.f));
+
+		GAMEEVENTMANAGER->PushEvent(new IObjectStop(false));	// 보스 등장 이벤트 끝
+	}
+
 	if (!mIsBossDead && ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP() <= 0 && !((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetEndEvent())
 	{
 		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetEndEvent(true);
@@ -162,6 +163,28 @@ void Scene09::Update()
 	}
 
 	GAMEEVENTMANAGER->Update();
+
+	if (mIsBossAppearanceEvent)
+	{
+		mChangeImageTime += TIME->DeltaTime();
+
+		if (mChangeImageTime >= 1.f)
+		{
+			mPlatformImage = IMAGEMANAGER->FindImage(L"platform2");
+			OBJECTMANAGER->GetObjectList(ObjectLayer::Platform).front()->SetRect(WINSIZEX * 2, 604, WINSIZEX * 2 + 960, 643);
+		}
+
+		if (OBJECTMANAGER->GetPlayer()->GetY() >= 1600 - WINSIZEY / 2)//1460 - OBJECTMANAGER->GetPlayer()->GetSizeY() / 2)
+		{
+			CAMERAMANAGER->GetMainCamera()->SetMode(Camera::Mode::Fix);
+			CAMERAMANAGER->GetMainCamera()->SetFix(WINSIZEX / 2, 1600 - WINSIZEY / 2 - 50);
+
+			if (!OBJECTMANAGER->FindObject("BossHpUI")->GetIsActive())
+			{
+				OBJECTMANAGER->FindObject("BossHpUI")->SetIsActive(true);
+			}
+		}
+	}
 }
 
 void Scene09::Render(HDC hdc)
@@ -182,7 +205,9 @@ void Scene09::Render(HDC hdc)
 	OBJECTMANAGER->Render(hdc);
 
 	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mPlatformImage, 0, 604, mPlatformImage->GetWidth(), mPlatformImage->GetHeight());
+	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mPlatformImage2, 0, 1460, mPlatformImage->GetWidth(), mPlatformImage->GetHeight());
+
+	OBJECTMANAGER->RenderUI(hdc);
+
 	GAMEEVENTMANAGER->Render(hdc);
-	//wstring str = L"씬3 페이지";
-	//TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2, str.c_str(), (int)str.length());
 }
