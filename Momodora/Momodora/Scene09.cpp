@@ -17,6 +17,8 @@
 #include "GameEvent.h"
 #include "Animation.h"
 
+#include "Scene.h"
+
 void Scene09::Init()
 {
 	mMapImage = IMAGEMANAGER->FindImage(L"Background_Boss");
@@ -127,7 +129,7 @@ void Scene09::Update()
 
 	// 충돌 (상호작용 필요한 것만) {{
 	// 풀레이어 공격 상태일 때 보스랑 충돌 확인
-	if ((OBJECTMANAGER->GetPlayer()->GetState() == PlayerState::AirAttack)
+	/*if ((OBJECTMANAGER->GetPlayer()->GetState() == PlayerState::AirAttack)
 		|| (OBJECTMANAGER->GetPlayer()->GetState() == PlayerState::Attack1)
 		|| (OBJECTMANAGER->GetPlayer()->GetState() == PlayerState::Attack2)
 		|| (OBJECTMANAGER->GetPlayer()->GetState() == PlayerState::Attack3))
@@ -141,7 +143,35 @@ void Scene09::Update()
 					- ((100 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetDef()) / 100.f * OBJECTMANAGER->GetPlayer()->GetAttackDamage()));
 			}
 		}
-	}
+	}*/
+
+	// 보스 피격
+	AllCollision();
+	//vector<GameObject*> vecArrow = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerArrow);
+	//vector<GameObject*> vecLeaf = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerLeaf);
+
+	//// 화살과 충돌
+	//for (int i = 0; i < vecArrow.size(); ++i)
+	//{
+	//	if (COLLISIONMANAGER->IsCollision(&((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetRect(), &vecArrow[i]->GetRect()))
+	//	{
+	//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
+	//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
+	//			- ((Arrow*)vecArrow[i])->GetArrowDamage());
+	//		//vecArrow.erase(vecArrow[i]);
+	//	}
+	//}
+
+	//// 플레이어 리프랑 충돌
+	//for (int i = 0; i < vecLeaf.size(); ++i)
+	//{
+	//	if (COLLISIONMANAGER->IsCollision(&((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetRect(), &vecLeaf[i]->GetRect()))
+	//	{
+	//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
+	//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
+	//			- OBJECTMANAGER->GetPlayer()->GetAttackDamage());
+	//	}
+	//}
 
 	if (COLLISIONMANAGER->IsCollision(&OBJECTMANAGER->GetPlayer()->GetRect(), ObjectLayer::BossBullet))	// 플레이어 - 보스 패턴
 	{
@@ -157,11 +187,11 @@ void Scene09::Update()
 	// }}
 
 	// 이벤트 추가
-	if (!mIsBossAppearanceEvent && OBJECTMANAGER->GetPlayer()->GetX() == WINSIZEX / 2)
+	if (!mIsBossAppearanceEvent && OBJECTMANAGER->GetPlayer()->GetX() >= WINSIZEX / 2)
 	{
 		mIsBossAppearanceEvent = true;
 		GAMEEVENTMANAGER->PushEvent(new IObjectStop(true));
-		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(2.f));
+		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(3.f));
 		GAMEEVENTMANAGER->PushEvent(new IMoveGameObject(OBJECTMANAGER->FindObject("Boss"), ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetX()
 			, 1600 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetSizeY() / 3 - 50, 0.f, -500.f));
 		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(1.f));
@@ -198,6 +228,7 @@ void Scene09::Update()
 
 		if (OBJECTMANAGER->GetPlayer()->GetY() >= 1600 - WINSIZEY / 2)//1460 - OBJECTMANAGER->GetPlayer()->GetSizeY() / 2)
 		{
+			mCameraFix = false;
 			CAMERAMANAGER->GetMainCamera()->SetMode(Camera::Mode::Fix);
 			CAMERAMANAGER->GetMainCamera()->SetFix(WINSIZEX / 2, 1600 - WINSIZEY / 2 - 50);
 

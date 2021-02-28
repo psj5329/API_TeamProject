@@ -9,6 +9,7 @@
 #include "Potion.h"
 #include "Player.h"
 #include "Fennel.h"
+#include "Boss.h"
 
 //적생성
 void Scene::AddMonkey(float x, float y)
@@ -108,14 +109,15 @@ void Scene::AllCollision()
 	vector<GameObject*> bombList = OBJECTMANAGER->GetObjectList(ObjectLayer::EnemyBomb);
 	vector<GameObject*> staffList = OBJECTMANAGER->GetObjectList(ObjectLayer::EnemyStaff);
 	vector<GameObject*> leaf = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerLeaf);
+	vector<GameObject*> bossBullet = OBJECTMANAGER->GetObjectList(ObjectLayer::BossBullet);
 	Player* player = OBJECTMANAGER->GetPlayer();
 	RECT playerHitBox = player->GetHitBox();
 	RECT playerAtkBox = leaf[0]->GetAttackBox();
 
 	//적히트박스, 플레이어 화살 충돌
-	for (int i = 0;i < enemyList.size();i++)
+	for (int i = 0; i < enemyList.size(); i++)
 	{
-		for (int j = 0;j < arrowList.size(); j++)
+		for (int j = 0; j < arrowList.size(); j++)
 		{
 			RECT temp;
 			RECT hitBox = enemyList[i]->GetHitBox();
@@ -132,7 +134,7 @@ void Scene::AllCollision()
 		}
 	}
 	//적히트박스, 플레이어의 리프 충돌
-	for (int i = 0;i < enemyList.size();i++)
+	for (int i = 0; i < enemyList.size(); i++)
 	{
 		//적이 이미맞은상태니?
 		if (!((Enemy*)(enemyList[i]))->GetIsHit())
@@ -159,7 +161,7 @@ void Scene::AllCollision()
 	}
 
 	//단도, 플레이어 히트박스 충돌
-	for (int i = 0;i < daggerList.size();i++)
+	for (int i = 0; i < daggerList.size(); i++)
 	{
 		RECT temp;
 		RECT dagger = daggerList[i]->GetHitBox();
@@ -177,7 +179,7 @@ void Scene::AllCollision()
 		}
 	}
 	//폭탄, 플레이어 히트박스 충돌
-	for (int i = 0;i < bombList.size();i++)
+	for (int i = 0; i < bombList.size(); i++)
 	{
 		RECT temp;
 		RECT bomb = bombList[i]->GetHitBox();
@@ -195,7 +197,7 @@ void Scene::AllCollision()
 		}
 	}
 	//지팡이, 플레이어 히트박스 충돌
-	for (int i = 0;i < staffList.size();i++)
+	for (int i = 0; i < staffList.size(); i++)
 	{
 		RECT temp;
 		RECT staff = staffList[i]->GetRect();
@@ -211,7 +213,7 @@ void Scene::AllCollision()
 		}
 	}
 	//적의 근접공격, 플레이어 히트박스 충돌
-	for (int i = 0;i < enemyList.size();i++)
+	for (int i = 0; i < enemyList.size(); i++)
 	{
 		RECT temp;
 		RECT atkBox = enemyList[i]->GetAttackBox();
@@ -227,6 +229,63 @@ void Scene::AllCollision()
 			player->PlayerHurt(direction);
 		}
 	}
+	// 보스 공격이랑 플레이어 충돌
+	for (int i = 0; i < bossBullet.size(); i++)
+	{
+		RECT temp;
+		RECT atkBox = bossBullet[i]->GetAttackBox();
 
+		if (IntersectRect(&temp, &playerHitBox, &atkBox))
+		{
+			bossBullet[i]->SetIsActive(false);
+			bossBullet[i]->SetIsDestroy(true);
+			//플레이어 체력 깎기
 
+			//플레이어 상태전환하고 무적시키는 함수
+			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &atkBox);
+			//방향알려줘야해
+			player->PlayerHurt(direction);
+		}
+	}
+
+	// 보스랑 화살
+	for (int j = 0; j < arrowList.size(); j++)
+	{
+		RECT temp;
+		RECT hitBox = OBJECTMANAGER->FindObject("Boss")->GetHitBox();
+		RECT arrow = arrowList[j]->GetRect();
+		if (IntersectRect(&temp, &hitBox, &arrow))
+		{
+			//화살 없애고
+			//arrowList[j]->Release();
+			//arrowList[j]->SetIsActive(false);
+			arrowList[j]->SetIsDestroy(true);
+			//에너미 체력조정
+			((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
+			((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP() - 5);
+		}
+	}
+	//적히트박스, 플레이어의 리프 충돌
+	if (!((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetInvincibility())
+	{
+		RECT hitBox = ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHitBox();
+		RECT temp;
+		if (IntersectRect(&temp, &hitBox, &playerAtkBox))
+		{
+			//플레이어 불값바꾸기
+			player->SetEndCombo(false);
+			//적체력깎기
+			//int atk = player->GetAttackDamage();
+			((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
+				- ((100 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetDef()) / 100.f * OBJECTMANAGER->GetPlayer()->GetAttackDamage()));
+			//에너미 맞은상태 true
+			((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
+		}
+	}
+	//플레이어의 공격애니메이션하나가 끝나면
+	if (player->GetEndCombo())
+	{
+		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetIsHit(false);
+		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetInvincibility(false);
+	}
 }

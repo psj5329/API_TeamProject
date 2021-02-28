@@ -23,6 +23,7 @@ protected:
 	bool mIsDestroy;
 
 	bool mIsPlayEvent;
+	bool mIsEvent;
 
 public:
 	GameObject();
@@ -68,4 +69,6 @@ public:
 
 	inline bool GetPlayEvent() { return mIsPlayEvent; }
 	inline void SetPlayEvent(bool b) { mIsPlayEvent = b; }
+
+	inline void SetEvent(bool b) { mIsEvent = b; }
 };
