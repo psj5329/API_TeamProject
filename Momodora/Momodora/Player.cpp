@@ -472,6 +472,7 @@ void Player::Update()
 					mCurrentAnimation = mLeftAirAttackAnimation;
 					mCurrentAnimation->Play();
 					mCurrentImage = mAirAttackImage;
+					mLeaf->SetCurrentImageAnimation(4, true);
 				}
 			}
 			if (mDirection == Direction::Right)
@@ -493,6 +494,7 @@ void Player::Update()
 					mCurrentAnimation = mRightAirAttackAnimation;
 					mCurrentAnimation->Play();
 					mCurrentImage = mAirAttackImage;
+					mLeaf->SetCurrentImageAnimation(4, false);
 				}
 			}
 			mHitAttack = true;
@@ -655,6 +657,9 @@ void Player::Update()
 	//피격
 	if (mState == PlayerState::Hurt)
 	{
+		mY -= mJumpPower;
+		mJumpPower -= mGravity;
+
 		if (mTimer == 0)
 		{
 			if (mDirection == Direction::Left)
@@ -689,6 +694,7 @@ void Player::Update()
 		}
 		if (mTimer >= 1.f)
 		{
+			stopmove = 0;
 			mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
 			mTimer = 0;
 
@@ -788,7 +794,7 @@ void Player::Update()
 		mGravity = 0;
 		if (mDirection == Direction::Left)
 		{
-			if (mState == PlayerState::Fall)
+			if (mState == PlayerState::Jump || mState == PlayerState::Fall)
 			{
 				mState = PlayerState::LandSoft;
 				mCurrentAnimation->Stop();
@@ -799,7 +805,7 @@ void Player::Update()
 		}
 		if (mDirection == Direction::Right)
 		{
-			if (mState == PlayerState::Fall)
+			if (mState == PlayerState::Jump || mState == PlayerState::Fall)
 			{
 				mState = PlayerState::LandSoft;
 				mCurrentAnimation->Stop();
@@ -916,6 +922,7 @@ void Player::Update()
 			mCurrentImage = mFallImage;
 		}
 	}
+	//중력 적용
 	if (mState == PlayerState::Fall || mState == PlayerState::Jump || mState == PlayerState::AirBow || mState == PlayerState::AirAttack)
 	{
 		mY -= mJumpPower;
@@ -1220,39 +1227,39 @@ void Player::ReadyPlayerAnimation()
 	mLeftBowAnimation = new Animation();
 	mLeftBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftBowAnimation->SetIsLoop(true);
-	mLeftBowAnimation->SetFrameUpdateTime(0.1f);
+	mLeftBowAnimation->SetFrameUpdateTime(0.05f);
 	mLeftBowAnimation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	mRightBowAnimation = new Animation();
 	mRightBowAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightBowAnimation->SetIsLoop(true);
-	mRightBowAnimation->SetFrameUpdateTime(0.1f);
+	mRightBowAnimation->SetFrameUpdateTime(0.05f);
 	mRightBowAnimation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
 	// 공중 활 애니메이션
 	mLeftAirBowAnimation = new Animation();
 	mLeftAirBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftAirBowAnimation->SetIsLoop(true);
-	mLeftAirBowAnimation->SetFrameUpdateTime(0.1f);
+	mLeftAirBowAnimation->SetFrameUpdateTime(0.05f);
 	mLeftAirBowAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
 	mRightAirBowAnimation = new Animation();
 	mRightAirBowAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightAirBowAnimation->SetIsLoop(true);
-	mRightAirBowAnimation->SetFrameUpdateTime(0.1f);
+	mRightAirBowAnimation->SetFrameUpdateTime(0.05f);
 	mRightAirBowAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
 	// 앉아 활 애니메이션
 	mLeftCrouchBowAnimation = new Animation();
 	mLeftCrouchBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftCrouchBowAnimation->SetIsLoop(true);
-	mLeftCrouchBowAnimation->SetFrameUpdateTime(0.1f);
+	mLeftCrouchBowAnimation->SetFrameUpdateTime(0.05f);
 	mLeftCrouchBowAnimation->SetCallbackFunc(bind(&Player::SetEndCrouchAttack, this));
 
 	mRightCrouchBowAnimation = new Animation();
 	mRightCrouchBowAnimation->InitFrameByStartEnd(0, 0, 5, 0, false);
 	mRightCrouchBowAnimation->SetIsLoop(true);
-	mRightCrouchBowAnimation->SetFrameUpdateTime(0.1f);
+	mRightCrouchBowAnimation->SetFrameUpdateTime(0.05f);
 	mRightCrouchBowAnimation->SetCallbackFunc(bind(&Player::SetEndCrouchAttack, this));
 
 	// 첫 번째 공격 애니메이션
@@ -1540,6 +1547,8 @@ void Player::SetEndAirAttack()
 	}
 
 	mHitAttack = true;
+
+	mLeaf->SetIsActive(false); // 애니메이션 안 돌고 출력도 안 되게
 }
 
 void Player::SetEndCrouchAttack()

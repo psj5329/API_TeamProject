@@ -3,6 +3,10 @@
 #include "Camera.h"
 #include "Platform.h"
 #include "Fennel.h"
+#include "PlayerHpUI.h"
+#include "StarCountUI.h"
+#include "ActiveItemUI.h"
+#include "Player.h"
 
 void Scene01::Init()
 {
@@ -32,6 +36,19 @@ void Scene01::Init()
 		main->SetY(540);
 	}
 
+	PlayerHpUI* playerui = new PlayerHpUI;
+	playerui->Init();
+	playerui->SetHp(OBJECTMANAGER->GetPlayer()->GetHp());
+	OBJECTMANAGER->AddObject(ObjectLayer::UI, playerui);
+
+	ActiveItemUI* activeItemui = new ActiveItemUI;
+	activeItemui->Init();
+	OBJECTMANAGER->AddObject(ObjectLayer::UI, activeItemui);
+
+	StarCountUI* starCountui = new StarCountUI;
+	starCountui->Init();
+	OBJECTMANAGER->AddObject(ObjectLayer::UI, starCountui);
+
 	//몬스터 배  치
 	AddMonkey(900, 600);
 }
@@ -59,6 +76,8 @@ void Scene01::Render(HDC hdc)
 	CAMERAMANAGER->GetMainCamera()->Render(hdc, mMapImage, 0, 0);
 
 	OBJECTMANAGER->Render(hdc);
+
+	OBJECTMANAGER->RenderUI(hdc);
 
 	//RECT rect;
 	//vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
