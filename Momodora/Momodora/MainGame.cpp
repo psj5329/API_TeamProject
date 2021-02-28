@@ -166,6 +166,7 @@ void MainGame::Render(HDC hdc)
 		wstring strLoad2 = L"씬7 이동: \'M\' 누르고 있는 상태에서 \'7\' 누르기";
 		wstring strLoad3 = L"씬8 이동: \'M\', \'8\' 누르고 있는 상태에서 \'8\'에서 손 떼기";
 		wstring strLoad4 = L"씬9 이동: \'M\', \'9\' 같이 누르기(순서 상관없음)";
+		
 		TextOut(backDC, 400, 300, strLoad.c_str(), (int)strLoad.length());
 		TextOut(backDC, 400, 325, strLoad2.c_str(), (int)strLoad2.length());
 		TextOut(backDC, 400, 350, strLoad3.c_str(), (int)strLoad3.length());
@@ -209,6 +210,11 @@ void MainGame::RenderDebugText(HDC hdc)
 	else
 		strRight = L"왼쪽";
 	TextOut(hdc, 700, 70, strRight.c_str(), (int)strRight.length());
+
+	int x = CAMERAMANAGER->GetMainCamera()->GetX();
+	int y = CAMERAMANAGER->GetMainCamera()->GetY();
+	wstring strLoad5 = L"카메라x,y: " + to_wstring(x) + L", " + to_wstring(y);
+	TextOut(hdc, 700, 100, strLoad5.c_str(), (int)strLoad5.length());
 }
 
 void MainGame::MakeScene()
