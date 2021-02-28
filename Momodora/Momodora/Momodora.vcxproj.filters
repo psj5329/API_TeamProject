@@ -115,6 +115,9 @@
     <Filter Include="MainGame\Scene\scenetest">
       <UniqueIdentifier>{1d1193ff-dbb8-4d58-b6dc-73bca604e4d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Effect">
+      <UniqueIdentifier>{76efa3b0-5b7e-4577-a6bc-a0bab1d1b212}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -303,6 +306,9 @@
     <ClInclude Include="Scene04.h">
       <Filter>MainGame\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>MainGame\Object\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Momodora.cpp">
@@ -478,6 +484,9 @@
     </ClCompile>
     <ClCompile Include="Scene05.cpp">
       <Filter>MainGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>MainGame\Object\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

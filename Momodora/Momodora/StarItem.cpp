@@ -96,7 +96,7 @@ void StarItem::Update()
 void StarItem::Render(HDC hdc)
 {
 #ifdef DEBUG
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
 #endif // DEBUG
 	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mImage, mRect.left, mRect.top, mSizeX, mSizeY);
 }

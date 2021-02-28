@@ -166,6 +166,7 @@
     <ClInclude Include="Dagger.h" />
     <ClInclude Include="DaggerImp.h" />
     <ClInclude Include="DefineHeader.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Fennel.h" />
     <ClInclude Include="Figure.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="D2DRenderer.cpp" />
     <ClCompile Include="Dagger.cpp" />
     <ClCompile Include="DaggerImp.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Fennel.cpp" />
     <ClCompile Include="GameEvent.cpp" />
