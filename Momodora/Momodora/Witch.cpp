@@ -11,8 +11,8 @@ void Witch::Init()
 {
 	mImage = IMAGEMANAGER->FindImage(L"Witchidle");
 
-	mStart.x = -2000;
-	mStart.y = 2000;
+	mStart.x = WINSIZEX / 2;
+	mStart.y = WINSIZEY / 2;
 	mX = mStart.x;
 	mY = mStart.y;
 	mSizeX = mImage->GetFrameWidth() *2;
@@ -116,17 +116,8 @@ void Witch::Update()
 	//던지기
 	if (mEnemyState == EnemyState::Idle && mHoldStaff)
 	{
-
 		mAttackSpeed += TIME->DeltaTime();
-
-		//대기상태면
-		if (mAttackSpeed > 1 && mEnemyState == EnemyState::Idle)
-		{
-			
-		}
-
-
-		if (mAttackSpeed > 3)
+		if (mAttackSpeed > 2)
 		{
 			mAttackSpeed = 0;
 			mEnemyState = EnemyState::Attack;
@@ -199,10 +190,7 @@ void Witch::Update()
 
 
 	//맞으면
-	if (mEnemyState == EnemyState::Hurt)
-	{
-		HurtRectMove();
-	}
+
 
 	//죽으면
 	if (mHp <= 0 && mEnemyState != EnemyState::Death)
@@ -280,6 +268,4 @@ void Witch::SetPosition(float x, float y)
 	mStart.y = y - (mHitBox.bottom - mHitBox.top) + 19;
 	mX = mStart.x;
 	mY = mStart.y;
-
-	mZone = RectMakeCenter(mX, mY, 70, 70);
 }

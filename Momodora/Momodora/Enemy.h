@@ -85,6 +85,6 @@ public:
 	virtual void DeathCheck();
 	void DropGold();	//µ··£´ý»Ñ¸®±â
 	void DropGold(int goldNum);	//µ·ÀÎÀÚ¸¸Å­»Ñ¸®±â
-	void Hurt(Direction direction);
-	virtual void HurtRectMove();
+	void Hurt();
+	void HurtRectMove();
 };

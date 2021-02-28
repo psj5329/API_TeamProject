@@ -3,10 +3,6 @@
 
 #include "Camera.h"
 #include "Image.h"
-
-#include "Boss.h"
-#include "Player.h"
-
 IChangeCameraTargetEvent::IChangeCameraTargetEvent(GameObject * target)
 {
 	mTarget = target;
@@ -111,15 +107,6 @@ IMoveGameObject::IMoveGameObject(GameObject* object, float x, float y)
 	mSpeedY = (mTargetY - mObject->GetY()) * 0.1f * Time::GetInstance()->DeltaTime();
 }
 
-IMoveGameObject::IMoveGameObject(GameObject * object, float x, float y, float speedX, float speedY)
-{
-	mObject = object;
-	mTargetX = x;
-	mTargetY = y;
-	mSpeedX = speedX * Time::GetInstance()->DeltaTime();
-	mSpeedY = speedY * Time::GetInstance()->DeltaTime();
-}
-
 void IMoveGameObject::Start()
 {
 	/*mObject->SetIsEventMove(true);
@@ -134,11 +121,11 @@ bool IMoveGameObject::Update()
 	mObject->SetX(mObject->GetX() + mSpeedX);
 	mObject->SetY(mObject->GetY() + mSpeedY);
 
-	if (Math::GetDistance(mObject->GetX(), mObject->GetY(), mTargetX, mTargetY) <= 5.0f)
+	/*if (Math::GetDistance(mObject->GetX(), mObject->GetY(), mTargetX, mTargetY) <= 5.0f)
 	{
-		//mObject->SetIsEventMove(false);
+		mObject->SetIsEventMove(false);
 		return true;
-	}
+	}*/
 
 	return false;
 }
@@ -251,9 +238,10 @@ void IEraseEvent::Render(HDC hdc)
 	//	CAMERAMANAGER->GetMainCamera()->RenderEllipseInCamera(hdc, mVecCircleCenter[i].x, mVecCircleCenter[i].y, mSize);
 }
 
-IChangeImage::IChangeImage(Image** image1, wstring name)
+IChangeImage::IChangeImage(Image* image1, Image* image2)
 {
-	mImage1 = *image1;
+	mImage1 = image1;
+	mImage2 = image2;
 }
 
 void IChangeImage::Start()
@@ -262,64 +250,11 @@ void IChangeImage::Start()
 
 bool IChangeImage::Update()
 {
-	//mImage1 = IMAGEMANAGER->FindImage(mName);
-	return true;
-}
-
-void IChangeImage::Render(HDC hdc)
-{
-}
-
-IObjectStop::IObjectStop(bool b)
-{
-	mIsStop = b;
-}
-
-void IObjectStop::Start()
-{
-}
-
-bool IObjectStop::Update()
-{
-	OBJECTMANAGER->GetPlayer()->SetEvent(mIsStop);
-	((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetEvent(mIsStop);
-	return true;
-}
-
-void IObjectStop::Render(HDC hdc)
-{
-}
-
-IMoveCameraEvent::IMoveCameraEvent(float x, float y)
-{
-	mX = x;
-	mY = y;
-}
-
-void IMoveCameraEvent::Start()
-{
-}
-
-bool IMoveCameraEvent::Update()
-{
-	float x = CameraManager::GetInstance()->GetMainCamera()->GetX();
-	float y = CameraManager::GetInstance()->GetMainCamera()->GetY();
-
-	RECT rc = CameraManager::GetInstance()->GetMainCamera()->GetRect();
-	rc.left += (mX - x) * 0.1f * TIME->DeltaTime();
-	rc.right += (mX - x) * 0.1f * TIME->DeltaTime();
-	rc.top += (mY - y) * 0.1f * TIME->DeltaTime();
-	rc.bottom += (mY - y) * 0.1f * TIME->DeltaTime();
-
-	CameraManager::GetInstance()->GetMainCamera()->SetRect(rc);
-
-	if (Math::GetDistance(x, y, mX, mY) <= 5.0f)
-	{
-		return true;
-	}
+	// 아 이럼 이상한디
+	//mImage1 = mImage2;
 	return false;
 }
 
-void IMoveCameraEvent::Render(HDC hdc)
+void IChangeImage::Render(HDC hdc)
 {
 }

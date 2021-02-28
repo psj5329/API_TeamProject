@@ -9,8 +9,8 @@ void ShieldImp::Init()
 {
 	mImage = IMAGEMANAGER->FindImage(L"ShieldImp");
 
-	mStart.x = -2000;
-	mStart.y = 2000;
+	mStart.x = WINSIZEX / 2;
+	mStart.y = WINSIZEY / 2;
 	mX = mStart.x;
 	mY = mStart.y;
 	mSizeX = mImage->GetFrameWidth()*2;
@@ -120,9 +120,9 @@ void ShieldImp::Update()
 	}
 
 	//맞으면
-	if (mEnemyState== EnemyState::Hurt)
+	if (true)
 	{
-		HurtRectMove();
+
 	}
 
 	//죽으면

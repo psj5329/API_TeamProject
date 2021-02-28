@@ -79,9 +79,7 @@ public:
 	Image* GetImage() { return mImage; }
 	Image* GetBackImage() { return mBackImage; }
 	Animation* GetCurrentAnimation() { return mCurrentAnimation; }
-	bool GetEvent() { return mIsEvent; }
 
-	void SetInvincibility(bool b) { mIsInvincibility = b; }
 	void SetEndEvent(bool b) { mIsEndEvent = b; }
 };
 

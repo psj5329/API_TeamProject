@@ -15,8 +15,6 @@ class Witch :
 
 	bool mHoldStaff;
 	bool mThrown;
-
-	RECT mZone;//행동범위
 public:
 	void Init() override;
 	void Release()override;

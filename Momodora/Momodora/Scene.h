@@ -23,18 +23,4 @@ public:
 	inline void SetSceneSize(int x, int y) { mSceneSizeX = x; mSceneSizeY = y; }
 	inline bool GetEntrance()const { return mEntrance; }
 	inline void SetEntrance(int entrance) { mEntrance = entrance; }
-
-	//적생성
-	void AddMonkey(float x, float y); //y에 플랫폼의 랙트의 탑
-	void AddWitch(float x, float y); //y에 플랫폼의 랙트의 탑
-	void AddBombImp(float x, float y); //y에 플랫폼의 랙트의 탑
-	void AddShieldImp(float x, float y); //y에 플랫폼의 랙트의 탑
-	void AddDaggerImp(float x, float y); //y에 플랫폼의 랙트의 탑
-	void AddFennel(float x, float y);
-
-	//물약생성
-	void AddPotion(float x, float y);
-
-	//충돌처리
-	void AllCollision();
 };

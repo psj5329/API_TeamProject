@@ -42,8 +42,6 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	void RenderUI(HDC hdc);
-
 	void AddObject(ObjectLayer layer, GameObject* object);
 	GameObject* FindObject(const string& name);
 	GameObject* FindObject(ObjectLayer layer, const string& name);

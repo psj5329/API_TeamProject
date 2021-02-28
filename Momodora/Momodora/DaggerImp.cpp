@@ -10,8 +10,8 @@ void DaggerImp::Init()
 {
 	mImage = IMAGEMANAGER->FindImage(L"Imp");
 
-	mStart.x = -2000;
-	mStart.y = 2000;
+	mStart.x = WINSIZEX / 2;
+	mStart.y = WINSIZEY / 2;
 	mX = mStart.x;
 	mY = mStart.y;
 	mSizeX = mImage->GetFrameWidth()*2;
@@ -30,7 +30,6 @@ void DaggerImp::Init()
 	bottom = { 0, 602, 600, 650 };
 	mAlpha = 1;
 	isHit = false;
-	mHurtCounter = 0;
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 0, 0, 0, false);
@@ -151,12 +150,6 @@ void DaggerImp::Update()
 
 		}
 	}
-	//맞으면
-	if (mEnemyState == EnemyState::Hurt)
-	{
-		HurtRectMove();
-	}
-
 
 	//죽으면
 	DeathCheck();
@@ -237,63 +230,4 @@ void DaggerImp::EndAttack()
 {
 	mEnemyState = EnemyState::Idle;
 	SetAnimation();
-}
-
-
-void DaggerImp::HurtRectMove()
-{
-	float angle;
-	
-	//맞았을때 높이저장
-	if (mHurtCounter == 0)
-	{
-		mHurtY = mY;
-	}
-
-	mHurtCounter += TIME->DeltaTime();
-
-	//내려가고
-	if (mHurtCounter < 0.05)
-	{
-		if (mDirection == Direction::Left)
-		{
-			angle = PI * 25 / 16;
-
-			mX += cos(angle) * 500 * TIME->DeltaTime();
-			mY -= sin(angle) * 250 * TIME->DeltaTime();
-		}
-		if (mDirection == Direction::Right)
-		{
-			angle = PI * 23 / 16;
-
-			mX += cos(angle) * 500 * TIME->DeltaTime();
-			mY -= sin(angle) * 250 * TIME->DeltaTime();
-		}
-	}
-	//올라오고
-	else
-	{
-		if (mDirection == Direction::Left)
-		{
-			angle = PI * 1 / 4;
-
-			mX += cos(angle) * 300 * TIME->DeltaTime();
-			mY -= sin(angle) * 100 * TIME->DeltaTime();
-		}
-		if (mDirection == Direction::Right)
-		{
-			angle = PI * 3 / 4;
-
-			mX += cos(angle) * 300 * TIME->DeltaTime();
-			mY -= sin(angle) * 100 * TIME->DeltaTime();
-		}
-		if (mY <= mHurtY)
-		{
-			mY = mHurtY;
-			mEnemyState = EnemyState::Idle;
-			SetAnimation();
-			mHurtCounter = 0;
-
-		}
-	}
 }

@@ -2,7 +2,6 @@
 #include "Scene01.h"
 #include "Camera.h"
 #include "Platform.h"
-#include "Fennel.h"
 
 void Scene01::Init()
 {
@@ -17,23 +16,17 @@ void Scene01::Init()
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	main->SetTarget(player);
 
+	// 플레이어가 서 있는 위치 고려해서 고정 카메라로 했다가 바꿔야 함
 	if (mEntrance == 0)
 	{
-		player->SetX(100);
-		player->SetY(552);
-		main->SetX(480);
-		main->SetY(540);
+		player->SetX(200);
+		player->SetY(400);
 	}
 	else if (mEntrance == 2)
 	{
-		player->SetX(1150);
-		player->SetY(552);
-		main->SetX(720);
-		main->SetY(540);
+		player->SetX(1000);
+		player->SetY(400);
 	}
-
-	//몬스터 배  치
-	AddMonkey(900, 600);
 }
 
 void Scene01::Release()
@@ -49,9 +42,6 @@ void Scene01::Update()
 
 	if((int)x >= mSceneSizeX)
 		SCENEMANAGER->LoadScene(L"Scene02", 1);
-
-	//충돌확인
-	AllCollision();
 }
 
 void Scene01::Render(HDC hdc)

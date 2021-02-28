@@ -6,7 +6,6 @@ class BossHpUI : public UI
 {
 	Image* mBackImage;
 	Image* mLessImage;
-	Image* mNameImage;
 
 	int mMaxHp;
 	int mHp;

@@ -8,15 +8,15 @@
 void Monkey::Init()
 {
 	mImage = IMAGEMANAGER->FindImage(L"Monkey");
-	mStart.x = 4000;
-	mStart.y = 4000;
+	mStart.x = WINSIZEX / 2;
+	mStart.y = WINSIZEY / 2;
 	mX = mStart.x;
 	mY = mStart.y;
 	mSizeX = mImage->GetFrameWidth()*2;
 	mSizeY = mImage->GetFrameHeight()*2;
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mHitBox = RectMakeCenter(mX, mY + 30, 50, 50);
-//	mSearchZone = RectMakeCenter(mX - 150, mY - 150, 300, 300);
+	mSearchZone = RectMakeCenter(mX - 150, mY - 150, 300, 300);
 	isHit = false;
 
 	mSpeed = 70;
@@ -24,7 +24,7 @@ void Monkey::Init()
 	mAtk = 10;
 	mDef = 5;
 	mHp = 100;
-	mRange = 100;
+	mRange = 300;
 	mAlpha = 1;
 
 	mFoundPlayer = false;
@@ -98,22 +98,22 @@ void Monkey::Update()
 
 		//거리가 멀면
 		//플레이어로 이동
+	
+
 		if (mEnemyState== EnemyState::Move)
 		{
-			//SetDirection();
 			mSearchSpeed += TIME->DeltaTime();
 
 			if (mPlayer->GetX() > mX)
 			{
-				mX += abs(mSpeed) * TIME->DeltaTime();
+				mX += mSpeed * TIME->DeltaTime();
 			}
 			else
 			{
-				mX -= abs(mSpeed) * TIME->DeltaTime();
+				mX -= mSpeed * TIME->DeltaTime();
 			}
 			if (mEnemyState != EnemyState::Move)
 			{
-				SetDirection();
 				mEnemyState = EnemyState::Move;
 
 				SetAnimation();
@@ -163,12 +163,9 @@ void Monkey::Update()
 	}
 	
 	//얻어맞았으면 
-	if (mEnemyState == EnemyState::Hurt)
+	if (true)
 	{
-		//움직이고
-		HurtRectMove();
 
-		mAttackBox = RectMakeCenter(2000, -2000, 1, 1);
 	}
 
 	//죽으면
@@ -176,27 +173,23 @@ void Monkey::Update()
 
 
 
-	
-	//다친게 아니라면 몽둥이, 서치존 조정
-	if (mEnemyState != EnemyState::Hurt)
-	{
-		if (mDirection == Direction::Left) {
-			mSearchZone = RectMakeCenter(mX - 110, mY, 220, 200);
-			//mAttackBox = RectMakeCenter(mX - 30, mY + 20, 20, 40);
-			mAttackBox = RectMakeCenter(2000, -2000, 1, 1);
+	mCurrentAnimation->Update();
+	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+	mHitBox = RectMakeCenter(mX, mY + 30, 50, 50);
 
 
-		}
-		else {
-			mSearchZone = RectMakeCenter(mX + 110, mY, 220, 200);
-			//mAttackBox = RectMakeCenter(mX + 30, mY + 20, 20, 40);
-			mAttackBox = RectMakeCenter(2000, -2000, 1, 1);
 
+	if (mDirection == Direction::Left) {
+		mSearchZone = RectMakeCenter(mX - 110, mY, 220, 200);
+		mAttackBox = RectMakeCenter(mX-30, mY+20, 30, 50);
 
-		}
+	}
+	else {
+		mSearchZone = RectMakeCenter(mX + 110, mY, 220, 200);
+		mAttackBox = RectMakeCenter(mX+30, mY+20, 30, 50);
+
 	}
 
-	//공격랙트
 	if (mEnemyState == EnemyState::Attack)
 	{
 		if (mCurrentAnimation->GetNowFrameX() == 2 || mCurrentAnimation->GetNowFrameX() == 3)
@@ -214,17 +207,12 @@ void Monkey::Update()
 				mAttackBox = RectMakeCenter(mX + 40, mY + 20, 50, 50);
 		}
 	}
-
-	mCurrentAnimation->Update();
-	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
-	mHitBox = RectMakeCenter(mX, mY + 30, 50, 50);
-
 }
 
 void Monkey::Render(HDC hdc)
 {
 	////몽둥이
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
 	////색적
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mSearchZone);
 
@@ -248,23 +236,21 @@ void Monkey::Patrol()
 {
 	mX += mSpeed * TIME->DeltaTime();
 	if (mSpeed < 0) {
-		//mDirection = Direction::Left;
+		mDirection = Direction::Left;
 	}
 	else {
-		//mDirection = Direction::Right;
+		mDirection = Direction::Right;
 	}
 
 	if (mX < mStart.x - mRange)
 	{
 		mSpeed *= -1;
-		mDirection = Direction::Right;
 		mCurrentAnimation->Stop();
 		mCurrentAnimation = mRightMove;
 		mCurrentAnimation->Play();
 	}
 	if (mX > mStart.x + mRange)
 	{
-		mDirection = Direction::Left;
 		mSpeed *= -1;
 		mCurrentAnimation->Stop();
 		mCurrentAnimation = mLeftMove;

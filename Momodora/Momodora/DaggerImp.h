@@ -11,7 +11,6 @@ class DaggerImp :
 	RECT bottom;
 	RECT mPrevRect;
 
-	float mHurtY;
 
 public:
 	void Init() override;
@@ -22,7 +21,5 @@ public:
 	void JumpAround();
 	void ThrowDagger();
 	void EndAttack()override;
-	void HurtRectMove()override;
-
 };
 

@@ -22,18 +22,6 @@ public:
 	void Render(HDC hdc)override;
 };
 
-class IMoveCameraEvent : public IEvent
-{
-	float mX;
-	float mY;
-public:
-	IMoveCameraEvent(float x, float y);
-
-	void Start()override;
-	bool Update()override;
-	void Render(HDC hdc)override;
-};
-
 class IDelayEvent : public IEvent
 {
 	float mCurrentTime;
@@ -88,7 +76,6 @@ class IMoveGameObject : public IEvent
 public:
 	IMoveGameObject(GameObject* object, GameObject* target);
 	IMoveGameObject(GameObject* object, float x, float y);
-	IMoveGameObject(GameObject* object, float x, float y, float speedX, float speedY);
 
 	void Start()override;
 	bool Update()override;
@@ -110,22 +97,10 @@ public:
 class IChangeImage : public IEvent
 {
 	Image* mImage1;
-	wstring mName;
+	Image* mImage2;
 
 public:
-	IChangeImage(Image** image1, wstring name);
-
-	void Start()override;
-	bool Update()override;
-	void Render(HDC hdc)override;
-};
-
-class IObjectStop : public IEvent
-{
-	bool mIsStop;
-
-public:
-	IObjectStop(bool b);
+	IChangeImage(Image* image1, Image* image2);
 
 	void Start()override;
 	bool Update()override;

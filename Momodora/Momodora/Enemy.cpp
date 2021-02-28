@@ -196,9 +196,9 @@ void Enemy::DropGold(int goldNum)
 	}
 }
 
-void Enemy::Hurt(Direction direction)
+void Enemy::Hurt()
 {
-	mDirection = direction;
+	SetDirection();
 	mEnemyState = EnemyState::Hurt;
 	SetAnimation();
 
@@ -206,51 +206,5 @@ void Enemy::Hurt(Direction direction)
 
 void Enemy::HurtRectMove()
 {
-	float angle;
-	mHurtCounter += TIME->DeltaTime();
-
-	//내려가고
-	if (mHurtCounter < 0.05)
-	{
-		if (mDirection == Direction::Left)
-		{
-			angle = PI * 25 / 16;
-			
-			mX += cos(angle) * 500 * TIME->DeltaTime();
-			mY -= sin(angle) * 250 * TIME->DeltaTime();
-		}
-		if (mDirection == Direction::Right)
-		{
-			angle = PI * 23 / 16;
-
-			mX += cos(angle) * 500 * TIME->DeltaTime();
-			mY -= sin(angle) * 250 * TIME->DeltaTime();
-		}
-	}
-	//올라오고
-	else
-	{
-		if (mDirection == Direction::Left)
-		{
-			angle = PI * 1 / 4;
-
-			mX += cos(angle) * 300 * TIME->DeltaTime();
-			mY -= sin(angle) * 100 * TIME->DeltaTime();
-		}
-		if (mDirection == Direction::Right)
-		{
-			angle = PI * 3 / 4;
-
-			mX += cos(angle) * 300 * TIME->DeltaTime();
-			mY -= sin(angle) * 100 * TIME->DeltaTime();
-		}
-		if (mY <= mStart.y)
-		{
-			mY = mStart.y;
-			mEnemyState = EnemyState::Idle;
-			SetAnimation();
-			mHurtCounter = 0;
-
-		}
-	}
+	
 }

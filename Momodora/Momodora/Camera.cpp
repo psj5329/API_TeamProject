@@ -154,14 +154,6 @@ void Camera::AlphaRender(HDC hdc, Image* image, int x, int y, float alpha, bool 
 		image->AlphaRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, alpha);
 }
 
-void Camera::AlphaRender(HDC hdc, Image* image, int x, int y, int tempX, int tempY, int tempWidth, int tempHeight, float alpha, bool ui)
-{
-	if (ui)
-		image->AlphaRender(hdc, x, y, tempX, tempY, tempWidth, tempHeight, alpha);
-	else
-		image->AlphaRender(hdc, x - mRect.left - mShakeX, y - mRect.top - mShakeY, tempX, tempY, tempWidth, tempHeight, alpha);
-}
-
 void Camera::AlphaFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, float alpha, bool ui)
 {
 	if (ui)

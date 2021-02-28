@@ -62,19 +62,6 @@ void ObjectManager::Render(HDC hdc)
 				iter->second[i]->Render(hdc);
 }
 
-void ObjectManager::RenderUI(HDC hdc)
-{
-	vector<GameObject*>::iterator iter = mObjectList[ObjectLayer::UI].begin();
-	for (; iter != mObjectList[ObjectLayer::UI].end(); ++iter)
-		if ((*iter)->GetIsActive())
-			(*iter)->Render(hdc);
-
-	vector<GameObject*>::iterator bossiter = mObjectList[ObjectLayer::BossUI].begin();
-	for (; bossiter != mObjectList[ObjectLayer::BossUI].end(); ++bossiter)
-		if ((*bossiter)->GetIsActive())
-			(*bossiter)->Render(hdc);
-}
-
 void ObjectManager::AddObject(ObjectLayer layer, GameObject* object)
 {
 	mObjectList[layer].push_back(object);

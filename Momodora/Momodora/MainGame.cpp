@@ -1,7 +1,9 @@
 ﻿#include "pch.h"
 #include "MainGame.h"
+
 #include "Image.h"
 #include "Camera.h"
+
 #include "LoadingScene.h"
 #include "Scene01.h"
 #include "Scene02.h"
@@ -22,10 +24,14 @@ void MainGame::Init()
 
 	MakeScene();
 
+	IMAGEMANAGER->LoadFromFile(L"Background", Resources(L"temp"), 1501, 1000, false);
+
+	mBackground = IMAGEMANAGER->FindImage(L"Background"); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
+
 	Camera* main = new Camera();
 	main->Init();
 	main->SetMoveSpeed(5.f);
-	main->SetMode(Camera::Mode::Free);
+	main->SetMode(Camera::Mode::Free); // 프리 카메라
 
 	CAMERAMANAGER->SetMainCamera(main);
 }
@@ -67,8 +73,13 @@ void MainGame::Update()
 		if (!(currentScene->GetIsEndLoading()))
 			return;
 	}
-	
-	if (INPUT->GetKeyDown('2'))
+
+	if (INPUT->GetKeyDown('1'))
+	{
+		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene01")
+			SCENEMANAGER->LoadScene(L"Scene01", 0);
+	}
+	else if (INPUT->GetKeyDown('2'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene02")
 			SCENEMANAGER->LoadScene(L"Scene02");
@@ -125,6 +136,16 @@ void MainGame::Update()
 			main->SetTarget(player99);
 		}
 	}
+
+	bool tempRight = CAMERAMANAGER->GetMainCamera()->GetRight();
+
+	if (INPUT->GetKeyDown('K'))
+	{
+		if (tempRight)
+			CAMERAMANAGER->GetMainCamera()->SetRight(false);
+		else
+			CAMERAMANAGER->GetMainCamera()->SetRight(true);
+	}
 }
 
 void MainGame::Render(HDC hdc)
@@ -134,21 +155,22 @@ void MainGame::Render(HDC hdc)
 
 	// { 그리기 시작
 
+	//CAMERAMANAGER->GetMainCamera()->Render(backDC, mBackground, 0, 0); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
+
 	SCENEMANAGER->Render(backDC);
 
-	//wstring str = SCENEMANAGER->GetCurrentSceneName();
-	//if (str == L"LoadingScene" && ((LoadingScene*)(SCENEMANAGER->GetCurrentScene()))->GetIsEndLoading())
-	//{
-	//	wstring strLoad = L"로딩 끝";
-	//	wstring strLoad2 = L"씬7 이동: \'M\' 누르고 있는 상태에서 \'7\' 누르기";
-	//	wstring strLoad3 = L"씬8 이동: \'M\', \'8\' 누르고 있는 상태에서 \'8\'에서 손 떼기";
-	//	wstring strLoad4 = L"씬9 이동: \'M\', \'9\' 같이 누르기(순서 상관없음)";
-	//	
-	//	TextOut(backDC, 400, 400, strLoad.c_str(), (int)strLoad.length());
-	//	TextOut(backDC, 400, 425, strLoad2.c_str(), (int)strLoad2.length());
-	//	TextOut(backDC, 400, 450, strLoad3.c_str(), (int)strLoad3.length());
-	//	TextOut(backDC, 400, 475, strLoad4.c_str(), (int)strLoad4.length());
-	//}
+	wstring str = SCENEMANAGER->GetCurrentSceneName();
+	if (str == L"LoadingScene" && ((LoadingScene*)(SCENEMANAGER->GetCurrentScene()))->GetIsEndLoading())
+	{
+		wstring strLoad = L"로딩 끝";
+		wstring strLoad2 = L"씬7 이동: \'M\' 누르고 있는 상태에서 \'7\' 누르기";
+		wstring strLoad3 = L"씬8 이동: \'M\', \'8\' 누르고 있는 상태에서 \'8\'에서 손 떼기";
+		wstring strLoad4 = L"씬9 이동: \'M\', \'9\' 같이 누르기(순서 상관없음)";
+		TextOut(backDC, 400, 300, strLoad.c_str(), (int)strLoad.length());
+		TextOut(backDC, 400, 325, strLoad2.c_str(), (int)strLoad2.length());
+		TextOut(backDC, 400, 350, strLoad3.c_str(), (int)strLoad3.length());
+		TextOut(backDC, 400, 375, strLoad4.c_str(), (int)strLoad4.length());
+	}
 
 	RenderDebugText(backDC);
 
@@ -187,11 +209,6 @@ void MainGame::RenderDebugText(HDC hdc)
 	else
 		strRight = L"왼쪽";
 	TextOut(hdc, 700, 70, strRight.c_str(), (int)strRight.length());
-
-	int x = CAMERAMANAGER->GetMainCamera()->GetX();
-	int y = CAMERAMANAGER->GetMainCamera()->GetY();
-	wstring strLoad5 = L"카메라x,y: " + to_wstring(x) + L", " + to_wstring(y);
-	TextOut(hdc, 700, 100, strLoad5.c_str(), (int)strLoad5.length());
 }
 
 void MainGame::MakeScene()
@@ -231,7 +248,6 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Background_Boss", Resources(L"map/Background_Boss"), 960, 1600, true); }); // 3번신
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"platform1", Resources(L"map/platform1"), 960, 39, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"platform2", Resources(L"map/platform2"), 960, 93, true); });
-	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"platform3", Resources(L"map/platform3"), 960, 140, true); });
 
 	// Scene
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapImage01", ResourcesBackground(L"Background1"), 1200, 900, true); });
@@ -259,6 +275,14 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"CrouchBow", Resources(L"/Player/crouchbow"), 294, 104, 6, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Arrow", Resources(L"/Player/arrow"), 32, 64, 1, 2, true); });
 
+	//scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attack1", Resources(L"/Player/attack1"), 343, 96, 7, 2, true); });
+	//scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attack2", Resources(L"/Player/attack2"), 343, 96, 7, 2, true); });
+	//scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attack3", Resources(L"/Player/attack3"), 539, 96, 11, 2, true); });
+	//scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"AirAttack", Resources(L"/Player/airattack"), 343, 96, 7, 2, true); });
+	//scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf1", Resources(L"/Player/leaf1"), 679, 96, 7, 2, true); }); //이펙트 이미지 아직 안씀
+	//scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf2", Resources(L"/Player/leaf2"), 679, 96, 7, 2, true); });
+	//scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf3", Resources(L"/Player/leaf3"), 1066, 96, 11, 2, true); });
+	//scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"AirLeaf", Resources(L"/Player/airleaf"), 582, 112, 6, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"LandSoft", Resources(L"/Player/landsoft"), 196, 96, 4, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"LandHard", Resources(L"/Player/landhard"), 539, 96, 11, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Hurt", Resources(L"/Player/hurt"), 49, 96, 1, 2, true); });
@@ -274,6 +298,8 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf2", ResourcesPlayer(L"Leaf02"), 672, 96, 7, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf3", ResourcesPlayer(L"Leaf03"), 864, 96, 9, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"AirLeaf", ResourcesPlayer(L"AirLeaf"), 576, 112, 6, 2, true); });
+
+//#define ResourcesPlayer(Path) (wstring(L"../Resources/Player/").append(Path).append(L".bmp"))
 
 	// Enemy
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Imp", Resources(L"Imp"), 320, 384, 10, 12, true); });
@@ -356,7 +382,7 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Dialogue2", Resources(L"Boss/Boss_Dialogue2"), 210, 100, true); });
 
 	// UI
-	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Name", Resources(L"UI/Boss_Name"), 280, 40, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Name", Resources(L"Boss_Name"), 280, 40, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_Hp", Resources(L"UI/Boss_Hp"), 970, 65, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_HpBar", Resources(L"UI/Boss_HpBar"), 960, 45, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Boss_HpLess", Resources(L"UI/Boss_HpLess"), 10, 45, true); });

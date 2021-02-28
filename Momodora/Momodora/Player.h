@@ -173,7 +173,6 @@ public:
 	int GetHp() { return mHp; }
 	void SetHp(int i) { mHp = i; }
 	bool GetHitAttack() {return mHitAttack; }
-	void SetHitAttack(bool a) { mHitAttack = a; }
 	PlayerState GetState() { return mState; }
 	int GetPotion() { return mPotion; }
 	void AddPotion() { mPotion += 1; }

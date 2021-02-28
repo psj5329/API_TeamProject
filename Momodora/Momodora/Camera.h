@@ -41,7 +41,6 @@ public:
 	void Render(HDC hdc, Image* image, int x, int y, int tempX, int tempY, int tempWidth, int tempHeight, bool ui = false);
 	void FrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, bool ui = false);
 	void AlphaRender(HDC hdc, Image* image, int x, int y, float alpha, bool ui = false);
-	void AlphaRender(HDC hdc, Image* image, int x, int y, int tempX, int tempY, int tempWidth, int tempHeight, float alpha, bool ui = false);
 	void AlphaFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, float alpha, bool ui = false);
 	void ScaleRender(HDC hdc, Image* image, int x, int y, int width, int height, bool ui = false);
 	void ScaleFrameRender(HDC hdc, Image* image, int x, int y, int frameX, int frameY, int width, int height, bool ui = false);

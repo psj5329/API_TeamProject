@@ -91,6 +91,6 @@ void Staff::Update()
 
 void Staff::Render(HDC hdc)
 {
-	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
+	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mSizeX, mSizeY);
 }

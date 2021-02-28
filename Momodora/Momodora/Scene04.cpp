@@ -2,8 +2,6 @@
 #include "Scene04.h"
 #include "Camera.h"
 #include "Platform.h"
-#include "Fennel.h"
-#include "Player.h"
 
 void Scene04::Init()
 {
@@ -18,23 +16,17 @@ void Scene04::Init()
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	main->SetTarget(player);
 
+	// 플레이어가 서 있는 위치 고려해서 고정 카메라로 했다가 바꿔야 함
 	if (mEntrance == 1)
 	{
-		player->SetX(50);
-		player->SetY(732);
-		main->SetX(480);
-		main->SetY(540);
+		player->SetX(200);
+		player->SetY(400);
 	}
 	else if (mEntrance == 2)
 	{
-		player->SetX(1150);
-		player->SetY(732);
-		main->SetX(480);
-		main->SetY(540);
+		player->SetX(700);
+		player->SetY(400);
 	}
-
-	////페넬
-	AddFennel(800, 775);
 }
 
 void Scene04::Release()
@@ -45,46 +37,13 @@ void Scene04::Update()
 {
 	OBJECTMANAGER->Update();
 
-	//충돌확인
-	AllCollision();
-
-	RECT temp1;
-	vector<GameObject*> enemyList = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
-	//랙트 받아오고
-	RECT thunder = ((Fennel*)enemyList[0])->GetThunderRect();
-	RECT impact = ((Fennel*)enemyList[0])->GetImpactRect();
-	RECT playerHitBox = (OBJECTMANAGER->GetPlayer()->GetHitBox());
-
-	//페넬 번개, 플레이어 히트박스 충돌
-	if (IntersectRect(&temp1, &playerHitBox, &thunder))
-	{
-		//플레이어 체력 깎기
-
-		//방향알려줘야해
-		Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &thunder);
-		//플레이어 상태전환하고 무적시키는 함수
-		OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
-	}
-
-	//페넬 임팩트, 플레이어 히트박스 충돌
-	if (IntersectRect(&temp1, &playerHitBox, &impact))
-	{
-		//플레이어 체력 깎기
-
-		//방향알려줘야해
-		Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &impact);
-		//플레이어 상태전환하고 무적시키는 함수
-		OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
-	}
-
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	float x = player->GetX();
 
 	//if ((int)x <= 0)
 	//	SCENEMANAGER->LoadScene(L"Scene03", 2); // 왼쪽으로 못 돌아가게 막을 예정?!
 	if ((int)x >= mSceneSizeX)
-		//SCENEMANAGER->LoadScene(L"Scene05", 1);
-		SCENEMANAGER->LoadScene(L"Scene09", 1);
+		SCENEMANAGER->LoadScene(L"Scene05", 1);
 }
 
 void Scene04::Render(HDC hdc)

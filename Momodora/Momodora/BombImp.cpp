@@ -9,8 +9,8 @@ void BombImp::Init()
 {
 	mImage = IMAGEMANAGER->FindImage(L"Imp");
 
-	mStart.x =-2000;
-	mStart.y =2000;
+	mStart.x = WINSIZEX / 2;
+	mStart.y = WINSIZEY / 2;
 	mX = mStart.x;
 	mY = mStart.y;
 	mSizeX = mImage->GetFrameWidth()*2;
@@ -73,7 +73,7 @@ void BombImp::Update()
 	mAttackSpeed += TIME->DeltaTime();
 	mSearchSpeed += TIME->DeltaTime();
 
-	if (mAttackSpeed > 5 && mEnemyState != EnemyState::Hurt)
+	if (mAttackSpeed > 5)
 	{
 		mAttackSpeed = 0;
 		mEnemyState = EnemyState::Attack;
@@ -101,14 +101,6 @@ void BombImp::Update()
 
 		}
 	}
-
-	//¸ÂÀ¸¸é
-	if (mEnemyState == EnemyState::Hurt)
-	{
-		HurtRectMove();
-	}
-
-
 	DeathCheck();
 
 	mCurrentAnimation->Update();
@@ -153,7 +145,6 @@ void BombImp::ThrowBomb()
 			angle = PI * 3 / 8;
 		}
 	}
-
 
 	//ÆøÅº»ý¼º
 	Bomb* Bomb1 = new Bomb();
