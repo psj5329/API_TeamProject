@@ -13,6 +13,7 @@ public:
 
 	void ThrowDagger();
 	void EndAttack() override;
+	void Hurt(Direction direction)override;
 	void SetPosition(float x, float y)override;
 };
 
