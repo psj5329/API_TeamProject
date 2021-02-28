@@ -35,7 +35,7 @@ void Scene04::Init()
 		main->SetY(540);
 	}
 
-	////Æä³Ú
+	////í˜ë„¬
 	AddFennel(800, 775);
 }
 
@@ -47,35 +47,35 @@ void Scene04::Update()
 {
 	OBJECTMANAGER->Update();
 
-	//Ãæµ¹È®ÀÎ
+	//ì¶©ëŒí™•ì¸
 	AllCollision();
 
 	RECT temp1;
 	vector<GameObject*> enemyList = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
-	//·¢Æ® ¹Ş¾Æ¿À°í
+	//ë™íŠ¸ ë°›ì•„ì˜¤ê³ 
 	RECT thunder = ((Fennel*)enemyList[0])->GetThunderRect();
 	RECT impact = ((Fennel*)enemyList[0])->GetImpactRect();
 	RECT playerHitBox = (OBJECTMANAGER->GetPlayer()->GetHitBox());
 
-	//Æä³Ú ¹ø°³, ÇÃ·¹ÀÌ¾î È÷Æ®¹Ú½º Ãæµ¹
+	//í˜ë„¬ ë²ˆê°œ, í”Œë ˆì´ì–´ íˆíŠ¸ë°•ìŠ¤ ì¶©ëŒ
 	if (IntersectRect(&temp1, &playerHitBox, &thunder))
 	{
-		//ÇÃ·¹ÀÌ¾î Ã¼·Â ±ğ±â
+		//í”Œë ˆì´ì–´ ì²´ë ¥ ê¹ê¸°
 
-		//¹æÇâ¾Ë·ÁÁà¾ßÇØ
+		//ë°©í–¥ì•Œë ¤ì¤˜ì•¼í•´
 		Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &thunder);
-		//ÇÃ·¹ÀÌ¾î »óÅÂÀüÈ¯ÇÏ°í ¹«Àû½ÃÅ°´Â ÇÔ¼ö
+		//í”Œë ˆì´ì–´ ìƒíƒœì „í™˜í•˜ê³  ë¬´ì ì‹œí‚¤ëŠ” í•¨ìˆ˜
 		OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
 	}
 
-	//Æä³Ú ÀÓÆÑÆ®, ÇÃ·¹ÀÌ¾î È÷Æ®¹Ú½º Ãæµ¹
+	//í˜ë„¬ ì„íŒ©íŠ¸, í”Œë ˆì´ì–´ íˆíŠ¸ë°•ìŠ¤ ì¶©ëŒ
 	if (IntersectRect(&temp1, &playerHitBox, &impact))
 	{
-		//ÇÃ·¹ÀÌ¾î Ã¼·Â ±ğ±â
+		//í”Œë ˆì´ì–´ ì²´ë ¥ ê¹ê¸°
 
-		//¹æÇâ¾Ë·ÁÁà¾ßÇØ
+		//ë°©í–¥ì•Œë ¤ì¤˜ì•¼í•´
 		Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &impact);
-		//ÇÃ·¹ÀÌ¾î »óÅÂÀüÈ¯ÇÏ°í ¹«Àû½ÃÅ°´Â ÇÔ¼ö
+		//í”Œë ˆì´ì–´ ìƒíƒœì „í™˜í•˜ê³  ë¬´ì ì‹œí‚¤ëŠ” í•¨ìˆ˜
 		OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
 	}
 
@@ -83,13 +83,13 @@ void Scene04::Update()
 	float x = player->GetX();
 
 	//if ((int)x <= 0)
-	//	SCENEMANAGER->LoadScene(L"Scene03", 2); // ¿ŞÂÊÀ¸·Î ¸ø µ¹¾Æ°¡°Ô ¸·À» ¿¹Á¤?!
+	//	SCENEMANAGER->LoadScene(L"Scene03", 2); // ì™¼ìª½ìœ¼ë¡œ ëª» ëŒì•„ê°€ê²Œ ë§‰ì„ ì˜ˆì •?!
 	if ((int)x >= mSceneSizeX)
 		//SCENEMANAGER->LoadScene(L"Scene05", 1);
 		SCENEMANAGER->LoadScene(L"Scene09", 1);
 
 
-	//ÀÌº¥Æ® Ãß°¡
+	//ì´ë²¤íŠ¸ ì¶”ê°€
 	//if (FennelIntro && OBJECTMANAGER->GetPlayer()->GetX() >= WINSIZEX / 2)
 	//{
 	//	FennelIntro = false;
@@ -99,7 +99,7 @@ void Scene04::Update()
 	//	GAMEEVENTMANAGER->PushEvent(new IChangeImage(&image, L"Fennelintro1"));
 	//	GAMEEVENTMANAGER->PushEvent(new IDelayEvent(1.f));
 	//
-	//	GAMEEVENTMANAGER->PushEvent(new IObjectStop(false));	// º¸½º µîÀå ÀÌº¥Æ® ³¡
+	//	GAMEEVENTMANAGER->PushEvent(new IObjectStop(false));	// ë³´ìŠ¤ ë“±ì¥ ì´ë²¤íŠ¸ ë
 	//}
 	//
 	//GAMEEVENTMANAGER->Update();
@@ -135,6 +135,7 @@ void Scene04::Render(HDC hdc)
 
 	OBJECTMANAGER->Render(hdc);
 
+	//OBJECTMANAGER->RenderUI(hdc);
 	GAMEEVENTMANAGER->Render(hdc);
 
 	//RECT rect;

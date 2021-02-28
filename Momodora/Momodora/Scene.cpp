@@ -322,7 +322,7 @@ void Scene::AllCollision()
 		}
 	}
 	
-	//플레이어의 공격애니메이션하나가 끝나면
+	//플레이어의 공격 애니메이션 하나가 끝나면
 	if (OBJECTMANAGER->FindObject("Boss") != NULL)
 	{
 		if (player->GetEndCombo())

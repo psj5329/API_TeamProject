@@ -8,6 +8,11 @@
 #include "ActiveItemUI.h"
 #include "Player.h"
 
+#include "PlayerHpUI.h"
+#include "StarCountUI.h"
+#include "ActiveItemUI.h"
+#include "Player.h"
+
 void Scene01::Init()
 {
 	mMapImage = IMAGEMANAGER->FindImage(L"MapImage01");
@@ -51,6 +56,22 @@ void Scene01::Init()
 
 	//몬스터 배치
 	AddMonkey(900, 600);
+
+
+
+
+	PlayerHpUI* playerui = new PlayerHpUI;
+	playerui->Init();
+	playerui->SetHp(OBJECTMANAGER->GetPlayer()->GetHp());
+	OBJECTMANAGER->AddObject(ObjectLayer::UI, playerui);
+
+	ActiveItemUI* activeItemui = new ActiveItemUI;
+	activeItemui->Init();
+	OBJECTMANAGER->AddObject(ObjectLayer::UI, activeItemui);
+
+	StarCountUI* starCountui = new StarCountUI;
+	starCountui->Init();
+	OBJECTMANAGER->AddObject(ObjectLayer::UI, starCountui);
 }
 
 void Scene01::Release()
