@@ -258,20 +258,23 @@ void Scene::AllCollision()
 	}
 
 	// 보스랑 화살
-	for (int j = 0; j < arrowList.size(); j++)
+	if (OBJECTMANAGER->FindObject("Boss") != NULL)
 	{
-		RECT temp;
-		RECT hitBox = OBJECTMANAGER->FindObject("Boss")->GetHitBox();
-		RECT arrow = arrowList[j]->GetRect();
-		if (IntersectRect(&temp, &hitBox, &arrow))
+		for (int j = 0; j < arrowList.size(); j++)
 		{
-			//화살 없애고
-			//arrowList[j]->Release();
-			//arrowList[j]->SetIsActive(false);
-			arrowList[j]->SetIsDestroy(true);
-			//에너미 체력조정
-			((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
-			((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP() - 5);
+			RECT temp;
+			RECT hitBox = OBJECTMANAGER->FindObject("Boss")->GetHitBox();
+			RECT arrow = arrowList[j]->GetRect();
+			if (IntersectRect(&temp, &hitBox, &arrow))
+			{
+				//화살 없애고
+				//arrowList[j]->Release();
+				//arrowList[j]->SetIsActive(false);
+				arrowList[j]->SetIsDestroy(true);
+				//에너미 체력조정
+				((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
+				((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP() - 5);
+			}
 		}
 	}
 	//적히트박스, 플레이어의 리프 충돌
@@ -296,9 +299,12 @@ void Scene::AllCollision()
 	}
 	
 	//플레이어의 공격애니메이션하나가 끝나면
-	if (player->GetEndCombo())
+	if (OBJECTMANAGER->FindObject("Boss") != NULL)
 	{
-		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetIsHit(false);
-		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetInvincibility(false);
+		if (player->GetEndCombo())
+		{
+			((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetIsHit(false);
+			((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetInvincibility(false);
+		}
 	}
 }

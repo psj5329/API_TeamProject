@@ -68,6 +68,8 @@ void Scene03::Render(HDC hdc)
 
 	OBJECTMANAGER->Render(hdc);
 
+	OBJECTMANAGER->RenderUI(hdc);
+
 	//RECT rect;
 	//vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
 	//vector<GameObject*>::iterator iter = platformList.begin();
