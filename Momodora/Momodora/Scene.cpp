@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Fennel.h"
 #include "Boss.h"
+#include "BossBullet.h"
 
 //적생성
 void Scene::AddMonkey(float x, float y)
@@ -244,16 +245,19 @@ void Scene::AllCollision()
 		RECT temp;
 		RECT atkBox = bossBullet[i]->GetAttackBox();
 
-		if (IntersectRect(&temp, &playerHitBox, &atkBox))
+		if (((BossBullet*)bossBullet[i])->GetShoot())
 		{
-			bossBullet[i]->SetIsActive(false);
-			bossBullet[i]->SetIsDestroy(true);
-			//플레이어 체력 깎기
+			if (IntersectRect(&temp, &playerHitBox, &atkBox))
+			{
+				bossBullet[i]->SetIsActive(false);
+				bossBullet[i]->SetIsDestroy(true);
+				//플레이어 체력 깎기
 
-			//플레이어 상태전환하고 무적시키는 함수
-			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &atkBox);
-			//방향알려줘야해
-			player->PlayerHurt(direction);
+				//플레이어 상태전환하고 무적시키는 함수
+				Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &atkBox);
+				//방향알려줘야해
+				player->PlayerHurt(direction);
+			}
 		}
 	}
 

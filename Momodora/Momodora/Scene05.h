@@ -3,6 +3,14 @@
 
 class Scene05 : public Scene
 {
+	Image* mPlatformImage;
+	Image* mPlatformImage2;
+	bool mIsBossDead;
+	bool mIsBossAppearanceEvent;
+	bool mIsChangeImage;
+	float mChangeImageTime;
+	bool mCameraFix;
+
 public:
 	void Init()override;
 	void Release()override;
