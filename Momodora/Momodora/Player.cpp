@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Player.h"
 #include "Image.h"
 #include "Animation.h"
@@ -17,7 +17,7 @@ void Player::Init()
 
 	ReadyPlayerAnimation();
 
-	InitPlayerVar(); // ?Œë ˆ?´ì–´ê°€ ê°€ì§?ê°ì¢… ë³€?˜ë“¤ ì´ˆê¸°???˜ëŠ” ?¨ìˆ˜
+	InitPlayerVar(); // 플레이어가 가진 각종 변수들 초기화 하는 함수
 }
 
 void Player::Release()
@@ -162,7 +162,7 @@ void Player::Update()
 		}
 	}
 
-	// ?‰ê¸°
+	// 앉기
 	if (Input::GetInstance()->GetKey(VK_DOWN))
 	{
 		mHitBox = RectMakeCenter((int)mX, (int)mY + 20, (int)(mSizeX / 3.f), (int)(mSizeY / 2));
@@ -207,7 +207,7 @@ void Player::Update()
 				mCurrentImage = mCrouchImage;
 			}
 		}
-		//?„ëž˜ ?í”„
+		//아래 점프
 		if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 		{
 			// if 플레이어가 특정 바닥위에 있으면
@@ -259,7 +259,7 @@ void Player::Update()
 		}
 	}
 
-	// êµ¬ë¥´ê¸?
+	// 구르기
 	if (Input::GetInstance()->GetKeyDown(VK_LSHIFT))
 	{
 <<<<<<< HEAD
@@ -379,7 +379,7 @@ void Player::Update()
 		}
 	}
 
-	// ??ê³µê²©
+	// 활 공격
 	if (Input::GetInstance()->GetKeyDown('X'))
 	{
 		Arrow* arrow = new Arrow();
@@ -465,6 +465,7 @@ void Player::Update()
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	// �� ���� 1 // ����Ʈ X
 	//if (mState != State::LeftAttack1 && mState != State::RightAttack1 && mState != State::LeftAttack2 && mState != State::RightAttack2 && mState != State::LeftAttack3 && mState != State::RightAttack3)
 	if (mState != PlayerState::Attack1 || mState != PlayerState::Attack2 || mState != PlayerState::Attack3)
@@ -472,6 +473,10 @@ void Player::Update()
 	// ê²€ ê³µê²© 1
 	if(mState != PlayerState::Attack1 && mState != PlayerState::Attack2 && mState != PlayerState::Attack3)
 >>>>>>> 2227e69f15c6377d0d57bf15a56de711be084afe
+=======
+	// 검 공격 1
+	if (mState != PlayerState::Attack1 && mState != PlayerState::Attack2 && mState != PlayerState::Attack3)
+>>>>>>> master
 	{
 		if (Input::GetInstance()->GetKeyDown('Z'))
 		{
@@ -521,7 +526,7 @@ void Player::Update()
 		}
 	}
 
-	// ê²€ ê³µê²© 2
+	// 검 공격 2
 	if (mState == PlayerState::Attack1)
 	{
 		if (Input::GetInstance()->GetKeyDown('Z'))
@@ -555,7 +560,7 @@ void Player::Update()
 		}
 	}
 
-	// ê²€ ê³µê²© 3
+	// 검 공격 3
 	if (mState == PlayerState::Attack2)
 	{
 		if (Input::GetInstance()->GetKeyDown('Z'))
@@ -676,7 +681,7 @@ void Player::Update()
 	//피격
 	if (mState == PlayerState::Hurt)
 	{
-		if (mTimer == 0) 
+		if (mTimer == 0)
 		{
 			if (mDirection == Direction::Left)
 			{
@@ -713,32 +718,32 @@ void Player::Update()
 			mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
 			mTimer = 0;
 
-if (mDirection == Direction::Left)
-{
-	if (mState == PlayerState::Hurt)
-	{
-		mState = PlayerState::Idle;
-		mCurrentAnimation->Stop();
-		mCurrentAnimation = mLeftIdleAnimation;
-		mCurrentAnimation->Play();
-		mCurrentImage = mIdleImage;
-	}
-}
-if (mDirection == Direction::Right)
-{
-	if (mState == PlayerState::Hurt)
-	{
-		mState = PlayerState::Idle;
-		mCurrentAnimation->Stop();
-		mCurrentAnimation = mRightIdleAnimation;
-		mCurrentAnimation->Play();
-		mCurrentImage = mIdleImage;
-	}
-}
+			if (mDirection == Direction::Left)
+			{
+				if (mState == PlayerState::Hurt)
+				{
+					mState = PlayerState::Idle;
+					mCurrentAnimation->Stop();
+					mCurrentAnimation = mLeftIdleAnimation;
+					mCurrentAnimation->Play();
+					mCurrentImage = mIdleImage;
+				}
+			}
+			if (mDirection == Direction::Right)
+			{
+				if (mState == PlayerState::Hurt)
+				{
+					mState = PlayerState::Idle;
+					mCurrentAnimation->Stop();
+					mCurrentAnimation = mRightIdleAnimation;
+					mCurrentAnimation->Play();
+					mCurrentImage = mIdleImage;
+				}
+			}
 		}
 	}
 
-	// Hp ?Œë³µ ?„ì´???¬ìš©
+	// Hp 회복 아이템 사용
 	if (mHp > 0 && mHp < 100 && mPotion > 0)
 	{
 		if (Input::GetInstance()->GetKeyDown('Q'))
@@ -783,10 +788,14 @@ if (mDirection == Direction::Right)
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	// ���
 =======
 	// ?¬ë§
 >>>>>>> 2227e69f15c6377d0d57bf15a56de711be084afe
+=======
+	// 사망
+>>>>>>> master
 	if (mHp <= 0)
 	{
 		if (mDirection == Direction::Left)
@@ -814,11 +823,15 @@ if (mDirection == Direction::Right)
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	//	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 		// �÷��� �浹
 =======
 	// ?Œëž«??ì¶©ëŒ
 >>>>>>> 2227e69f15c6377d0d57bf15a56de711be084afe
+=======
+	// 플랫폼 충돌
+>>>>>>> master
 	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect))
 	{
 		mJumpPower = 0;
@@ -870,7 +883,7 @@ if (mDirection == Direction::Right)
 		}
 	}
 
-	// ?í”„
+	// 점프
 	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 	{
 		mJumpPower = 8.f;
@@ -1026,7 +1039,7 @@ if (mDirection == Direction::Right)
 
 	//RECT mPrevRect;
 	//벽을 통과중이 아니라면
-	if (!mIsInDownPlatform) 
+	if (!mIsInDownPlatform)
 	{
 		mRect = *(COLLISIONMANAGER->CollideWithPlatform(&mRect, &mPrevRect, mSizeX, mSizeY));
 	}
@@ -1045,7 +1058,7 @@ if (mDirection == Direction::Right)
 		PlayerHurt(Direction::Left);
 		mHp -= 20;
 	}
-  
+
 	//히트박스
 	if (mState != PlayerState::Hurt && mState != PlayerState::Roll && mState != PlayerState::Crouch && mState != PlayerState::CrouchBow)
 	{
@@ -1112,7 +1125,7 @@ void Player::FindPlayerImage()
 
 void Player::ReadyPlayerAnimation()
 {
-	// ?¤íƒ ??? ë‹ˆë©”ì´??
+	// 스탠드 애니메이션
 	mLeftIdleAnimation = new Animation();
 	mLeftIdleAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftIdleAnimation->SetIsLoop(true);
@@ -1123,7 +1136,7 @@ void Player::ReadyPlayerAnimation()
 	mRightIdleAnimation->SetIsLoop(true);
 	mRightIdleAnimation->SetFrameUpdateTime(0.2f);
 
-		// ?´ë™ ? ë‹ˆë©”ì´??
+	// 이동 애니메이션
 	mLeftRunStartAnimation = new Animation();
 	mLeftRunStartAnimation->InitFrameByStartEnd(8, 1, 9, 1, true);
 	mLeftRunStartAnimation->SetIsLoop(false);
@@ -1146,7 +1159,7 @@ void Player::ReadyPlayerAnimation()
 	mRightRunAnimation->SetIsLoop(true);
 	mRightRunAnimation->SetFrameUpdateTime(0.1f);
 
-		// ë¸Œë ˆ?´í¬ ? ë‹ˆë©”ì´??
+	// 브레이크 애니메이션
 	mLeftBrakeAnimation = new Animation();
 	mLeftBrakeAnimation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftBrakeAnimation->SetIsLoop(true);
@@ -1159,7 +1172,7 @@ void Player::ReadyPlayerAnimation()
 	mRightBrakeAnimation->SetFrameUpdateTime(0.05f);
 	mRightBrakeAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
-	// ë°©í–¥ ?„í™˜ ? ë‹ˆë©”ì´??
+	// 방향 전환 애니메이션
 	mLeftTurnAnimation = new Animation();
 	mLeftTurnAnimation->InitFrameByStartEnd(0, 1, 2, 1, true);
 	mLeftTurnAnimation->SetIsLoop(false);
@@ -1172,7 +1185,7 @@ void Player::ReadyPlayerAnimation()
 	mRightTurnAnimation->SetFrameUpdateTime(0.1f);
 	mRightTurnAnimation->SetCallbackFunc(bind(&Player::SetStateRun, this));
 
-	// ?í”„ ? ë‹ˆë©”ì´??
+	// 점프 애니메이션
 	mLeftJumpAnimation = new Animation();
 	mLeftJumpAnimation->InitFrameByStartEnd(0, 1, 2, 1, true);
 	mLeftJumpAnimation->SetIsLoop(true);
@@ -1183,7 +1196,7 @@ void Player::ReadyPlayerAnimation()
 	mRightJumpAnimation->SetIsLoop(true);
 	mRightJumpAnimation->SetFrameUpdateTime(0.2f);
 
-		// ?í”„ ?˜ê°• ? ë‹ˆë©”ì´??
+	// 점프 하강 애니메이션
 	mLeftFallAnimation = new Animation();
 	mLeftFallAnimation->InitFrameByStartEnd(0, 1, 4, 1, true);
 	mLeftFallAnimation->SetIsLoop(false);
@@ -1194,7 +1207,7 @@ void Player::ReadyPlayerAnimation()
 	mRightFallAnimation->SetIsLoop(false);
 	mRightFallAnimation->SetFrameUpdateTime(0.2f);
 
-		// ?½í•œ ì°©ì? ? ë‹ˆë©”ì´??
+	// 약한 착지 애니메이션
 	mLeftLandSoftAnimation = new Animation();
 	mLeftLandSoftAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
 	mLeftLandSoftAnimation->SetIsLoop(true);
@@ -1207,7 +1220,7 @@ void Player::ReadyPlayerAnimation()
 	mRightLandSoftAnimation->SetFrameUpdateTime(0.1f);
 	mRightLandSoftAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
-	// ?‰ê¸° ? ë‹ˆë©”ì´??
+	// 앉기 애니메이션
 	mLeftCrouchAnimation = new Animation();
 	mLeftCrouchAnimation->InitFrameByStartEnd(0, 1, 3, 1, true);
 	mLeftCrouchAnimation->SetIsLoop(false);
@@ -1218,7 +1231,7 @@ void Player::ReadyPlayerAnimation()
 	mRightCrouchAnimation->SetIsLoop(false);
 	mRightCrouchAnimation->SetFrameUpdateTime(0.1f);
 
-		// ?¼ì–´?˜ê¸° ? ë‹ˆë©”ì´??
+	// 일어나기 애니메이션
 	mLeftRiseAnimation = new Animation();
 	mLeftRiseAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
 	mLeftRiseAnimation->SetIsLoop(false);
@@ -1231,7 +1244,7 @@ void Player::ReadyPlayerAnimation()
 	mRightRiseAnimation->SetFrameUpdateTime(0.1f);
 	mRightRiseAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
-	// êµ¬ë¥´ê¸?? ë‹ˆë©”ì´??
+	// 구르기 애니메이션
 	mLeftRollAnimation = new Animation();
 	mLeftRollAnimation->InitFrameByStartEnd(0, 1, 7, 1, true);
 	mLeftRollAnimation->SetIsLoop(false);
@@ -1244,7 +1257,7 @@ void Player::ReadyPlayerAnimation()
 	mRightRollAnimation->SetFrameUpdateTime(0.07f);
 	mRightRollAnimation->SetCallbackFunc(bind(&Player::SetStateIdle, this));
 
-	// ?¬ë‹¤ë¦??…ìž¥ ? ë‹ˆë©”ì´??
+	// 사다리 입장 애니메이션
 	mLeftLadderEnterAnimation = new Animation();
 	mLeftLadderEnterAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftLadderEnterAnimation->SetIsLoop(true);
@@ -1257,7 +1270,7 @@ void Player::ReadyPlayerAnimation()
 	mRightLadderEnterAnimation->SetFrameUpdateTime(0.1f);
 	mRightLadderEnterAnimation->SetCallbackFunc(bind(&Player::SetStateLadderDown, this));
 
-	// ?¬ë‹¤ë¦??¤ë¥´?´ë¦¬ê¸?? ë‹ˆë©”ì´??
+	// 사다리 오르내리기 애니메이션
 	mLadderUpAnimation = new Animation();
 	mLadderUpAnimation->InitFrameByStartEnd(0, 0, 5, 0, true);
 	mLadderUpAnimation->SetIsLoop(true);
@@ -1268,7 +1281,7 @@ void Player::ReadyPlayerAnimation()
 	mLadderDownAnimation->SetIsLoop(true);
 	mLadderDownAnimation->SetFrameUpdateTime(0.1f);
 
-		// ?¬ë‹¤ë¦??´ìž¥ ? ë‹ˆë©”ì´??
+	// 사다리 퇴장 애니메이션
 	mLeftLadderLeaveAnimation = new Animation();
 	mLeftLadderLeaveAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftLadderLeaveAnimation->SetIsLoop(true);
@@ -1279,8 +1292,7 @@ void Player::ReadyPlayerAnimation()
 	mRightLadderLeaveAnimation->SetIsLoop(true);
 	mRightLadderLeaveAnimation->SetFrameUpdateTime(0.1f);
 
-//NH	// ì„œì„œ í™œ ì• ë‹ˆë©”ì´ì…˜
-//master		// ?œì„œ ??? ë‹ˆë©”ì´??
+	// 서서 활 애니메이션
 	mLeftBowAnimation = new Animation();
 	mLeftBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftBowAnimation->SetIsLoop(true);
@@ -1293,7 +1305,7 @@ void Player::ReadyPlayerAnimation()
 	mRightBowAnimation->SetFrameUpdateTime(0.1f);
 	mRightBowAnimation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
-	// ê³µì¤‘ ??? ë‹ˆë©”ì´??
+	// 공중 활 애니메이션
 	mLeftAirBowAnimation = new Animation();
 	mLeftAirBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftAirBowAnimation->SetIsLoop(true);
@@ -1306,7 +1318,7 @@ void Player::ReadyPlayerAnimation()
 	mRightAirBowAnimation->SetFrameUpdateTime(0.1f);
 	mRightAirBowAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
-	// ?‰ì•„ ??? ë‹ˆë©”ì´??
+	// 앉아 활 애니메이션
 	mLeftCrouchBowAnimation = new Animation();
 	mLeftCrouchBowAnimation->InitFrameByStartEnd(0, 1, 5, 1, true);
 	mLeftCrouchBowAnimation->SetIsLoop(true);
@@ -1319,7 +1331,7 @@ void Player::ReadyPlayerAnimation()
 	mRightCrouchBowAnimation->SetFrameUpdateTime(0.1f);
 	mRightCrouchBowAnimation->SetCallbackFunc(bind(&Player::SetEndCrouchAttack, this));
 
-	// ì²?ë²ˆì§¸ ê³µê²© ? ë‹ˆë©”ì´??
+	// 첫 번째 공격 애니메이션
 	mLeftAttack1Animation = new Animation();
 	mLeftAttack1Animation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAttack1Animation->SetIsLoop(true);
@@ -1332,7 +1344,7 @@ void Player::ReadyPlayerAnimation()
 	mRightAttack1Animation->SetFrameUpdateTime(0.1f);
 	mRightAttack1Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
-	// ??ë²ˆì§¸ ê³µê²© ? ë‹ˆë©”ì´??
+	// 두 번째 공격 애니메이션
 	mLeftAttack2Animation = new Animation();
 	mLeftAttack2Animation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAttack2Animation->SetIsLoop(true);
@@ -1345,7 +1357,7 @@ void Player::ReadyPlayerAnimation()
 	mRightAttack2Animation->SetFrameUpdateTime(0.1f);
 	mRightAttack2Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
-	// ??ë²ˆì§¸ ê³µê²© ? ë‹ˆë©”ì´??
+	// 세 번째 공격 애니메이션
 	mLeftAttack3Animation = new Animation();
 	mLeftAttack3Animation->InitFrameByStartEnd(0, 1, 10, 1, true);
 	mLeftAttack3Animation->SetIsLoop(true);
@@ -1358,7 +1370,7 @@ void Player::ReadyPlayerAnimation()
 	mRightAttack3Animation->SetFrameUpdateTime(0.1f);
 	mRightAttack3Animation->SetCallbackFunc(bind(&Player::SetEndAttack, this));
 
-	// ê³µì¤‘ ê³µê²© ? ë‹ˆë©”ì´??
+	// 공중 공격 애니메이션
 	mLeftAirAttackAnimation = new Animation();
 	mLeftAirAttackAnimation->InitFrameByStartEnd(0, 1, 6, 1, true);
 	mLeftAirAttackAnimation->SetIsLoop(true);
@@ -1371,7 +1383,7 @@ void Player::ReadyPlayerAnimation()
 	mRightAirAttackAnimation->SetFrameUpdateTime(0.1f);
 	mRightAirAttackAnimation->SetCallbackFunc(bind(&Player::SetEndAirAttack, this));
 
-	// ?¼ê²© ? ë‹ˆë©”ì´??
+	// 피격 애니메이션
 	mLeftHurtAnimation = new Animation();
 	mLeftHurtAnimation->InitFrameByStartEnd(0, 1, 1, 1, true);
 	mLeftHurtAnimation->SetIsLoop(true);
@@ -1382,7 +1394,7 @@ void Player::ReadyPlayerAnimation()
 	mRightHurtAnimation->SetIsLoop(true);
 	mRightHurtAnimation->SetFrameUpdateTime(0.3f);
 
-		// ?¬ë§ ? ë‹ˆë©”ì´??
+	// 사망 애니메이션
 	mLeftDeathAnimation = new Animation();
 	mLeftDeathAnimation->InitFrameByStartEnd(0, 1, 23, 1, true);
 	mLeftDeathAnimation->SetIsLoop(false);
@@ -1393,7 +1405,7 @@ void Player::ReadyPlayerAnimation()
 	mRightDeathAnimation->SetIsLoop(false);
 	mRightDeathAnimation->SetFrameUpdateTime(0.2f);
 
-		//?„ì´???¬ìš© ? ë‹ˆë©”ì´??
+	//아이템 사용 애니메이션
 	mLeftUseItemAnimation = new Animation();
 	mLeftUseItemAnimation->InitFrameByStartEnd(0, 1, 10, 1, true);
 	mLeftUseItemAnimation->SetIsLoop(false);
@@ -1409,18 +1421,18 @@ void Player::ReadyPlayerAnimation()
 
 void Player::InitPlayerVar()
 {
-	// ë¶€ëª??´ëž˜?¤ì¸ GameObject??? ì–¸??ë³€?˜ë“¤
+	// 부모 클래스인 GameObject에 선언된 변수들
 	mName = "Player";
-	mX = WINSIZEX / 2.f;
-	mY = 200.f;
+	mX = -2000.f;
+	mY = -2000.f;
 	mSizeX = (float)(mIdleImage->GetFrameWidth()) * 2.f;
 	mSizeY = (float)(mIdleImage->GetFrameHeight()) * 2.f;
 	mDirection = Direction::Right;
 	mRect = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY);
-	mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY); // ?„ì‹œ(ê°€ë¡œë§Œ 1/3)
-	mAttackBox = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY); // ?„ì‹œ(?Œë ˆ?´ì–´ ?¬ì´ì¦?
+	mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY); // 임시(가로만 1/3)
+	mAttackBox = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY); // 임시(플레이어 사이즈)
 
-	// Player??? ì–¸??ë³€?˜ë“¤
+	// Player에 선언된 변수들
 	mArrowSpeed = 600.f;
 
 	mState = PlayerState::Idle;
@@ -1575,7 +1587,7 @@ void Player::SetEndAttack()
 	mEndCombo = true;
 	mHitAttack = true;
 
-	mLeaf->SetIsActive(false); // ? ë‹ˆë©”ì´?????Œê³  ì¶œë ¥?????˜ê²Œ
+	mLeaf->SetIsActive(false); // 애니메이션 안 돌고 출력도 안 되게
 }
 
 void Player::SetEndAirAttack()

@@ -230,6 +230,33 @@ void Image::AlphaRender(HDC hdc, int x, int y, float alpha)
 			mImageBuffer->hdc, 0, 0, mImageBuffer->width, mImageBuffer->height, *mBlendFunction);
 }
 
+void Image::AlphaRender(HDC hdc, int x, int y, int tempX, int tempY, int tempWidth, int tempHeight, float alpha)
+{
+	mBlendFunction->SourceConstantAlpha = (BYTE)(alpha * 255.f);
+
+	if (mIsTrans)
+	{
+		BitBlt(mBlendImageBuffer->hdc, 0, 0, mImageBuffer->width, mImageBuffer->height,
+			hdc, x, y, SRCCOPY);
+
+		GdiTransparentBlt(mBlendImageBuffer->hdc, 0, 0, tempWidth, tempHeight,
+			mImageBuffer->hdc, tempX, tempY, tempWidth, tempHeight, mTransColor);
+
+		AlphaBlend(hdc, x, y, mImageBuffer->width, mImageBuffer->height,
+			mBlendImageBuffer->hdc, 0, 0, mImageBuffer->width, mImageBuffer->height, *mBlendFunction);
+	}
+	else
+		AlphaBlend(hdc, x, y, tempWidth, tempHeight,
+			mImageBuffer->hdc, 0, 0, mImageBuffer->width, mImageBuffer->height, *mBlendFunction);
+	/*
+	if (mIsTrans)
+		GdiTransparentBlt(hdc, x, y, tempWidth, tempHeight,
+			mImageBuffer->hdc, tempX, tempY, tempWidth, tempHeight, mTransColor);
+	else
+		BitBlt(hdc, x, y, tempWidth, tempHeight,
+			mImageBuffer->hdc, tempX, tempY, SRCCOPY);*/
+}
+
 void Image::AlphaFrameRender(HDC hdc, int x, int y, int frameX, int frameY, float alpha)
 {
 	mBlendFunction->SourceConstantAlpha = (BYTE)(alpha * 255.f);

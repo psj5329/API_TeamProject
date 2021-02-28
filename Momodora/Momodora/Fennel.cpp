@@ -32,9 +32,9 @@ void Fennel::Init()
 	///////////////////////////////////
 
 	/////충돌판정할 랙트들//////////////////
-	mImpact = RectMakeCenter(1000, 1000, 1, 1);
-	mThunder = RectMakeCenter(1000, 1000, 1, 1);
-	mAttackBox = RectMakeCenter(1000, 1000, 1, 1);
+	mImpact = RectMakeCenter(1000, 2000, 1, 1);
+	mThunder = RectMakeCenter(1000, 2000, 1, 1);
+	mAttackBox = RectMakeCenter(1000, 2000, 1, 1);
 	
 
 
@@ -394,12 +394,15 @@ void Fennel::Update()
 
 void Fennel::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
+	//페넬
 	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mSizeX, mSizeY,mAlpha);
+	//임팩트
 	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImpactImg, mImpact.left, mImpact.top, mCurrentImpact->GetNowFrameX(), mCurrentImpact->GetNowFrameY(), mImpactImg->GetFrameWidth() * 2, mImpactImg->GetFrameHeight() * 2, 0.5f);
+	//번개
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mThunderImg, mThunder.left, mThunder.top, mCurrentThunder->GetNowFrameX(), mCurrentThunder->GetNowFrameY(), mThunderImg->GetFrameWidth() * 2 - 50, 500);
-	
+	//잔상
 	for (int i = 0;i < 3;i++)
 	{
 		CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mAfterImages[i].cImage, mAfterImages[i].cRect.left, mAfterImages[i].cRect.top, mAfterImages[i].cFrameX, mAfterImages[i].cFrameY, mSizeX, mSizeY, mAfterImages[i].cAlpha);
@@ -654,7 +657,7 @@ void Fennel::ThunderRect()
 	//번개만들기
 	if (mCurrentAnimation->GetNowFrameX() == 14)
 	{
-		mThunder = RectMakeCenter(mTarget.x, 400, mThunderImg->GetFrameWidth() * 2 - 50, 500);
+		mThunder = RectMakeCenter(mTarget.x, 550, mThunderImg->GetFrameWidth() * 2 - 50, 500);
 		mCurrentThunder->Play();
 	}
 	//번개끝

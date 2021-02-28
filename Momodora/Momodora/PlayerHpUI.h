@@ -9,6 +9,9 @@ class PlayerHpUI : public UI
 
 	int mMaxHp;
 	int mHp;
+	int mPreHp;
+
+	float mLessHpSizeX;
 
 public:
 	void Init()override;
@@ -17,6 +20,6 @@ public:
 	void Render(HDC hdc)override;
 
 public:
-	void SetHp(int hp) { mMaxHp = hp; mHp = hp; }
+	void SetHp(int hp) { mMaxHp = hp; mHp = hp; mPreHp = hp; }
 };
 

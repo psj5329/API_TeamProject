@@ -4,7 +4,7 @@
 #define WINSIZEX 960
 #define WINSIZEY 720
 
-//#define DEBUG
+#define DEBUG
 
 #define SafeDelete(p)\
 {\
@@ -45,6 +45,7 @@ public:\
 ClassName* ClassName::_instance = NULL;
 
 #define Resources(Path) (wstring(L"../Resources/").append(Path).append(L".bmp"))
+#define ResourcesLoading(Path) (wstring(L"../Resources/Loading/").append(Path).append(L".bmp"))
 #define ResourcesBackground(Path) (wstring(L"../Resources/SceneBackground/").append(Path).append(L".bmp"))
 #define ResourcesUI(Path) (wstring(L"../Resources/UI/").append(Path).append(L".bmp"))
 #define ResourcesPlayer(Path) (wstring(L"../Resources/Player/").append(Path).append(L".bmp"))
