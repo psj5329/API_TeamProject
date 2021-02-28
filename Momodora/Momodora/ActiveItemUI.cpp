@@ -38,7 +38,7 @@ void ActiveItemUI::Update()
 
 void ActiveItemUI::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mImage, mRect.left, mRect.top, mSizeX, mSizeY);
-	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mItemImage, mX - mItemSizeX / 2, mY - mItemSizeY / 2, mItemSizeX, mItemSizeY);
-	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mItemCountImage, mX + mItemCountSizeX / 2, mY + mItemCountSizeY / 2, mItemCountSizeX, mItemCountSizeY);
+	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mImage, mRect.left, mRect.top, mSizeX, mSizeY, true);
+	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mItemImage, mX - mItemSizeX / 2, mY - mItemSizeY / 2, mItemSizeX, mItemSizeY, true);
+	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mItemCountImage, mX + mItemCountSizeX / 2, mY + mItemCountSizeY / 2, mItemCountSizeX, mItemCountSizeY, true);
 }

@@ -18,7 +18,7 @@ void Boss::Init()
 	mImage = IMAGEMANAGER->FindImage(L"Boss");
 	mBackImage = IMAGEMANAGER->FindImage(L"Boss_back");
 	mX = WINSIZEX / 2;
-	mY = WINSIZEY / 2;
+	mY = 1600 + mImage->GetHeight() * 2;
 	mSizeX = 630;//IMAGEMANAGER->FindImage(L"Boss_Chest")->GetWidth();	// ¼ÂÆÃÇßÀ» ¶§ ±âÁØ * 2 (Å©±â µÎ¹è¶ó)
 	mSizeY = 960;//IMAGEMANAGER->FindImage(L"Boss_Chest")->GetHeight();
 
@@ -83,6 +83,12 @@ void Boss::Release()
 
 void Boss::Update()
 {
+	if (mIsEvent)
+	{
+		MotionFrame();
+		return;
+	}
+
 	if (mIsEndEvent)
 	{
 		mEraseTime += TIME->DeltaTime();
@@ -491,7 +497,7 @@ void Boss::Pattern()
 				BossBullet* bullet = new BossBullet;
 				bullet->Init();
 				bullet->SetX(WINSIZEX / 5 * (i + 1));
-				bullet->SetY(200.f);
+				bullet->SetY(1000.f);
 				bullet->SetAngle(PI * 1.5f);		// ±×³É ¾Æ·¡·Î ¶³¾îÁö°Ô
 				bullet->SetPattern(BulletPattern::PatternBulletDown);
 				bullet->SetObject();
@@ -521,7 +527,7 @@ void Boss::Pattern()
 				BossBullet* bullet = new BossBullet;
 				bullet->Init();
 				bullet->SetX(OBJECTMANAGER->GetPlayer()->GetX());
-				bullet->SetY(WINSIZEY);
+				bullet->SetY(1600.f);
 				bullet->SetAngle(angle);
 				bullet->SetPattern(BulletPattern::PatternBulletUp);
 				bullet->SetObject();
@@ -541,7 +547,7 @@ void Boss::Pattern()
 	case AttackPattern::PatternBulletTarget:
 		if (mIsDown)
 		{
-			if (mY - mSizeY / 2 < WINSIZEY)
+			if (mY - mSizeY / 2 < 1600)
 			{
 				mY -= mJumpPower;
 				mJumpPower -= 1.f;
@@ -566,7 +572,7 @@ void Boss::Pattern()
 					{
 						bullet->Init();
 						bullet->SetX(-(bullet->GetSizeX()) * (i / 2 + i / 2));
-						bullet->SetY(100.f);
+						bullet->SetY(1000.f);
 						bullet->SetAngle(0.f);
 						bullet->SetPattern(BulletPattern::PatternBulletTarget);
 						bullet->SetObject();
@@ -575,7 +581,7 @@ void Boss::Pattern()
 					{
 						bullet->Init();
 						bullet->SetX(WINSIZEX + (bullet->GetSizeX()) * (i / 2 + i / 2));
-						bullet->SetY(100.f + bullet->GetSizeY() / 2);
+						bullet->SetY(1000.f + bullet->GetSizeY() / 2);
 						bullet->SetAngle(PI);
 						bullet->SetPattern(BulletPattern::PatternBulletTarget);
 						bullet->SetObject();
@@ -595,9 +601,9 @@ void Boss::Pattern()
 			mY += mJumpPower;
 			mJumpPower += 1.f;
 
-			if (mY <= WINSIZEY / 2)
+			if (mY <= 1600 - mSizeY / 3 - 50)
 			{
-				mY = WINSIZEY / 2;
+				mY = 1600 - mSizeY / 3 - 50;
 				mJumpPower = 15.f;
 				mBulletCreateCount = 0;
 				mPattern = AttackPattern::PatternIdle;
@@ -618,137 +624,137 @@ void Boss::Hit()
 
 void Boss::EraseBossImage()
 {
-	for (int i = 0; i < mVecEraseCenter.size(); ++i)
-	{
-		float speed = (rand() % 9 + 1) / 10.f;
-		mVecEraseCenter[i].x += cosf(30.f * PI / 180.f) * speed * 2;
-		mVecEraseCenter[i].y += -sinf(30.f * PI / 180.f) * speed * 2;
+	//for (int i = 0; i < mVecEraseCenter.size(); ++i)
+	//{
+	//	float speed = (rand() % 9 + 1) / 10.f;
+	//	mVecEraseCenter[i].x += cosf(30.f * PI / 180.f) * speed * 2;
+	//	mVecEraseCenter[i].y += -sinf(30.f * PI / 180.f) * speed * 2;
 
-		HBRUSH brush = CreateSolidBrush(RGB(255, 0, 255));
-		HPEN pen = CreatePen(PS_SOLID, 1, RGB(255, 0, 255));
+	//	HBRUSH brush = CreateSolidBrush(RGB(255, 0, 255));
+	//	HPEN pen = CreatePen(PS_SOLID, 1, RGB(255, 0, 255));
 
-		if (mVecEraseCenter[i].x >= 0 && mVecEraseCenter[i].x <= WINSIZEX && mVecEraseCenter[i].y <= WINSIZEY && mVecEraseCenter[i].y >= 0)
-		{
-			HBRUSH oldBrush = (HBRUSH)SelectObject(mImage->GetHDC(), brush);
-			HPEN oldPen = (HPEN)SelectObject(mImage->GetHDC(), pen);
+	//	if (mVecEraseCenter[i].x >= 0 && mVecEraseCenter[i].x <= WINSIZEX && mVecEraseCenter[i].y <= WINSIZEY && mVecEraseCenter[i].y >= 0)
+	//	{
+	//		HBRUSH oldBrush = (HBRUSH)SelectObject(mImage->GetHDC(), brush);
+	//		HPEN oldPen = (HPEN)SelectObject(mImage->GetHDC(), pen);
 
-			COLORREF pixelColor = GetPixel(mImage->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+	//		COLORREF pixelColor = GetPixel(mImage->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
 
-			RenderEllipse(mImage->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 3);
+	//		RenderEllipse(mImage->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 3);
 
-			SelectObject(mImage->GetHDC(), oldPen);
-			SelectObject(mImage->GetHDC(), oldBrush);
-		}
-		
-		if (mEraseTime >= 0.1f)
-		{
-			float speed = (rand() % 9 + 1) / 10.f;
-			mVecBackEraseCenter[i].x += cosf(30.f * PI / 180.f) * speed * 2;
-			mVecBackEraseCenter[i].y += -sinf(30.f * PI / 180.f) * speed * 2;
+	//		SelectObject(mImage->GetHDC(), oldPen);
+	//		SelectObject(mImage->GetHDC(), oldBrush);
+	//	}
+	//	
+	//	if (mEraseTime >= 0.1f)
+	//	{
+	//		float speed = (rand() % 9 + 1) / 10.f;
+	//		mVecBackEraseCenter[i].x += cosf(30.f * PI / 180.f) * speed * 2;
+	//		mVecBackEraseCenter[i].y += -sinf(30.f * PI / 180.f) * speed * 2;
 
-			if (mVecBackEraseCenter[i].x >= 0 && mVecBackEraseCenter[i].x <= WINSIZEX && mVecBackEraseCenter[i].y <= WINSIZEY && mVecBackEraseCenter[i].y >= 0)
-			{
-				HBRUSH oldBrush = (HBRUSH)SelectObject(mBackImage->GetHDC(), brush);
-				HPEN oldPen = (HPEN)SelectObject(mBackImage->GetHDC(), pen);
+	//		if (mVecBackEraseCenter[i].x >= 0 && mVecBackEraseCenter[i].x <= WINSIZEX && mVecBackEraseCenter[i].y <= WINSIZEY && mVecBackEraseCenter[i].y >= 0)
+	//		{
+	//			HBRUSH oldBrush = (HBRUSH)SelectObject(mBackImage->GetHDC(), brush);
+	//			HPEN oldPen = (HPEN)SelectObject(mBackImage->GetHDC(), pen);
 
-				COLORREF pixelColor = GetPixel(mBackImage->GetHDC(), mVecBackEraseCenter[i].x, mVecBackEraseCenter[i].y);
+	//			COLORREF pixelColor = GetPixel(mBackImage->GetHDC(), mVecBackEraseCenter[i].x, mVecBackEraseCenter[i].y);
 
-				RenderEllipse(mBackImage->GetHDC(), mVecBackEraseCenter[i].x, mVecBackEraseCenter[i].y, mEraseSize * 3);
+	//			RenderEllipse(mBackImage->GetHDC(), mVecBackEraseCenter[i].x, mVecBackEraseCenter[i].y, mEraseSize * 3);
 
-				SelectObject(mBackImage->GetHDC(), oldPen);
-				SelectObject(mBackImage->GetHDC(), oldBrush);
-			}
-		}
+	//			SelectObject(mBackImage->GetHDC(), oldPen);
+	//			SelectObject(mBackImage->GetHDC(), oldBrush);
+	//		}
+	//	}
 
-		/*// ¸öÅë
-		HBRUSH oldBrush = (HBRUSH)SelectObject(mBody.image->GetHDC(), brush);
-		HPEN oldPen = (HPEN)SelectObject(mBody.image->GetHDC(), pen);
+	//	/*// ¸öÅë
+	//	HBRUSH oldBrush = (HBRUSH)SelectObject(mBody.image->GetHDC(), brush);
+	//	HPEN oldPen = (HPEN)SelectObject(mBody.image->GetHDC(), pen);
 
-		COLORREF pixelColor = GetPixel(mBody.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+	//	COLORREF pixelColor = GetPixel(mBody.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
 
-		RenderEllipse(mBody.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+	//	RenderEllipse(mBody.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
 
-		SelectObject(mBody.image->GetHDC(), oldPen);
-		SelectObject(mBody.image->GetHDC(), oldBrush);
+	//	SelectObject(mBody.image->GetHDC(), oldPen);
+	//	SelectObject(mBody.image->GetHDC(), oldBrush);
 
-		// µÞ¸Ó¸®
-		oldBrush = (HBRUSH)SelectObject(mBackHair.image->GetHDC(), brush);
-		oldPen = (HPEN)SelectObject(mBackHair.image->GetHDC(), pen);
+	//	// µÞ¸Ó¸®
+	//	oldBrush = (HBRUSH)SelectObject(mBackHair.image->GetHDC(), brush);
+	//	oldPen = (HPEN)SelectObject(mBackHair.image->GetHDC(), pen);
 
-		pixelColor = GetPixel(mBackHair.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+	//	pixelColor = GetPixel(mBackHair.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
 
-		RenderEllipse(mBackHair.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+	//	RenderEllipse(mBackHair.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
 
-		SelectObject(mBackHair.image->GetHDC(), oldPen);
-		SelectObject(mBackHair.image->GetHDC(), oldBrush);
+	//	SelectObject(mBackHair.image->GetHDC(), oldPen);
+	//	SelectObject(mBackHair.image->GetHDC(), oldBrush);
 
-		// ¸Ó¸®´Â ÇÁ·¹ÀÓ ºÁ¾ßÇÏ´Âµ¥
-		oldBrush = (HBRUSH)SelectObject(mHead.image->GetHDC(), brush);
-		oldPen = (HPEN)SelectObject(mHead.image->GetHDC(), pen);
+	//	// ¸Ó¸®´Â ÇÁ·¹ÀÓ ºÁ¾ßÇÏ´Âµ¥
+	//	oldBrush = (HBRUSH)SelectObject(mHead.image->GetHDC(), brush);
+	//	oldPen = (HPEN)SelectObject(mHead.image->GetHDC(), pen);
 
-		pixelColor = GetPixel(mHead.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
-		
-		RenderEllipse(mHead.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+	//	pixelColor = GetPixel(mHead.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+	//	
+	//	RenderEllipse(mHead.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
 
-		SelectObject(mHead.image->GetHDC(), oldPen);
-		SelectObject(mHead.image->GetHDC(), oldBrush);
+	//	SelectObject(mHead.image->GetHDC(), oldPen);
+	//	SelectObject(mHead.image->GetHDC(), oldBrush);
 
-		// °¡½¿
-		oldBrush = (HBRUSH)SelectObject(mChest.image->GetHDC(), brush);
-		oldPen = (HPEN)SelectObject(mChest.image->GetHDC(), pen);
+	//	// °¡½¿
+	//	oldBrush = (HBRUSH)SelectObject(mChest.image->GetHDC(), brush);
+	//	oldPen = (HPEN)SelectObject(mChest.image->GetHDC(), pen);
 
-		pixelColor = GetPixel(mChest.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+	//	pixelColor = GetPixel(mChest.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
 
-		RenderEllipse(mChest.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+	//	RenderEllipse(mChest.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
 
-		SelectObject(mChest.image->GetHDC(), oldPen);
-		SelectObject(mChest.image->GetHDC(), oldBrush);
+	//	SelectObject(mChest.image->GetHDC(), oldPen);
+	//	SelectObject(mChest.image->GetHDC(), oldBrush);
 
 
-		// ´«¾Ë
-		oldBrush = (HBRUSH)SelectObject(mEyes.image->GetHDC(), brush);
-		oldPen = (HPEN)SelectObject(mEyes.image->GetHDC(), pen);
+	//	// ´«¾Ë
+	//	oldBrush = (HBRUSH)SelectObject(mEyes.image->GetHDC(), brush);
+	//	oldPen = (HPEN)SelectObject(mEyes.image->GetHDC(), pen);
 
-		pixelColor = GetPixel(mEyes.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+	//	pixelColor = GetPixel(mEyes.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
 
-		RenderEllipse(mEyes.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
-		
-		SelectObject(mEyes.image->GetHDC(), oldPen);
-		SelectObject(mEyes.image->GetHDC(), oldBrush);
+	//	RenderEllipse(mEyes.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+	//	
+	//	SelectObject(mEyes.image->GetHDC(), oldPen);
+	//	SelectObject(mEyes.image->GetHDC(), oldBrush);
 
-		oldBrush = (HBRUSH)SelectObject(mPupil.image->GetHDC(), brush);
-		oldPen = (HPEN)SelectObject(mPupil.image->GetHDC(), pen);
+	//	oldBrush = (HBRUSH)SelectObject(mPupil.image->GetHDC(), brush);
+	//	oldPen = (HPEN)SelectObject(mPupil.image->GetHDC(), pen);
 
-		pixelColor = GetPixel(mPupil.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+	//	pixelColor = GetPixel(mPupil.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
 
-		RenderEllipse(mPupil.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+	//	RenderEllipse(mPupil.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
 
-		SelectObject(mPupil.image->GetHDC(), oldPen);
-		SelectObject(mPupil.image->GetHDC(), oldBrush);
+	//	SelectObject(mPupil.image->GetHDC(), oldPen);
+	//	SelectObject(mPupil.image->GetHDC(), oldBrush);
 
-		// ¿ÞÆÈ
-		oldBrush = (HBRUSH)SelectObject(mLeftArm.image->GetHDC(), brush);
-		oldPen = (HPEN)SelectObject(mLeftArm.image->GetHDC(), pen);
+	//	// ¿ÞÆÈ
+	//	oldBrush = (HBRUSH)SelectObject(mLeftArm.image->GetHDC(), brush);
+	//	oldPen = (HPEN)SelectObject(mLeftArm.image->GetHDC(), pen);
 
-		pixelColor = GetPixel(mLeftArm.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+	//	pixelColor = GetPixel(mLeftArm.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
 
-		RenderEllipse(mLeftArm.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+	//	RenderEllipse(mLeftArm.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
 
-		SelectObject(mLeftArm.image->GetHDC(), oldPen);
-		SelectObject(mLeftArm.image->GetHDC(), oldBrush);
+	//	SelectObject(mLeftArm.image->GetHDC(), oldPen);
+	//	SelectObject(mLeftArm.image->GetHDC(), oldBrush);
 
-		// ¿À¸¥ÆÈ
-		oldBrush = (HBRUSH)SelectObject(mRightArm.image->GetHDC(), brush);
-		oldPen = (HPEN)SelectObject(mRightArm.image->GetHDC(), pen);
+	//	// ¿À¸¥ÆÈ
+	//	oldBrush = (HBRUSH)SelectObject(mRightArm.image->GetHDC(), brush);
+	//	oldPen = (HPEN)SelectObject(mRightArm.image->GetHDC(), pen);
 
-		pixelColor = GetPixel(mRightArm.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
+	//	pixelColor = GetPixel(mRightArm.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y);
 
-		RenderEllipse(mRightArm.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
+	//	RenderEllipse(mRightArm.image->GetHDC(), mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize * 5);
 
-		SelectObject(mRightArm.image->GetHDC(), oldPen);
-		SelectObject(mRightArm.image->GetHDC(), oldBrush);*/
+	//	SelectObject(mRightArm.image->GetHDC(), oldPen);
+	//	SelectObject(mRightArm.image->GetHDC(), oldBrush);*/
 
-		DeleteObject(pen);
-		DeleteObject(brush);
-	}
+	//	DeleteObject(pen);
+	//	DeleteObject(brush);
+	//}
 }
