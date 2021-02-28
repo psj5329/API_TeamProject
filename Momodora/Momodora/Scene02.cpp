@@ -20,13 +20,17 @@ void Scene02::Init()
 	// 플레이어가 서 있는 위치 고려해서 고정 카메라로 했다가 바꿔야 함
 	if (mEntrance == 1)
 	{
-		player->SetX(200);
-		player->SetY(400);
+		player->SetX(50);
+		player->SetY(551);
+		main->SetX(480);
+		main->SetY(540);
 	}
 	else if (mEntrance == 2)
 	{
-		player->SetX(2200);
-		player->SetY(400);
+		player->SetX(2350);
+		player->SetY(491);
+		main->SetX(1920);
+		main->SetY(540);
 	}
 
 

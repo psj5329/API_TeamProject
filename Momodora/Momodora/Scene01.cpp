@@ -20,18 +20,22 @@ void Scene01::Init()
 	// 플레이어가 서 있는 위치 고려해서 고정 카메라로 했다가 바꿔야 함
 	if (mEntrance == 0)
 	{
-		player->SetX(200);
-		player->SetY(400);
+		player->SetX(100);
+		player->SetY(550);
+		main->SetX(480);
+		main->SetY(540);
 	}
-	else if (mEntrance == 2)
+ 	  else if (mEntrance == 2)
 	{
-		player->SetX(1000);
-		player->SetY(400);
+		player->SetX(1150);
+		player->SetY(551);
+		main->SetX(720);
+		main->SetY(540);
 	}
 
 
 
-	//몬스터 배치
+	//몬스터 배  치
 	AddMonkey(900, 600);
 
 
