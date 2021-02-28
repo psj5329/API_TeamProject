@@ -74,7 +74,6 @@ void Scene09::Init()
 	}
 	else // 이 else 부분은 실제 플레이에서는 없어져야 함, 바로 9번 씬 진입해도 지정 위치에서 시작할 수 있게 해놓은 세팅임
 	{
-		
 		player->SetX(50);
 		player->SetY(556);
 		main->SetFixX(480);
