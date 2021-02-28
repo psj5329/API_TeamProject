@@ -60,8 +60,6 @@ class Boss : public Enemy
 	int mEraseSize;
 	float mEraseTime;
 
-	bool mIsEvent;
-
 public:
 	void Init()override;
 	void Release()override;
@@ -83,7 +81,7 @@ public:
 	Animation* GetCurrentAnimation() { return mCurrentAnimation; }
 	bool GetEvent() { return mIsEvent; }
 
+	void SetInvincibility(bool b) { mIsInvincibility = b; }
 	void SetEndEvent(bool b) { mIsEndEvent = b; }
-	void SetEvent(bool b) { mIsEvent = b; }
 };
 

@@ -409,7 +409,7 @@ void Boss::MotionFrame()
 	{
 		mHitFrameTime += TIME->DeltaTime();
 
-		if (mHitFrameTime >= 0.3f)
+		if (mHitFrameTime >= 0.2f)
 		{
 			mHitMoveCount++;
 			mHitFrameTime = 0.f;

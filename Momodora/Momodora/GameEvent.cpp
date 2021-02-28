@@ -5,6 +5,7 @@
 #include "Image.h"
 
 #include "Boss.h"
+#include "Player.h"
 
 IChangeCameraTargetEvent::IChangeCameraTargetEvent(GameObject * target)
 {
@@ -280,7 +281,7 @@ void IObjectStop::Start()
 
 bool IObjectStop::Update()
 {
-	//OBJECTMANAGER->GetPlayer();
+	OBJECTMANAGER->GetPlayer()->SetEvent(mIsStop);
 	((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetEvent(mIsStop);
 	return true;
 }

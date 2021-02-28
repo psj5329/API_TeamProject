@@ -85,28 +85,30 @@ void BossBullet::Update()
 	}
 
 	if (mY - mSizeY / 2 >= 1600 || mY + mSizeY / 2 <= 900)
+	{
 		mIsActive = false;
-
-	//if (COLLISIONMANAGER->IsCollision(&mRect, ObjectLayer::Player))
-	//{
-	//	OBJECTMANAGER->GetPlayer()->SetHp(OBJECTMANAGER->GetPlayer()->GetHp() - 30);
-	//	// 플레이어 무적되게 셋팅해야함
-	//}
+		mIsDestroy = true;
+	}
 
 	// 확인 결과 땅에 닿을 때에만 사라진다
 	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect))
 	{
-		if(mPattern != BulletPattern::PatternBulletUp)
+		if (mPattern != BulletPattern::PatternBulletUp)
+		{
 			mIsActive = false;
+			mIsDestroy = true;
+		}
 	}
 
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+	mAttackBox = RectMakeCenter(mX, mY, mSizeX - 5, mSizeY - 5);
 }
 
 void BossBullet::Render(HDC hdc)
 {
 #ifdef DEBUG
 	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
+	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
 
 #endif // DEBUG
 
