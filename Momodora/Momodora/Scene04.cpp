@@ -2,7 +2,8 @@
 #include "Scene04.h"
 #include "Camera.h"
 #include "Platform.h"
-
+#include "Fennel.h"
+#include "Player.h"
 void Scene04::Init()
 {
 	mMapImage = IMAGEMANAGER->FindImage(L"MapImage04");
@@ -27,6 +28,10 @@ void Scene04::Init()
 		player->SetX(700);
 		player->SetY(400);
 	}
+
+
+	////페넬
+	AddFennel(800, 775);
 }
 
 void Scene04::Release()
@@ -44,6 +49,40 @@ void Scene04::Update()
 	//	SCENEMANAGER->LoadScene(L"Scene03", 2); // 왼쪽으로 못 돌아가게 막을 예정?!
 	if ((int)x >= mSceneSizeX)
 		SCENEMANAGER->LoadScene(L"Scene05", 1);
+
+
+	//충돌확인
+	AllCollision();
+
+	
+	RECT temp1;
+	vector<GameObject*> enemyList = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
+	//랙트 받아오고
+	RECT thunder = ((Fennel*)enemyList[0])->GetThunderRect();
+	RECT impact = ((Fennel*)enemyList[0])->GetImpactRect();
+	RECT playerHitBox = (OBJECTMANAGER->GetPlayer()->GetHitBox());
+
+	//페넬 번개, 플레이어 히트박스 충돌
+	if (IntersectRect(&temp1, &playerHitBox, &thunder))
+	{
+		//플레이어 체력 깎기
+
+		//방향알려줘야해
+		Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &thunder);
+		//플레이어 상태전환하고 무적시키는 함수
+		OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
+	}
+
+	//페넬 임팩트, 플레이어 히트박스 충돌
+	if (IntersectRect(&temp1, &playerHitBox, &impact))
+	{
+		//플레이어 체력 깎기
+
+		//방향알려줘야해
+		Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &impact);
+		//플레이어 상태전환하고 무적시키는 함수
+		OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
+	}
 }
 
 void Scene04::Render(HDC hdc)

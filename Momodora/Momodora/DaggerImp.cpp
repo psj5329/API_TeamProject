@@ -10,8 +10,8 @@ void DaggerImp::Init()
 {
 	mImage = IMAGEMANAGER->FindImage(L"Imp");
 
-	mStart.x = WINSIZEX / 2;
-	mStart.y = WINSIZEY / 2;
+	mStart.x = -2000;
+	mStart.y = 2000;
 	mX = mStart.x;
 	mY = mStart.y;
 	mSizeX = mImage->GetFrameWidth()*2;

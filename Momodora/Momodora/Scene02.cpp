@@ -2,6 +2,7 @@
 #include "Scene02.h"
 #include "Camera.h"
 #include "Platform.h"
+#include "Magnet.h"
 
 void Scene02::Init()
 {
@@ -27,6 +28,20 @@ void Scene02::Init()
 		player->SetX(2200);
 		player->SetY(400);
 	}
+
+
+	AddDaggerImp(750, 420);
+	AddDaggerImp(850, 420);
+	AddShieldImp(1140, 840);
+	AddBombImp(1720, 660);
+	AddBombImp(1910, 540);
+	AddPotion(2100, 500);
+
+	//자석
+	Magnet* Magnet1 = new Magnet();
+	Magnet1->Init(950, 740);
+	Magnet1->SetObject();
+	ObjectManager::GetInstance()->AddObject(ObjectLayer::Item, Magnet1);
 }
 
 void Scene02::Release()
@@ -44,6 +59,11 @@ void Scene02::Update()
 		SCENEMANAGER->LoadScene(L"Scene01", 2);
 	if ((int)x >= mSceneSizeX)
 		SCENEMANAGER->LoadScene(L"Scene03", 1);
+
+
+
+	//충돌확인
+	AllCollision();
 }
 
 void Scene02::Render(HDC hdc)

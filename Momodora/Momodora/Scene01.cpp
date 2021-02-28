@@ -2,6 +2,7 @@
 #include "Scene01.h"
 #include "Camera.h"
 #include "Platform.h"
+#include "Fennel.h"
 
 void Scene01::Init()
 {
@@ -27,6 +28,14 @@ void Scene01::Init()
 		player->SetX(1000);
 		player->SetY(400);
 	}
+
+
+
+	//몬스터 배치
+	AddMonkey(900, 600);
+
+
+
 }
 
 void Scene01::Release()
@@ -42,6 +51,9 @@ void Scene01::Update()
 
 	if((int)x >= mSceneSizeX)
 		SCENEMANAGER->LoadScene(L"Scene02", 1);
+
+	//충돌확인
+	AllCollision();
 }
 
 void Scene01::Render(HDC hdc)
