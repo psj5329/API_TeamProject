@@ -40,25 +40,9 @@ void Scene01::Init()
 		main->SetX(720);
 		main->SetY(540);
 	}
-
-/*	PlayerHpUI* playerui = new PlayerHpUI;
-	playerui->Init();
-	playerui->SetHp(OBJECTMANAGER->GetPlayer()->GetHp());
-	OBJECTMANAGER->AddObject(ObjectLayer::UI, playerui);
-
-	ActiveItemUI* activeItemui = new ActiveItemUI;
-	activeItemui->Init();
-	OBJECTMANAGER->AddObject(ObjectLayer::UI, activeItemui);
-
-	StarCountUI* starCountui = new StarCountUI;
-	starCountui->Init();
-	OBJECTMANAGER->AddObject(ObjectLayer::UI, starCountui);*/
-
-	//ëª¬ìŠ¤í„° ë°°ì¹˜
+	
+	//¸ó½ºÅÍ ¹èÄ¡
 	AddMonkey(900, 600);
-
-
-
 
 	PlayerHpUI* playerui = new PlayerHpUI;
 	playerui->Init();
@@ -85,10 +69,10 @@ void Scene01::Update()
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	float x = player->GetX();
 
-	if((int)x >= mSceneSizeX)
+	if ((int)x >= mSceneSizeX)
 		SCENEMANAGER->LoadScene(L"Scene02", 1);
 
-	//ì¶©ëŒí™•ì¸
+	//Ãæµ¹È®ÀÎ
 	AllCollision();
 
 

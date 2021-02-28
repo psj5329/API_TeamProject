@@ -18,6 +18,9 @@ void Player::Init()
 	ReadyPlayerAnimation();
 
 	InitPlayerVar(); // 플레이어가 가진 각종 변수들 초기화 하는 함수
+
+	mAttacked = IMAGEMANAGER->FindImage(L"Attacked");
+	mAttackedAlpha = 0.f;
 }
 
 void Player::Release()
@@ -678,6 +681,11 @@ void Player::Update()
 				mCurrentAnimation->Play();
 				mCurrentImage = mHurtImage;
 			}
+
+			// 카메라 셰이킹
+			CAMERAMANAGER->GetMainCamera()->SetShakePower(2);
+			CAMERAMANAGER->GetMainCamera()->SetShake(0.2f);
+			mAttackedAlpha = 0.5f;
 		}
 		mTimer += Time::GetInstance()->DeltaTime();
 		if (mDirection == Direction::Left)
@@ -721,6 +729,14 @@ void Player::Update()
 				}
 			}
 		}
+	}
+	// 피격
+	if (mAttackedAlpha)
+	{
+		mAttackedAlpha -= 4.f * TIME->DeltaTime();
+
+		if (mAttackedAlpha <= 0.f)
+			mAttackedAlpha = 0.f;
 	}
 
 	// Hp 회복 아이템 사용
@@ -999,31 +1015,36 @@ void Player::Update()
 
 void Player::Render(HDC hdc)
 {
+	if (mAttackedAlpha)
+	{
+		mAttacked->AlphaRender(hdc, 0, 0, mAttackedAlpha);
+	}
+
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
 	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 
 	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY, 1.f);
 
-	wstring str3 = L"mX:" + to_wstring(mX);
-	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 10, str3.c_str(), str3.length());
-	wstring str4 = L"mY:" + to_wstring(mY);
-	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 30, str4.c_str(), str4.length());
-	wstring str5 = L"Gravity:" + to_wstring(mGravity);
-	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 50, str5.c_str(), str5.length());
-	wstring str6 = L"jumppower" + to_wstring(mJumpPower);
-	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 70, str6.c_str(), str6.length());
-	wstring str7;
-	if (stopmove)
-		str7 = L"StopMove == true";
-	else
-		str7 = L"StopMove == false";
-	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 90, str7.c_str(), str7.length());
-
-	wstring str8 = L"mState" + to_wstring((int)mState);
-	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 110, str8.c_str(), str8.length());
-
-	wstring str9 = L"mHP" + to_wstring(mHp);
-	TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 130, str9.c_str(), str9.length());
+	//wstring str3 = L"mX:" + to_wstring(mX);
+	//TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 10, str3.c_str(), str3.length());
+	//wstring str4 = L"mY:" + to_wstring(mY);
+	//TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 30, str4.c_str(), str4.length());
+	//wstring str5 = L"Gravity:" + to_wstring(mGravity);
+	//TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 50, str5.c_str(), str5.length());
+	//wstring str6 = L"jumppower" + to_wstring(mJumpPower);
+	//TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 70, str6.c_str(), str6.length());
+	//wstring str7;
+	//if (stopmove)
+	//	str7 = L"StopMove == true";
+	//else
+	//	str7 = L"StopMove == false";
+	//TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 90, str7.c_str(), str7.length());
+	//
+	//wstring str8 = L"mState" + to_wstring((int)mState);
+	//TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 110, str8.c_str(), str8.length());
+	//
+	//wstring str9 = L"mHP" + to_wstring(mHp);
+	//TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 130, str9.c_str(), str9.length());
 }
 
 void Player::FindPlayerImage()

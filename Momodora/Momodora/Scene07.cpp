@@ -43,15 +43,11 @@ void Scene07::Init()
 
 void Scene07::Release()
 {
-	//ObjectManager::GetInstance()->Release();
 }
 
 void Scene07::Update()
 {
 	OBJECTMANAGER->Update();
-
-	//Player* player = (Player*)(OBJECTMANAGER->FindObject("PLAYER"));
-	//player->Update();
 }
 
 void Scene07::Render(HDC hdc)
@@ -74,7 +70,4 @@ void Scene07::Render(HDC hdc)
 	TextOut(hdc, WINSIZEX / 2, WINSIZEY / 2, str.c_str(), (int)str.length());
 
 	OBJECTMANAGER->Render(hdc);
-
-	//Player* player = (Player*)(OBJECTMANAGER->FindObject("PLAYER"));
-	//player->Render(hdc);
 }

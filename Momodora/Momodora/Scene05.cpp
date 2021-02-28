@@ -43,7 +43,7 @@ void Scene05::Init()
 	ui->SetHp(((Enemy*)OBJECTMANAGER->FindObject(ObjectLayer::Boss, "Boss"))->GetHP());
 	OBJECTMANAGER->AddObject(ObjectLayer::BossUI, ui);
 
-	PlayerHpUI* playerui = new PlayerHpUI;
+/*	PlayerHpUI* playerui = new PlayerHpUI;
 	playerui->Init();
 	playerui->SetHp(OBJECTMANAGER->GetPlayer()->GetHp());
 	OBJECTMANAGER->AddObject(ObjectLayer::UI, playerui);
@@ -54,7 +54,7 @@ void Scene05::Init()
 
 	StarCountUI* starCountui = new StarCountUI;
 	starCountui->Init();
-	OBJECTMANAGER->AddObject(ObjectLayer::UI, starCountui);
+	OBJECTMANAGER->AddObject(ObjectLayer::UI, starCountui);*/
 
 	Camera* main = CAMERAMANAGER->GetMainCamera();
 	main->SetMode(Camera::Mode::Fix);
@@ -69,13 +69,21 @@ void Scene05::Init()
 		main->SetFixX(480);
 		main->SetFixY(360);
 	}
-	else // 이 else 부분은 실제 플레이에서는 없어져야 함, 바로 9번 씬 진입해도 지정 위치에서 시작할 수 있게 해놓은 세팅임
+
+	for (int i = 0; i < 20; ++i)
 	{
-		player->SetX(50);
-		player->SetY(556);
-		main->SetFixX(480);
-		main->SetFixY(360);
+		mImageDR[i] = 0;
+		mImageAlpha[i] = 0.25f;
 	}
+
+	mOrder = 0;
+	mImageCreateDelay = 0.5f;
+
+	mFixDia = IMAGEMANAGER->FindImage(L"MapFixDia");
+	mFixRect = IMAGEMANAGER->FindImage(L"MapFixRect");
+
+	mBlockStart = 0;
+
 	mCameraFix = true;
 
 	mIsBossDead = false;
@@ -83,6 +91,7 @@ void Scene05::Init()
 
 void Scene05::Release()
 {
+	SOUNDMANAGER->Stop(L"boss6");
 }
 
 void Scene05::Update()
@@ -97,6 +106,8 @@ void Scene05::Update()
 			Camera* main = CAMERAMANAGER->GetMainCamera();
 			main->SetMode(Camera::Mode::Follow);
 			main->SetTarget(player);
+
+			PlaceRect2();
 		}
 	}
 
@@ -157,6 +168,54 @@ void Scene05::Update()
 			}
 		}
 	}
+
+	// {{ 맵 좌우 설치용
+	mImageCreateDelay -= TIME->DeltaTime();
+
+	if (mImageCreateDelay <= 0.f)
+	{
+		mImageCreateDelay = 0.5f;
+		mImageDR[mOrder] = rand() % 2 + 1; // 1이면 다이아, 2면 렉트
+		for (int i = 0; i < 24; ++i)
+		{
+			if (i / 12 == 0)
+				mImageX[mOrder * 24 + i] = 5 + rand() % 61;
+			else
+				mImageX[mOrder * 24 + i] = WINSIZEX - 45 - rand() % 61;
+
+			mImageY[mOrder * 24 + i] = 50 * (i % 12) + rand() % 31 + 830;
+
+			mImageAlpha[mOrder] = 0.25f;
+		}
+
+		++mOrder;
+
+		if (mOrder >= 20)
+			mOrder = 0;
+	}
+
+	for (int i = 0; i < 20; ++i)
+	{
+		if (mImageDR[i])
+			mImageAlpha[i] -= 0.05f * TIME->DeltaTime();
+
+		if (mImageAlpha[i] < 0.f)
+			mImageAlpha[i] = 0.f;
+	}
+	// 맵 좌우 설치용 }}
+
+	// {{ 상황에 따른 맵 이동 제한
+	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
+	float x = player->GetX();
+	if (mBlockStart == 0 && (int)x >= WINSIZEX / 2)
+	{
+		mBlockStart = 1;
+		PlaceRect2();
+
+		CAMERAMANAGER->GetMainCamera()->SetShakePower(10);
+		CAMERAMANAGER->GetMainCamera()->SetShake(2.f);
+	}
+	// 상황에 따른 맵 이동 제한 }}
 }
 
 void Scene05::Render(HDC hdc)
@@ -165,13 +224,12 @@ void Scene05::Render(HDC hdc)
 	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mMapImage, 0, 0, mSceneSizeX, mSceneSizeY);
 
 	// {{ 충돌 체크용 맵
-	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
-	vector<GameObject*>::iterator iter1 = platformList.begin();
+//	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
+//	vector<GameObject*>::iterator iter1 = platformList.begin();
 
 
-	for (; iter1 != platformList.end(); ++iter1)
-		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, (*iter1)->GetRect());
-
+//	for (; iter1 != platformList.end(); ++iter1)
+//		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, (*iter1)->GetRect());
 	// 충돌 체크용 맵 }}
 
 	OBJECTMANAGER->Render(hdc);
@@ -179,7 +237,32 @@ void Scene05::Render(HDC hdc)
 	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mPlatformImage, 0, 604, mPlatformImage->GetWidth(), mPlatformImage->GetHeight());
 	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mPlatformImage2, 0, 1460, mPlatformImage->GetWidth(), mPlatformImage->GetHeight());
 
+	for (int i = 0; i < 20; ++i)
+	{
+		if (mImageDR[i])
+		{
+			for (int j = 0; j < 24; ++j)
+			{
+				if (mImageDR[i] == 1)
+					CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mFixDia, mImageX[i * 24 + j], mImageY[i * 24 + j], mImageAlpha[i]);
+				else
+					CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mFixRect, mImageX[i * 24 + j], mImageY[i * 24 + j], mImageAlpha[i]);
+			}
+		}
+	}
+
 	OBJECTMANAGER->RenderUI(hdc);
 
 	GAMEEVENTMANAGER->Render(hdc);
+}
+
+void Scene05::PlaceRect2()
+{
+	Platform* platform01 = new Platform();
+	platform01->SetPlatform(-120, 0, 100, 1600, PlatformType::Normal);
+	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform01);
+
+	Platform* platform02 = new Platform();
+	platform02->SetPlatform(860, 0, 980, 1600, PlatformType::Normal);
+	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform02);
 }

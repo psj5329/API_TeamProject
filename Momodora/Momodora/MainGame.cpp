@@ -25,7 +25,10 @@ void MainGame::Init()
 	Camera* main = new Camera();
 	main->Init();
 	main->SetMoveSpeed(5.f);
-	main->SetMode(Camera::Mode::Free);
+	//main->SetMode(Camera::Mode::Free);
+	main->SetMode(Camera::Mode::Fix);
+	main->SetFixX(480);
+	main->SetFixY(360);
 
 	CAMERAMANAGER->SetMainCamera(main);
 }
@@ -134,6 +137,18 @@ void MainGame::Render(HDC hdc)
 
 	// { 그리기 시작
 
+	HBRUSH newBrush = CreateSolidBrush(RGB(0, 0, 0));
+	HBRUSH oldBrush = (HBRUSH)SelectObject(backDC, newBrush);
+	Rectangle(backDC, 0, 0, 960, 720);
+	SelectObject(backDC, oldBrush);
+	DeleteObject(newBrush);
+
+	//HPEN newPen = CreatePen(PS_SOLID, 5, RGB(0, 0, 255));
+	//HPEN oldPen = (HPEN)SelectObject(hdc, newPen);
+	//Ellipse(hdc, 250, 250, 350, 350);
+	//SelectObject(hdc, oldPen);
+	//DeleteObject(newPen);
+
 	SCENEMANAGER->Render(backDC);
 
 	//wstring str = SCENEMANAGER->GetCurrentSceneName();
@@ -150,7 +165,7 @@ void MainGame::Render(HDC hdc)
 	//	TextOut(backDC, 400, 475, strLoad4.c_str(), (int)strLoad4.length());
 	//}
 
-	RenderDebugText(backDC);
+	//RenderDebugText(backDC);
 
 	// 그리기 끝 }
 

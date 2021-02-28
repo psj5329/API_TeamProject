@@ -13,6 +13,10 @@ void Scene04::Init()
 	mSceneSizeX = mMapImage->GetWidth();
 	mSceneSizeY = mMapImage->GetHeight();
 
+	SOUNDMANAGER->Stop(L"cinder");
+	SOUNDMANAGER->LoadFromFile(L"boss2", ResourcesSoundMp3(L"boss2"), true);
+	SOUNDMANAGER->Play(L"boss2", 0.05f);
+
 	PlaceRect();
 
 	Camera* main = CAMERAMANAGER->GetMainCamera();
@@ -35,61 +39,131 @@ void Scene04::Init()
 		main->SetY(540);
 	}
 
-	////ÌéòÎÑ¨
+	for (int i = 0; i < 20; ++i)
+	{
+		mImageDR[i] = 0;
+		mImageAlpha[i] = 0.25f;
+	}
+
+	mOrder = 0;
+	mImageCreateDelay = 0.5f;
+
+	mFixDia = IMAGEMANAGER->FindImage(L"MapFixDia");
+	mFixRect = IMAGEMANAGER->FindImage(L"MapFixRect");
+
+	mBlockStart = 0;
+
+	////∆‰≥⁄
 	AddFennel(800, 775);
 }
 
 void Scene04::Release()
 {
+	SOUNDMANAGER->Stop(L"boss2");
 }
 
 void Scene04::Update()
 {
 	OBJECTMANAGER->Update();
 
-	//Ï∂©ÎèåÌôïÏù∏
+	//√Êµπ»Æ¿Œ
 	AllCollision();
 
 	RECT temp1;
 	vector<GameObject*> enemyList = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
-	//ÎûôÌä∏ Î∞õÏïÑÏò§Í≥†
-	RECT thunder = ((Fennel*)enemyList[0])->GetThunderRect();
-	RECT impact = ((Fennel*)enemyList[0])->GetImpactRect();
-	RECT playerHitBox = (OBJECTMANAGER->GetPlayer()->GetHitBox());
 
-	//ÌéòÎÑ¨ Î≤àÍ∞ú, ÌîåÎ†àÏù¥Ïñ¥ ÌûàÌä∏Î∞ïÏä§ Ï∂©Îèå
-	if (IntersectRect(&temp1, &playerHitBox, &thunder))
+	//∆‰≥⁄¿Ã ªÏæ∆¿÷¿∏∏È
+	if (enemyList.size() > 0)
 	{
-		//ÌîåÎ†àÏù¥Ïñ¥ Ï≤¥Î†• ÍπéÍ∏∞
+		//∑¢∆Æ πﬁæ∆ø¿∞Ì
+		RECT thunder = ((Fennel*)enemyList[0])->GetThunderRect();
+		RECT impact = ((Fennel*)enemyList[0])->GetImpactRect();
+		RECT playerHitBox = (OBJECTMANAGER->GetPlayer()->GetHitBox());
 
-		//Î∞©Ìñ•ÏïåÎ†§Ï§òÏïºÌï¥
-		Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &thunder);
-		//ÌîåÎ†àÏù¥Ïñ¥ ÏÉÅÌÉúÏ†ÑÌôòÌïòÍ≥† Î¨¥Ï†ÅÏãúÌÇ§Îäî Ìï®Ïàò
-		OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
+		//∆‰≥⁄ π¯∞≥, «√∑π¿ÃæÓ »˜∆Æπ⁄Ω∫ √Êµπ
+		if (IntersectRect(&temp1, &playerHitBox, &thunder))
+		{
+			//«√∑π¿ÃæÓ √º∑¬ ±±‚
+
+			//πÊ«‚æÀ∑¡¡‡æﬂ«ÿ
+			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &thunder);
+			//«√∑π¿ÃæÓ ªÛ≈¬¿¸»Ø«œ∞Ì π´¿˚Ω√≈∞¥¬ «‘ºˆ
+			OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
+		}
+
+		//∆‰≥⁄ ¿”∆—∆Æ, «√∑π¿ÃæÓ »˜∆Æπ⁄Ω∫ √Êµπ
+		if (IntersectRect(&temp1, &playerHitBox, &impact))
+		{
+			//«√∑π¿ÃæÓ √º∑¬ ±±‚
+
+			//πÊ«‚æÀ∑¡¡‡æﬂ«ÿ
+			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &impact);
+			//«√∑π¿ÃæÓ ªÛ≈¬¿¸»Ø«œ∞Ì π´¿˚Ω√≈∞¥¬ «‘ºˆ
+			OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
+		}
 	}
 
-	//ÌéòÎÑ¨ ÏûÑÌå©Ìä∏, ÌîåÎ†àÏù¥Ïñ¥ ÌûàÌä∏Î∞ïÏä§ Ï∂©Îèå
-	if (IntersectRect(&temp1, &playerHitBox, &impact))
-	{
-		//ÌîåÎ†àÏù¥Ïñ¥ Ï≤¥Î†• ÍπéÍ∏∞
+	// {{ ∏  ¡¬øÏ º≥ƒ°øÎ
+	mImageCreateDelay -= TIME->DeltaTime();
 
-		//Î∞©Ìñ•ÏïåÎ†§Ï§òÏïºÌï¥
-		Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &impact);
-		//ÌîåÎ†àÏù¥Ïñ¥ ÏÉÅÌÉúÏ†ÑÌôòÌïòÍ≥† Î¨¥Ï†ÅÏãúÌÇ§Îäî Ìï®Ïàò
-		OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
+	if (mImageCreateDelay <= 0.f)
+	{
+		mImageCreateDelay = 0.5f;
+		mImageDR[mOrder] = rand() % 2 + 1; // 1¿Ã∏È ¥Ÿ¿Ãæ∆, 2∏È ∑∫∆Æ
+		for (int i = 0; i < 24; ++i)
+		{
+			if (i / 12 == 0)
+				mImageX[mOrder * 24 + i] = 5 + rand() % 61;
+			else
+				mImageX[mOrder * 24 + i] = WINSIZEX - 45 + 240 - rand() % 61;
+
+			mImageY[mOrder * 24 + i] = 50 * (i % 12) + rand() % 31 + 180;
+
+			mImageAlpha[mOrder] = 0.25f;
+		}
+
+		++mOrder;
+
+		if (mOrder >= 20)
+			mOrder = 0;
 	}
 
+	for (int i = 0; i < 20; ++i)
+	{
+		if (mImageDR[i])
+			mImageAlpha[i] -= 0.05f * TIME->DeltaTime();
+
+		if (mImageAlpha[i] < 0.f)
+			mImageAlpha[i] = 0.f;
+	}
+	// ∏  ¡¬øÏ º≥ƒ°øÎ }}
+
+	// {{ ªÛ»≤ø° µ˚∏• ∏  ¿Ãµø ¡¶«—
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	float x = player->GetX();
+	if (mBlockStart == 0 && (int)x >= WINSIZEX / 2)
+	{
+		mBlockStart = 1;
+		PlaceRect2();
+	}
 
-	//if ((int)x <= 0)
-	//	SCENEMANAGER->LoadScene(L"Scene03", 2); // ÏôºÏ™ΩÏúºÎ°ú Î™ª ÎèåÏïÑÍ∞ÄÍ≤å ÎßâÏùÑ ÏòàÏ†ï?!
-	if ((int)x >= mSceneSizeX)
-		//SCENEMANAGER->LoadScene(L"Scene05", 1);
-		SCENEMANAGER->LoadScene(L"Scene09", 1);
+	vector<GameObject*> enemyList2 = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
+	//vector<GameObject*>::iterator iter = enemyList2.begin();
+	//int enemyHp = ((Enemy*)(*iter))->GetHP();
+	if (mBlockStart == 1 && enemyList2.size() <= 0)//enemyHp <= 0)
+	{
+		mBlockStart = 2;
+		RemoveRect3();
+	}
 
+	if (mBlockStart == 2)
+	{
+		if ((int)x >= mSceneSizeX)
+			SCENEMANAGER->LoadScene(L"Scene05", 1);
+	}
+	// ªÛ»≤ø° µ˚∏• ∏  ¿Ãµø ¡¶«— }}
 
-	//Ïù¥Î≤§Ìä∏ Ï∂îÍ∞Ä
+	//¿Ã∫•∆Æ √ﬂ∞°
 	//if (FennelIntro && OBJECTMANAGER->GetPlayer()->GetX() >= WINSIZEX / 2)
 	//{
 	//	FennelIntro = false;
@@ -99,7 +173,7 @@ void Scene04::Update()
 	//	GAMEEVENTMANAGER->PushEvent(new IChangeImage(&image, L"Fennelintro1"));
 	//	GAMEEVENTMANAGER->PushEvent(new IDelayEvent(1.f));
 	//
-	//	GAMEEVENTMANAGER->PushEvent(new IObjectStop(false));	// Î≥¥Ïä§ Îì±Ïû• Ïù¥Î≤§Ìä∏ ÎÅù
+	//	GAMEEVENTMANAGER->PushEvent(new IObjectStop(false));	// ∫∏Ω∫ µÓ¿Â ¿Ã∫•∆Æ ≥°
 	//}
 	//
 	//GAMEEVENTMANAGER->Update();
@@ -135,8 +209,34 @@ void Scene04::Render(HDC hdc)
 
 	OBJECTMANAGER->Render(hdc);
 
-	//OBJECTMANAGER->RenderUI(hdc);
-	GAMEEVENTMANAGER->Render(hdc);
+	for (int i = 0; i < 20; ++i)
+	{
+		if (mImageDR[i])
+		{
+			for (int j = 0; j < 24; ++j)
+			{
+				if (mImageDR[i] == 1)
+				{
+					if(mBlockStart == 2 && mImageX[i * 24 + j] > WINSIZEX / 2)
+					{ }
+					else if(mBlockStart >= 1)
+						CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mFixDia, mImageX[i * 24 + j], mImageY[i * 24 + j], mImageAlpha[i]);
+				}
+				else
+				{
+					if (mBlockStart == 2 && mImageX[i * 24 + j] > WINSIZEX / 2)
+					{ }
+					else if (mBlockStart >= 1)
+						CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mFixRect, mImageX[i * 24 + j], mImageY[i * 24 + j], mImageAlpha[i]);
+				}
+					
+			}
+		}
+	}
+
+	OBJECTMANAGER->RenderUI(hdc);
+
+	//GAMEEVENTMANAGER->Render(hdc);
 
 	//RECT rect;
 	//vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
@@ -153,4 +253,36 @@ void Scene04::PlaceRect()
 	Platform* platform01 = new Platform();
 	platform01->SetPlatform(-120, 780, 1320, 900, PlatformType::Normal);
 	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform01);
+}
+
+void Scene04::PlaceRect2()
+{
+	Platform* platform02 = new Platform();
+	platform02->SetPlatform(-120, 0, 100, 900, PlatformType::Normal);
+	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform02);
+
+	Platform* platform03 = new Platform();
+	platform03->SetPlatform(1100, 0, 1320, 900, PlatformType::Normal);
+	platform03->SetName("platform03");
+	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform03);
+}
+
+void Scene04::RemoveRect3()
+{
+	GameObject* platform03 = OBJECTMANAGER->FindObject("platform03");
+	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
+
+	for (int i = 0; i < platformList.size(); ++i)
+	{
+		if ((platformList[i] == platform03))
+		{
+			((Platform*)(platformList[i]))->Release();
+			SafeDelete(platformList[i]);
+			platformList.erase(platformList.begin() + i);
+			--i;
+		}
+	}
+	vector<GameObject*>* ListPtr = OBJECTMANAGER->GetObjectListPtr(ObjectLayer::Platform);
+	ListPtr->resize(2);
+	//OBJECTMANAGER->ShrinkToFitObjectList(ObjectLayer::Platform);
 }
