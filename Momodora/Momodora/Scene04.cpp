@@ -53,7 +53,7 @@ void Scene04::Init()
 
 	mBlockStart = 0;
 
-	////í˜ë„¬
+	////Æä³Ú
 	AddFennel(800, 775);
 }
 
@@ -66,50 +66,50 @@ void Scene04::Update()
 {
 	OBJECTMANAGER->Update();
 
-	//ì¶©ëŒí™•ì¸
+	//Ãæµ¹È®ÀÎ
 	AllCollision();
 
 	RECT temp1;
 	vector<GameObject*> enemyList = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
 
-	//í˜ë„¬ì´ ì‚´ì•„ìˆìœ¼ë©´
+	//Æä³ÚÀÌ »ì¾ÆÀÖÀ¸¸é
 	if (enemyList.size() > 0)
 	{
-		//ë™íŠ¸ ë°›ì•„ì˜¤ê³ 
+		//·¢Æ® ¹Ş¾Æ¿À°í
 		RECT thunder = ((Fennel*)enemyList[0])->GetThunderRect();
 		RECT impact = ((Fennel*)enemyList[0])->GetImpactRect();
 		RECT playerHitBox = (OBJECTMANAGER->GetPlayer()->GetHitBox());
 
-		//í˜ë„¬ ë²ˆê°œ, í”Œë ˆì´ì–´ íˆíŠ¸ë°•ìŠ¤ ì¶©ëŒ
+		//Æä³Ú ¹ø°³, ÇÃ·¹ÀÌ¾î È÷Æ®¹Ú½º Ãæµ¹
 		if (IntersectRect(&temp1, &playerHitBox, &thunder))
 		{
-			//í”Œë ˆì´ì–´ ì²´ë ¥ ê¹ê¸°
+			//ÇÃ·¹ÀÌ¾î Ã¼·Â ±ğ±â
 
-			//ë°©í–¥ì•Œë ¤ì¤˜ì•¼í•´
+			//¹æÇâ¾Ë·ÁÁà¾ßÇØ
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &thunder);
-			//í”Œë ˆì´ì–´ ìƒíƒœì „í™˜í•˜ê³  ë¬´ì ì‹œí‚¤ëŠ” í•¨ìˆ˜
+			//ÇÃ·¹ÀÌ¾î »óÅÂÀüÈ¯ÇÏ°í ¹«Àû½ÃÅ°´Â ÇÔ¼ö
 			OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
 		}
 
-		//í˜ë„¬ ì„íŒ©íŠ¸, í”Œë ˆì´ì–´ íˆíŠ¸ë°•ìŠ¤ ì¶©ëŒ
+		//Æä³Ú ÀÓÆÑÆ®, ÇÃ·¹ÀÌ¾î È÷Æ®¹Ú½º Ãæµ¹
 		if (IntersectRect(&temp1, &playerHitBox, &impact))
 		{
-			//í”Œë ˆì´ì–´ ì²´ë ¥ ê¹ê¸°
+			//ÇÃ·¹ÀÌ¾î Ã¼·Â ±ğ±â
 
-			//ë°©í–¥ì•Œë ¤ì¤˜ì•¼í•´
+			//¹æÇâ¾Ë·ÁÁà¾ßÇØ
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &impact);
-			//í”Œë ˆì´ì–´ ìƒíƒœì „í™˜í•˜ê³  ë¬´ì ì‹œí‚¤ëŠ” í•¨ìˆ˜
+			//ÇÃ·¹ÀÌ¾î »óÅÂÀüÈ¯ÇÏ°í ¹«Àû½ÃÅ°´Â ÇÔ¼ö
 			OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
 		}
 	}
 
-	// {{ ë§µ ì¢Œìš° ì„¤ì¹˜ìš©
+	// {{ ¸Ê ÁÂ¿ì ¼³Ä¡¿ë
 	mImageCreateDelay -= TIME->DeltaTime();
 
 	if (mImageCreateDelay <= 0.f)
 	{
 		mImageCreateDelay = 0.5f;
-		mImageDR[mOrder] = rand() % 2 + 1; // 1ì´ë©´ ë‹¤ì´ì•„, 2ë©´ ë ‰íŠ¸
+		mImageDR[mOrder] = rand() % 2 + 1; // 1ÀÌ¸é ´ÙÀÌ¾Æ, 2¸é ·ºÆ®
 		for (int i = 0; i < 24; ++i)
 		{
 			if (i / 12 == 0)
@@ -136,9 +136,9 @@ void Scene04::Update()
 		if (mImageAlpha[i] < 0.f)
 			mImageAlpha[i] = 0.f;
 	}
-	// ë§µ ì¢Œìš° ì„¤ì¹˜ìš© }}
+	// ¸Ê ÁÂ¿ì ¼³Ä¡¿ë }}
 
-	// {{ ìƒí™©ì— ë”°ë¥¸ ë§µ ì´ë™ ì œí•œ
+	// {{ »óÈ²¿¡ µû¸¥ ¸Ê ÀÌµ¿ Á¦ÇÑ
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	float x = player->GetX();
 	if (mBlockStart == 0 && (int)x >= WINSIZEX / 2)
@@ -161,7 +161,7 @@ void Scene04::Update()
 		if ((int)x >= mSceneSizeX)
 			SCENEMANAGER->LoadScene(L"Scene05", 1);
 	}
-	// ìƒí™©ì— ë”°ë¥¸ ë§µ ì´ë™ ì œí•œ }}
+	// »óÈ²¿¡ µû¸¥ ¸Ê ÀÌµ¿ Á¦ÇÑ }}
 
 }
 
@@ -179,19 +179,21 @@ void Scene04::Render(HDC hdc)
 			{
 				if (mImageDR[i] == 1)
 				{
-					if(mBlockStart == 2 && mImageX[i * 24 + j] > WINSIZEX / 2)
-					{ }
-					else if(mBlockStart >= 1)
+					if (mBlockStart == 2 && mImageX[i * 24 + j] > WINSIZEX / 2)
+					{
+					}
+					else if (mBlockStart >= 1)
 						CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mFixDia, mImageX[i * 24 + j], mImageY[i * 24 + j], mImageAlpha[i]);
 				}
 				else
 				{
 					if (mBlockStart == 2 && mImageX[i * 24 + j] > WINSIZEX / 2)
-					{ }
+					{
+					}
 					else if (mBlockStart >= 1)
 						CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mFixRect, mImageX[i * 24 + j], mImageY[i * 24 + j], mImageAlpha[i]);
 				}
-					
+
 			}
 		}
 	}
