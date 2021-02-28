@@ -131,3 +131,18 @@ public:
 	bool Update()override;
 	void Render(HDC hdc)override;
 };
+
+
+
+class IChangeImage2 : public IEvent
+{
+	Image* mImage1;
+	wstring mName;
+
+public:
+	IChangeImage2(Image** image1, wstring name);
+
+	void Start()override;
+	bool Update()override;
+	void Render(HDC hdc)override;
+};

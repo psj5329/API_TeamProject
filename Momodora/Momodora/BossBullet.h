@@ -23,6 +23,7 @@ public:
 
 public:
 	BulletPattern GetPattern() { return mPattern; }
+	bool GetShoot() { return mIsShoot; }
 
 	void SetAngle(float angle) { mAngle = angle; }
 	void SetPattern(BulletPattern pattern) { mPattern = pattern; }

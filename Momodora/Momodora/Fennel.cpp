@@ -390,6 +390,11 @@ void Fennel::Update()
 		mHitBox = RectMakeCenter(mX + 10, mY, 50, 100);
 	else
 		mHitBox = RectMakeCenter(mX - 10, mY, 50, 100);
+
+
+
+
+
 }
 
 void Fennel::Render(HDC hdc)
