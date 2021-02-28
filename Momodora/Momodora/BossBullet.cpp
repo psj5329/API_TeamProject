@@ -38,18 +38,22 @@ void BossBullet::Update()
 	case BulletPattern::PatternIdle:
 		break;
 	case BulletPattern::PatternBulletDown:			// 그저 아래로
+		if(mShootTime >= 0.5f)
+			mIsShow = true;
+
 		if (mShootTime >= 1.f)
 		{
 			mIsShoot = true;
-			mIsShow = true;
 			mX += cosf(mAngle) * mSpeed * TIME->DeltaTime() * 4;
 			mY += -sinf(mAngle) * mSpeed * TIME->DeltaTime() * 4;
 		}
 		break;
 	case BulletPattern::PatternBulletUp:			// 물결치며 올라감
+		if (mShootTime >= 0.5f)
+			mIsShow = true;
+
 		if (mShootTime >= 1.f)
 		{
-			mIsShow = true;
 			mIsShoot = true;
 			mAngle += 0.1f;
 			mX += sinf(mAngle) * mSpeed * TIME->DeltaTime() * 2;

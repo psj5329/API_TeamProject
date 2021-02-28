@@ -154,6 +154,11 @@ void ObjectManager::RemoveObjectsInScene()
 	}
 }
 
+void ObjectManager::ShrinkToFitObjectList(ObjectLayer layer)
+{
+	mObjectList[layer].shrink_to_fit();
+}
+
 Player* ObjectManager::GetPlayer()
 {
 	vector<GameObject*> playerList = mObjectList[ObjectLayer::Player];

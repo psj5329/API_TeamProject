@@ -54,10 +54,10 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 
 	MSG msg;
 
-#ifdef _DEBUG
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+//#ifdef _DEBUG
+//	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	//_CrtSetBreakAlloc();
-#endif
+//#endif
 
 	HDC hdc = GetDC(_hWnd);
 
@@ -95,9 +95,9 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 	delete _className;
 	_className = NULL;
 
-#ifdef _DEBUG
-	_CrtDumpMemoryLeaks();
-#endif
+//#ifdef _DEBUG
+//	_CrtDumpMemoryLeaks();
+//#endif
 
 	return (int)msg.wParam;
 }

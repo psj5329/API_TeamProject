@@ -4,7 +4,7 @@
 #define WINSIZEX 960
 #define WINSIZEY 720
 
-#define DEBUG
+//#define DEBUG
 
 #define SafeDelete(p)\
 {\

@@ -41,6 +41,7 @@ class Boss : public Enemy
 	bool mIsInvincibility;		// 무적인지
 	int mHitMoveCount;
 	float mHitFrameTime;
+	bool mIsMoveChest;
 
 	AttackPattern mPattern;		// 공격 패턴
 	float mAttackTime;			// 한 패턴이 끝나고 5초마다 패턴이 나온다

@@ -8,6 +8,11 @@
 #include "ActiveItemUI.h"
 #include "Player.h"
 
+#include "PlayerHpUI.h"
+#include "StarCountUI.h"
+#include "ActiveItemUI.h"
+#include "Player.h"
+
 void Scene01::Init()
 {
 	mMapImage = IMAGEMANAGER->FindImage(L"MapImage01");
@@ -35,8 +40,11 @@ void Scene01::Init()
 		main->SetX(720);
 		main->SetY(540);
 	}
+	
+	//¸ó½ºÅÍ ¹èÄ¡
+	AddMonkey(900, 600);
 
-/*	PlayerHpUI* playerui = new PlayerHpUI;
+	PlayerHpUI* playerui = new PlayerHpUI;
 	playerui->Init();
 	playerui->SetHp(OBJECTMANAGER->GetPlayer()->GetHp());
 	OBJECTMANAGER->AddObject(ObjectLayer::UI, playerui);
@@ -47,10 +55,7 @@ void Scene01::Init()
 
 	StarCountUI* starCountui = new StarCountUI;
 	starCountui->Init();
-	OBJECTMANAGER->AddObject(ObjectLayer::UI, starCountui);*/
-
-	//ëª¬ìŠ¤í„° ë°°ì¹˜
-	AddMonkey(900, 600);
+	OBJECTMANAGER->AddObject(ObjectLayer::UI, starCountui);
 }
 
 void Scene01::Release()
@@ -64,10 +69,10 @@ void Scene01::Update()
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	float x = player->GetX();
 
-	if((int)x >= mSceneSizeX)
+	if ((int)x >= mSceneSizeX)
 		SCENEMANAGER->LoadScene(L"Scene02", 1);
 
-	//ì¶©ëŒí™•ì¸
+	//Ãæµ¹È®ÀÎ
 	AllCollision();
 
 

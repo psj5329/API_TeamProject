@@ -13,6 +13,10 @@ void Scene04::Init()
 	mSceneSizeX = mMapImage->GetWidth();
 	mSceneSizeY = mMapImage->GetHeight();
 
+	SOUNDMANAGER->Stop(L"cinder");
+	SOUNDMANAGER->LoadFromFile(L"boss2", ResourcesSoundMp3(L"boss2"), true);
+	SOUNDMANAGER->Play(L"boss2", 0.05f);
+
 	PlaceRect();
 
 	Camera* main = CAMERAMANAGER->GetMainCamera();
@@ -35,66 +39,129 @@ void Scene04::Init()
 		main->SetY(540);
 	}
 
-	////∆‰≥⁄
+	for (int i = 0; i < 20; ++i)
+	{
+		mImageDR[i] = 0;
+		mImageAlpha[i] = 0.25f;
+	}
+
+	mOrder = 0;
+	mImageCreateDelay = 0.5f;
+
+	mFixDia = IMAGEMANAGER->FindImage(L"MapFixDia");
+	mFixRect = IMAGEMANAGER->FindImage(L"MapFixRect");
+
+	mBlockStart = 0;
+
+	////ÌéòÎÑ¨
 	AddFennel(800, 775);
 }
 
 void Scene04::Release()
 {
+	SOUNDMANAGER->Stop(L"boss2");
 }
 
 void Scene04::Update()
 {
 	OBJECTMANAGER->Update();
 
-	//√Êµπ»Æ¿Œ
+	//Ï∂©ÎèåÌôïÏù∏
 	AllCollision();
 
 	RECT temp1;
 	vector<GameObject*> enemyList = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
 
-	//∆‰≥⁄¿Ã ªÏæ∆¿÷¿∏∏È
+	//ÌéòÎÑ¨Ïù¥ ÏÇ¥ÏïÑÏûàÏúºÎ©¥
 	if (enemyList.size() > 0)
 	{
-		//∑¢∆Æ πﬁæ∆ø¿∞Ì
+		//ÎûôÌä∏ Î∞õÏïÑÏò§Í≥†
 		RECT thunder = ((Fennel*)enemyList[0])->GetThunderRect();
 		RECT impact = ((Fennel*)enemyList[0])->GetImpactRect();
 		RECT playerHitBox = (OBJECTMANAGER->GetPlayer()->GetHitBox());
 
-		//∆‰≥⁄ π¯∞≥, «√∑π¿ÃæÓ »˜∆Æπ⁄Ω∫ √Êµπ
+		//ÌéòÎÑ¨ Î≤àÍ∞ú, ÌîåÎ†àÏù¥Ïñ¥ ÌûàÌä∏Î∞ïÏä§ Ï∂©Îèå
 		if (IntersectRect(&temp1, &playerHitBox, &thunder))
 		{
-			//«√∑π¿ÃæÓ √º∑¬ ±±‚
+			//ÌîåÎ†àÏù¥Ïñ¥ Ï≤¥Î†• ÍπéÍ∏∞
 
-			//πÊ«‚æÀ∑¡¡‡æﬂ«ÿ
+			//Î∞©Ìñ•ÏïåÎ†§Ï§òÏïºÌï¥
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &thunder);
-			//«√∑π¿ÃæÓ ªÛ≈¬¿¸»Ø«œ∞Ì π´¿˚Ω√≈∞¥¬ «‘ºˆ
+			//ÌîåÎ†àÏù¥Ïñ¥ ÏÉÅÌÉúÏ†ÑÌôòÌïòÍ≥† Î¨¥Ï†ÅÏãúÌÇ§Îäî Ìï®Ïàò
 			OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
 		}
 
-		//∆‰≥⁄ ¿”∆—∆Æ, «√∑π¿ÃæÓ »˜∆Æπ⁄Ω∫ √Êµπ
+		//ÌéòÎÑ¨ ÏûÑÌå©Ìä∏, ÌîåÎ†àÏù¥Ïñ¥ ÌûàÌä∏Î∞ïÏä§ Ï∂©Îèå
 		if (IntersectRect(&temp1, &playerHitBox, &impact))
 		{
-			//«√∑π¿ÃæÓ √º∑¬ ±±‚
+			//ÌîåÎ†àÏù¥Ïñ¥ Ï≤¥Î†• ÍπéÍ∏∞
 
-			//πÊ«‚æÀ∑¡¡‡æﬂ«ÿ
+			//Î∞©Ìñ•ÏïåÎ†§Ï§òÏïºÌï¥
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &impact);
-			//«√∑π¿ÃæÓ ªÛ≈¬¿¸»Ø«œ∞Ì π´¿˚Ω√≈∞¥¬ «‘ºˆ
+			//ÌîåÎ†àÏù¥Ïñ¥ ÏÉÅÌÉúÏ†ÑÌôòÌïòÍ≥† Î¨¥Ï†ÅÏãúÌÇ§Îäî Ìï®Ïàò
 			OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
 		}
-
 	}
 
+	// {{ Îßµ Ï¢åÏö∞ ÏÑ§ÏπòÏö©
+	mImageCreateDelay -= TIME->DeltaTime();
 
+	if (mImageCreateDelay <= 0.f)
+	{
+		mImageCreateDelay = 0.5f;
+		mImageDR[mOrder] = rand() % 2 + 1; // 1Ïù¥Î©¥ Îã§Ïù¥ÏïÑ, 2Î©¥ Î†âÌä∏
+		for (int i = 0; i < 24; ++i)
+		{
+			if (i / 12 == 0)
+				mImageX[mOrder * 24 + i] = 5 + rand() % 61;
+			else
+				mImageX[mOrder * 24 + i] = WINSIZEX - 45 + 240 - rand() % 61;
+
+			mImageY[mOrder * 24 + i] = 50 * (i % 12) + rand() % 31 + 180;
+
+			mImageAlpha[mOrder] = 0.25f;
+		}
+
+		++mOrder;
+
+		if (mOrder >= 20)
+			mOrder = 0;
+	}
+
+	for (int i = 0; i < 20; ++i)
+	{
+		if (mImageDR[i])
+			mImageAlpha[i] -= 0.05f * TIME->DeltaTime();
+
+		if (mImageAlpha[i] < 0.f)
+			mImageAlpha[i] = 0.f;
+	}
+	// Îßµ Ï¢åÏö∞ ÏÑ§ÏπòÏö© }}
+
+	// {{ ÏÉÅÌô©Ïóê Îî∞Î•∏ Îßµ Ïù¥Îèô Ï†úÌïú
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	float x = player->GetX();
+	if (mBlockStart == 0 && (int)x >= WINSIZEX / 2)
+	{
+		mBlockStart = 1;
+		PlaceRect2();
+	}
 
-	//if ((int)x <= 0)
-	//	SCENEMANAGER->LoadScene(L"Scene03", 2); // øﬁ¬ ¿∏∑Œ ∏¯ µπæ∆∞°∞‘ ∏∑¿ª øπ¡§?!
-	if ((int)x >= mSceneSizeX)
-		//SCENEMANAGER->LoadScene(L"Scene05", 1);
-		SCENEMANAGER->LoadScene(L"Scene09", 1);
+	vector<GameObject*> enemyList2 = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
+	//vector<GameObject*>::iterator iter = enemyList2.begin();
+	//int enemyHp = ((Enemy*)(*iter))->GetHP();
+	if (mBlockStart == 1 && enemyList2.size() <= 0)//enemyHp <= 0)
+	{
+		mBlockStart = 2;
+		RemoveRect3();
+	}
 
+	if (mBlockStart == 2)
+	{
+		if ((int)x >= mSceneSizeX)
+			SCENEMANAGER->LoadScene(L"Scene05", 1);
+	}
+	// ÏÉÅÌô©Ïóê Îî∞Î•∏ Îßµ Ïù¥Îèô Ï†úÌïú }}
 
 }
 
@@ -104,7 +171,34 @@ void Scene04::Render(HDC hdc)
 
 	OBJECTMANAGER->Render(hdc);
 
-	GAMEEVENTMANAGER->Render(hdc);
+	for (int i = 0; i < 20; ++i)
+	{
+		if (mImageDR[i])
+		{
+			for (int j = 0; j < 24; ++j)
+			{
+				if (mImageDR[i] == 1)
+				{
+					if(mBlockStart == 2 && mImageX[i * 24 + j] > WINSIZEX / 2)
+					{ }
+					else if(mBlockStart >= 1)
+						CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mFixDia, mImageX[i * 24 + j], mImageY[i * 24 + j], mImageAlpha[i]);
+				}
+				else
+				{
+					if (mBlockStart == 2 && mImageX[i * 24 + j] > WINSIZEX / 2)
+					{ }
+					else if (mBlockStart >= 1)
+						CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mFixRect, mImageX[i * 24 + j], mImageY[i * 24 + j], mImageAlpha[i]);
+				}
+					
+			}
+		}
+	}
+
+	OBJECTMANAGER->RenderUI(hdc);
+
+	//GAMEEVENTMANAGER->Render(hdc);
 
 	//RECT rect;
 	//vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
@@ -121,4 +215,36 @@ void Scene04::PlaceRect()
 	Platform* platform01 = new Platform();
 	platform01->SetPlatform(-120, 780, 1320, 900, PlatformType::Normal);
 	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform01);
+}
+
+void Scene04::PlaceRect2()
+{
+	Platform* platform02 = new Platform();
+	platform02->SetPlatform(-120, 0, 100, 900, PlatformType::Normal);
+	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform02);
+
+	Platform* platform03 = new Platform();
+	platform03->SetPlatform(1100, 0, 1320, 900, PlatformType::Normal);
+	platform03->SetName("platform03");
+	OBJECTMANAGER->AddObject(ObjectLayer::Platform, (GameObject*)platform03);
+}
+
+void Scene04::RemoveRect3()
+{
+	GameObject* platform03 = OBJECTMANAGER->FindObject("platform03");
+	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
+
+	for (int i = 0; i < platformList.size(); ++i)
+	{
+		if ((platformList[i] == platform03))
+		{
+			((Platform*)(platformList[i]))->Release();
+			SafeDelete(platformList[i]);
+			platformList.erase(platformList.begin() + i);
+			--i;
+		}
+	}
+	vector<GameObject*>* ListPtr = OBJECTMANAGER->GetObjectListPtr(ObjectLayer::Platform);
+	ListPtr->resize(2);
+	//OBJECTMANAGER->ShrinkToFitObjectList(ObjectLayer::Platform);
 }

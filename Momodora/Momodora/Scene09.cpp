@@ -126,67 +126,50 @@ void Scene09::Update()
 	//mBoss->Update();
 	OBJECTMANAGER->Update();
 
-	// 충돌 (상호작용 필요한 것만) {{
-	// 풀레이어 공격 상태일 때 보스랑 충돌 확인
-	/*if ((OBJECTMANAGER->GetPlayer()->GetState() == PlayerState::AirAttack)
-		|| (OBJECTMANAGER->GetPlayer()->GetState() == PlayerState::Attack1)
-		|| (OBJECTMANAGER->GetPlayer()->GetState() == PlayerState::Attack2)
-		|| (OBJECTMANAGER->GetPlayer()->GetState() == PlayerState::Attack3))
-	{
-		if (COLLISIONMANAGER->IsCollision(&OBJECTMANAGER->GetPlayer()->GetRect(), ObjectLayer::Boss))
+	// 충돌
+	AllCollision();
+
+	/*	//vector<GameObject*> vecArrow = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerArrow);
+		//vector<GameObject*> vecLeaf = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerLeaf);
+
+		//// 화살과 충돌
+		//for (int i = 0; i < vecArrow.size(); ++i)
+		//{
+		//	if (COLLISIONMANAGER->IsCollision(&((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetRect(), &vecArrow[i]->GetRect()))
+		//	{
+		//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
+		//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
+		//			- ((Arrow*)vecArrow[i])->GetArrowDamage());
+		//		//vecArrow.erase(vecArrow[i]);
+		//	}
+		//}
+
+		//// 플레이어 리프랑 충돌
+		//for (int i = 0; i < vecLeaf.size(); ++i)
+		//{
+		//	if (COLLISIONMANAGER->IsCollision(&((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetRect(), &vecLeaf[i]->GetRect()))
+		//	{
+		//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
+		//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
+		//			- OBJECTMANAGER->GetPlayer()->GetAttackDamage());
+		//	}
+		//}
+		Player* player = OBJECTMANAGER->GetPlayer();
+		RECT playerrect = player->GetRect();
+		if (COLLISIONMANAGER->IsCollision(&playerrect, ObjectLayer::BossBullet))	// 플레이어 - 보스 패턴
 		{
-			if (!((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetInvincibility())
+			if (OBJECTMANAGER->GetPlayer()->GetState() != PlayerState::Hurt)
 			{
-				((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
-				((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
-					- ((100 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetDef()) / 100.f * OBJECTMANAGER->GetPlayer()->GetAttackDamage()));
+				//OBJECTMANAGER->GetPlayer()->SetHp(OBJECTMANAGER->GetPlayer()->GetHp() - 10);
+				// 플레이어 무적되게 셋팅해야함
+				//Direction direction = COLLISIONMANAGER->CheckSide(&OBJECTMANAGER->GetPlayer()->GetHitBox(), &((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHitBox());
+				//Direction direction = OBJECTMANAGER->GetPlayer()->GetDirection();
+				//OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
 			}
 		}
-	}*/
+		// }}*/
 
-	// 보스 피격
-	AllCollision();
-	//vector<GameObject*> vecArrow = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerArrow);
-	//vector<GameObject*> vecLeaf = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerLeaf);
-
-	//// 화살과 충돌
-	//for (int i = 0; i < vecArrow.size(); ++i)
-	//{
-	//	if (COLLISIONMANAGER->IsCollision(&((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetRect(), &vecArrow[i]->GetRect()))
-	//	{
-	//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
-	//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
-	//			- ((Arrow*)vecArrow[i])->GetArrowDamage());
-	//		//vecArrow.erase(vecArrow[i]);
-	//	}
-	//}
-
-	//// 플레이어 리프랑 충돌
-	//for (int i = 0; i < vecLeaf.size(); ++i)
-	//{
-	//	if (COLLISIONMANAGER->IsCollision(&((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetRect(), &vecLeaf[i]->GetRect()))
-	//	{
-	//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
-	//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
-	//			- OBJECTMANAGER->GetPlayer()->GetAttackDamage());
-	//	}
-	//}
-	Player* player = OBJECTMANAGER->GetPlayer();
-	RECT playerrect = player->GetRect();
-	if (COLLISIONMANAGER->IsCollision(&playerrect, ObjectLayer::BossBullet))	// 플레이어 - 보스 패턴
-	{
-		if (OBJECTMANAGER->GetPlayer()->GetState() != PlayerState::Hurt)
-		{
-			//OBJECTMANAGER->GetPlayer()->SetHp(OBJECTMANAGER->GetPlayer()->GetHp() - 10);
-			// 플레이어 무적되게 셋팅해야함
-			//Direction direction = COLLISIONMANAGER->CheckSide(&OBJECTMANAGER->GetPlayer()->GetHitBox(), &((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHitBox());
-			//Direction direction = OBJECTMANAGER->GetPlayer()->GetDirection();
-			//OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
-		}
-	}
-	// }}
-
-	// 이벤트 추가
+		// 이벤트 추가
 	if (!mIsBossAppearanceEvent && OBJECTMANAGER->GetPlayer()->GetX() >= WINSIZEX / 2)
 	{
 		mIsBossAppearanceEvent = true;
