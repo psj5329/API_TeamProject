@@ -14,7 +14,8 @@ enum class FennelState
 	Thunder,
 	Buff,
 	Dash,
-	BackFlip
+	BackFlip,
+	Intro
 };
 
 struct AfterImage
@@ -46,7 +47,9 @@ class Fennel :
 	Animation* mLeftJumpReady;
 	Animation* mRightDash;
 	Animation* mLeftDash;
-
+	Animation* mIntro1;
+	Animation* mIntro2;
+	Animation* mIntro3;
 
 	FennelState mFennelState;
 
@@ -65,6 +68,8 @@ class Fennel :
 	float mTimer;
 
 	vector <AfterImage> mAfterImages;
+
+	bool mIntroEnd;	//인트로가 끝났나
 
 public:
 	void Init() override;
@@ -108,12 +113,18 @@ public:
 	void EndPlunge();
 	void EndBuff();
 	void EndDeath();
+	void EndIntro1();
+	void EndIntro2();
+	void EndIntro3();
 
 	void SetAfterImages(int frame1, int frame2, int frame3);
 
 	//랙트겟
 	RECT GetThunderRect(void) { return mThunder; }
 	RECT GetImpactRect(void) { return mImpact; }
+
+	//인트로끝났니?
+	bool GetIntroEnd() { return mIntroEnd; }
 
 };
 

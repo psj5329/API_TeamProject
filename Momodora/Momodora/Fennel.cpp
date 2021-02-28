@@ -9,7 +9,7 @@
 
 void Fennel::Init()
 {
-	mImage = IMAGEMANAGER->FindImage(L"Fennelidle");
+	mImage = IMAGEMANAGER->FindImage(L"Fennelintro1");
 	mImpactImg = IMAGEMANAGER->FindImage(L"Fennelimpact");
 	mThunderImg = IMAGEMANAGER->FindImage(L"Thunder");
 
@@ -205,9 +205,27 @@ void Fennel::Init()
 	mCurrentThunder->Play();
 	mCurrentThunder->Pause();
 
-	mEnemyState = EnemyState::Idle;
+	mIntro1 = new Animation();
+	mIntro1->InitFrameByStartEnd(0, 0, 17, 0, false);
+	mIntro1->SetIsLoop(false);
+	mIntro1->SetFrameUpdateTime(0.2f);
+	mIntro1->SetCallbackFunc(bind(&Fennel::EndIntro1, this));
+
+	mIntro2 = new Animation();
+	mIntro2->InitFrameByStartEnd(0, 0, 7, 0, false);
+	mIntro2->SetIsLoop(false);
+	mIntro2->SetFrameUpdateTime(0.1f);
+	mIntro2->SetCallbackFunc(bind(&Fennel::EndIntro2, this));
+
+	mIntro3 = new Animation();
+	mIntro3->InitFrameByStartEnd(0, 0, 13, 0, false);
+	mIntro3->SetIsLoop(false);
+	mIntro3->SetFrameUpdateTime(0.1f);
+	mIntro3->SetCallbackFunc(bind(&Fennel::EndIntro3, this));
+
+	mFennelState = FennelState::Intro;
 	mDirection = Direction::Left;
-	mCurrentAnimation = mLeftIdle;
+	mCurrentAnimation = mIntro1;
 	mCurrentAnimation->Play();
 
 	//ÀÜ»ó
@@ -810,6 +828,33 @@ void Fennel::EndBuff()
 void Fennel::EndDeath()
 {
 	mAlpha -= TIME->DeltaTime();
+}
+
+
+void Fennel::EndIntro1()
+{
+	mCurrentAnimation->Stop();
+	mImage = IMAGEMANAGER->FindImage(L"Fennelintro2");
+	mCurrentAnimation = mIntro2;
+	mCurrentAnimation->Play();
+	/////À½¾Ç³Ö±â////
+
+}
+void Fennel::EndIntro2()
+{
+	mCurrentAnimation->Stop();
+	mImage = IMAGEMANAGER->FindImage(L"Fennelintro3");
+	mCurrentAnimation = mIntro3;
+	mCurrentAnimation->Play();
+}
+void Fennel::EndIntro3()
+{
+	mCurrentAnimation->Stop();
+	mFennelState = FennelState::Idle;
+	SetImageAnimation();
+	mCurrentAnimation = mLeftIdle;
+	mCurrentAnimation->Play();
+	mIntroEnd = true;
 }
 
 void Fennel::SetImageAnimation()

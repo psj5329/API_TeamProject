@@ -172,3 +172,14 @@ void ShieldImp::SetPosition(float x, float y)
 	mX = mStart.x;
 	mY = mStart.y;
 }
+
+
+void ShieldImp::Hurt(Direction direction)
+{
+	if (direction == mDirection)
+	{
+		mDirection = direction;
+		mEnemyState = EnemyState::Hurt;
+		SetAnimation();
+	}
+}

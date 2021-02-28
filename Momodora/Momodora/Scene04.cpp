@@ -53,7 +53,7 @@ void Scene04::Init()
 
 	mBlockStart = 0;
 
-	////Æä³Ú
+	////í˜ë„¬
 	AddFennel(800, 775);
 }
 
@@ -66,50 +66,50 @@ void Scene04::Update()
 {
 	OBJECTMANAGER->Update();
 
-	//Ãæµ¹È®ÀÎ
+	//ì¶©ëŒí™•ì¸
 	AllCollision();
 
 	RECT temp1;
 	vector<GameObject*> enemyList = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
 
-	//Æä³ÚÀÌ »ì¾ÆÀÖÀ¸¸é
+	//í˜ë„¬ì´ ì‚´ì•„ìˆìœ¼ë©´
 	if (enemyList.size() > 0)
 	{
-		//·¢Æ® ¹Ş¾Æ¿À°í
+		//ë™íŠ¸ ë°›ì•„ì˜¤ê³ 
 		RECT thunder = ((Fennel*)enemyList[0])->GetThunderRect();
 		RECT impact = ((Fennel*)enemyList[0])->GetImpactRect();
 		RECT playerHitBox = (OBJECTMANAGER->GetPlayer()->GetHitBox());
 
-		//Æä³Ú ¹ø°³, ÇÃ·¹ÀÌ¾î È÷Æ®¹Ú½º Ãæµ¹
+		//í˜ë„¬ ë²ˆê°œ, í”Œë ˆì´ì–´ íˆíŠ¸ë°•ìŠ¤ ì¶©ëŒ
 		if (IntersectRect(&temp1, &playerHitBox, &thunder))
 		{
-			//ÇÃ·¹ÀÌ¾î Ã¼·Â ±ğ±â
+			//í”Œë ˆì´ì–´ ì²´ë ¥ ê¹ê¸°
 
-			//¹æÇâ¾Ë·ÁÁà¾ßÇØ
+			//ë°©í–¥ì•Œë ¤ì¤˜ì•¼í•´
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &thunder);
-			//ÇÃ·¹ÀÌ¾î »óÅÂÀüÈ¯ÇÏ°í ¹«Àû½ÃÅ°´Â ÇÔ¼ö
+			//í”Œë ˆì´ì–´ ìƒíƒœì „í™˜í•˜ê³  ë¬´ì ì‹œí‚¤ëŠ” í•¨ìˆ˜
 			OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
 		}
 
-		//Æä³Ú ÀÓÆÑÆ®, ÇÃ·¹ÀÌ¾î È÷Æ®¹Ú½º Ãæµ¹
+		//í˜ë„¬ ì„íŒ©íŠ¸, í”Œë ˆì´ì–´ íˆíŠ¸ë°•ìŠ¤ ì¶©ëŒ
 		if (IntersectRect(&temp1, &playerHitBox, &impact))
 		{
-			//ÇÃ·¹ÀÌ¾î Ã¼·Â ±ğ±â
+			//í”Œë ˆì´ì–´ ì²´ë ¥ ê¹ê¸°
 
-			//¹æÇâ¾Ë·ÁÁà¾ßÇØ
+			//ë°©í–¥ì•Œë ¤ì¤˜ì•¼í•´
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &impact);
-			//ÇÃ·¹ÀÌ¾î »óÅÂÀüÈ¯ÇÏ°í ¹«Àû½ÃÅ°´Â ÇÔ¼ö
+			//í”Œë ˆì´ì–´ ìƒíƒœì „í™˜í•˜ê³  ë¬´ì ì‹œí‚¤ëŠ” í•¨ìˆ˜
 			OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
 		}
 	}
 
-	// {{ ¸Ê ÁÂ¿ì ¼³Ä¡¿ë
+	// {{ ë§µ ì¢Œìš° ì„¤ì¹˜ìš©
 	mImageCreateDelay -= TIME->DeltaTime();
 
 	if (mImageCreateDelay <= 0.f)
 	{
 		mImageCreateDelay = 0.5f;
-		mImageDR[mOrder] = rand() % 2 + 1; // 1ÀÌ¸é ´ÙÀÌ¾Æ, 2¸é ·ºÆ®
+		mImageDR[mOrder] = rand() % 2 + 1; // 1ì´ë©´ ë‹¤ì´ì•„, 2ë©´ ë ‰íŠ¸
 		for (int i = 0; i < 24; ++i)
 		{
 			if (i / 12 == 0)
@@ -136,9 +136,9 @@ void Scene04::Update()
 		if (mImageAlpha[i] < 0.f)
 			mImageAlpha[i] = 0.f;
 	}
-	// ¸Ê ÁÂ¿ì ¼³Ä¡¿ë }}
+	// ë§µ ì¢Œìš° ì„¤ì¹˜ìš© }}
 
-	// {{ »óÈ²¿¡ µû¸¥ ¸Ê ÀÌµ¿ Á¦ÇÑ
+	// {{ ìƒí™©ì— ë”°ë¥¸ ë§µ ì´ë™ ì œí•œ
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	float x = player->GetX();
 	if (mBlockStart == 0 && (int)x >= WINSIZEX / 2)
@@ -161,45 +161,7 @@ void Scene04::Update()
 		if ((int)x >= mSceneSizeX)
 			SCENEMANAGER->LoadScene(L"Scene05", 1);
 	}
-	// »óÈ²¿¡ µû¸¥ ¸Ê ÀÌµ¿ Á¦ÇÑ }}
-
-	//ÀÌº¥Æ® Ãß°¡
-	//if (FennelIntro && OBJECTMANAGER->GetPlayer()->GetX() >= WINSIZEX / 2)
-	//{
-	//	FennelIntro = false;
-	//	GAMEEVENTMANAGER->PushEvent(new IObjectStop(true));
-	//	GAMEEVENTMANAGER->PushEvent(new IDelayEvent(3.f));
-	//	Image* image = IMAGEMANAGER->FindImage(L"Fennelintro1");
-	//	GAMEEVENTMANAGER->PushEvent(new IChangeImage(&image, L"Fennelintro1"));
-	//	GAMEEVENTMANAGER->PushEvent(new IDelayEvent(1.f));
-	//
-	//	GAMEEVENTMANAGER->PushEvent(new IObjectStop(false));	// º¸½º µîÀå ÀÌº¥Æ® ³¡
-	//}
-	//
-	//GAMEEVENTMANAGER->Update();
-	//
-	//if (FennelIntro)
-	//{
-	//	mChangeImageTime += TIME->DeltaTime();
-	//
-	//	if (mChangeImageTime >= 1.f)
-	//	{
-	//		mPlatformImage = IMAGEMANAGER->FindImage(L"platform2");
-	//		OBJECTMANAGER->GetObjectList(ObjectLayer::Platform).front()->SetRect(WINSIZEX * 2, 604, WINSIZEX * 2 + 960, 643);
-	//	}
-	//
-	//	if (OBJECTMANAGER->GetPlayer()->GetY() >= 1600 - WINSIZEY / 2)//1460 - OBJECTMANAGER->GetPlayer()->GetSizeY() / 2)
-	//	{
-	//		mCameraFix = false;
-	//		CAMERAMANAGER->GetMainCamera()->SetMode(Camera::Mode::Fix);
-	//		CAMERAMANAGER->GetMainCamera()->SetFix(WINSIZEX / 2, 1600 - WINSIZEY / 2 - 50);
-	//
-	//		if (!OBJECTMANAGER->FindObject("BossHpUI")->GetIsActive())
-	//		{
-	//			OBJECTMANAGER->FindObject("BossHpUI")->SetIsActive(true);
-	//		}
-	//	}
-	//}
+	// ìƒí™©ì— ë”°ë¥¸ ë§µ ì´ë™ ì œí•œ }}
 
 }
 
