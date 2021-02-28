@@ -7,6 +7,11 @@ class LoadingScene : public Scene
 	int mLoadIndex;
 	bool mIsEndLoading;
 
+	Image* mOuter;
+	Image* mInner;
+	float mBoxAlpha;
+	bool mAlphaUp;
+
 public:
 	void AddLoadFunc(const function<void(void)>& func);
 
