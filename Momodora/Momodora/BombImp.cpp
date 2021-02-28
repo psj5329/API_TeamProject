@@ -73,7 +73,7 @@ void BombImp::Update()
 	mAttackSpeed += TIME->DeltaTime();
 	mSearchSpeed += TIME->DeltaTime();
 
-	if (mAttackSpeed > 5)
+	if (mAttackSpeed > 5 && mEnemyState != EnemyState::Hurt)
 	{
 		mAttackSpeed = 0;
 		mEnemyState = EnemyState::Attack;
@@ -101,6 +101,14 @@ void BombImp::Update()
 
 		}
 	}
+
+	//¸ÂÀ¸¸é
+	if (mEnemyState == EnemyState::Hurt)
+	{
+		HurtRectMove();
+	}
+
+
 	DeathCheck();
 
 	mCurrentAnimation->Update();
@@ -145,6 +153,7 @@ void BombImp::ThrowBomb()
 			angle = PI * 3 / 8;
 		}
 	}
+
 
 	//ÆøÅº»ý¼º
 	Bomb* Bomb1 = new Bomb();

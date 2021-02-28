@@ -120,9 +120,9 @@ void ShieldImp::Update()
 	}
 
 	//맞으면
-	if (true)
+	if (mEnemyState== EnemyState::Hurt)
 	{
-
+		HurtRectMove();
 	}
 
 	//죽으면

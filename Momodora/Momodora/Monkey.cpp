@@ -163,9 +163,12 @@ void Monkey::Update()
 	}
 	
 	//얻어맞았으면 
-	if (true)
+	if (mEnemyState == EnemyState::Hurt)
 	{
+		//움직이고
+		HurtRectMove();
 
+		mAttackBox = RectMakeCenter(2000, -2000, 1, 1);
 	}
 
 	//죽으면
@@ -173,23 +176,27 @@ void Monkey::Update()
 
 
 
-	mCurrentAnimation->Update();
-	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
-	mHitBox = RectMakeCenter(mX, mY + 30, 50, 50);
+	
+	//다친게 아니라면 몽둥이, 서치존 조정
+	if (mEnemyState != EnemyState::Hurt)
+	{
+		if (mDirection == Direction::Left) {
+			mSearchZone = RectMakeCenter(mX - 110, mY, 220, 200);
+			//mAttackBox = RectMakeCenter(mX - 30, mY + 20, 20, 40);
+			mAttackBox = RectMakeCenter(2000, -2000, 1, 1);
 
 
+		}
+		else {
+			mSearchZone = RectMakeCenter(mX + 110, mY, 220, 200);
+			//mAttackBox = RectMakeCenter(mX + 30, mY + 20, 20, 40);
+			mAttackBox = RectMakeCenter(2000, -2000, 1, 1);
 
-	if (mDirection == Direction::Left) {
-		mSearchZone = RectMakeCenter(mX - 110, mY, 220, 200);
-		mAttackBox = RectMakeCenter(mX-30, mY+20, 30, 50);
 
+		}
 	}
-	else {
-		mSearchZone = RectMakeCenter(mX + 110, mY, 220, 200);
-		mAttackBox = RectMakeCenter(mX+30, mY+20, 30, 50);
 
-	}
-
+	//공격랙트
 	if (mEnemyState == EnemyState::Attack)
 	{
 		if (mCurrentAnimation->GetNowFrameX() == 2 || mCurrentAnimation->GetNowFrameX() == 3)
@@ -207,12 +214,17 @@ void Monkey::Update()
 				mAttackBox = RectMakeCenter(mX + 40, mY + 20, 50, 50);
 		}
 	}
+
+	mCurrentAnimation->Update();
+	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
+	mHitBox = RectMakeCenter(mX, mY + 30, 50, 50);
+
 }
 
 void Monkey::Render(HDC hdc)
 {
 	////몽둥이
-	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
+	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
 	////색적
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mSearchZone);
 
