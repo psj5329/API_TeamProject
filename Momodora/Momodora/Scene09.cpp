@@ -72,7 +72,7 @@ void Scene09::Init()
 		main->SetFixX(480);
 		main->SetFixY(360);
 	}
-	else // ì´ else ë¶€ë¶„ì€ ì‹¤ì œ í”Œë ˆì´ì—ì„œëŠ” ì—†ì–´ì ¸ì•¼ í•¨, ë°”ë¡œ 9ë²ˆ ì”¬ ì§„ì…í•´ë„ ì§€ì • ìœ„ì¹˜ì—ì„œ ì‹œì‘í•  ìˆ˜ ìˆê²Œ í•´ë†“ì€ ì„¸íŒ…ì„
+	else // ÀÌ else ºÎºĞÀº ½ÇÁ¦ ÇÃ·¹ÀÌ¿¡¼­´Â ¾ø¾îÁ®¾ß ÇÔ, ¹Ù·Î 9¹ø ¾À ÁøÀÔÇØµµ ÁöÁ¤ À§Ä¡¿¡¼­ ½ÃÀÛÇÒ ¼ö ÀÖ°Ô ÇØ³õÀº ¼¼ÆÃÀÓ
 	{
 		player->SetX(50);
 		player->SetY(556);
@@ -90,10 +90,10 @@ void Scene09::Release()
 
 void Scene09::Update()
 {
-	if (mCameraFix) // ë°”ë‹¥ ê¹¨ì§€ëŠ” ì´ë²¤íŠ¸ ë°œìƒí•˜ëŠ” ë‚´ìš©ì— ì´ ifë¬¸ ë„£ìœ¼ë©´ ë ë“¯?
+	if (mCameraFix) // ¹Ù´Ú ±úÁö´Â ÀÌº¥Æ® ¹ß»ıÇÏ´Â ³»¿ë¿¡ ÀÌ if¹® ³ÖÀ¸¸é µÉµí?
 	{
 		GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
-		if (player->GetX() >= mSceneSizeX / 2.f) // ì§€ê¸ˆì€ ë§µ ì§„ì…í•˜ë©´ ê³ ì •ì¹´ë©”ë¼ì˜€ë‹¤ê°€ xì¶•ìœ¼ë¡œ ì¤‘ê°„ ì§€ë‚˜ë©´ ì¹´ë©”ë¼ ì‹œì  í”Œë ˆì´ì–´ë¡œ ë°”ë€Œë„ë¡ í•´ë†”ì„œ ì´ë²¤íŠ¸ ë•Œ ë–¨ì–´ì§€ëŠ” ê±° ë”°ë¼ê°ˆ ìˆ˜ ìˆê²Œ í•´ë‘ 
+		if (player->GetX() >= mSceneSizeX / 2.f) // Áö±İÀº ¸Ê ÁøÀÔÇÏ¸é °íÁ¤Ä«¸Ş¶ó¿´´Ù°¡ xÃàÀ¸·Î Áß°£ Áö³ª¸é Ä«¸Ş¶ó ½ÃÁ¡ ÇÃ·¹ÀÌ¾î·Î ¹Ù²îµµ·Ï ÇØ³ö¼­ ÀÌº¥Æ® ¶§ ¶³¾îÁö´Â °Å µû¶ó°¥ ¼ö ÀÖ°Ô ÇØµÒ
 		{
 			Camera* main = CAMERAMANAGER->GetMainCamera();
 			main->SetMode(Camera::Mode::Follow);
@@ -126,50 +126,50 @@ void Scene09::Update()
 	//mBoss->Update();
 	OBJECTMANAGER->Update();
 
-	// ì¶©ëŒ
+	// Ãæµ¹
 	AllCollision();
-  
-/*	//vector<GameObject*> vecArrow = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerArrow);
-	//vector<GameObject*> vecLeaf = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerLeaf);
 
-	//// í™”ì‚´ê³¼ ì¶©ëŒ
-	//for (int i = 0; i < vecArrow.size(); ++i)
-	//{
-	//	if (COLLISIONMANAGER->IsCollision(&((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetRect(), &vecArrow[i]->GetRect()))
-	//	{
-	//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
-	//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
-	//			- ((Arrow*)vecArrow[i])->GetArrowDamage());
-	//		//vecArrow.erase(vecArrow[i]);
-	//	}
-	//}
+	/*	//vector<GameObject*> vecArrow = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerArrow);
+		//vector<GameObject*> vecLeaf = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerLeaf);
 
-	//// í”Œë ˆì´ì–´ ë¦¬í”„ë‘ ì¶©ëŒ
-	//for (int i = 0; i < vecLeaf.size(); ++i)
-	//{
-	//	if (COLLISIONMANAGER->IsCollision(&((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetRect(), &vecLeaf[i]->GetRect()))
-	//	{
-	//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
-	//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
-	//			- OBJECTMANAGER->GetPlayer()->GetAttackDamage());
-	//	}
-	//}
-	Player* player = OBJECTMANAGER->GetPlayer();
-	RECT playerrect = player->GetRect();
-	if (COLLISIONMANAGER->IsCollision(&playerrect, ObjectLayer::BossBullet))	// í”Œë ˆì´ì–´ - ë³´ìŠ¤ íŒ¨í„´
-	{
-		if (OBJECTMANAGER->GetPlayer()->GetState() != PlayerState::Hurt)
+		//// È­»ì°ú Ãæµ¹
+		//for (int i = 0; i < vecArrow.size(); ++i)
+		//{
+		//	if (COLLISIONMANAGER->IsCollision(&((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetRect(), &vecArrow[i]->GetRect()))
+		//	{
+		//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
+		//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
+		//			- ((Arrow*)vecArrow[i])->GetArrowDamage());
+		//		//vecArrow.erase(vecArrow[i]);
+		//	}
+		//}
+
+		//// ÇÃ·¹ÀÌ¾î ¸®ÇÁ¶û Ãæµ¹
+		//for (int i = 0; i < vecLeaf.size(); ++i)
+		//{
+		//	if (COLLISIONMANAGER->IsCollision(&((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetRect(), &vecLeaf[i]->GetRect()))
+		//	{
+		//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
+		//		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
+		//			- OBJECTMANAGER->GetPlayer()->GetAttackDamage());
+		//	}
+		//}
+		Player* player = OBJECTMANAGER->GetPlayer();
+		RECT playerrect = player->GetRect();
+		if (COLLISIONMANAGER->IsCollision(&playerrect, ObjectLayer::BossBullet))	// ÇÃ·¹ÀÌ¾î - º¸½º ÆĞÅÏ
 		{
-			//OBJECTMANAGER->GetPlayer()->SetHp(OBJECTMANAGER->GetPlayer()->GetHp() - 10);
-			// í”Œë ˆì´ì–´ ë¬´ì ë˜ê²Œ ì…‹íŒ…í•´ì•¼í•¨
-			//Direction direction = COLLISIONMANAGER->CheckSide(&OBJECTMANAGER->GetPlayer()->GetHitBox(), &((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHitBox());
-			//Direction direction = OBJECTMANAGER->GetPlayer()->GetDirection();
-			//OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
+			if (OBJECTMANAGER->GetPlayer()->GetState() != PlayerState::Hurt)
+			{
+				//OBJECTMANAGER->GetPlayer()->SetHp(OBJECTMANAGER->GetPlayer()->GetHp() - 10);
+				// ÇÃ·¹ÀÌ¾î ¹«ÀûµÇ°Ô ¼ÂÆÃÇØ¾ßÇÔ
+				//Direction direction = COLLISIONMANAGER->CheckSide(&OBJECTMANAGER->GetPlayer()->GetHitBox(), &((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHitBox());
+				//Direction direction = OBJECTMANAGER->GetPlayer()->GetDirection();
+				//OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
+			}
 		}
-	}
-	// }}*/
+		// }}*/
 
-	// ì´ë²¤íŠ¸ ì¶”ê°€
+		// ÀÌº¥Æ® Ãß°¡
 	if (!mIsBossAppearanceEvent && OBJECTMANAGER->GetPlayer()->GetX() >= WINSIZEX / 2)
 	{
 		mIsBossAppearanceEvent = true;
@@ -179,7 +179,7 @@ void Scene09::Update()
 			, 1600 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetSizeY() / 3 - 50, 0.f, -500.f));
 		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(1.f));
 
-		GAMEEVENTMANAGER->PushEvent(new IObjectStop(false));	// ë³´ìŠ¤ ë“±ì¥ ì´ë²¤íŠ¸ ë
+		GAMEEVENTMANAGER->PushEvent(new IObjectStop(false));	// º¸½º µîÀå ÀÌº¥Æ® ³¡
 	}
 
 	if (!mIsBossDead && ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP() <= 0 && !((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetEndEvent())
@@ -225,10 +225,10 @@ void Scene09::Update()
 
 void Scene09::Render(HDC hdc)
 {
-	// ë§µ ì´ë¯¸ì§€
+	// ¸Ê ÀÌ¹ÌÁö
 	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mMapImage, 0, 0, mSceneSizeX, mSceneSizeY);
 
-	// {{ ì¶©ëŒ ì²´í¬ìš© ë§µ
+	// {{ Ãæµ¹ Ã¼Å©¿ë ¸Ê
 	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
 	vector<GameObject*>::iterator iter1 = platformList.begin();
 
@@ -236,7 +236,7 @@ void Scene09::Render(HDC hdc)
 	for (; iter1 != platformList.end(); ++iter1)
 		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, (*iter1)->GetRect());
 
-	// ì¶©ëŒ ì²´í¬ìš© ë§µ }}
+	// Ãæµ¹ Ã¼Å©¿ë ¸Ê }}
 
 	OBJECTMANAGER->Render(hdc);
 

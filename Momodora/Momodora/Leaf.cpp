@@ -88,10 +88,6 @@ void Leaf::Update()
 	MakeAttackBox(&mAttackBox);
 
 	mCurrentAnimation->Update();
-
-
-
-
 }
 
 void Leaf::Render(HDC hdc)
@@ -108,8 +104,6 @@ void Leaf::Render(HDC hdc)
 
 void Leaf::MakeAttackBox(RECT* attackBox)
 {
-	//mAttackBox = mRect; // 프레임 잘 돌아가면 프레임별로 세분화 예정
-
 	if (mCurrentAnimation == mLeaf01Left)
 	{
 		if (mCurrentAnimation->GetNowFrameX() >= 1 && mCurrentAnimation->GetNowFrameX() < 4)

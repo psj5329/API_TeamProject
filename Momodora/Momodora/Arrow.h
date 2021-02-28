@@ -4,11 +4,8 @@
 
 class Arrow : public GameObject
 {
-    //float mX;
-    //float mY;
     float mSpeed;
     float mAngle;
-    //RECT mRect;
     int mArrowIndexY = 0;
     int mArrowDamage = 0;
 
@@ -21,7 +18,6 @@ public:
 	void Release()override;
 	void Update()override;
 	void Render(HDC hdc)override;
-//	RECT GetRect() { return mRect; };
 
 	void SetArrowIndexY(int IndexY) { mArrowIndexY = IndexY; }
 

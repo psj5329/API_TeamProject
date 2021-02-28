@@ -54,6 +54,8 @@ public:
 	void RemoveObjectsInScene();
 
 	vector<GameObject*> GetObjectList(ObjectLayer layer) { return mObjectList[layer]; }
+	vector<GameObject*>* GetObjectListPtr(ObjectLayer layer) { return &mObjectList[layer]; }
+	void ShrinkToFitObjectList(ObjectLayer layer);
 	Player* GetPlayer();
 };
 

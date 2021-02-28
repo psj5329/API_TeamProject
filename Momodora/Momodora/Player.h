@@ -143,6 +143,9 @@ class Player : public GameObject
 
 	Animation* mCurrentAnimation;
 
+	Image* mAttacked;
+	float mAttackedAlpha;
+
 public:
 	Player();
 
