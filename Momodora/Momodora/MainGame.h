@@ -9,10 +9,6 @@ class MainGame
 private:
 	Image* mBackBuffer;
 
-	//bool mFirstEnter;
-
-	Boss* mBoss;
-
 public:
 	void Init();
 	void Release();

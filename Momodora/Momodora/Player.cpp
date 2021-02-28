@@ -1347,8 +1347,8 @@ void Player::InitPlayerVar()
 {
 	// 부모 클래스인 GameObject에 선언된 변수들
 	mName = "Player";
-	mX = WINSIZEX / 2.f;
-	mY = 200.f;
+	mX = -2000.f;
+	mY = -2000.f;
 	mSizeX = (float)(mIdleImage->GetFrameWidth()) * 2.f;
 	mSizeY = (float)(mIdleImage->GetFrameHeight()) * 2.f;
 	mDirection = Direction::Right;

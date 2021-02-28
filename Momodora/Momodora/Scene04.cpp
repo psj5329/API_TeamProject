@@ -4,6 +4,7 @@
 #include "Platform.h"
 #include "Fennel.h"
 #include "Player.h"
+
 void Scene04::Init()
 {
 	mMapImage = IMAGEMANAGER->FindImage(L"MapImage04");
@@ -17,22 +18,20 @@ void Scene04::Init()
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	main->SetTarget(player);
 
-	// 플레이어가 서 있는 위치 고려해서 고정 카메라로 했다가 바꿔야 함
 	if (mEntrance == 1)
 	{
 		player->SetX(50);
-		player->SetY(731);
+		player->SetY(732);
 		main->SetX(480);
 		main->SetY(540);
 	}
 	else if (mEntrance == 2)
 	{
 		player->SetX(1150);
-		player->SetY(731);
+		player->SetY(732);
 		main->SetX(480);
 		main->SetY(540);
 	}
-
 
 	////페넬
 	AddFennel(800, 775);
@@ -48,7 +47,7 @@ void Scene04::Update()
 
 	//충돌확인
 	AllCollision();
-		
+
 	RECT temp1;
 	vector<GameObject*> enemyList = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
 	//랙트 받아오고
@@ -77,7 +76,6 @@ void Scene04::Update()
 		//플레이어 상태전환하고 무적시키는 함수
 		OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
 	}
-
 
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	float x = player->GetX();

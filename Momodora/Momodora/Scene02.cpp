@@ -17,22 +17,20 @@ void Scene02::Init()
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	main->SetTarget(player);
 
-	// 플레이어가 서 있는 위치 고려해서 고정 카메라로 했다가 바꿔야 함
 	if (mEntrance == 1)
 	{
 		player->SetX(50);
-		player->SetY(551);
+		player->SetY(552);
 		main->SetX(480);
 		main->SetY(540);
 	}
 	else if (mEntrance == 2)
 	{
 		player->SetX(2350);
-		player->SetY(491);
+		player->SetY(492);
 		main->SetX(1920);
 		main->SetY(540);
 	}
-
 
 	AddDaggerImp(750, 420);
 	AddDaggerImp(850, 420);
@@ -63,8 +61,6 @@ void Scene02::Update()
 		SCENEMANAGER->LoadScene(L"Scene01", 2);
 	if ((int)x >= mSceneSizeX)
 		SCENEMANAGER->LoadScene(L"Scene03", 1);
-
-
 
 	//충돌확인
 	AllCollision();

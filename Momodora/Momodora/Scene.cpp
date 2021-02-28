@@ -100,9 +100,10 @@ void Scene::AddFennel(float x, float y)
 	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Fennel1);
 }
 
-
 void Scene::AllCollision()
 {
+	vector<GameObject*> e =  OBJECTMANAGER->GetObjectList(ObjectLayer::Boss);
+
 	vector<GameObject*> enemyList = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
 	vector<GameObject*> arrowList = OBJECTMANAGER->GetObjectList(ObjectLayer::PlayerArrow);
 	vector<GameObject*> daggerList = OBJECTMANAGER->GetObjectList(ObjectLayer::EnemyDagger);
@@ -274,22 +275,26 @@ void Scene::AllCollision()
 		}
 	}
 	//적히트박스, 플레이어의 리프 충돌
-	if (!((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetInvincibility())
+	for (int i = 0; i < e.size(); ++i) // for문 size 있을 때만 들어올 수 있게 감싸줬음
 	{
-		RECT hitBox = ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHitBox();
-		RECT temp;
-		if (IntersectRect(&temp, &hitBox, &playerAtkBox))
+		if (!((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetInvincibility())
 		{
-			//플레이어 불값바꾸기
-			player->SetEndCombo(false);
-			//적체력깎기
-			//int atk = player->GetAttackDamage();
-			((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
-				- ((100 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetDef()) / 100.f * OBJECTMANAGER->GetPlayer()->GetAttackDamage()));
-			//에너미 맞은상태 true
-			((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
+			RECT hitBox = ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHitBox();
+			RECT temp;
+			if (IntersectRect(&temp, &hitBox, &playerAtkBox))
+			{
+				//플레이어 불값바꾸기
+				player->SetEndCombo(false);
+				//적체력깎기
+				//int atk = player->GetAttackDamage();
+				((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
+					- ((100 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetDef()) / 100.f * OBJECTMANAGER->GetPlayer()->GetAttackDamage()));
+				//에너미 맞은상태 true
+				((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
+			}
 		}
 	}
+	
 	//플레이어의 공격애니메이션하나가 끝나면
 	if (player->GetEndCombo())
 	{
