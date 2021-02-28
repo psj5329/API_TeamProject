@@ -46,19 +46,9 @@ void Scene04::Update()
 {
 	OBJECTMANAGER->Update();
 
-	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
-	float x = player->GetX();
-
-	//if ((int)x <= 0)
-	//	SCENEMANAGER->LoadScene(L"Scene03", 2); // 왼쪽으로 못 돌아가게 막을 예정?!
-	if ((int)x >= mSceneSizeX)
-		SCENEMANAGER->LoadScene(L"Scene05", 1);
-
-
 	//충돌확인
 	AllCollision();
-
-	
+		
 	RECT temp1;
 	vector<GameObject*> enemyList = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
 	//랙트 받아오고
@@ -87,6 +77,16 @@ void Scene04::Update()
 		//플레이어 상태전환하고 무적시키는 함수
 		OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
 	}
+
+
+	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
+	float x = player->GetX();
+
+	//if ((int)x <= 0)
+	//	SCENEMANAGER->LoadScene(L"Scene03", 2); // 왼쪽으로 못 돌아가게 막을 예정?!
+	if ((int)x >= mSceneSizeX)
+		//SCENEMANAGER->LoadScene(L"Scene05", 1);
+		SCENEMANAGER->LoadScene(L"Scene09", 1);
 }
 
 void Scene04::Render(HDC hdc)

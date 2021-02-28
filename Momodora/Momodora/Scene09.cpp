@@ -19,11 +19,6 @@
 
 void Scene09::Init()
 {
-	// 맵 배경으로 깔고 그 사이즈 받아서 맵 사이즈 초기화 해야 함
-	mSceneSizeX = 960;
-	mSceneSizeY = 1600;
-	// 여기까지는 임시 데이터
-
 	mMapImage = IMAGEMANAGER->FindImage(L"Background_Boss");
 	mPlatformImage = IMAGEMANAGER->FindImage(L"platform1");
 	mPlatformImage2 = IMAGEMANAGER->FindImage(L"platform3");
@@ -63,11 +58,27 @@ void Scene09::Init()
 	OBJECTMANAGER->AddObject(ObjectLayer::UI, starCountui);
 
 	Camera* main = CAMERAMANAGER->GetMainCamera();
-	main->SetMode(Camera::Mode::Follow);
+	main->SetMode(Camera::Mode::Fix);
+	//main->SetMode(Camera::Mode::Follow);
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	main->SetTarget(player);
-	//main->SetMode(Camera::Mode::Fix);
-	main->SetFix(WINSIZEX / 2, WINSIZEY / 2);
+
+	if (mEntrance == 1)
+	{
+		player->SetX(50);
+		player->SetY(556);
+		main->SetFixX(480);
+		main->SetFixY(360);
+	}
+	else // 이 else 부분은 실제 플레이에서는 없어져야 함, 바로 9번 씬 진입해도 지정 위치에서 시작할 수 있게 해놓은 세팅임
+	{
+		
+		player->SetX(50);
+		player->SetY(556);
+		main->SetFixX(480);
+		main->SetFixY(360);
+	}
+	mCameraFix = true;
 
 	mIsBossDead = false;
 }
@@ -78,6 +89,17 @@ void Scene09::Release()
 
 void Scene09::Update()
 {
+	if (mCameraFix) // 바닥 깨지는 이벤트 발생하는 내용에 이 if문 넣으면 될듯?
+	{
+		GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
+		if (player->GetX() >= mSceneSizeX / 2.f) // 지금은 맵 진입하면 고정카메라였다가 x축으로 중간 지나면 카메라 시점 플레이어로 바뀌도록 해놔서 이벤트 때 떨어지는 거 따라갈 수 있게 해둠
+		{
+			Camera* main = CAMERAMANAGER->GetMainCamera();
+			main->SetMode(Camera::Mode::Follow);
+			main->SetTarget(player);
+		}
+	}
+
 	if (INPUT->GetKeyDown(VK_RETURN))
 	{
 		StarItem* star = new StarItem;

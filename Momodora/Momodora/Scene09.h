@@ -9,6 +9,7 @@ class Scene09 final : public Scene
 	bool mIsBossAppearanceEvent;
 	bool mIsChangeImage;
 	float mChangeImageTime;
+	bool mCameraFix;
 
 public:
 	void Init()override;
