@@ -1,9 +1,7 @@
 ﻿#include "pch.h"
 #include "MainGame.h"
-
 #include "Image.h"
 #include "Camera.h"
-
 #include "LoadingScene.h"
 #include "Scene01.h"
 #include "Scene02.h"
@@ -27,11 +25,9 @@ void MainGame::Init()
 	Camera* main = new Camera();
 	main->Init();
 	main->SetMoveSpeed(5.f);
-	main->SetMode(Camera::Mode::Free); // 프리 카메라
+	main->SetMode(Camera::Mode::Free);
 
 	CAMERAMANAGER->SetMainCamera(main);
-
-	//mFirstEnter = false;
 }
 
 void MainGame::Release()
@@ -71,16 +67,6 @@ void MainGame::Update()
 		if (!(currentScene->GetIsEndLoading()))
 			return;
 	}
-
-	//if (!mFirstEnter)
-	//{
-	//	if (INPUT->GetKeyDown(VK_SPACE))
-	//	{
-	//		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene01")
-	//			SCENEMANAGER->LoadScene(L"Scene01", 0);
-	//		mFirstEnter = true;
-	//	}
-	//}
 	
 	if (INPUT->GetKeyDown('2'))
 	{
@@ -139,16 +125,6 @@ void MainGame::Update()
 			main->SetTarget(player99);
 		}
 	}
-
-	bool tempRight = CAMERAMANAGER->GetMainCamera()->GetRight();
-
-	if (INPUT->GetKeyDown('K'))
-	{
-		if (tempRight)
-			CAMERAMANAGER->GetMainCamera()->SetRight(false);
-		else
-			CAMERAMANAGER->GetMainCamera()->SetRight(true);
-	}
 }
 
 void MainGame::Render(HDC hdc)
@@ -157,8 +133,6 @@ void MainGame::Render(HDC hdc)
 	PatBlt(backDC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 
 	// { 그리기 시작
-
-	//CAMERAMANAGER->GetMainCamera()->Render(backDC, mBackground, 0, 0); // 임시로 띄워놓은 것 // 씬 만들어지면 지울 것
 
 	SCENEMANAGER->Render(backDC);
 
