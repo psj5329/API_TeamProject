@@ -11,12 +11,13 @@
 #include "Fennel.h"
 #include "Boss.h"
 #include "BossBullet.h"
+//#include "Effect.h"
 
-//Àû»ı¼º
+//ì ìƒì„±
 void Scene::AddMonkey(float x, float y)
 {
 	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
-	//¸ùÅ°»ı¼º
+	//ëª½í‚¤ìƒì„±
 
 	Monkey* monkey1 = new Monkey();
 	monkey1->Init();
@@ -30,7 +31,7 @@ void Scene::AddWitch(float x, float y)
 {
 	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
 
-	//¸¶³à
+	//ë§ˆë…€
 	Witch* Witch1 = new Witch();
 	Witch1->Init();
 	Witch1->SetObject();
@@ -44,7 +45,7 @@ void Scene::AddBombImp(float x, float y)
 {
 	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
 
-	//ÆøÅº
+	//í­íƒ„
 	BombImp* BombImp1 = new BombImp();
 	BombImp1->Init();
 	BombImp1->SetObject();
@@ -56,7 +57,7 @@ void Scene::AddShieldImp(float x, float y)
 {
 	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
 
-	//¹æÆĞ
+	//ë°©íŒ¨
 	ShieldImp* ShieldImp1 = new ShieldImp();
 	ShieldImp1->Init();
 	ShieldImp1->SetObject();
@@ -69,7 +70,7 @@ void Scene::AddDaggerImp(float x, float y)
 {
 	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
 
-	//Ä®µç¾Ö
+	//ì¹¼ë“ ì• 
 	DaggerImp* DaggerImp1 = new DaggerImp();
 	DaggerImp1->Init();
 	DaggerImp1->SetObject();
@@ -80,7 +81,7 @@ void Scene::AddDaggerImp(float x, float y)
 }
 void Scene::AddPotion(float x, float y)
 {
-	//ÅÛ
+	//í…œ
 	Potion* potion1 = new Potion();
 	potion1->Init(x, y, 0);
 	potion1->SetObject();
@@ -92,7 +93,7 @@ void Scene::AddFennel(float x, float y)
 {
 	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
 
-	//Æä³Ú
+	//í˜ë„¬
 	Fennel* Fennel1 = new Fennel();
 	Fennel1->Init();
 	Fennel1->SetObject();
@@ -116,7 +117,7 @@ void Scene::AllCollision()
 	RECT playerHitBox = player->GetHitBox();
 	RECT playerAtkBox = leaf[0]->GetAttackBox();
 
-	//ÀûÈ÷Æ®¹Ú½º, ÇÃ·¹ÀÌ¾î È­»ì Ãæµ¹
+	//ì íˆíŠ¸ë°•ìŠ¤, í”Œë ˆì´ì–´ í™”ì‚´ ì¶©ëŒ
 	for (int i = 0; i < enemyList.size(); i++)
 	{
 		for (int j = 0; j < arrowList.size(); j++)
@@ -126,43 +127,50 @@ void Scene::AllCollision()
 			RECT arrow = arrowList[j]->GetRect();
 			if (IntersectRect(&temp, &hitBox, &arrow))
 			{
-				//È­»ì ¾ø¾Ö°í
+				//í™”ì‚´ ì—†ì• ê³ 
 				//arrowList[j]->Release();
 				//arrowList[j]->SetIsActive(false);
 				arrowList[j]->SetIsDestroy(true);
-				//¿¡³Ê¹Ì Ã¼·ÂÁ¶Á¤
+				//ì—ë„ˆë¯¸ ì²´ë ¥ì¡°ì •
 				((Enemy*)(enemyList[i]))->TakeHp(20);
+
+				//ì´í™íŠ¸ ë§Œë“¤ê³ 
+				Effect* effect1 = new Effect();
+				effect1->Init(L"Hit", temp.right + 20, temp.top + 10, 0, 3, 0.1);
 			}
 		}
 	}
-	//ÀûÈ÷Æ®¹Ú½º, ÇÃ·¹ÀÌ¾îÀÇ ¸®ÇÁ Ãæµ¹
+	//ì íˆíŠ¸ë°•ìŠ¤, í”Œë ˆì´ì–´ì˜ ë¦¬í”„ ì¶©ëŒ
 	for (int i = 0; i < enemyList.size(); i++)
 	{
-		//ÀûÀÌ ÀÌ¹Ì¸ÂÀº»óÅÂ´Ï?
+		//ì ì´ ì´ë¯¸ë§ì€ìƒíƒœë‹ˆ?
 		if (!((Enemy*)(enemyList[i]))->GetIsHit())
 		{
 			RECT hitBox = enemyList[i]->GetHitBox();
 			RECT temp;
 			if (IntersectRect(&temp, &hitBox, &playerAtkBox))
 			{
-				//ÇÃ·¹ÀÌ¾î ºÒ°ª¹Ù²Ù±â
+				//í”Œë ˆì´ì–´ ë¶ˆê°’ë°”ê¾¸ê¸°
 				player->SetHitAttack(false);
 
-				//ÀûÃ¼·Â±ğ±â
+				//ì ì²´ë ¥ê¹ê¸°
 				int atk = player->GetAttackDamage();
 				((Enemy*)(enemyList[i]))->TakeHp(2);
 
-				//¹æÇâ Á¤ÇÏ°í
+				//ë°©í–¥ ì •í•˜ê³ 
 				Direction direction = COLLISIONMANAGER->CheckSide(&hitBox, &playerAtkBox);
-				//Àû ¾ÆÇÂ¸ğ¼Ç, ½ºÅÏ Àç»ı
+				//ì  ì•„í”ˆëª¨ì…˜, ìŠ¤í„´ ì¬ìƒ
 				((Enemy*)(enemyList[i]))->Hurt(direction);
 
-
-				//¿¡³Ê¹Ì ¸ÂÀº»óÅÂ true
+				//ì—ë„ˆë¯¸ ë§ì€ìƒíƒœ true
 				((Enemy*)(enemyList[i]))->SetIsHit(true);
+
+				//ì´í™íŠ¸ ë§Œë“¤ê³ 
+				Effect* effect1 = new Effect();
+				effect1->Init(L"Hit", temp.right + 20, temp.top + 10, 0, 3, 0.1);
 			}
 		}
-		//ÇÃ·¹ÀÌ¾îÀÇ °ø°İ¾Ö´Ï¸ŞÀÌ¼ÇÇÏ³ª°¡ ³¡³ª¸é
+		//í”Œë ˆì´ì–´ì˜ ê³µê²©ì• ë‹ˆë©”ì´ì…˜í•˜ë‚˜ê°€ ëë‚˜ë©´
 		if (player->GetHitAttack())
 		{
 			((Enemy*)(enemyList[i]))->SetIsHit(false);
@@ -170,43 +178,43 @@ void Scene::AllCollision()
 
 	}
 
-	//´Üµµ, ÇÃ·¹ÀÌ¾î È÷Æ®¹Ú½º Ãæµ¹
+	//ë‹¨ë„, í”Œë ˆì´ì–´ íˆíŠ¸ë°•ìŠ¤ ì¶©ëŒ
 	for (int i = 0; i < daggerList.size(); i++)
 	{
 		RECT temp;
 		RECT dagger = daggerList[i]->GetHitBox();
 		if (IntersectRect(&temp, &playerHitBox, &dagger))
 		{
-			//´Üµµ¾ø¾Ö°í
+			//ë‹¨ë„ì—†ì• ê³ 
 			//daggerList[i]->Release();
 			daggerList[i]->SetIsDestroy(true);
 
-			//ÇÃ·¹ÀÌ¾î Ã¼·Â ±ğ±â
-			//¹æÇâ¾Ë·ÁÁà¾ßÇØ
+			//í”Œë ˆì´ì–´ ì²´ë ¥ ê¹ê¸°
+			//ë°©í–¥ì•Œë ¤ì¤˜ì•¼í•´
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &dagger);
-			//ÇÃ·¹ÀÌ¾î »óÅÂÀüÈ¯ÇÏ°í ¹«Àû½ÃÅ°´Â ÇÔ¼ö
+			//í”Œë ˆì´ì–´ ìƒíƒœì „í™˜í•˜ê³  ë¬´ì ì‹œí‚¤ëŠ” í•¨ìˆ˜
 			player->PlayerHurt(direction);
 		}
 	}
-	//ÆøÅº, ÇÃ·¹ÀÌ¾î È÷Æ®¹Ú½º Ãæµ¹
+	//í­íƒ„, í”Œë ˆì´ì–´ íˆíŠ¸ë°•ìŠ¤ ì¶©ëŒ
 	for (int i = 0; i < bombList.size(); i++)
 	{
 		RECT temp;
 		RECT bomb = bombList[i]->GetHitBox();
 		if (IntersectRect(&temp, &playerHitBox, &bomb))
 		{
-			//ÆøÅº ÅÍÆ®¸®°í
+			//í­íƒ„ í„°íŠ¸ë¦¬ê³ 
 			((Bomb*)bombList[i])->Explode();
 
-			//ÇÃ·¹ÀÌ¾î Ã¼·Â ±ğ±â
+			//í”Œë ˆì´ì–´ ì²´ë ¥ ê¹ê¸°
 
-			//¹æÇâ¾Ë·ÁÁà¾ßÇØ
+			//ë°©í–¥ì•Œë ¤ì¤˜ì•¼í•´
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &bomb);
-			//ÇÃ·¹ÀÌ¾î »óÅÂÀüÈ¯ÇÏ°í ¹«Àû½ÃÅ°´Â ÇÔ¼ö
+			//í”Œë ˆì´ì–´ ìƒíƒœì „í™˜í•˜ê³  ë¬´ì ì‹œí‚¤ëŠ” í•¨ìˆ˜
 			player->PlayerHurt(direction);
 		}
 	}
-	//ÁöÆÎÀÌ, ÇÃ·¹ÀÌ¾î È÷Æ®¹Ú½º Ãæµ¹
+	//ì§€íŒ¡ì´, í”Œë ˆì´ì–´ íˆíŠ¸ë°•ìŠ¤ ì¶©ëŒ
 	for (int i = 0; i < staffList.size(); i++)
 	{
 		RECT temp;
@@ -214,15 +222,15 @@ void Scene::AllCollision()
 		if (IntersectRect(&temp, &playerHitBox, &staff))
 		{
 
-			//ÇÃ·¹ÀÌ¾î Ã¼·Â ±ğ±â
+			//í”Œë ˆì´ì–´ ì²´ë ¥ ê¹ê¸°
 
-			//¹æÇâ¾Ë·ÁÁà¾ßÇØ
+			//ë°©í–¥ì•Œë ¤ì¤˜ì•¼í•´
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &staff);
-			//ÇÃ·¹ÀÌ¾î »óÅÂÀüÈ¯ÇÏ°í ¹«Àû½ÃÅ°´Â ÇÔ¼ö
+			//í”Œë ˆì´ì–´ ìƒíƒœì „í™˜í•˜ê³  ë¬´ì ì‹œí‚¤ëŠ” í•¨ìˆ˜
 			player->PlayerHurt(direction);
 		}
 	}
-	//ÀûÀÇ ±ÙÁ¢°ø°İ, ÇÃ·¹ÀÌ¾î È÷Æ®¹Ú½º Ãæµ¹
+	//ì ì˜ ê·¼ì ‘ê³µê²©, í”Œë ˆì´ì–´ íˆíŠ¸ë°•ìŠ¤ ì¶©ëŒ
 	for (int i = 0; i < enemyList.size(); i++)
 	{
 		RECT temp;
@@ -231,15 +239,15 @@ void Scene::AllCollision()
 		if (IntersectRect(&temp, &playerHitBox, &atkBox))
 		{
 
-			//ÇÃ·¹ÀÌ¾î Ã¼·Â ±ğ±â
+			//í”Œë ˆì´ì–´ ì²´ë ¥ ê¹ê¸°
 
-			//ÇÃ·¹ÀÌ¾î »óÅÂÀüÈ¯ÇÏ°í ¹«Àû½ÃÅ°´Â ÇÔ¼ö
+			//í”Œë ˆì´ì–´ ìƒíƒœì „í™˜í•˜ê³  ë¬´ì ì‹œí‚¤ëŠ” í•¨ìˆ˜
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &atkBox);
-			//¹æÇâ¾Ë·ÁÁà¾ßÇØ
+			//ë°©í–¥ì•Œë ¤ì¤˜ì•¼í•´
 			player->PlayerHurt(direction);
 		}
 	}
-	// º¸½º °ø°İÀÌ¶û ÇÃ·¹ÀÌ¾î Ãæµ¹
+	// ë³´ìŠ¤ ê³µê²©ì´ë‘ í”Œë ˆì´ì–´ ì¶©ëŒ
 	for (int i = 0; i < bossBullet.size(); i++)
 	{
 		RECT temp;
@@ -251,35 +259,50 @@ void Scene::AllCollision()
 			{
 				bossBullet[i]->SetIsActive(false);
 				bossBullet[i]->SetIsDestroy(true);
-				//ÇÃ·¹ÀÌ¾î Ã¼·Â ±ğ±â
+				//í”Œë ˆì´ì–´ ì²´ë ¥ ê¹ê¸°
 
-				//ÇÃ·¹ÀÌ¾î »óÅÂÀüÈ¯ÇÏ°í ¹«Àû½ÃÅ°´Â ÇÔ¼ö
+				//í”Œë ˆì´ì–´ ìƒíƒœì „í™˜í•˜ê³  ë¬´ì ì‹œí‚¤ëŠ” í•¨ìˆ˜
 				Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &atkBox);
-				//¹æÇâ¾Ë·ÁÁà¾ßÇØ
+				//ë°©í–¥ì•Œë ¤ì¤˜ì•¼í•´
 				player->PlayerHurt(direction);
+			}
+			/*bossBullet[i]->SetIsActive(false);
+			bossBullet[i]->SetIsDestroy(true);
+			//í”Œë ˆì´ì–´ ì²´ë ¥ ê¹ê¸°
+
+			//í”Œë ˆì´ì–´ ìƒíƒœì „í™˜í•˜ê³  ë¬´ì ì‹œí‚¤ëŠ” í•¨ìˆ˜
+			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &atkBox);
+			//ë°©í–¥ì•Œë ¤ì¤˜ì•¼í•´
+			player->PlayerHurt(direction);*/
+		}
+	}
+
+	// ë³´ìŠ¤ë‘ í™”ì‚´
+	if (OBJECTMANAGER->FindObject("Boss") != NULL)
+	{
+		for (int j = 0; j < arrowList.size(); j++)
+		{
+			RECT temp;
+			RECT hitBox = OBJECTMANAGER->FindObject("Boss")->GetHitBox();
+			RECT arrow = arrowList[j]->GetRect();
+			if (IntersectRect(&temp, &hitBox, &arrow))
+			{
+				//í™”ì‚´ ì—†ì• ê³ 
+				//arrowList[j]->Release();
+				//arrowList[j]->SetIsActive(false);
+				arrowList[j]->SetIsDestroy(true);
+				//ì—ë„ˆë¯¸ ì²´ë ¥ì¡°ì •
+				((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
+				((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP() - 5);
+
+				//ì´í™íŠ¸ ë§Œë“¤ê³ 
+				Effect* effect1 = new Effect();
+				effect1->Init(L"Hit", temp.right, temp.top, 0, 3, 0.1);
 			}
 		}
 	}
-
-	// º¸½º¶û È­»ì
-	for (int j = 0; j < arrowList.size(); j++)
-	{
-		RECT temp;
-		RECT hitBox = OBJECTMANAGER->FindObject("Boss")->GetHitBox();
-		RECT arrow = arrowList[j]->GetRect();
-		if (IntersectRect(&temp, &hitBox, &arrow))
-		{
-			//È­»ì ¾ø¾Ö°í
-			//arrowList[j]->Release();
-			//arrowList[j]->SetIsActive(false);
-			arrowList[j]->SetIsDestroy(true);
-			//¿¡³Ê¹Ì Ã¼·ÂÁ¶Á¤
-			((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
-			((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP() - 5);
-		}
-	}
-	//ÀûÈ÷Æ®¹Ú½º, ÇÃ·¹ÀÌ¾îÀÇ ¸®ÇÁ Ãæµ¹
-	for (int i = 0; i < e.size(); ++i) // for¹® size ÀÖÀ» ¶§¸¸ µé¾î¿Ã ¼ö ÀÖ°Ô °¨½ÎÁáÀ½
+	//ì íˆíŠ¸ë°•ìŠ¤, í”Œë ˆì´ì–´ì˜ ë¦¬í”„ ì¶©ëŒ
+	for (int i = 0; i < e.size(); ++i) // forë¬¸ size ìˆì„ ë•Œë§Œ ë“¤ì–´ì˜¬ ìˆ˜ ìˆê²Œ ê°ì‹¸ì¤¬ìŒ
 	{
 		if (!((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetInvincibility())
 		{
@@ -287,22 +310,26 @@ void Scene::AllCollision()
 			RECT temp;
 			if (IntersectRect(&temp, &hitBox, &playerAtkBox))
 			{
-				//ÇÃ·¹ÀÌ¾î ºÒ°ª¹Ù²Ù±â
+				//í”Œë ˆì´ì–´ ë¶ˆê°’ë°”ê¾¸ê¸°
 				player->SetEndCombo(false);
-				//ÀûÃ¼·Â±ğ±â
+				//ì ì²´ë ¥ê¹ê¸°
 				//int atk = player->GetAttackDamage();
 				((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
 					- ((100 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetDef()) / 100.f * OBJECTMANAGER->GetPlayer()->GetAttackDamage()));
-				//¿¡³Ê¹Ì ¸ÂÀº»óÅÂ true
+				//ì—ë„ˆë¯¸ ë§ì€ìƒíƒœ true
 				((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
 			}
 		}
 	}
 	
-	//ÇÃ·¹ÀÌ¾îÀÇ °ø°İ¾Ö´Ï¸ŞÀÌ¼ÇÇÏ³ª°¡ ³¡³ª¸é
-	if (player->GetEndCombo())
+	//í”Œë ˆì´ì–´ì˜ ê³µê²©ì• ë‹ˆë©”ì´ì…˜í•˜ë‚˜ê°€ ëë‚˜ë©´
+	if (OBJECTMANAGER->FindObject("Boss") != NULL)
 	{
-		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetIsHit(false);
-		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetInvincibility(false);
+		if (player->GetEndCombo())
+		{
+			((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetIsHit(false);
+			((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetInvincibility(false);
+		}
 	}
+
 }

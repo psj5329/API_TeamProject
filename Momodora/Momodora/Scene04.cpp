@@ -4,6 +4,8 @@
 #include "Platform.h"
 #include "Fennel.h"
 #include "Player.h"
+#include "BossHpUI.h"
+#include "GameEvent.h"
 
 void Scene04::Init()
 {
@@ -85,6 +87,46 @@ void Scene04::Update()
 	if ((int)x >= mSceneSizeX)
 		//SCENEMANAGER->LoadScene(L"Scene05", 1);
 		SCENEMANAGER->LoadScene(L"Scene09", 1);
+
+
+	//이벤트 추가
+	//if (FennelIntro && OBJECTMANAGER->GetPlayer()->GetX() >= WINSIZEX / 2)
+	//{
+	//	FennelIntro = false;
+	//	GAMEEVENTMANAGER->PushEvent(new IObjectStop(true));
+	//	GAMEEVENTMANAGER->PushEvent(new IDelayEvent(3.f));
+	//	Image* image = IMAGEMANAGER->FindImage(L"Fennelintro1");
+	//	GAMEEVENTMANAGER->PushEvent(new IChangeImage(&image, L"Fennelintro1"));
+	//	GAMEEVENTMANAGER->PushEvent(new IDelayEvent(1.f));
+	//
+	//	GAMEEVENTMANAGER->PushEvent(new IObjectStop(false));	// 보스 등장 이벤트 끝
+	//}
+	//
+	//GAMEEVENTMANAGER->Update();
+	//
+	//if (FennelIntro)
+	//{
+	//	mChangeImageTime += TIME->DeltaTime();
+	//
+	//	if (mChangeImageTime >= 1.f)
+	//	{
+	//		mPlatformImage = IMAGEMANAGER->FindImage(L"platform2");
+	//		OBJECTMANAGER->GetObjectList(ObjectLayer::Platform).front()->SetRect(WINSIZEX * 2, 604, WINSIZEX * 2 + 960, 643);
+	//	}
+	//
+	//	if (OBJECTMANAGER->GetPlayer()->GetY() >= 1600 - WINSIZEY / 2)//1460 - OBJECTMANAGER->GetPlayer()->GetSizeY() / 2)
+	//	{
+	//		mCameraFix = false;
+	//		CAMERAMANAGER->GetMainCamera()->SetMode(Camera::Mode::Fix);
+	//		CAMERAMANAGER->GetMainCamera()->SetFix(WINSIZEX / 2, 1600 - WINSIZEY / 2 - 50);
+	//
+	//		if (!OBJECTMANAGER->FindObject("BossHpUI")->GetIsActive())
+	//		{
+	//			OBJECTMANAGER->FindObject("BossHpUI")->SetIsActive(true);
+	//		}
+	//	}
+	//}
+
 }
 
 void Scene04::Render(HDC hdc)
@@ -92,6 +134,8 @@ void Scene04::Render(HDC hdc)
 	CAMERAMANAGER->GetMainCamera()->Render(hdc, mMapImage, 0, 0);
 
 	OBJECTMANAGER->Render(hdc);
+
+	GAMEEVENTMANAGER->Render(hdc);
 
 	//RECT rect;
 	//vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
