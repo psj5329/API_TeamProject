@@ -327,7 +327,7 @@ void IMoveCameraEvent::Render(HDC hdc)
 {
 }
 
-//Æä³Ú
+//Ã†Ã¤Â³Ãš
 IChangeImage2::IChangeImage2(Image** image1, wstring name)
 {
 	mImage1 = *image1;

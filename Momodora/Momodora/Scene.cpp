@@ -155,7 +155,7 @@ void Scene::AllCollision()
 
 				//적체력깎기
 				int atk = player->GetAttackDamage();
-				((Enemy*)(enemyList[i]))->TakeHp(2);
+				((Enemy*)(enemyList[i]))->TakeHp(atk);
 
 				//방향 정하고
 				Direction direction = COLLISIONMANAGER->CheckSide(&hitBox, &playerAtkBox);
@@ -168,6 +168,9 @@ void Scene::AllCollision()
 				//이펙트 만들고
 				Effect* effect1 = new Effect();
 				effect1->Init(L"Hit", temp.right + 20, temp.top + 10, 0, 3, 0.1);
+
+				//소리
+				SOUNDMANAGER->Play(L"Leaf", 0.05f);
 			}
 		}
 		//플레이어의 공격애니메이션하나가 끝나면
@@ -190,6 +193,8 @@ void Scene::AllCollision()
 			daggerList[i]->SetIsDestroy(true);
 
 			//플레이어 체력 깎기
+			player->SetHp(player->GetHp() - 10);
+
 			//방향알려줘야해
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &dagger);
 			//플레이어 상태전환하고 무적시키는 함수
@@ -207,6 +212,7 @@ void Scene::AllCollision()
 			((Bomb*)bombList[i])->Explode();
 
 			//플레이어 체력 깎기
+			player->SetHp(player->GetHp() - 30);
 
 			//방향알려줘야해
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &bomb);
@@ -223,7 +229,7 @@ void Scene::AllCollision()
 		{
 
 			//플레이어 체력 깎기
-
+			player->SetHp(player->GetHp() - 20);
 			//방향알려줘야해
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &staff);
 			//플레이어 상태전환하고 무적시키는 함수
@@ -240,7 +246,7 @@ void Scene::AllCollision()
 		{
 
 			//플레이어 체력 깎기
-
+			player->SetHp(player->GetHp() - 10);
 			//플레이어 상태전환하고 무적시키는 함수
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &atkBox);
 			//방향알려줘야해
