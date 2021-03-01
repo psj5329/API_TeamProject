@@ -146,3 +146,19 @@ public:
 	bool Update()override;
 	void Render(HDC hdc)override;
 };
+
+class IPlaySoundEffect : public IEvent
+{
+	wstring mName;
+	wstring mPath;
+	float mDelay;
+	float mTime;
+	float mVolume;
+
+public:
+	IPlaySoundEffect(wstring name, wstring path, float volume, float delay);
+
+	void Start()override;
+	bool Update()override;
+	void Render(HDC hdc)override;
+};

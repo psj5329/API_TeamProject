@@ -98,6 +98,9 @@ void Scene05::Update()
 {
 	SOUNDMANAGER->Update();
 
+	if (INPUT->GetKeyDown('P'))
+		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(0);
+
 	if (mCameraFix) // 바닥 깨지는 이벤트 발생하는 내용에 이 if문 넣으면 될듯?
 	{
 		GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
@@ -121,16 +124,22 @@ void Scene05::Update()
 	{
 		mIsBossAppearanceEvent = true;
 		GAMEEVENTMANAGER->PushEvent(new IObjectStop(true));
+		GAMEEVENTMANAGER->PushEvent(new IPlaySoundEffect(L"Attack1", L"Lubella/", 0.05f, 0.f));
 		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(3.f));
+		GAMEEVENTMANAGER->PushEvent(new IPlaySoundEffect(L"Laugh1", L"Lubella/", 0.05f, 0.f));
+		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(1.f));
 		GAMEEVENTMANAGER->PushEvent(new IMoveGameObject(OBJECTMANAGER->FindObject("Boss"), ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetX()
 			, 1600 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetSizeY() / 3 - 50, 0.f, -500.f));
-		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(1.f));
+		GAMEEVENTMANAGER->PushEvent(new IPlaySoundEffect(L"Appear", L"Lubella/", 0.05f, 0.f));
+		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(0.5f));
+		//GAMEEVENTMANAGER->PushEvent(new IPlaySoundEffect(L"Laugh1", L"Lubella/", 0.05f, 0.f));
 
 		GAMEEVENTMANAGER->PushEvent(new IObjectStop(false));	// 보스 등장 이벤트 끝
 	}
 
 	if (!mIsBossDead && ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP() <= 0 && !((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetEndEvent())
 	{
+		SOUNDMANAGER->Stop(L"boss6");
 		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetEndEvent(true);
 
 		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(1.f));
@@ -138,7 +147,7 @@ void Scene05::Update()
 		GAMEEVENTMANAGER->PushEvent(new IScriptEvent(L"Boss_Dialogue1"));
 		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(0.5f));
 		GAMEEVENTMANAGER->PushEvent(new IScriptEvent(L"Boss_Dialogue2"));
-		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(0.5f));
+		//GAMEEVENTMANAGER->PushEvent(new IDelayEvent(0.5f));
 
 		GAMEEVENTMANAGER->PushEvent(new IEraseEvent(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetImage()
 			, ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetBackImage(), 2.f, 0.07f));
@@ -146,7 +155,7 @@ void Scene05::Update()
 
 	GAMEEVENTMANAGER->Update();
 
-	if (mIsBossAppearanceEvent)
+	if (mIsBossAppearanceEvent )
 	{
 		mChangeImageTime += TIME->DeltaTime();
 

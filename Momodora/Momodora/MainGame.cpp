@@ -396,4 +396,17 @@ void MainGame::LoadSoundResource(LoadingScene * scene)
 {
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Boss", ResourcesSoundOggx(L"boss"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Boss1", ResourcesSoundMp3(L"boss"), false); });
+	
+	// 루벨라
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Appear", ResourcesSoundMp3(L"Lubella/Appear"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Attack1", ResourcesSoundMp3(L"Lubella/Attack1"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Attack2", ResourcesSoundMp3(L"Lubella/Attack2"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Dive", ResourcesSoundMp3(L"Lubella/Dive"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Explosion", ResourcesSoundMp3(L"Lubella/Explosion"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Explosion_loop", ResourcesSoundMp3(L"Lubella/Explosion"), true); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Laugh1", ResourcesSoundMp3(L"Lubella/Laugh1"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Laugh2", ResourcesSoundMp3(L"Lubella/Laugh2"), false); });
+
+	// 플레이어 (테스트)
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"punch2", ResourcesSoundMp3(L"punch2"), false); });
 }

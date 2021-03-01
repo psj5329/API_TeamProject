@@ -265,6 +265,8 @@ void Scene::AllCollision()
 				Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &atkBox);
 				//방향알려줘야해
 				player->PlayerHurt(direction);
+
+				SOUNDMANAGER->Play(L"Attack1", 0.1f);
 			}
 			/*bossBullet[i]->SetIsActive(false);
 			bossBullet[i]->SetIsDestroy(true);
@@ -298,10 +300,11 @@ void Scene::AllCollision()
 				//이펙트 만들고
 				Effect* effect1 = new Effect();
 				effect1->Init(L"Hit", temp.right, temp.top, 0, 3, 0.1);
+				SOUNDMANAGER->Play(L"punch2", 0.01f);
 			}
 		}
 	}
-	//적히트박스, 플레이어의 리프 충돌
+	// 보스, 플레이어의 리프 충돌
 	for (int i = 0; i < e.size(); ++i) // for문 size 있을 때만 들어올 수 있게 감싸줬음
 	{
 		if (!((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetInvincibility())
@@ -318,6 +321,7 @@ void Scene::AllCollision()
 					- ((100 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetDef()) / 100.f * OBJECTMANAGER->GetPlayer()->GetAttackDamage()));
 				//에너미 맞은상태 true
 				((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
+				SOUNDMANAGER->Play(L"punch2", 0.01f);
 			}
 		}
 	}
