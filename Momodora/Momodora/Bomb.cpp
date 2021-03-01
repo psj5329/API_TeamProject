@@ -126,6 +126,9 @@ void Bomb::Explode()
 		mCurrentAnimation = mExplosion;
 		mCurrentAnimation->Play();
 		mY = mRect.top - 50;
+
+		//¼Ò¸®
+		SOUNDMANAGER->Play(L"BombExplosion", 0.07f);
 	}
 	
 

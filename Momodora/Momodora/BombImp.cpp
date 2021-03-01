@@ -20,6 +20,7 @@ void BombImp::Init()
 	mAttackSpeed = 0;
 	mHp = 60;
 	isHit = false;
+	mName = "BombImp";
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 0, 0, 0, false);
