@@ -306,7 +306,7 @@ void Scene::AllCollision()
 				//이펙트 만들고
 				Effect* effect1 = new Effect();
 				effect1->Init(L"Hit", temp.right, temp.top, 0, 3, 0.1);
-				SOUNDMANAGER->Play(L"punch2", 0.01f);
+				SOUNDMANAGER->Play(L"Leaf", 0.01f);
 			}
 		}
 	}
@@ -327,7 +327,7 @@ void Scene::AllCollision()
 					- ((100 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetDef()) / 100.f * OBJECTMANAGER->GetPlayer()->GetAttackDamage()));
 				//에너미 맞은상태 true
 				((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
-				SOUNDMANAGER->Play(L"punch2", 0.01f);
+				SOUNDMANAGER->Play(L"Leaf", 0.01f);
 			}
 		}
 	}

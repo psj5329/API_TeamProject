@@ -8,10 +8,6 @@
 #include "Scene03.h"
 #include "Scene04.h"
 #include "Scene05.h"
-#include "Scene07.h"
-#include "Scene08.h"
-#include "Scene09.h"
-#include "SceneTest.h"
 
 void MainGame::Init()
 {
@@ -90,28 +86,6 @@ void MainGame::Update()
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene05")
 			SCENEMANAGER->LoadScene(L"Scene05");
-	}
-
-	// scenetest
-	if (INPUT->GetKeyAKeyDownB('M', '7'))
-	{
-		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene07")
-			SCENEMANAGER->LoadScene(L"Scene07");
-	}
-	else if (INPUT->GetKeyAKeyUpB('M', '8'))
-	{
-		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene08")
-			SCENEMANAGER->LoadScene(L"Scene08");
-	}
-	else if (INPUT->GetKeyAKeyB('M', '9'))
-	{
-		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene09")
-			SCENEMANAGER->LoadScene(L"Scene09");
-	}
-	else if (INPUT->GetKeyDown('0')) // 테스트 끝나면 지우기
-	{
-		if (SCENEMANAGER->GetCurrentSceneName() != L"SceneTest")
-			SCENEMANAGER->LoadScene(L"SceneTest");
 	}
 
 	if (INPUT->GetKeyDown('6'))
@@ -222,11 +196,6 @@ void MainGame::MakeScene()
 	SCENEMANAGER->AddScene(L"Scene03", new Scene03());
 	SCENEMANAGER->AddScene(L"Scene04", new Scene04());
 	SCENEMANAGER->AddScene(L"Scene05", new Scene05());
-	SCENEMANAGER->AddScene(L"Scene07", new Scene07());
-	SCENEMANAGER->AddScene(L"Scene08", new Scene08());
-	SCENEMANAGER->AddScene(L"Scene09", new Scene09());
-
-	SCENEMANAGER->AddScene(L"SceneTest", new SceneTest());
 
 	SCENEMANAGER->LoadScene(L"LoadingScene");
 }
@@ -253,7 +222,6 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapImage02", ResourcesBackground(L"Background2"), 2400, 900, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapImage03", ResourcesBackground(L"Background3"), 2400, 900, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapImage04", ResourcesBackground(L"Background4"), 1200, 900, true); });
-
 
 	// Player
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Idle", Resources(L"Player/idle"), 294, 96, 6, 2, true); });
@@ -398,7 +366,7 @@ void MainGame::LoadSoundResource(LoadingScene * scene)
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Boss", ResourcesSoundOggx(L"boss"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Boss1", ResourcesSoundMp3(L"boss"), false); });
 
-  // 플레이어
+	// 플레이어
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"PAttack1", ResourcesSoundWav(L"Player/Attack1"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"PAttack2", ResourcesSoundWav(L"Player/Attack2"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"PAttack3", ResourcesSoundWav(L"Player/Attack3"), false); });
@@ -416,12 +384,13 @@ void MainGame::LoadSoundResource(LoadingScene * scene)
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Laugh1", ResourcesSoundMp3(L"Lubella/Laugh1"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Laugh2", ResourcesSoundMp3(L"Lubella/Laugh2"), false); });
 
-  // 펜넬
+	// 펜넬
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"FennelAtk", ResourcesSoundMp3(L"FennelAttack"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"FennelAtk2", ResourcesSoundMp3(L"FennelAttack2"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"FennelAtk3", ResourcesSoundMp3(L"FennelAttack3"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"FennelThunder", ResourcesSoundMp3(L"FennelThunder2"), false); });
 
+	// 에너미
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"BombExplosion", ResourcesSoundMp3(L"Explosion"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Imp2", ResourcesSoundMp3(L"Imp2"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"ImpDeath", ResourcesSoundMp3(L"ImpDeath"), false); });
