@@ -131,6 +131,7 @@ void Monkey::Update()
 				Attack();
 				mEnemyState = EnemyState::Attack;
 				SetAnimation();
+
 			}
 		}
 
@@ -205,6 +206,7 @@ void Monkey::Update()
 				mAttackBox = RectMakeCenter(mX + 30, mY + 20, 50, 50);
 			else
 				mAttackBox = RectMakeCenter(mX - 30, mY + 20, 50, 50);
+			
 		}
 		if (mCurrentAnimation->GetNowFrameX() > 3)
 		{
@@ -301,4 +303,5 @@ void Monkey::EndAttack()
 	}
 	SetDirection();
 	SetAnimation();
+
 }

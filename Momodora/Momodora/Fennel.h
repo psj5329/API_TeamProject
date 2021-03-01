@@ -53,17 +53,24 @@ class Fennel :
 
 	FennelState mFennelState;
 
-
+	//내려찍기
 	RECT mImpact;
 	Image* mImpactImg;
 	Animation* mImpactAni;
 	Animation* mCurrentImpact;
 
+	//번개
 	RECT mThunder;
 	Image* mThunderImg;
 	Animation* mThunderAni;
 	Animation* mCurrentThunder;
 	POINT mTarget;
+
+	//버프
+	Image* mFloorEffectImg;
+	Animation* mFloorAni;
+	Animation* mCurrentFloor;
+	POINT mFloorEffect;
 
 	float mTimer;
 

@@ -324,6 +324,7 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Fennelthunder", Resources(L"Fennel/Fennelthunder"), 2596, 156, 22, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Thunder", Resources(L"Fennel/thunder"), 210, 175, 3, 1, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Fenneleffect", Resources(L"Fennel/Fenneleffect"), 40, 8, 4, 1, true); });
+	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FloorEffect", Resources(L"FloorEffect"), 569, 59, 7, 1, true); });
 
 	// Enemy Projectile
 
@@ -397,14 +398,35 @@ void MainGame::LoadSoundResource(LoadingScene * scene)
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Boss", ResourcesSoundOggx(L"boss"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Boss1", ResourcesSoundMp3(L"boss"), false); });
 
-
-
-	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Attack1", ResourcesSoundWav(L"Player/Attack1"), false); });
-	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Attack2", ResourcesSoundWav(L"Player/Attack2"), false); });
-	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Attack3", ResourcesSoundWav(L"Player/Attack3"), false); });
+  // 플레이어
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"PAttack1", ResourcesSoundWav(L"Player/Attack1"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"PAttack2", ResourcesSoundWav(L"Player/Attack2"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"PAttack3", ResourcesSoundWav(L"Player/Attack3"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Arrow", ResourcesSoundWav(L"Player/Arrow"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Death", ResourcesSoundWav(L"Player/Death"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Hurt", ResourcesSoundWav(L"Player/Hurt"), false); });
+	
+	// 루벨라
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Appear", ResourcesSoundMp3(L"Lubella/Appear"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Attack1", ResourcesSoundMp3(L"Lubella/Attack1"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Attack2", ResourcesSoundMp3(L"Lubella/Attack2"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Dive", ResourcesSoundMp3(L"Lubella/Dive"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Explosion", ResourcesSoundMp3(L"Lubella/Explosion"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Explosion_loop", ResourcesSoundMp3(L"Lubella/Explosion"), true); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Laugh1", ResourcesSoundMp3(L"Lubella/Laugh1"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Laugh2", ResourcesSoundMp3(L"Lubella/Laugh2"), false); });
 
+  // 펜넬
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"FennelAtk", ResourcesSoundMp3(L"FennelAttack"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"FennelAtk2", ResourcesSoundMp3(L"FennelAttack2"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"FennelAtk3", ResourcesSoundMp3(L"FennelAttack3"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"FennelThunder", ResourcesSoundMp3(L"FennelThunder2"), false); });
 
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"BombExplosion", ResourcesSoundMp3(L"Explosion"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Imp2", ResourcesSoundMp3(L"Imp2"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"ImpDeath", ResourcesSoundMp3(L"ImpDeath"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"MonkeyAttack", ResourcesSoundMp3(L"MonkeyAttack"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Leaf", ResourcesSoundMp3(L"Leaf"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Leaf2", ResourcesSoundMp3(L"Leaf2"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Leaf3", ResourcesSoundMp3(L"Leaf3"), false); });
 }

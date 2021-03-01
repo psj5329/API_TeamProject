@@ -154,17 +154,29 @@ void Enemy::Attack()
 
 void Enemy::DeathCheck()
 {
+	//체력 0 이하면
 	if (mHp <= 0 && mEnemyState != EnemyState::Death)
 	{
+		//상태바꾸고
 		mEnemyState = EnemyState::Death;
 		SetAnimation();
+		//돈떨궈
 		DropGold();
+
+		//소리
+		if (mName == "DaggerImp" || mName == "BombImp" ||mName == "ShieldImp")
+		{
+			//소리
+			SOUNDMANAGER->Play(L"ImpDeath", 0.05f);
+		}
 	}
 	if (mEnemyState == EnemyState::Death)
 	{
+		//알파값낮추다가
 		mAlpha -= TIME->DeltaTime() * 2;
 		if (mAlpha < 0)
 		{
+			//없애
 			this->SetIsDestroy(true);
 		}
 	}
