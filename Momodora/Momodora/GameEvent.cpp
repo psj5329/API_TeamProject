@@ -80,7 +80,7 @@ bool IScriptEvent::Update()
 	mShakeX = rand() % (2 * 2 + 1) - 2;
 	mShakeY = rand() % (2 * 2 + 1) - 2;
 
-	if (/*mCurrentTime >= mDelayTime || */INPUT->GetKeyDown(VK_SPACE))
+	if (mCurrentTime >= mDelayTime)// || */INPUT->GetKeyDown(VK_SPACE))
 	{
 		return true;
 	}
@@ -189,6 +189,7 @@ void IEraseEvent::Start()
 	mVecBackEraseCenter = mVecEraseCenter;
 
 	mDelayTime = 0.f;
+	//SOUNDMANAGER->Play(L"Explosion_loop", 0.05f);
 }
 
 bool IEraseEvent::Update()
@@ -197,8 +198,8 @@ bool IEraseEvent::Update()
 	for (int i = 0; i < mVecEraseCenter.size(); ++i)
 	{
 		float speed = (rand() % 9 + 1) / 10.f;
-		mVecEraseCenter[i].x += cosf(30.f * PI / 180.f) * speed * 2;
-		mVecEraseCenter[i].y += -sinf(30.f * PI / 180.f) * speed * 2;
+		mVecEraseCenter[i].x += cosf(30.f * PI / 180.f) * speed * 3;
+		mVecEraseCenter[i].y += -sinf(30.f * PI / 180.f) * speed * 3;
 
 		HBRUSH brush = CreateSolidBrush(RGB(255, 0, 255));
 		HPEN pen = CreatePen(PS_SOLID, 1, RGB(255, 0, 255));
@@ -219,8 +220,8 @@ bool IEraseEvent::Update()
 		if (mDelayTime >= 0.1f)
 		{
 			float speed = (rand() % 9 + 1) / 10.f;
-			mVecBackEraseCenter[i].x += cosf(30.f * PI / 180.f) * speed * 2;
-			mVecBackEraseCenter[i].y += -sinf(30.f * PI / 180.f) * speed * 2;
+			mVecBackEraseCenter[i].x += cosf(30.f * PI / 180.f) * speed * 3;
+			mVecBackEraseCenter[i].y += -sinf(30.f * PI / 180.f) * speed * 3;
 
 			if (mVecBackEraseCenter[i].x >= 0 && mVecBackEraseCenter[i].x <= WINSIZEX && mVecBackEraseCenter[i].y <= WINSIZEY && mVecBackEraseCenter[i].y >= 0)
 			{
@@ -326,7 +327,7 @@ void IMoveCameraEvent::Render(HDC hdc)
 {
 }
 
-//Æä³Ú
+//Ã†Ã¤Â³Ãš
 IChangeImage2::IChangeImage2(Image** image1, wstring name)
 {
 	mImage1 = *image1;
@@ -344,5 +345,37 @@ bool IChangeImage2::Update()
 }
 
 void IChangeImage2::Render(HDC hdc)
+{
+}
+
+IPlaySoundEffect::IPlaySoundEffect(wstring name, wstring path, float volume, float delay)
+{
+	mName = name;
+	mPath = path;
+	mDelay = delay;
+	mTime = 0.f;
+	mVolume = volume;
+}
+
+void IPlaySoundEffect::Start()
+{
+}
+
+bool IPlaySoundEffect::Update()
+{
+	mTime += TIME->DeltaTime();
+
+	if (mTime >= mDelay)
+	{
+		//SOUNDMANAGER->LoadFromFile(mName, ResourcesSoundMp3(mPath.append(mName)), false);
+		SOUNDMANAGER->Play(mName, mVolume);
+
+		return true;
+	}
+
+	return false;
+}
+
+void IPlaySoundEffect::Render(HDC hdc)
 {
 }

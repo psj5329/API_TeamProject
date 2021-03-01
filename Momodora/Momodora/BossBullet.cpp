@@ -95,12 +95,14 @@ void BossBullet::Update()
 	}
 
 	// 확인 결과 땅에 닿을 때에만 사라진다
-	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect))
+	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect) && mIsShoot)
 	{
 		if (mPattern != BulletPattern::PatternBulletUp)
 		{
 			mIsActive = false;
 			mIsDestroy = true;
+
+			SOUNDMANAGER->Play(L"Explosion", 0.05f);
 		}
 	}
 
@@ -110,11 +112,11 @@ void BossBullet::Update()
 
 void BossBullet::Render(HDC hdc)
 {
-#ifdef DEBUG
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
-
-#endif // DEBUG
+//#ifdef DEBUG
+//	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
+//	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
+//
+//#endif // DEBUG
 
 	if(mIsShow)
 		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mImage, mRect.left, mRect.top, mSizeX, mSizeY);

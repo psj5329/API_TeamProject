@@ -44,7 +44,7 @@ void StarCountUI::Update()
 
 void StarCountUI::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mImage, mRect.left, mRect.top, mSizeX, mSizeY), true;
+	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mImage, mRect.left, mRect.top, mSizeX, mSizeY, true);
 	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mHundredImage, mRect.right + mHundredSizeX, mY, mHundredSizeX, mHundredSizeY, true);
 	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mTenImage, mRect.right + mHundredSizeX + mTenSizeX , mY, mTenSizeX, mTenSizeY, true);
 	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mOneImage, mRect.right + mHundredSizeX + mTenSizeX  + mOneSizeX, mY, mOneSizeX, mOneSizeY, true);

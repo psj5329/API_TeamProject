@@ -31,6 +31,7 @@ void DaggerImp::Init()
 	mAlpha = 1;
 	isHit = false;
 	mHurtCounter = 0;
+	mName = "DaggerImp";
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 0, 0, 0, false);
@@ -231,6 +232,9 @@ void DaggerImp::ThrowDagger()
 	Dagger1->Init(mX, mY, angle);
 	Dagger1->SetObject();
 	ObjectManager::GetInstance()->AddObject(ObjectLayer::EnemyDagger, Dagger1);
+
+	//¼Ò¸®
+	SOUNDMANAGER->Play(L"Imp2", 0.02f);
 }
 
 void DaggerImp::EndAttack()

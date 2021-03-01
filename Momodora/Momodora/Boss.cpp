@@ -103,7 +103,7 @@ void Boss::Update()
 	if (mPattern == AttackPattern::PatternIdle)
 		mAttackTime += TIME->DeltaTime();
 
-	if (mAttackTime >= 2.f)		// 테스트용 2초
+	if (mAttackTime >= 4.f)		// 테스트용 2초
 	{
 		mAttackCount++;
 		mAttackTime = 0.f;
@@ -558,11 +558,19 @@ void Boss::Pattern()
 		{
 			if (mY - mSizeY / 2 < 1600)
 			{
+				if (!mIsDownSound)
+				{
+					mIsDownSound = true;
+					SOUNDMANAGER->Play(L"Dive", 0.1f);
+				}
+
 				mY -= mJumpPower;
 				mJumpPower -= 1.f;
 			}
 			else
 			{
+				mIsDownSound = false;
+
 				int n = rand() % 3;
 				if (n == 0)
 					mX = WINSIZEX / 4;
@@ -573,7 +581,7 @@ void Boss::Pattern()
 
 				for (int i = mBulletCreateCount; i < 8; ++i)
 				{
-					mBulletCreateCount = 8;
+					mBulletCreateCount++;
 
 					BossBullet* bullet = new BossBullet;
 

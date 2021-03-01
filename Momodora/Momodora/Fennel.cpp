@@ -6,12 +6,18 @@
 #include "Player.h"
 #include "Staff.h"
 #include "GameObject.h"
+#include "Effect.h"
+#include "GameEvent.h"
 
 void Fennel::Init()
 {
 	mImage = IMAGEMANAGER->FindImage(L"Fennelintro1");
 	mImpactImg = IMAGEMANAGER->FindImage(L"Fennelimpact");
 	mThunderImg = IMAGEMANAGER->FindImage(L"Thunder");
+	mFloorEffectImg = IMAGEMANAGER->FindImage(L"FloorEffect");
+
+
+
 
 	mStart.x = 2000;
 	mStart.y = 2000;
@@ -28,15 +34,14 @@ void Fennel::Init()
 
 	//스탯 ////// 나중에 바꾸기////////////
 	mHp = 500;
-	mAtk = 10;
+	mAtk = 15;
 	///////////////////////////////////
 
 	/////충돌판정할 랙트들//////////////////
 	mImpact = RectMakeCenter(1000, 2000, 1, 1);
 	mThunder = RectMakeCenter(1000, 2000, 1, 1);
 	mAttackBox = RectMakeCenter(1000, 2000, 1, 1);
-	
-
+	mFloorEffect = { 2400,2500 };
 
 	mRightIdle = new Animation();
 	mRightIdle->InitFrameByStartEnd(0, 1, 4, 1, false);
@@ -205,6 +210,14 @@ void Fennel::Init()
 	mCurrentThunder->Play();
 	mCurrentThunder->Pause();
 
+	mFloorAni = new Animation();
+	mFloorAni->InitFrameByStartEnd(0, 0, 6, 0, false);
+	mFloorAni->SetIsLoop(true);
+	mFloorAni->SetFrameUpdateTime(0.1f);
+	mCurrentFloor = mFloorAni;
+	mCurrentFloor->Play();
+	mCurrentFloor->Pause();
+
 	mIntro1 = new Animation();
 	mIntro1->InitFrameByStartEnd(0, 0, 17, 0, false);
 	mIntro1->SetIsLoop(false);
@@ -265,7 +278,10 @@ void Fennel::Release()
 	SafeDelete(mLeftJumpReady);
 	SafeDelete(mThunderAni);
 	SafeDelete(mImpactAni);
-
+	SafeDelete(mFloorAni);
+	SafeDelete(mIntro1);
+	SafeDelete(mIntro2);
+	SafeDelete(mIntro3);
 }
 
 void Fennel::Update()
@@ -273,7 +289,7 @@ void Fennel::Update()
 	
 	if (INPUT->GetKeyDown('P'))
 	{
-		mHp -= 50;
+		mHp -= 100;
 	}
 
 
@@ -296,7 +312,7 @@ void Fennel::Update()
 				else
 				{
 					Attack();
-
+			
 				}
 			}
 			else if(rand == 1)
@@ -311,16 +327,40 @@ void Fennel::Update()
 			//버프넣기
 			if (mAtk < 20)
 			{
-				if (mHp < 300)
+				if (mHp < 200)
 				{
 					mAtk = 30;
 					Buff();
 				}
 			}
-			else
-			{
-				Attack();
-			}
+			//else
+			//{
+			//	int rand = RANDOM->RandomInt(3);
+			//	if (rand == 0)
+			//	{
+			//		//거리가멀면 대쉬후 공격
+			//		if (Math::GetDistance(mPlayer->GetX(), 0, mX, 0) > 200)
+			//		{
+			//			Dash();
+			//		}
+			//		//거리가 가까우면 그냥 공격
+			//		else
+			//		{
+			//			Attack();
+			//			SOUNDMANAGER->Play(L"FennelAtk", 0.2f);
+			//
+			//
+			//		}
+			//	}
+			//	else if (rand == 1)
+			//	{
+			//		Plunge();
+			//	}
+			//	else
+			//	{
+			//		Thunder();
+			//	}
+			//}
 
 		}
 	}
@@ -389,6 +429,7 @@ void Fennel::Update()
 	mCurrentImpact->Update();
 	mCurrentAnimation->Update();
 	mCurrentThunder->Update();
+	mCurrentFloor->Update();
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 
 	//잔상 알파값조정
@@ -409,10 +450,6 @@ void Fennel::Update()
 	else
 		mHitBox = RectMakeCenter(mX - 10, mY, 50, 100);
 
-
-
-
-
 }
 
 void Fennel::Render(HDC hdc)
@@ -425,11 +462,14 @@ void Fennel::Render(HDC hdc)
 	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mImpactImg, mImpact.left, mImpact.top, mCurrentImpact->GetNowFrameX(), mCurrentImpact->GetNowFrameY(), mImpactImg->GetFrameWidth() * 2, mImpactImg->GetFrameHeight() * 2, 0.5f);
 	//번개
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mThunderImg, mThunder.left, mThunder.top, mCurrentThunder->GetNowFrameX(), mCurrentThunder->GetNowFrameY(), mThunderImg->GetFrameWidth() * 2 - 50, 500);
+	//버프
+	CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mFloorEffectImg, mFloorEffect.x, mFloorEffect.y, mCurrentFloor->GetNowFrameX(), mCurrentFloor->GetNowFrameY(), mFloorEffectImg->GetFrameWidth() / 2, mFloorEffectImg->GetFrameHeight() / 2, 0.5);
 	//잔상
 	for (int i = 0;i < 3;i++)
 	{
 		CAMERAMANAGER->GetMainCamera()->AlphaScaleFrameRender(hdc, mAfterImages[i].cImage, mAfterImages[i].cRect.left, mAfterImages[i].cRect.top, mAfterImages[i].cFrameX, mAfterImages[i].cFrameY, mSizeX, mSizeY, mAfterImages[i].cAlpha);
 	}
+
 }
 
 void Fennel::Attack()
@@ -437,7 +477,6 @@ void Fennel::Attack()
 	SetDirection();
 	mFennelState = FennelState::Attack;
 	SetImageAnimation();
-
 }
 void Fennel::Attack2()
 {
@@ -472,6 +511,9 @@ void Fennel::Buff()
 	SetDirection();
 	mFennelState = FennelState::Buff;
 	SetImageAnimation();
+	mCurrentFloor->Play();
+	//mFloorEffect.x = mX;
+	//mFloorEffect.y = mY + 20;
 }
 void Fennel::Death()
 {
@@ -494,6 +536,11 @@ void Fennel::AttackSword()
 			mAttackBox = RectMakeCenter(mX - 30, mY, 170, 100);
 		else
 			mAttackBox = RectMakeCenter(mX + 30, mY, 170, 100);
+
+		//소리
+		if(mCurrentAnimation->GetNowFrameX() == 6)
+			SOUNDMANAGER->Play(L"FennelAtk", 0.02f);
+
 	}
 	if (mCurrentAnimation->GetNowFrameX() == 8)
 	{
@@ -505,6 +552,10 @@ void Fennel::AttackSword()
 			mAttackBox = RectMakeCenter(mX, mY, 170, 100);
 		else
 			mAttackBox = RectMakeCenter(mX + 10, mY, 170, 100);
+
+		//소리
+		if (mCurrentAnimation->GetNowFrameX() == 15)
+			SOUNDMANAGER->Play(L"FennelAtk", 0.02f);
 	}
 	if (mCurrentAnimation->GetNowFrameX() ==17)
 	{
@@ -520,6 +571,10 @@ void Fennel::Attack2Sword()
 			mAttackBox = RectMakeCenter(mX + 10, mY, 200, 100);
 		else
 			mAttackBox = RectMakeCenter(mX + 10, mY, 200, 100);
+
+		//소리
+		if (mCurrentAnimation->GetNowFrameX() == 3)
+			SOUNDMANAGER->Play(L"FennelAtk2", 0.02f);
 	}
 	else
 	{
@@ -663,6 +718,8 @@ void Fennel::PlungeRect()
 		mImpact = RectMakeCenter(mX, mY - 200, mImpactImg->GetFrameWidth() * 2, mImpactImg->GetFrameHeight() * 2);
 		mCurrentImpact->Play();
 		mY = mStart.y;
+		//소리
+		SOUNDMANAGER->Play(L"FennelAtk3", 0.6f);
 	}
 	if (mCurrentImpact->GetNowFrameX() == 7)
 	{
@@ -682,6 +739,9 @@ void Fennel::ThunderRect()
 	{
 		mThunder = RectMakeCenter(mTarget.x, 550, mThunderImg->GetFrameWidth() * 2 - 50, 500);
 		mCurrentThunder->Play();
+
+		//소리
+		SOUNDMANAGER->Play(L"FennelThunder", 0.02f);
 	}
 	//번개끝
 	if (mCurrentAnimation->GetNowFrameX() == 21)
@@ -790,6 +850,10 @@ void Fennel::EndMove()
 	mImage = IMAGEMANAGER->FindImage(L"Fennelidle");
 	SetDirection();
 	SetImageAnimation();
+
+	//바닥효과없애기
+	mCurrentFloor->Pause();
+	mFloorEffect = { -2000,3000 };
 }
 
 //점프준비에서 점프
