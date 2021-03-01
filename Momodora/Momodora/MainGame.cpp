@@ -397,6 +397,14 @@ void MainGame::LoadSoundResource(LoadingScene * scene)
 {
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Boss", ResourcesSoundOggx(L"boss"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Boss1", ResourcesSoundMp3(L"boss"), false); });
+
+  // 플레이어
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"PAttack1", ResourcesSoundWav(L"Player/Attack1"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"PAttack2", ResourcesSoundWav(L"Player/Attack2"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"PAttack3", ResourcesSoundWav(L"Player/Attack3"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Arrow", ResourcesSoundWav(L"Player/Arrow"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Death", ResourcesSoundWav(L"Player/Death"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Hurt", ResourcesSoundWav(L"Player/Hurt"), false); });
 	
 	// 루벨라
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Appear", ResourcesSoundMp3(L"Lubella/Appear"), false); });
