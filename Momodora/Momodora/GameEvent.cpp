@@ -346,3 +346,36 @@ bool IChangeImage2::Update()
 void IChangeImage2::Render(HDC hdc)
 {
 }
+
+
+IPlaySoundEffect::IPlaySoundEffect(wstring name, wstring path, float volume, float delay)
+{
+	mName = name;
+	mPath = path;
+	mDelay = delay;
+	mTime = 0.f;
+	mVolume = volume;
+}
+
+void IPlaySoundEffect::Start()
+{
+}
+
+bool IPlaySoundEffect::Update()
+{
+	mTime += TIME->DeltaTime();
+
+	if (mTime >= mDelay)
+	{
+		SOUNDMANAGER->LoadFromFile(mName, ResourcesSoundMp3(mPath.append(mName)), false);
+		SOUNDMANAGER->Play(mName, mVolume);
+
+		return true;
+	}
+
+	return false;
+}
+
+void IPlaySoundEffect::Render(HDC hdc)
+{
+}

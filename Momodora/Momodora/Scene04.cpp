@@ -4,7 +4,6 @@
 #include "Platform.h"
 #include "Fennel.h"
 #include "Player.h"
-#include "BossHpUI.h"
 #include "GameEvent.h"
 
 void Scene04::Init()
@@ -55,6 +54,8 @@ void Scene04::Init()
 
 	////Æä³Ú
 	AddFennel(800, 775);
+
+
 }
 
 void Scene04::Release()
@@ -102,6 +103,9 @@ void Scene04::Update()
 			OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
 		}
 	}
+
+
+
 
 	// {{ ¸Ê ÁÂ¿ì ¼³Ä¡¿ë
 	mImageCreateDelay -= TIME->DeltaTime();
