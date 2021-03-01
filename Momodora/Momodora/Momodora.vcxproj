@@ -23,7 +23,7 @@
     <ProjectGuid>{5E012F61-8FFF-43D8-8254-2A4489B579B5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Momodora</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -199,11 +199,7 @@
     <ClInclude Include="Scene03.h" />
     <ClInclude Include="Scene04.h" />
     <ClInclude Include="Scene05.h" />
-    <ClInclude Include="Scene07.h" />
-    <ClInclude Include="Scene08.h" />
-    <ClInclude Include="Scene09.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="SceneTest.h" />
     <ClInclude Include="ShieldImp.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Staff.h" />
@@ -266,11 +262,7 @@
     <ClCompile Include="Scene03.cpp" />
     <ClCompile Include="Scene04.cpp" />
     <ClCompile Include="Scene05.cpp" />
-    <ClCompile Include="Scene07.cpp" />
-    <ClCompile Include="Scene08.cpp" />
-    <ClCompile Include="Scene09.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="SceneTest.cpp" />
     <ClCompile Include="ShieldImp.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Staff.cpp" />

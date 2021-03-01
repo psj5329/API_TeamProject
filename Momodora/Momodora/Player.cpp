@@ -475,7 +475,7 @@ void Player::Update()
 					mCurrentAnimation->Play();
 					mCurrentImage = mAttack1Image;
 					mLeaf->SetCurrentImageAnimation(1, true);
-					SOUNDMANAGER->Play(L"Attack1", 0.05f);
+					SOUNDMANAGER->Play(L"PAttack1", 0.05f);
 				}
 				if (mState == PlayerState::Jump || mState == PlayerState::Fall)
 				{
@@ -485,7 +485,7 @@ void Player::Update()
 					mCurrentAnimation->Play();
 					mCurrentImage = mAirAttackImage;
 					mLeaf->SetCurrentImageAnimation(4, true);
-					SOUNDMANAGER->Play(L"Attack1", 0.05f);
+					SOUNDMANAGER->Play(L"PAttack1", 0.05f);
 				}
 			}
 			if (mDirection == Direction::Right)
@@ -499,7 +499,7 @@ void Player::Update()
 					mCurrentImage = mAttack1Image;
 					mLeaf->SetIsActive(true);
 					mLeaf->SetCurrentImageAnimation(1, false);
-					SOUNDMANAGER->Play(L"Attack1", 0.05f);
+					SOUNDMANAGER->Play(L"PAttack1", 0.05f);
 				}
 				if (mState == PlayerState::Jump || mState == PlayerState::Fall)
 				{
@@ -509,7 +509,7 @@ void Player::Update()
 					mCurrentAnimation->Play();
 					mCurrentImage = mAirAttackImage;
 					mLeaf->SetCurrentImageAnimation(4, false);
-					SOUNDMANAGER->Play(L"Attack1", 0.05f);
+					SOUNDMANAGER->Play(L"PAttack1", 0.05f);
 				}
 			}
 			mHitAttack = true;
@@ -532,7 +532,7 @@ void Player::Update()
 					mCurrentAnimation->Play();
 					mCurrentImage = mAttack2Image;
 					mLeaf->SetCurrentImageAnimation(2, true);
-					SOUNDMANAGER->Play(L"Attack2", 0.05f);
+					SOUNDMANAGER->Play(L"PAttack2", 0.05f);
 				}
 			}
 			if (mDirection == Direction::Right)
@@ -545,7 +545,7 @@ void Player::Update()
 					mCurrentAnimation->Play();
 					mCurrentImage = mAttack2Image;
 					mLeaf->SetCurrentImageAnimation(2, false);
-					SOUNDMANAGER->Play(L"Attack2", 0.05f);
+					SOUNDMANAGER->Play(L"PAttack2", 0.05f);
 				}
 			}
 			mHitAttack = true;
@@ -571,7 +571,7 @@ void Player::Update()
 						mCurrentAnimation->Play();
 						mCurrentImage = mAttack3Image;
 						mLeaf->SetCurrentImageAnimation(3, false);
-						SOUNDMANAGER->Play(L"Attack3", 0.05f);
+						SOUNDMANAGER->Play(L"PAttack3", 0.05f);
 					}
 					else
 					{
@@ -581,7 +581,7 @@ void Player::Update()
 						mCurrentAnimation->Play();
 						mCurrentImage = mAttack3Image;
 						mLeaf->SetCurrentImageAnimation(3, true);
-						SOUNDMANAGER->Play(L"Attack3", 0.05f);
+						SOUNDMANAGER->Play(L"PAttack3", 0.05f);
 					}
 				}
 			}
@@ -599,7 +599,7 @@ void Player::Update()
 						mCurrentAnimation->Play();
 						mCurrentImage = mAttack3Image;
 						mLeaf->SetCurrentImageAnimation(3, true);
-						SOUNDMANAGER->Play(L"Attack3", 0.05f);
+						SOUNDMANAGER->Play(L"PAttack3", 0.05f);
 					}
 					else
 					{
@@ -609,7 +609,7 @@ void Player::Update()
 						mCurrentAnimation->Play();
 						mCurrentImage = mAttack3Image;
 						mLeaf->SetCurrentImageAnimation(3, false);
-						SOUNDMANAGER->Play(L"Attack3", 0.05f);
+						SOUNDMANAGER->Play(L"PAttack3", 0.05f);
 					}
 				}
 			}
@@ -1004,7 +1004,6 @@ void Player::Update()
 	}
 	mCurrentAnimation->Update();
 
-	//RECT mPrevRect;
 	//벽을 통과중이 아니라면
 	if (!mIsInDownPlatform)
 	{
@@ -1401,8 +1400,8 @@ void Player::InitPlayerVar()
 	mSizeY = (float)(mIdleImage->GetFrameHeight()) * 2.f;
 	mDirection = Direction::Right;
 	mRect = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY);
-	mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY); // 임시(가로만 1/3)
-	mAttackBox = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY); // 임시(플레이어 사이즈)
+	mHitBox = RectMakeCenter((int)mX, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
+	mAttackBox = RectMakeCenter((int)mX, (int)mY, (int)mSizeX, (int)mSizeY);
 
 	// Player에 선언된 변수들
 	mArrowSpeed = 600.f;
