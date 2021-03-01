@@ -49,6 +49,7 @@ class Boss : public Enemy
 	int mBulletCreateCount;
 	float mBulletCreateTime;
 	bool mIsDown;
+	bool mIsDownSound;
 	float mJumpPower;
 
 	vector<BossBullet*> mVecBullet;
