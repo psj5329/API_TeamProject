@@ -224,7 +224,7 @@ void Monkey::Update()
 void Monkey::Render(HDC hdc)
 {
 	////¸ùµÕÀÌ
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
 	////»öÀû
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mSearchZone);
 

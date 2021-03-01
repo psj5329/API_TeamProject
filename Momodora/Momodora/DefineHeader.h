@@ -52,3 +52,4 @@ ClassName* ClassName::_instance = NULL;
 
 #define ResourcesSoundMp3(Path) (wstring(L"../Resources/Sound/").append(Path).append(L".mp3"))
 #define ResourcesSoundOggx(Path) (wstring(L"../Resources/Sound/").append(Path).append(L".oggx"))
+#define ResourcesSoundWav(Path) (wstring(L"../Resources/Sound/").append(Path).append(L".wav"))

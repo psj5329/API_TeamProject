@@ -386,6 +386,7 @@ void Player::Update()
 				arrow->SetArrowIndexY(1);
 				arrow->SetObject();
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
+				SOUNDMANAGER->Play(L"Arrow", 0.05f);
 			}
 			if (mState == PlayerState::Jump || mState == PlayerState::Fall)
 			{
@@ -397,6 +398,7 @@ void Player::Update()
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, PI);
 				arrow->SetArrowIndexY(1);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
+				SOUNDMANAGER->Play(L"Arrow", 0.05f);
 			}
 			if (mState == PlayerState::Crouch)
 			{
@@ -410,6 +412,7 @@ void Player::Update()
 				arrow->Fire(mArrowImage, mX - 20, mY + 18, mArrowSpeed, PI);
 				arrow->SetArrowIndexY(1);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
+				SOUNDMANAGER->Play(L"Arrow", 0.05f);
 			}
 		}
 		if (mDirection == Direction::Right)
@@ -424,6 +427,7 @@ void Player::Update()
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, 0);
 				arrow->SetArrowIndexY(0);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
+				SOUNDMANAGER->Play(L"Arrow", 0.05f);
 			}
 			if (mState == PlayerState::Jump || mState == PlayerState::Fall)
 			{
@@ -435,6 +439,7 @@ void Player::Update()
 				arrow->Fire(mArrowImage, mX, mY, mArrowSpeed, 0);
 				arrow->SetArrowIndexY(0);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
+				SOUNDMANAGER->Play(L"Arrow", 0.05f);
 			}
 			if (mState == PlayerState::Crouch)
 			{
@@ -448,6 +453,7 @@ void Player::Update()
 				arrow->Fire(mArrowImage, mX + 20, mY + 18, mArrowSpeed, 0);
 				arrow->SetArrowIndexY(0);
 				OBJECTMANAGER->AddObject(ObjectLayer::PlayerArrow, (GameObject*)arrow);
+				SOUNDMANAGER->Play(L"Arrow", 0.05f);
 			}
 		}
 	}
@@ -467,6 +473,7 @@ void Player::Update()
 					mCurrentAnimation->Play();
 					mCurrentImage = mAttack1Image;
 					mLeaf->SetCurrentImageAnimation(1, true);
+					SOUNDMANAGER->Play(L"Attack1", 0.05f);
 				}
 				if (mState == PlayerState::Jump || mState == PlayerState::Fall)
 				{
@@ -476,6 +483,7 @@ void Player::Update()
 					mCurrentAnimation->Play();
 					mCurrentImage = mAirAttackImage;
 					mLeaf->SetCurrentImageAnimation(4, true);
+					SOUNDMANAGER->Play(L"Attack1", 0.05f);
 				}
 			}
 			if (mDirection == Direction::Right)
@@ -489,6 +497,7 @@ void Player::Update()
 					mCurrentImage = mAttack1Image;
 					mLeaf->SetIsActive(true);
 					mLeaf->SetCurrentImageAnimation(1, false);
+					SOUNDMANAGER->Play(L"Attack1", 0.05f);
 				}
 				if (mState == PlayerState::Jump || mState == PlayerState::Fall)
 				{
@@ -498,6 +507,7 @@ void Player::Update()
 					mCurrentAnimation->Play();
 					mCurrentImage = mAirAttackImage;
 					mLeaf->SetCurrentImageAnimation(4, false);
+					SOUNDMANAGER->Play(L"Attack1", 0.05f);
 				}
 			}
 			mHitAttack = true;
@@ -520,6 +530,7 @@ void Player::Update()
 					mCurrentAnimation->Play();
 					mCurrentImage = mAttack2Image;
 					mLeaf->SetCurrentImageAnimation(2, true);
+					SOUNDMANAGER->Play(L"Attack2", 0.05f);
 				}
 			}
 			if (mDirection == Direction::Right)
@@ -532,6 +543,7 @@ void Player::Update()
 					mCurrentAnimation->Play();
 					mCurrentImage = mAttack2Image;
 					mLeaf->SetCurrentImageAnimation(2, false);
+					SOUNDMANAGER->Play(L"Attack2", 0.05f);
 				}
 			}
 			mHitAttack = true;
@@ -557,6 +569,7 @@ void Player::Update()
 						mCurrentAnimation->Play();
 						mCurrentImage = mAttack3Image;
 						mLeaf->SetCurrentImageAnimation(3, false);
+						SOUNDMANAGER->Play(L"Attack3", 0.05f);
 					}
 					else
 					{
@@ -566,6 +579,7 @@ void Player::Update()
 						mCurrentAnimation->Play();
 						mCurrentImage = mAttack3Image;
 						mLeaf->SetCurrentImageAnimation(3, true);
+						SOUNDMANAGER->Play(L"Attack3", 0.05f);
 					}
 				}
 			}
@@ -583,6 +597,7 @@ void Player::Update()
 						mCurrentAnimation->Play();
 						mCurrentImage = mAttack3Image;
 						mLeaf->SetCurrentImageAnimation(3, true);
+						SOUNDMANAGER->Play(L"Attack3", 0.05f);
 					}
 					else
 					{
@@ -592,6 +607,7 @@ void Player::Update()
 						mCurrentAnimation->Play();
 						mCurrentImage = mAttack3Image;
 						mLeaf->SetCurrentImageAnimation(3, false);
+						SOUNDMANAGER->Play(L"Attack3", 0.05f);
 					}
 				}
 			}
@@ -672,6 +688,7 @@ void Player::Update()
 				mCurrentAnimation = mLeftHurtAnimation;
 				mCurrentAnimation->Play();
 				mCurrentImage = mHurtImage;
+				SOUNDMANAGER->Play(L"Hurt", 0.05f);
 			}
 			if (mDirection == Direction::Right)
 			{
@@ -680,6 +697,7 @@ void Player::Update()
 				mCurrentAnimation = mRightHurtAnimation;
 				mCurrentAnimation->Play();
 				mCurrentImage = mHurtImage;
+				SOUNDMANAGER->Play(L"Hurt", 0.05f);
 			}
 
 			// 카메라 셰이킹
@@ -1021,7 +1039,7 @@ void Player::Render(HDC hdc)
 	}
 
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 
 	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY, 1.f);
 

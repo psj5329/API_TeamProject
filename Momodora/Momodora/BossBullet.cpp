@@ -110,11 +110,11 @@ void BossBullet::Update()
 
 void BossBullet::Render(HDC hdc)
 {
-#ifdef DEBUG
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
-
-#endif // DEBUG
+//#ifdef DEBUG
+//	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
+//	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
+//
+//#endif // DEBUG
 
 	if(mIsShow)
 		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mImage, mRect.left, mRect.top, mSizeX, mSizeY);

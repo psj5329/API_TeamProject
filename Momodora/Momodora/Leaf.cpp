@@ -92,8 +92,8 @@ void Leaf::Update()
 
 void Leaf::Render(HDC hdc)
 {
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
-	Player* player = OBJECTMANAGER->GetPlayer();
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
+	//Player* player = OBJECTMANAGER->GetPlayer();
 
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mCurrentImage, mRect.left, mRect.top,
 		mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY);

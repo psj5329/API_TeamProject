@@ -396,4 +396,15 @@ void MainGame::LoadSoundResource(LoadingScene * scene)
 {
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Boss", ResourcesSoundOggx(L"boss"), false); });
 	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Boss1", ResourcesSoundMp3(L"boss"), false); });
+
+
+
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Attack1", ResourcesSoundWav(L"Player/Attack1"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Attack2", ResourcesSoundWav(L"Player/Attack2"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Attack3", ResourcesSoundWav(L"Player/Attack3"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Arrow", ResourcesSoundWav(L"Player/Arrow"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Death", ResourcesSoundWav(L"Player/Death"), false); });
+	scene->AddLoadFunc([]() { SOUNDMANAGER->LoadFromFile(L"Hurt", ResourcesSoundWav(L"Player/Hurt"), false); });
+
+
 }
