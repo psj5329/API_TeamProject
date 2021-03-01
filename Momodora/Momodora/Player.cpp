@@ -281,6 +281,8 @@ void Player::Update()
 	if (mState == PlayerState::Roll)
 	{
 		mHitBox = RectMakeCenter((int)mX + 10000, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY);
+		mY -= mJumpPower;
+		mJumpPower -= mGravity;
 
 		if (mDirection == Direction::Left)
 		{
@@ -858,7 +860,7 @@ void Player::Update()
 	// 점프
 	if (Input::GetInstance()->GetKeyDown(VK_SPACE))
 	{
-		mJumpPower = 8.f;
+		mJumpPower = 6.f;
 		mGravity = 0.2f;
 
 		if (mDirection == Direction::Left)
@@ -974,7 +976,7 @@ void Player::Update()
 	{
 		stopmove = 1;
 	}
-	if (mState == PlayerState::Idle || mState == PlayerState::Run)
+	if (mState == PlayerState::Idle || mState == PlayerState::Run || mState == PlayerState::Fall)
 	{
 		stopmove = 0;
 	}
@@ -1021,7 +1023,7 @@ void Player::Render(HDC hdc)
 	}
 
 	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
-	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
+	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 
 	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY, 1.f);
 
