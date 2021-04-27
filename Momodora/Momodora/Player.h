@@ -16,7 +16,6 @@ enum class PlayerState : int
 	LadderEnter,
 	LadderUp, // 좌우없음
 	LadderDown, // 좌우없음
-	//LadderLeave,
 	Bow,
 	AirBow,
 	CrouchBow,
@@ -182,11 +181,8 @@ public:
 	void AddPotion() { mPotion += 1; }
 	void PlayerHurt(Direction direction) { mHitBox = RectMakeCenter((int)mX + 10000, (int)mY, (int)(mSizeX / 3.f), (int)mSizeY); mState = PlayerState::Hurt; mDirection = direction; }
 
-	//void SetImageAnimation();
-
 	inline bool GetHaveMagnet()const { return mHaveMagnet; }
 	inline void SetHaveMagnet(bool haveMagnet) { mHaveMagnet = haveMagnet; }
-
 
 	//몬스터와 충돌체크할때 쓸꺼
 	inline bool GetEndCombo() { return mEndCombo; }

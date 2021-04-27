@@ -27,5 +27,3 @@ public:
 	void Render(HDC hdc)override;
 	bool GetIsReturn() { return mReturn; }
 };
-
-

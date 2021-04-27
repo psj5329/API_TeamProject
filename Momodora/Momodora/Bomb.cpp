@@ -8,8 +8,6 @@
 
 void Bomb::Init()
 {
-
-
 }
 
 void Bomb::Init(int x, int y, float angle, float targetX, float targetY)
@@ -56,7 +54,6 @@ void Bomb::Init(int x, int y, float angle, float targetX, float targetY)
 	}
 	mCurrentAnimation->Play();
 
-
 	if (mRect.right < 0)
 	{
 		this->SetIsDestroy(true);
@@ -72,25 +69,19 @@ void Bomb::Release()
 	SafeDelete(mRightMove);
 	SafeDelete(mLeftMove);
 	SafeDelete(mExplosion);
-
 }
 
 void Bomb::Update()
 {
-	
 	mFrameCount += TIME->DeltaTime();
-	//mX = mStartX + cosf(mAngle) * mSpeed * mFrameCount;
-	//mY = mStartY + sinf(mAngle) * mSpeed * mFrameCount - ((mGravity / 2) * mFrameCount * mFrameCount);
+
 	if (!mIsExplode)
 	{
-
 		mX += cosf(mAngle) * mSpeed * TIME->DeltaTime();
 		mY -= sinf(mAngle) * mSpeed * TIME->DeltaTime();
 		mY += mGravity * TIME->DeltaTime();
 		mGravity += 8.f;
 	}
-
-
 
 	//어디 부딛히면
 	if (COLLISIONMANAGER->IsCollideWithPlatform(&mRect) && !mIsExplode)
@@ -104,13 +95,11 @@ void Bomb::Update()
 	else
 		mHitBox = RectMakeCenter(mX, mY, 120, 120);
 	mCurrentAnimation->Update();
-
 }
 
 	
 void Bomb::Render(HDC hdc)
 {
-	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mSizeX, mSizeY);
 }
 
@@ -130,13 +119,10 @@ void Bomb::Explode()
 		//소리
 		SOUNDMANAGER->Play(L"BombExplosion", 0.07f);
 	}
-	
-
 }
 
 void Bomb::EndExplosion()
 {
 	mRect = RectMakeCenter(2000, 2000, 1, 1);
-	//this->SetIsActive(false);
 	this->SetIsDestroy(true);
 }

@@ -14,7 +14,7 @@ void Scene04::Init()
 
 	SOUNDMANAGER->Stop(L"cinder");
 	SOUNDMANAGER->LoadFromFile(L"boss2", ResourcesSoundMp3(L"boss2"), true);
-	SOUNDMANAGER->Play(L"boss2", 0.05f);
+	SOUNDMANAGER->Play(L"boss2", 0.2f);
 
 	PlaceRect();
 
@@ -54,8 +54,6 @@ void Scene04::Init()
 
 	////페넬
 	AddFennel(800, 775);
-
-
 }
 
 void Scene04::Release()
@@ -84,8 +82,6 @@ void Scene04::Update()
 		//페넬 번개, 플레이어 히트박스 충돌
 		if (IntersectRect(&temp1, &playerHitBox, &thunder))
 		{
-			//플레이어 체력 깎기
-
 			//방향알려줘야해
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &thunder);
 			//플레이어 상태전환하고 무적시키는 함수
@@ -95,17 +91,12 @@ void Scene04::Update()
 		//페넬 임팩트, 플레이어 히트박스 충돌
 		if (IntersectRect(&temp1, &playerHitBox, &impact))
 		{
-			//플레이어 체력 깎기
-
 			//방향알려줘야해
 			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &impact);
 			//플레이어 상태전환하고 무적시키는 함수
 			OBJECTMANAGER->GetPlayer()->PlayerHurt(direction);
 		}
 	}
-
-
-
 
 	// {{ 맵 좌우 설치용
 	mImageCreateDelay -= TIME->DeltaTime();
@@ -152,9 +143,8 @@ void Scene04::Update()
 	}
 
 	vector<GameObject*> enemyList2 = OBJECTMANAGER->GetObjectList(ObjectLayer::Enemy);
-	//vector<GameObject*>::iterator iter = enemyList2.begin();
-	//int enemyHp = ((Enemy*)(*iter))->GetHP();
-	if (mBlockStart == 1 && enemyList2.size() <= 0)//enemyHp <= 0)
+
+	if (mBlockStart == 1 && enemyList2.size() <= 0)
 	{
 		mBlockStart = 2;
 		RemoveRect3();
@@ -166,7 +156,6 @@ void Scene04::Update()
 			SCENEMANAGER->LoadScene(L"Scene05", 1);
 	}
 	// 상황에 따른 맵 이동 제한 }}
-
 }
 
 void Scene04::Render(HDC hdc)
@@ -197,23 +186,11 @@ void Scene04::Render(HDC hdc)
 					else if (mBlockStart >= 1)
 						CAMERAMANAGER->GetMainCamera()->AlphaRender(hdc, mFixRect, mImageX[i * 24 + j], mImageY[i * 24 + j], mImageAlpha[i]);
 				}
-
 			}
 		}
 	}
 
 	OBJECTMANAGER->RenderUI(hdc);
-
-	//GAMEEVENTMANAGER->Render(hdc);
-
-	//RECT rect;
-	//vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
-	//vector<GameObject*>::iterator iter = platformList.begin();
-	//for (; iter != platformList.end(); ++iter)
-	//{
-	//	rect = (*iter)->GetRect();
-	//	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, rect);
-	//}
 }
 
 void Scene04::PlaceRect()
@@ -252,5 +229,4 @@ void Scene04::RemoveRect3()
 	}
 	vector<GameObject*>* ListPtr = OBJECTMANAGER->GetObjectListPtr(ObjectLayer::Platform);
 	ListPtr->resize(2);
-	//OBJECTMANAGER->ShrinkToFitObjectList(ObjectLayer::Platform);
 }

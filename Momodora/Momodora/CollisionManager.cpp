@@ -98,12 +98,6 @@ bool CollisionManager::IsCollideWithPlatform(RECT* rect, bool normal)
 	vector<GameObject*>::iterator iter = platformList.begin();
 	for (; iter != platformList.end(); ++iter)
 	{
-		/*if (!normal) // 다운 점프일 때 이걸 넣으면 플랫폼 윗 충돌일 때 점프 상태 종결이 되지 않음 // 생각 더 해보기
-		{
-			if (((Platform*)(*iter))->GetPlatformType() == PlatformType::DownJump)
-				continue;
-		}*/
-
 		platformRect = (*iter)->GetRect();
 
 		if (IntersectRect(&tempRect, rect, &platformRect))
@@ -267,7 +261,6 @@ RECT* CollisionManager::CollideWithDownjumpPlatform(RECT* rect, RECT* prevRect, 
 	return rect;
 }
 
-
 Direction CollisionManager::CheckSide(RECT* player, RECT* projectile)
 {
 	RECT tempRect;
@@ -277,18 +270,16 @@ Direction CollisionManager::CheckSide(RECT* player, RECT* projectile)
 	int playerX = (player->left + player->right) / 2;
 	Direction direction = Direction::Left;
 
+	if (IntersectRect(&tempRect, player, projectile))
+	{
+		//충돌부분 중심점
+		tempX = (tempRect.right + tempRect.left) / 2;
 
-		if (IntersectRect(&tempRect, player, projectile))
-		{
-			//충돌부분 중심점
-			tempX = (tempRect.right + tempRect.left)/2;
-			
-			if (playerX < tempX)
-				direction = Direction::Right; // 우
-			else
-				direction = Direction::Left; // 좌
-		}
-	
+		if (playerX < tempX)
+			direction = Direction::Right; // 우
+		else
+			direction = Direction::Left; // 좌
+	}
 
 	return direction;
 }

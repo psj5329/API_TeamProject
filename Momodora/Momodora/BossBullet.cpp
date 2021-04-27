@@ -26,7 +26,6 @@ void BossBullet::Init()
 
 void BossBullet::Release()
 {
-	//SafeDelete(mImage);
 }
 
 void BossBullet::Update()
@@ -112,12 +111,6 @@ void BossBullet::Update()
 
 void BossBullet::Render(HDC hdc)
 {
-//#ifdef DEBUG
-//	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
-//	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mAttackBox);
-//
-//#endif // DEBUG
-
 	if(mIsShow)
 		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mImage, mRect.left, mRect.top, mSizeX, mSizeY);
 }

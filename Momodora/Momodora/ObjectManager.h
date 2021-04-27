@@ -15,7 +15,6 @@ enum class ObjectLayer : int
 	EnemyBomb,
 	EnemyStaff,
 	BossBullet,
-	//EnemyProjectile, // 중보 번개???는 어디에?
 	Item, // 맵에서 획득 가능한 아이템
 	Effect,
 	BossUI,

@@ -13,10 +13,11 @@ Magnet::Magnet(float x, float y)
 	: GameObject(x, y)
 {
 }
+
 void Magnet::Init()
 {
-
 }
+
 void Magnet::Init(float x, float y)
 {
 	mImage = IMAGEMANAGER->FindImage(L"Magnet");
@@ -30,14 +31,12 @@ void Magnet::Init(float x, float y)
 	//플레이어 찾아오기
 	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
 	mPlayer = (Player*)player[0];
-
 }
 
 void Magnet::Release()
 {
-
-
 }
+
 void Magnet::Update()
 {
 	RECT playerRect = mPlayer->GetRect();
@@ -48,12 +47,9 @@ void Magnet::Update()
 
 		this->SetIsDestroy(true);
 	}
-
-
-
 }
+
 void Magnet::Render(HDC hdc)
 {
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mX, mY, 0, 0, mSizeX, mSizeY);
-
 }

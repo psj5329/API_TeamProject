@@ -22,7 +22,7 @@ void Scene05::Init()
 	mSceneSizeY = mMapImage->GetHeight();
 
 	SOUNDMANAGER->LoadFromFile(L"boss6", ResourcesSoundMp3(L"boss6"), true);
-	SOUNDMANAGER->Play(L"boss6", 0.05f);
+	SOUNDMANAGER->Play(L"boss6", 0.2f);
 
 	Boss* boss = new Boss;
 	boss->Init();
@@ -43,22 +43,8 @@ void Scene05::Init()
 	ui->SetHp(((Enemy*)OBJECTMANAGER->FindObject(ObjectLayer::Boss, "Boss"))->GetHP());
 	OBJECTMANAGER->AddObject(ObjectLayer::BossUI, ui);
 
-/*	PlayerHpUI* playerui = new PlayerHpUI;
-	playerui->Init();
-	playerui->SetHp(OBJECTMANAGER->GetPlayer()->GetHp());
-	OBJECTMANAGER->AddObject(ObjectLayer::UI, playerui);
-
-	ActiveItemUI* activeItemui = new ActiveItemUI;
-	activeItemui->Init();
-	OBJECTMANAGER->AddObject(ObjectLayer::UI, activeItemui);
-
-	StarCountUI* starCountui = new StarCountUI;
-	starCountui->Init();
-	OBJECTMANAGER->AddObject(ObjectLayer::UI, starCountui);*/
-
 	Camera* main = CAMERAMANAGER->GetMainCamera();
 	main->SetMode(Camera::Mode::Fix);
-	//main->SetMode(Camera::Mode::Follow);
 	GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
 	main->SetTarget(player);
 
@@ -101,10 +87,10 @@ void Scene05::Update()
 	if (INPUT->GetKeyDown('P'))
 		((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(0);
 
-	if (mCameraFix) // 바닥 깨지는 이벤트 발생하는 내용에 이 if문 넣으면 될듯?
+	if (mCameraFix)
 	{
 		GameObject* player = (GameObject*)(OBJECTMANAGER->GetPlayer());
-		if (player->GetX() >= mSceneSizeX / 2.f) // 지금은 맵 진입하면 고정카메라였다가 x축으로 중간 지나면 카메라 시점 플레이어로 바뀌도록 해놔서 이벤트 때 떨어지는 거 따라갈 수 있게 해둠
+		if (player->GetX() >= mSceneSizeX / 2.f)
 		{
 			Camera* main = CAMERAMANAGER->GetMainCamera();
 			main->SetMode(Camera::Mode::Follow);
@@ -132,7 +118,6 @@ void Scene05::Update()
 			, 1600 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetSizeY() / 3 - 50, 0.f, -500.f));
 		GAMEEVENTMANAGER->PushEvent(new IPlaySoundEffect(L"Appear", L"Lubella/", 0.05f, 0.f));
 		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(0.5f));
-		//GAMEEVENTMANAGER->PushEvent(new IPlaySoundEffect(L"Laugh1", L"Lubella/", 0.05f, 0.f));
 
 		GAMEEVENTMANAGER->PushEvent(new IObjectStop(false));	// 보스 등장 이벤트 끝
 	}
@@ -147,7 +132,6 @@ void Scene05::Update()
 		GAMEEVENTMANAGER->PushEvent(new IScriptEvent(L"Boss_Dialogue1"));
 		GAMEEVENTMANAGER->PushEvent(new IDelayEvent(0.5f));
 		GAMEEVENTMANAGER->PushEvent(new IScriptEvent(L"Boss_Dialogue2"));
-		//GAMEEVENTMANAGER->PushEvent(new IDelayEvent(0.5f));
 
 		GAMEEVENTMANAGER->PushEvent(new IEraseEvent(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetImage()
 			, ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetBackImage(), 2.f, 0.07f));
@@ -165,7 +149,7 @@ void Scene05::Update()
 			OBJECTMANAGER->GetObjectList(ObjectLayer::Platform).front()->SetRect(WINSIZEX * 2, 604, WINSIZEX * 2 + 960, 643);
 		}
 
-		if (OBJECTMANAGER->GetPlayer()->GetY() >= 1600 - WINSIZEY / 2)//1460 - OBJECTMANAGER->GetPlayer()->GetSizeY() / 2)
+		if (OBJECTMANAGER->GetPlayer()->GetY() >= 1600 - WINSIZEY / 2)
 		{
 			mCameraFix = false;
 			CAMERAMANAGER->GetMainCamera()->SetMode(Camera::Mode::Fix);
@@ -231,15 +215,6 @@ void Scene05::Render(HDC hdc)
 {
 	// 맵 이미지
 	CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mMapImage, 0, 0, mSceneSizeX, mSceneSizeY);
-
-	// {{ 충돌 체크용 맵
-//	vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
-//	vector<GameObject*>::iterator iter1 = platformList.begin();
-
-
-//	for (; iter1 != platformList.end(); ++iter1)
-//		CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, (*iter1)->GetRect());
-	// 충돌 체크용 맵 }}
 
 	OBJECTMANAGER->Render(hdc);
 

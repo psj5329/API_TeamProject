@@ -75,8 +75,6 @@ bool Input::GetKeyAKeyDownB(const int& keyA, const int& keyB)
 		}
 		else
 			mCurrentKey.set(keyB, false);
-
-		//return false;
 	}
 
 	return false;
@@ -96,8 +94,6 @@ bool Input::GetKeyAKeyUpB(const int& keyA, const int& keyB)
 				return true;
 			}
 		}
-
-		//return false;
 	}
 
 	return false;
@@ -109,8 +105,6 @@ bool Input::GetKeyAKeyB(const int& keyA, const int& keyB)
 	{
 		if (GetAsyncKeyState(keyB) & 0x8000)
 			return true;
-
-		//return false;
 	}
 
 	return false;

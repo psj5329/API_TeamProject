@@ -28,4 +28,3 @@ public:
 	void SetAngle(float angle) { mAngle = angle; }
 	void SetPattern(BulletPattern pattern) { mPattern = pattern; }
 };
-

@@ -309,12 +309,10 @@ void Player::Update()
 			{
 				if (Input::GetInstance()->GetKey(VK_UP))
 				{
-					//if (mState == State::LeftIdle || mState == State::LeftRun || mState == State::LeftJump)
 					if (mDirection == Direction::Left)
 					{
 						if (mState == PlayerState::Idle || mState == PlayerState::Run || mState == PlayerState::Jump)
 						{
-							//mState = State::LeftLadderEnter;
 							mState = PlayerState::LadderEnter;
 							mCurrentAnimation->Stop();
 							mCurrentAnimation = mLeftLadderEnterAnimation;
@@ -322,12 +320,10 @@ void Player::Update()
 							mCurrentImage = mLadderEnterImage;
 						}
 					}
-					//if (mState == State::RightIdle || mState == State::RightRun || mState == State::RightJump)
 					if (mDirection == Direction::Right)
 					{
 						if (mState == PlayerState::Idle || mState == PlayerState::Run || mState == PlayerState::Jump)
 						{
-							//mState = State::RightLadderEnter;
 							mState = PlayerState::LadderEnter;
 							mCurrentAnimation->Stop();
 							mCurrentAnimation = mRightLadderEnterAnimation;
@@ -338,12 +334,10 @@ void Player::Update()
 				}
 				if (Input::GetInstance()->GetKey(VK_DOWN))
 				{
-					//if (mState == State::LeftIdle || mState == State::LeftRun || mState == State::LeftJump)
 					if (mDirection == Direction::Left)
 					{
 						if (mState == PlayerState::Idle || mState == PlayerState::Run || mState == PlayerState::Jump)
 						{
-							//mState = State::LeftLadderEnter;
 							mState = PlayerState::LadderEnter;
 							mCurrentAnimation->Stop();
 							mCurrentAnimation = mLeftLadderEnterAnimation;
@@ -351,12 +345,10 @@ void Player::Update()
 							mCurrentImage = mLadderEnterImage;
 						}
 					}
-					//if (mState == State::RightIdle || mState == State::RightRun || mState == State::RightJump)
 					if (mDirection == Direction::Right)
 					{
 						if (mState == PlayerState::Idle || mState == PlayerState::Run || mState == PlayerState::Jump)
 						{
-							//mState = State::RightLadderEnter;
 							mState = PlayerState::LadderEnter;
 							mCurrentAnimation->Stop();
 							mCurrentAnimation = mRightLadderEnterAnimation;
@@ -1039,31 +1031,7 @@ void Player::Render(HDC hdc)
 		mAttacked->AlphaRender(hdc, 0, 0, mAttackedAlpha);
 	}
 
-	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
-	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
-
 	CameraManager::GetInstance()->GetMainCamera()->AlphaScaleFrameRender(hdc, mCurrentImage, (int)mRect.left, (int)mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), (int)mSizeX, (int)mSizeY, 1.f);
-
-	//wstring str3 = L"mX:" + to_wstring(mX);
-	//TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 10, str3.c_str(), str3.length());
-	//wstring str4 = L"mY:" + to_wstring(mY);
-	//TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 30, str4.c_str(), str4.length());
-	//wstring str5 = L"Gravity:" + to_wstring(mGravity);
-	//TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 50, str5.c_str(), str5.length());
-	//wstring str6 = L"jumppower" + to_wstring(mJumpPower);
-	//TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 70, str6.c_str(), str6.length());
-	//wstring str7;
-	//if (stopmove)
-	//	str7 = L"StopMove == true";
-	//else
-	//	str7 = L"StopMove == false";
-	//TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 90, str7.c_str(), str7.length());
-	//
-	//wstring str8 = L"mState" + to_wstring((int)mState);
-	//TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 110, str8.c_str(), str8.length());
-	//
-	//wstring str9 = L"mHP" + to_wstring(mHp);
-	//TextOut(hdc, _mousePosition.x + 10, _mousePosition.y + 130, str9.c_str(), str9.length());
 }
 
 void Player::FindPlayerImage()

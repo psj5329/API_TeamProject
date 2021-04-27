@@ -3,15 +3,15 @@
 class Time
 {
 	_Singleton(Time)
-// 여기부터 복붙
-private:
-	bool mIsHightHardware;			//고성능 하드웨어를 지원하느냐
-	float mTimeScale;				//타이머의 스케일()
-	float mDeltaTime;				//tick 카운트
 
-	__int64 mCurrentTime;				//현재 시간
-	__int64 mLastTime;				//이전 프레임 시간
-	__int64 mPeriodFrequency;		//고성능 하드웨어 검사용 변수
+private:
+	bool mIsHightHardware;
+	float mTimeScale;
+	float mDeltaTime;
+
+	__int64 mCurrentTime;
+	__int64 mLastTime;
+	__int64 mPeriodFrequency;
 
 	unsigned long mFrameRate;
 	unsigned long mFPSFrameCount;
@@ -34,7 +34,6 @@ public:
 	inline float GetWorldTime()const { return this->mWorldTime; }
 	inline float GetTimeScale()const { return this->mTimeScale; }
 	inline void SetTimeScale(float scale) { this->mTimeScale = scale; }
-// 여기까지 복붙
 };
 
 #define TIME Time::GetInstance()

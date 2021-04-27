@@ -21,7 +21,6 @@ void MainGame::Init()
 	Camera* main = new Camera();
 	main->Init();
 	main->SetMoveSpeed(5.f);
-	//main->SetMode(Camera::Mode::Free);
 	main->SetMode(Camera::Mode::Fix);
 	main->SetFixX(480);
 	main->SetFixY(360);
@@ -55,7 +54,7 @@ void MainGame::Release()
 void MainGame::Update()
 {
 	INPUT->Update();
-  
+
 	SCENEMANAGER->Update();
 
 	CAMERAMANAGER->Update();
@@ -66,7 +65,7 @@ void MainGame::Update()
 		if (!(currentScene->GetIsEndLoading()))
 			return;
 	}
-	
+
 	if (INPUT->GetKeyDown('2'))
 	{
 		if (SCENEMANAGER->GetCurrentSceneName() != L"Scene02")
@@ -109,39 +108,15 @@ void MainGame::Render(HDC hdc)
 	HDC backDC = mBackBuffer->GetHDC();
 	PatBlt(backDC, 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 
-	// { 그리기 시작
-
 	HBRUSH newBrush = CreateSolidBrush(RGB(0, 0, 0));
 	HBRUSH oldBrush = (HBRUSH)SelectObject(backDC, newBrush);
 	Rectangle(backDC, 0, 0, 960, 720);
 	SelectObject(backDC, oldBrush);
 	DeleteObject(newBrush);
 
-	//HPEN newPen = CreatePen(PS_SOLID, 5, RGB(0, 0, 255));
-	//HPEN oldPen = (HPEN)SelectObject(hdc, newPen);
-	//Ellipse(hdc, 250, 250, 350, 350);
-	//SelectObject(hdc, oldPen);
-	//DeleteObject(newPen);
-
 	SCENEMANAGER->Render(backDC);
 
-	//wstring str = SCENEMANAGER->GetCurrentSceneName();
-	//if (str == L"LoadingScene" && ((LoadingScene*)(SCENEMANAGER->GetCurrentScene()))->GetIsEndLoading())
-	//{
-	//	wstring strLoad = L"로딩 끝";
-	//	wstring strLoad2 = L"씬7 이동: \'M\' 누르고 있는 상태에서 \'7\' 누르기";
-	//	wstring strLoad3 = L"씬8 이동: \'M\', \'8\' 누르고 있는 상태에서 \'8\'에서 손 떼기";
-	//	wstring strLoad4 = L"씬9 이동: \'M\', \'9\' 같이 누르기(순서 상관없음)";
-	//	
-	//	TextOut(backDC, 400, 400, strLoad.c_str(), (int)strLoad.length());
-	//	TextOut(backDC, 400, 425, strLoad2.c_str(), (int)strLoad2.length());
-	//	TextOut(backDC, 400, 450, strLoad3.c_str(), (int)strLoad3.length());
-	//	TextOut(backDC, 400, 475, strLoad4.c_str(), (int)strLoad4.length());
-	//}
-
 	//RenderDebugText(backDC);
-
-	// 그리기 끝 }
 
 	mBackBuffer->Render(hdc, 0, 0);
 }
@@ -202,7 +177,6 @@ void MainGame::MakeScene()
 
 void MainGame::LoadImageResource(LoadingScene* scene)
 {
-	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapTest", Resources(L"testmap"), 1200, 900, false); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapFixRect", Resources(L"MapFixRect"), 32, 32, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"MapFixDia", Resources(L"MapFixDia"), 45, 45, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallCircle", Resources(L"FallCircle"), 45, 45, true); });
@@ -211,7 +185,6 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallFourCircle", Resources(L"FallFourCircle"), 45, 45, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FallFiveCircle", Resources(L"FallFiveCircle"), 45, 45, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attacked", Resources(L"Attacked"), 960, 720, true); });
-	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"map0001", Resources(L"wp4020"), 4000, 2000, true); }); // 1번신
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Background_Boss", Resources(L"map/Background_Boss"), 960, 1600, true); }); // 3번신
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"platform1", Resources(L"map/platform1"), 960, 39, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"platform2", Resources(L"map/platform2"), 960, 93, true); });
@@ -252,7 +225,6 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attack2", ResourcesPlayer(L"Attack02"), 336, 96, 7, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Attack3", ResourcesPlayer(L"Attack03"), 528, 96, 11, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"AirAttack", ResourcesPlayer(L"AirAttack"), 336, 96, 7, 2, true); });
-	//scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"LandAttack", ResourcesPlayer(L"LandAttack"), 336, 96, 7, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf1", ResourcesPlayer(L"Leaf01"), 672, 96, 7, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf2", ResourcesPlayer(L"Leaf02"), 672, 96, 7, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Leaf3", ResourcesPlayer(L"Leaf03"), 864, 96, 9, 2, true); });
@@ -262,7 +234,6 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Imp", Resources(L"Imp"), 320, 384, 10, 12, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"ShieldImp", Resources(L"ShieldImp"), 256, 256, 8, 8, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Monkey", Resources(L"Monkey"), 720, 288, 9, 6, true); });
-	
 
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Witchcatch", Resources(L"Enemy/Witchcatch"), 490, 192, 5, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Witchdeath", Resources(L"Enemy/Witchdeath"), 528, 128, 8, 2, true); });
@@ -295,7 +266,6 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"FloorEffect", Resources(L"FloorEffect"), 569, 59, 7, 1, true); });
 
 	// Enemy Projectile
-
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Bomb", Resources(L"Bomb"), 64, 32, 4, 2, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Fire", Resources(L"Explosion"), 560, 62, 8, 1, true); });
 
@@ -350,9 +320,7 @@ void MainGame::LoadImageResource(LoadingScene* scene)
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Item_UI", Resources(L"UI/Item_UI"), 100, 100, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Flower_UI", Resources(L"UI/Flower_UI"), 78, 78, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Star_UI", Resources(L"UI/Star_UI"), 46, 46, true); });
-	//scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Hit", Resources(L"Hit"), 149, 25,5,1, true); });
 	scene->AddLoadFunc([]() { IMAGEMANAGER->LoadFromFile(L"Hit", Resources(L"Hit"), 360, 110, 4, 1, true); });
-
 
 	for (int i = 0; i < 10; ++i)
 	{

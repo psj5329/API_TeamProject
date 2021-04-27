@@ -181,9 +181,6 @@ void Boss::Render(HDC hdc)
 		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mBackImage, mRect.left, mRect.top, mSizeX, mSizeY);
 		CAMERAMANAGER->GetMainCamera()->ScaleRender(hdc, mImage, mRect.left, mRect.top, mSizeX, mSizeY);
 	}
-
-	//for (int i = 0; i < mVecEraseCenter.size(); ++i)
-	//	CAMERAMANAGER->GetMainCamera()->RenderEllipseInCamera(hdc, mVecEraseCenter[i].x, mVecEraseCenter[i].y, mEraseSize);
 }
 
 void Boss::ImageSetting()

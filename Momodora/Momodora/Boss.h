@@ -86,4 +86,3 @@ public:
 	void SetInvincibility(bool b) { mIsInvincibility = b; }
 	void SetEndEvent(bool b) { mIsEndEvent = b; }
 };
-
