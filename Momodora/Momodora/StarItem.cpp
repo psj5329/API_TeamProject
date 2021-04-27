@@ -88,9 +88,6 @@ void StarItem::Update()
 			((StarCountUI*)OBJECTMANAGER->FindObject("StarCountUI"))->GetStarCount() + 1);
 	}
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
-
-	
-
 }
 
 void StarItem::Render(HDC hdc)
@@ -156,6 +153,4 @@ void StarItem::Magnet()
 		mY -= -sinf(mAngle) * mSpeed * TIME->DeltaTime();
 		mSpeed += 2.f;
 	}
-
-
 }

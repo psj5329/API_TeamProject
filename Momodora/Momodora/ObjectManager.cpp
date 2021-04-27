@@ -29,7 +29,6 @@ void ObjectManager::Release()
 		{
 			iter->second[i]->Release();
 			SafeDelete(iter->second[i]);
-			//(iter->second).erase(iter->second.begin() + i);
 		}
 }
 
@@ -149,7 +148,7 @@ void ObjectManager::RemoveObjectsInScene()
 		{
 			iter->second[i]->Release();
 			SafeDelete(iter->second[i]);
-			(iter->second).erase(iter->second.begin() + i); // 전부 erase 하면서 앞으로 당겨지기 때문에 ++i 안했음
+			(iter->second).erase(iter->second.begin() + i);
 		}
 	}
 }

@@ -25,14 +25,14 @@ void LoadingScene::Init()
 	mAlphaUp = true;
 
 	SOUNDMANAGER->LoadFromFile(L"garden", ResourcesSoundMp3(L"garden"), true);
-	SOUNDMANAGER->Play(L"garden", 0.05f);
+	SOUNDMANAGER->Play(L"garden", 0.2f);
 }
 
 void LoadingScene::Release()
 {
 	SOUNDMANAGER->Stop(L"garden");
 	SOUNDMANAGER->LoadFromFile(L"cinder", ResourcesSoundMp3(L"cinder"), true);
-	SOUNDMANAGER->Play(L"cinder", 0.05f);
+	SOUNDMANAGER->Play(L"cinder", 0.2f);
 }
 
 void LoadingScene::Update()

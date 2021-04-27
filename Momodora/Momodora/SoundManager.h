@@ -28,11 +28,6 @@ public:
 	void Play(const wstring& keyName, float volume);
 	void Pause(const wstring& keyName);
 	void Stop(const wstring& keyName);
-
-	//void SetVolume(const wstring& keyName, float volume); // 추가구현(옵션?)
-	//float GetVolume(const wstring& keyName); // 추가구현(옵션?)
-	//void SetPosition(const wstring& keyName, float time); // 필요없을 것 같음
-	//float GetPosition(const wstring& keyName); // 필요없을 것 같음
 };
 
 #define SOUNDMANAGER SoundManager::GetInstance()

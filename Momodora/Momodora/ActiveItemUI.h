@@ -27,4 +27,3 @@ public:
 
 	int GetItemCount() { return mItemCount; }
 };
-

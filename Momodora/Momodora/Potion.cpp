@@ -13,14 +13,15 @@ Potion::Potion(float x, float y)
 	:GameObject(x, y)
 {
 }
+
 void Potion::Init()
 {
-
 }
+
 void Potion::Init(float x, float y, int type)
 {
 	mImage = IMAGEMANAGER->FindImage(L"Potion");
-	
+
 	mX = x;
 	mY = y;
 	mSizeX = mImage->GetFrameWidth() * 2;
@@ -36,9 +37,8 @@ void Potion::Init(float x, float y, int type)
 
 void Potion::Release()
 {
-
-
 }
+
 void Potion::Update()
 {
 	RECT playerRect = mPlayer->GetRect();
@@ -50,19 +50,12 @@ void Potion::Update()
 		{
 			mPlayer->AddPotion();
 		}
-		else
-		{
 
-		}
-
-			this->SetIsDestroy(true);
+		this->SetIsDestroy(true);
 	}
-
-
-
 }
+
 void Potion::Render(HDC hdc)
 {
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mX, mY, 0, mType, mSizeX, mSizeY);
-
 }

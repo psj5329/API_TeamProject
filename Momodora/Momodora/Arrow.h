@@ -1,5 +1,4 @@
 #pragma once
-
 #include "GameObject.h"
 
 class Arrow : public GameObject
@@ -13,7 +12,7 @@ class Arrow : public GameObject
 
 public:
 	void Fire(class Image* image, float x, float y, float speed, float angle);
-  
+
 	void Init()override {}
 	void Release()override;
 	void Update()override;

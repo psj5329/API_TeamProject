@@ -3,11 +3,11 @@
 #include "Image.h"
 #include "Camera.h"
 #include "Animation.h"
+
 void Dagger::Init()
 {
-
-
 }
+
 void Dagger::Init(int x,int y, float angle)
 {
 	mImage = IMAGEMANAGER->FindImage(L"Dagger");
@@ -37,14 +37,12 @@ void Dagger::Init(int x,int y, float angle)
 	{
 		mCurrentAnimation = mRightMove;
 	}
-
 }
 
 void Dagger::Release()
 {
 	SafeDelete(mRightMove);
 	SafeDelete(mLeftMove);
-
 }
 
 void Dagger::Update()
@@ -55,9 +53,7 @@ void Dagger::Update()
 	mHitBox = RectMakeCenter(mX, mY, mSizeX-10, mSizeY-10);
 }
 
-
 void Dagger::Render(HDC hdc)
 {
-	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mHitBox);
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mSizeX, mSizeY);
 }

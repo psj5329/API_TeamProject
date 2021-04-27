@@ -16,7 +16,3 @@ public:
 	void Update()override;
 	void Render(HDC hdc)override;
 };
-
-
-
-

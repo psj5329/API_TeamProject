@@ -2,7 +2,6 @@
 #include "Time.h"
 _Singleton_NULL(Time)
 
-// 여기부터 복붙
 #include <mmsystem.h>
 #pragma comment(lib, "winmm.lib")
 
@@ -138,4 +137,3 @@ void Time::Update()
 {
 	this->Tick(60.f);
 }
-// 여기까지 복붙

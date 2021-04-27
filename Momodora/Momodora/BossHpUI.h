@@ -23,4 +23,3 @@ public:
 public:
 	void SetHp(int hp) { mMaxHp = hp; mHp = hp; mPreHp = hp; }
 };
-

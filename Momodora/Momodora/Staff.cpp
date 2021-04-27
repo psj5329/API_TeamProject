@@ -3,6 +3,7 @@
 #include "Animation.h"
 #include "Image.h"
 #include "Camera.h"
+
 void Staff::Init()
 {
 	mImage = IMAGEMANAGER->FindImage(L"Staff");
@@ -21,12 +22,10 @@ void Staff::Init()
 	mLeftMove->SetIsLoop(true);
 	mLeftMove->SetFrameUpdateTime(0.1f);
 	mCurrentAnimation = mLeftMove;
-
-
 }
+
 void Staff::Init(int x, int y, float angle)
 {
-	
 	mX = x;
 	mY = y;
 	mStart.x = x;
@@ -52,7 +51,6 @@ void Staff::Release()
 {
 	SafeDelete(mRightMove);
 	SafeDelete(mLeftMove);
-
 }
 
 void Staff::Update()
@@ -68,29 +66,13 @@ void Staff::Update()
 	{
 		mReturn = true;
 		mSpeed *= -1;
-		
-		//if (mCurrentAnimation == mLeftMove)
-		//{
-		//	mCurrentAnimation->Stop();
-		//	mCurrentAnimation = mRightMove;
-		//	mCurrentAnimation->Play();
-		//}
-		//else
-		//{
-		//	mCurrentAnimation->Stop();
-		//	mCurrentAnimation = mLeftMove;
-		//	mCurrentAnimation->Play();
-		//}
 	}
-	
-	
+
 	mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 	mCurrentAnimation->Update();
 }
 
-
 void Staff::Render(HDC hdc)
 {
-	//CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, mRect);
 	CAMERAMANAGER->GetMainCamera()->ScaleFrameRender(hdc, mImage, mRect.left, mRect.top, mCurrentAnimation->GetNowFrameX(), mCurrentAnimation->GetNowFrameY(), mSizeX, mSizeY);
 }

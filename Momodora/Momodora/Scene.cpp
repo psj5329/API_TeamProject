@@ -17,8 +17,8 @@
 void Scene::AddMonkey(float x, float y)
 {
 	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
-	//몽키생성
 
+	//몽키생성
 	Monkey* monkey1 = new Monkey();
 	monkey1->Init();
 	monkey1->SetObject();
@@ -38,9 +38,8 @@ void Scene::AddWitch(float x, float y)
 	Witch1->SetPosition(x, y);
 	Witch1->SetPlayerPtr((Player*)player[0]);
 	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, Witch1);
-
-
 }
+
 void Scene::AddBombImp(float x, float y)
 {
 	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
@@ -53,6 +52,7 @@ void Scene::AddBombImp(float x, float y)
 	BombImp1->SetPlayerPtr((Player*)player[0]);
 	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, BombImp1);
 }
+
 void Scene::AddShieldImp(float x, float y)
 {
 	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
@@ -64,8 +64,8 @@ void Scene::AddShieldImp(float x, float y)
 	ShieldImp1->SetPosition(x, y);
 	ShieldImp1->SetPlayerPtr((Player*)player[0]);
 	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, ShieldImp1);
-
 }
+
 void Scene::AddDaggerImp(float x, float y)
 {
 	vector<GameObject*> player = OBJECTMANAGER->GetObjectList(ObjectLayer::Player);
@@ -77,8 +77,8 @@ void Scene::AddDaggerImp(float x, float y)
 	DaggerImp1->SetPosition(x, y);
 	DaggerImp1->SetPlayerPtr((Player*)player[0]);
 	ObjectManager::GetInstance()->AddObject(ObjectLayer::Enemy, DaggerImp1);
-
 }
+
 void Scene::AddPotion(float x, float y)
 {
 	//템
@@ -86,7 +86,6 @@ void Scene::AddPotion(float x, float y)
 	potion1->Init(x, y, 0);
 	potion1->SetObject();
 	ObjectManager::GetInstance()->AddObject(ObjectLayer::Item, potion1);
-
 }
 
 void Scene::AddFennel(float x, float y)
@@ -128,8 +127,6 @@ void Scene::AllCollision()
 			if (IntersectRect(&temp, &hitBox, &arrow))
 			{
 				//화살 없애고
-				//arrowList[j]->Release();
-				//arrowList[j]->SetIsActive(false);
 				arrowList[j]->SetIsDestroy(true);
 				//에너미 체력조정
 				((Enemy*)(enemyList[i]))->TakeHp(20);
@@ -140,6 +137,7 @@ void Scene::AllCollision()
 			}
 		}
 	}
+
 	//적히트박스, 플레이어의 리프 충돌
 	for (int i = 0; i < enemyList.size(); i++)
 	{
@@ -189,7 +187,6 @@ void Scene::AllCollision()
 		if (IntersectRect(&temp, &playerHitBox, &dagger))
 		{
 			//단도없애고
-			//daggerList[i]->Release();
 			daggerList[i]->SetIsDestroy(true);
 
 			//플레이어 체력 깎기
@@ -227,7 +224,6 @@ void Scene::AllCollision()
 		RECT staff = staffList[i]->GetRect();
 		if (IntersectRect(&temp, &playerHitBox, &staff))
 		{
-
 			//플레이어 체력 깎기
 			player->SetHp(player->GetHp() - 20);
 			//방향알려줘야해
@@ -244,7 +240,6 @@ void Scene::AllCollision()
 
 		if (IntersectRect(&temp, &playerHitBox, &atkBox))
 		{
-
 			//플레이어 체력 깎기
 			player->SetHp(player->GetHp() - 10);
 			//플레이어 상태전환하고 무적시키는 함수
@@ -274,14 +269,6 @@ void Scene::AllCollision()
 
 				SOUNDMANAGER->Play(L"Attack1", 0.1f);
 			}
-			/*bossBullet[i]->SetIsActive(false);
-			bossBullet[i]->SetIsDestroy(true);
-			//플레이어 체력 깎기
-
-			//플레이어 상태전환하고 무적시키는 함수
-			Direction direction = COLLISIONMANAGER->CheckSide(&playerHitBox, &atkBox);
-			//방향알려줘야해
-			player->PlayerHurt(direction);*/
 		}
 	}
 
@@ -296,8 +283,6 @@ void Scene::AllCollision()
 			if (IntersectRect(&temp, &hitBox, &arrow))
 			{
 				//화살 없애고
-				//arrowList[j]->Release();
-				//arrowList[j]->SetIsActive(false);
 				arrowList[j]->SetIsDestroy(true);
 				//에너미 체력조정
 				((Boss*)OBJECTMANAGER->FindObject("Boss"))->Hit();
@@ -322,7 +307,6 @@ void Scene::AllCollision()
 				//플레이어 불값바꾸기
 				player->SetEndCombo(false);
 				//적체력깎기
-				//int atk = player->GetAttackDamage();
 				((Boss*)OBJECTMANAGER->FindObject("Boss"))->SetHp(((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetHP()
 					- ((100 - ((Boss*)OBJECTMANAGER->FindObject("Boss"))->GetDef()) / 100.f * OBJECTMANAGER->GetPlayer()->GetAttackDamage()));
 				//에너미 맞은상태 true

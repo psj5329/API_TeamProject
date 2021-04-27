@@ -40,7 +40,7 @@ void Scene01::Init()
 		main->SetX(720);
 		main->SetY(540);
 	}
-	
+
 	//몬스터 배치
 	AddMonkey(900, 600);
 
@@ -74,10 +74,6 @@ void Scene01::Update()
 
 	//충돌확인
 	AllCollision();
-
-
-
-
 }
 
 void Scene01::Render(HDC hdc)
@@ -87,15 +83,6 @@ void Scene01::Render(HDC hdc)
 	OBJECTMANAGER->Render(hdc);
 
 	OBJECTMANAGER->RenderUI(hdc);
-
-	//RECT rect;
-	//vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
-	//vector<GameObject*>::iterator iter = platformList.begin();
-	//for (; iter != platformList.end(); ++iter)
-	//{
-	//	rect = (*iter)->GetRect();
-	//	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, rect);
-	//}
 }
 
 void Scene01::PlaceRect()

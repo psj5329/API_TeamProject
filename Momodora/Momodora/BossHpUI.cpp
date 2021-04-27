@@ -47,8 +47,6 @@ void BossHpUI::Update()
 
 	mSizeX = mImage->GetWidth() / 2 * mHp / mMaxHp;
 	mLessHpSizeX -= 0.5f;
-
-	//mRect = RectMakeCenter(mX, mY, mSizeX, mSizeY);
 }
 
 void BossHpUI::Render(HDC hdc)

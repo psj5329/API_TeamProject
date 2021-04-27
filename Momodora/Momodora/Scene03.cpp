@@ -69,15 +69,6 @@ void Scene03::Render(HDC hdc)
 	OBJECTMANAGER->Render(hdc);
 
 	OBJECTMANAGER->RenderUI(hdc);
-
-	//RECT rect;
-	//vector<GameObject*> platformList = OBJECTMANAGER->GetObjectList(ObjectLayer::Platform);
-	//vector<GameObject*>::iterator iter = platformList.begin();
-	//for (; iter != platformList.end(); ++iter)
-	//{
-	//	rect = (*iter)->GetRect();
-	//	CAMERAMANAGER->GetMainCamera()->RenderRectInCamera(hdc, rect);
-	//}
 }
 
 void Scene03::PlaceRect()

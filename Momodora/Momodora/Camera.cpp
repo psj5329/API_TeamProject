@@ -19,7 +19,7 @@ void Camera::Init()
 	mMarginX = 0;
 	mMarginY = 0;
 
-	tempRight = true; // 임시
+	tempRight = true;
 }
 
 void Camera::Release()
@@ -36,7 +36,6 @@ void Camera::Update()
 	Direction playerDir = (Direction)NULL;
 
 	if (SCENEMANAGER->GetCurrentSceneName() != L"LoadingScene")
-	//if (player != nullptr)
 	{
 		player = OBJECTMANAGER->GetPlayer();
 		playerDir = player->GetDirection();
@@ -54,10 +53,7 @@ void Camera::Update()
 			targetLeft = mTarget->GetX() - WINSIZEX / 5.f;
 			targetY = mTarget->GetY() + WINSIZEY / 10.f;
 
-			//if (player != nullptr)
-			//{
-				//mX = mTarget->GetX();
-			if (playerDir == Direction::Right)//(tempRight)      // 고정 인 곳 신사이즈로 조절
+			if (playerDir == Direction::Right)		// 고정 인 곳 신사이즈로 조절
 				if (targetRight <= WINSIZEX / 2.f)
 					mX = Math::Lerp(mX, WINSIZEX / 2.f, 0.4f * mMoveSpeed * TIME->DeltaTime());
 				else if (targetRight >= sceneSizeX - WINSIZEX / 2.f)
@@ -71,10 +67,7 @@ void Camera::Update()
 					mX = Math::Lerp(mX, sceneSizeX - WINSIZEX / 2.f, 0.4f * mMoveSpeed * TIME->DeltaTime());
 				else
 					mX = Math::Lerp(mX, targetLeft, 0.4f * mMoveSpeed * TIME->DeltaTime());
-			//}
 
-			// y도 신사이즈로 조절
-			//mY = mTarget->GetY();
 			if (targetY <= WINSIZEY / 2.f)
 				mY = Math::Lerp(mY, WINSIZEY / 2.f, 2.f * mMoveSpeed * TIME->DeltaTime());
 			else if (targetY >= sceneSizeY - WINSIZEY / 2.f)

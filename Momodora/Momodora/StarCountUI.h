@@ -28,4 +28,3 @@ public:
 
 	int GetStarCount() { return mStarCount; }
 };
-
